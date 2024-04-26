@@ -16,6 +16,8 @@ public class Main {
 		window.pack();
 		window.setLocationRelativeTo(null);
 		
+		screen.startThread();
+		
 	}
 
 }
