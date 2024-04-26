@@ -1,30 +1,33 @@
+package main;
 
 import javax.swing.JPanel;
+
+import Entities.Player;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.IOException;
 
 public class GameScreen extends JPanel implements Runnable {
 	
 	private int textureResolution = 48; // Texturas 48px x 48px
 	private int screenSide = 720; // Dimensões da tela 720px x 720px
 	
-	// Coordenadas do player
-	private int playerX = 337;
-	private int playerY = 337;
 	
 	private long startNanoTime;
-	
 	private double oneFrameInNano = 1000000000/60;
 
-	KeyInput key = new KeyInput();
+	private KeyInput key = new KeyInput();
 	
-	Thread gameThread;
+	private Thread gameThread;
+	
+	private Player player = new Player(key);
 	
 	public GameScreen() {
 		
-		this.setPreferredSize(new Dimension(screenSide, screenSide));
+		this.setPreferredSize(new Dimension(this.screenSide, this.screenSide));
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(key);
@@ -44,7 +47,7 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			this.startNanoTime = System.nanoTime();
 			
-			update();
+			player.update();
 			repaint();
 			
 			while(System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {
@@ -56,15 +59,7 @@ public class GameScreen extends JPanel implements Runnable {
 	}
 	
 	public void update() {
-		if (key.up) {
-			playerY -= 5;
-		} else if (key.down) {
-			playerY += 5;
-		} else if (key.left) {
-			playerX -= 5;
-		} else if (key.right) {
-			playerX += 5;
-		}
+
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -73,10 +68,8 @@ public class GameScreen extends JPanel implements Runnable {
 		
 		Graphics2D g2D = (Graphics2D) g;
 		
-		g2D.setColor(Color.white);
-		
-		g2D.fillRect(playerX, playerY, textureResolution,textureResolution);
-		
+		player.draw(g2D);
+
 		g2D.dispose();
 		
 	}

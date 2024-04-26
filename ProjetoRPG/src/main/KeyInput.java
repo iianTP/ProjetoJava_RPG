@@ -1,3 +1,5 @@
+package main;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -15,13 +17,13 @@ public class KeyInput implements KeyListener {
 		if (key == KeyEvent.VK_W) {
 			up = true;
 		}
-		if (key == KeyEvent.VK_S) {
+		else if (key == KeyEvent.VK_S) {
 			down = true;
 		}
-		if (key == KeyEvent.VK_A) {
+		else if (key == KeyEvent.VK_A) {
 			left = true;
 		}
-		if (key == KeyEvent.VK_D) {
+		else if (key == KeyEvent.VK_D) {
 			right = true;
 		}
 	}
@@ -33,13 +35,13 @@ public class KeyInput implements KeyListener {
 		if (key == KeyEvent.VK_W) {
 			up = false;
 		}
-		if (key == KeyEvent.VK_S) {
+		else if (key == KeyEvent.VK_S) {
 			down = false;
 		}
-		if (key == KeyEvent.VK_A) {
+		else if (key == KeyEvent.VK_A) {
 			left = false;
 		}
-		if (key == KeyEvent.VK_D) {
+		else if (key == KeyEvent.VK_D) {
 			right = false;
 		}
 	}
