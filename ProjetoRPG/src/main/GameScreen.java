@@ -8,13 +8,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.IOException;
+
+import java.util.Scanner;
 
 public class GameScreen extends JPanel implements Runnable {
 	
 	private int textureResolution = 48; // Texturas 48px x 48px
 	private int screenSide = 720; // Dimensões da tela 720px x 720px
-	
 	
 	private long startNanoTime;
 	private double oneFrameInNano = 1000000000/60;
@@ -23,31 +23,32 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private Thread gameThread;
 	
-	private Player player = new Player(key);
+	private Player player;
 	
 	public GameScreen() {
 		
 		this.setPreferredSize(new Dimension(this.screenSide, this.screenSide));
-		this.setBackground(Color.black);
+		this.setBackground(Color.gray);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(key);
 		this.setFocusable(true);
 		
 	}
 	
-	public void startThread() {
-		gameThread = new Thread(this);
-		gameThread.start();
+	public void startThread(String playerClass) {
+		this.player = new Player(key, playerClass);
+		this.gameThread = new Thread(this);
+		this.gameThread.start();
 	}
 	
 	@Override
 	public void run() {
-		
+	
 		while(gameThread != null) {
 			
 			this.startNanoTime = System.nanoTime();
 			
-			player.update();
+			update();
 			repaint();
 			
 			while(System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {
@@ -59,7 +60,7 @@ public class GameScreen extends JPanel implements Runnable {
 	}
 	
 	public void update() {
-
+		this.player.update();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -68,7 +69,9 @@ public class GameScreen extends JPanel implements Runnable {
 		
 		Graphics2D g2D = (Graphics2D) g;
 		
-		player.draw(g2D);
+		if (this.player != null) {
+			this.player.draw(g2D);
+		}
 
 		g2D.dispose();
 		

@@ -1,40 +1,55 @@
 package Entities;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 import main.KeyInput;
 
-public class Player extends Entity{
+public class Player extends Stats {
 	
 	private KeyInput key;
 	
 	
 	
-	public Player(KeyInput key) {
+	public Player(KeyInput key, String playerClass) {
 		this.key = key;
-		setPlayerValues();
-		getSprites();
+		
+		setPlayerValues(playerClass);
+		
 	}
 	
-	public void setPlayerValues() {
+	public void setPlayerValues(String playerClass) {
+		
 		x = 337;
 		y = 337;
 		walkSpeed = 3;
 		facing = "down";
+		
+		switch(playerClass) {
+		case "mage":
+			getSprites();
+			break;
+		case "warrior":
+			break;
+		case "healer":
+			break;
+		case "assassin":
+			break;
+		}
+		
 	}
 	
 	public void getSprites() {
 		try {
 			
-			up = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png"));
-			down = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png"));
-			left = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png"));
-			right = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"));
+			idleUp = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png"));
+			idleDown = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png"));
+			idleLeft = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png"));
+			idleRight = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -42,6 +57,8 @@ public class Player extends Entity{
 	}
 	
 	public void update() {
+		
+		// Caminhada
 		if (key.up) {
 			facing = "up";
 			y -= 3;
@@ -55,28 +72,27 @@ public class Player extends Entity{
 			facing = "right";
 			x += 3;
 		}
+		
 	}
+	
+	
 	
 	public void draw(Graphics2D brush) {
 		
 		BufferedImage sprite = null;
 		
+		// Atualização de sprites do player
 		if (facing.equals("up")) {
-			System.out.println(facing);
-			sprite = up;
+			sprite = idleUp;
 		} else if (facing.equals("down")) {
-			System.out.println(facing);
-			sprite = down;
+			sprite = idleDown;
 		} else if (facing.equals("left")) {
-			System.out.println(facing);
-			sprite = left;
+			sprite = idleLeft;
 		} else if (facing.equals("right")) {
-			System.out.println(facing);
-			sprite = right;
+			sprite = idleRight;
 		}
-		
-		
-		brush.drawImage(sprite, x, y, 48, 48, null);
+	
+		brush.drawImage(sprite, x, y, 48, 48, null); // Desenha sprite em 48x48 px
 		
 	}
 	
