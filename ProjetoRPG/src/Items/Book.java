@@ -1,5 +1,7 @@
 package Items;
 
-public class Book {
-
+public class Book extends Item {
+	public Book() {
+		super.setConsumable();
+	}
 }

@@ -14,28 +14,24 @@ public class Entity {
 	private BufferedImage up2, down2, right2, left2;
 	
 	// Direção
-	private String direction = "down";
+	private String direction;
 	
 	// Parado ou andando
 	private boolean idle;
 	
-	
+	// SET
 	public void setX(int x) {
 		this.x = x;
 	}
-	
 	public void setY(int y) {
 		this.y = y;
 	}
-	
 	public void setWalkSpeed(int walkSpeed) {
 		this.walkSpeed = walkSpeed;
 	}
-	
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
-	
 	public void setIdleSprites(BufferedImage idleUp
 							  ,BufferedImage idleDown
 							  ,BufferedImage idleLeft
@@ -48,18 +44,16 @@ public class Entity {
 		
 	}
 	
+	// GET
 	public int getX() {
 		return this.x;
 	}
-	
 	public int getY() {
 		return this.y;
 	}
-	
 	public int getWalkSpeed() {
 		return this.walkSpeed;
 	}
-	
 	public String getDirection() {
 		return this.direction;
 	}

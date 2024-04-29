@@ -1,8 +1,8 @@
 package Items;
 
-public class Staff extends Item {
-	public Staff() {
-		super.setEquipable();
+public class Cloak extends Item {
+	public Cloak() {
+		super.isEquipable();
 		super.setRestriction(new String[] {"mage", "healer"});
 	}
 }

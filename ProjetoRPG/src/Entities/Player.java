@@ -3,55 +3,23 @@ package Entities;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
+import main.GameScreen;
 import main.KeyInput;
 
 public class Player extends Stats {
 	
 	private KeyInput key;
 	
-	public Player(KeyInput key, String playerClass) {
+	private GameScreen gs = new GameScreen();
+	
+	public Player(KeyInput key) {
 		
 		this.key = key;
-		setPlayerValues(playerClass);
-		
-	}
-	
-	public void setPlayerValues(String playerClass) {
-		
 		super.setX(337);
 		super.setY(337);
 		super.setWalkSpeed(3);
 		super.setDirection("down");
 		
-		switch(playerClass) {
-		case "mage":
-			getMageSprites();
-			break;
-		case "warrior":
-			break;
-		case "healer":
-			break;
-		case "assassin":
-			break;
-		}
-		
-	}
-	
-	public void getMageSprites() {
-		try {
-			
-			super.setIdleSprites(ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png"))
-								,ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png"))
-								,ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png"))
-								,ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png")));
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void update() {
@@ -88,7 +56,7 @@ public class Player extends Stats {
 			sprite = super.getIdleSprites()[3];
 		}
 	
-		brush.drawImage(sprite, super.getX(), super.getY(), 48, 48, null); // Desenha sprite em 48x48 px
+		brush.drawImage(sprite, super.getX(), super.getY(), gs.getTileResolution(), gs.getTileResolution(), null); // Desenha sprite em 48x48 px
 		
 	}
 	

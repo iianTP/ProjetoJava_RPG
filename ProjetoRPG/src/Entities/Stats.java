@@ -6,8 +6,8 @@ public class Stats extends Entity{
 	private int defense;
 	private int mana;
 	private int maxMana;
-	private int spellStrenght;
-	private int spellDefense;
+	private int magic;
+	private int magicDefense;
 	private int health;
 	private int maxHealth;
 	private int experience;

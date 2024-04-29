@@ -1,7 +1,5 @@
 package main;
 
-import java.util.Scanner;
-
 import javax.swing.JFrame;
 
 public class Main {
@@ -12,11 +10,6 @@ public class Main {
 		
 		GameScreen screen = new GameScreen();
 		
-		// TESTE DE CLASSE DE PERSONAGEM
-		//Scanner setClass = new Scanner(System.in);
-		//String classString = setClass.nextLine();
-		//
-		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setTitle("Projeto-RPG");
@@ -25,8 +18,8 @@ public class Main {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		
-		screen.startThread("mage");
-		//setClass.close();
+		screen.startThread();
+
 	}
 
 }
