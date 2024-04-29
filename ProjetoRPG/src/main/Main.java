@@ -13,20 +13,20 @@ public class Main {
 		GameScreen screen = new GameScreen();
 		
 		// TESTE DE CLASSE DE PERSONAGEM
-		Scanner setClass = new Scanner(System.in);
-		String classString = setClass.nextLine();
+		//Scanner setClass = new Scanner(System.in);
+		//String classString = setClass.nextLine();
 		//
 		
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
-		window.setVisible(true);
 		window.setTitle("Projeto-RPG");
 		window.add(screen);
 		window.pack();
 		window.setLocationRelativeTo(null);
+		window.setVisible(true);
 		
-		screen.startThread(classString);
-		setClass.close();
+		screen.startThread("mage");
+		//setClass.close();
 	}
 
 }

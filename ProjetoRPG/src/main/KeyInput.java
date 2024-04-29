@@ -12,38 +12,46 @@ public class KeyInput implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		
 		int key = e.getKeyCode();
 		
-		if (key == KeyEvent.VK_W) {
+		switch (key) {
+		case KeyEvent.VK_W:
 			up = true;
-		}
-		else if (key == KeyEvent.VK_S) {
+			break;
+		case KeyEvent.VK_S:
 			down = true;
-		}
-		else if (key == KeyEvent.VK_A) {
+			break;
+		case KeyEvent.VK_A:
 			left = true;
-		}
-		else if (key == KeyEvent.VK_D) {
+			break;
+		case KeyEvent.VK_D:
 			right = true;
+			break;
 		}
+		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		int key = e.getKeyCode();
 		
-		if (key == KeyEvent.VK_W) {
+		int key = e.getKeyCode();
+
+		switch (key) {
+		case KeyEvent.VK_W:
 			up = false;
-		}
-		else if (key == KeyEvent.VK_S) {
+			break;
+		case KeyEvent.VK_S:
 			down = false;
-		}
-		else if (key == KeyEvent.VK_A) {
+			break;
+		case KeyEvent.VK_A:
 			left = false;
-		}
-		else if (key == KeyEvent.VK_D) {
+			break;
+		case KeyEvent.VK_D:
 			right = false;
+			break;
 		}
+		
 	}
 	
 }

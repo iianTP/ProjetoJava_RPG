@@ -13,5 +13,6 @@ public class Stats extends Entity{
 	private int experience;
 	private int maxExperience;
 	private int level;
+	private int gold;
 
 }

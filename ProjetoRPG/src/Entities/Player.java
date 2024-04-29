@@ -13,25 +13,23 @@ public class Player extends Stats {
 	
 	private KeyInput key;
 	
-	
-	
 	public Player(KeyInput key, String playerClass) {
-		this.key = key;
 		
+		this.key = key;
 		setPlayerValues(playerClass);
 		
 	}
 	
 	public void setPlayerValues(String playerClass) {
 		
-		x = 337;
-		y = 337;
-		walkSpeed = 3;
-		facing = "down";
+		super.setX(337);
+		super.setY(337);
+		super.setWalkSpeed(3);
+		super.setDirection("down");
 		
 		switch(playerClass) {
 		case "mage":
-			getSprites();
+			getMageSprites();
 			break;
 		case "warrior":
 			break;
@@ -43,13 +41,13 @@ public class Player extends Stats {
 		
 	}
 	
-	public void getSprites() {
+	public void getMageSprites() {
 		try {
 			
-			idleUp = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png"));
-			idleDown = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png"));
-			idleLeft = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png"));
-			idleRight = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"));
+			super.setIdleSprites(ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png"))
+								,ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png"))
+								,ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png"))
+								,ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png")));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -60,39 +58,37 @@ public class Player extends Stats {
 		
 		// Caminhada
 		if (key.up) {
-			facing = "up";
-			y -= 3;
+			super.setDirection("up");
+			super.setY(super.getY()-super.getWalkSpeed());
 		} else if (key.down) {
-			facing = "down";
-			y += 3;
+			super.setDirection("down");
+			super.setY(super.getY()+super.getWalkSpeed());
 		} else if (key.left) {
-			facing = "left";
-			x -= 3;
+			super.setDirection("left");
+			super.setX(super.getX()-super.getWalkSpeed());
 		} else if (key.right) {
-			facing = "right";
-			x += 3;
+			super.setDirection("right");
+			super.setX(super.getX()+super.getWalkSpeed());
 		}
 		
 	}
-	
-	
-	
+
 	public void draw(Graphics2D brush) {
 		
 		BufferedImage sprite = null;
 		
 		// Atualização de sprites do player
-		if (facing.equals("up")) {
-			sprite = idleUp;
-		} else if (facing.equals("down")) {
-			sprite = idleDown;
-		} else if (facing.equals("left")) {
-			sprite = idleLeft;
-		} else if (facing.equals("right")) {
-			sprite = idleRight;
+		if (super.getDirection().equals("up")) {
+			sprite = super.getIdleSprites()[0];
+		} else if (super.getDirection().equals("down")) {
+			sprite = super.getIdleSprites()[1];
+		} else if (super.getDirection().equals("left")) {
+			sprite = super.getIdleSprites()[2];
+		} else if (super.getDirection().equals("right")) {
+			sprite = super.getIdleSprites()[3];
 		}
 	
-		brush.drawImage(sprite, x, y, 48, 48, null); // Desenha sprite em 48x48 px
+		brush.drawImage(sprite, super.getX(), super.getY(), 48, 48, null); // Desenha sprite em 48x48 px
 		
 	}
 	
