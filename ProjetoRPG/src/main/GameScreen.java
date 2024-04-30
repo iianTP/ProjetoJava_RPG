@@ -93,7 +93,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	public void update() {
 		
-		this.player.update();
+			this.player.update();
 		
 	}
 	

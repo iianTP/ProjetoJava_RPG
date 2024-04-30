@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyInput implements KeyListener {
 
-	public boolean up, down, left, right;
+	private boolean up, down, left, right;
 	
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -54,4 +54,16 @@ public class KeyInput implements KeyListener {
 		
 	}
 	
+	public boolean goingUp() {
+		return up;
+	}
+	public boolean goingDown() {
+		return down;
+	}
+	public boolean goingLeft() {
+		return left;
+	}
+	public boolean goingRight() {
+		return right;
+	}
 }

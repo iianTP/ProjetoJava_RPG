@@ -6,6 +6,8 @@ public class Tile {
 	
 	private BufferedImage tile;
 	
+	private int tileX, tileY;
+	
 	private boolean walkable;
 	
 	// SET
@@ -15,10 +17,22 @@ public class Tile {
 	public void setWalkable(boolean walkable) {
 		this.walkable = walkable;
 	}
+	public void setTileX(int tileX) {
+		this.tileX = tileX;
+	}
+	public void setTileY(int tileY) {
+		this.tileY = tileY;
+	}
 	
 	// GET
 	public BufferedImage getTile() {
 		return this.tile;
+	}
+	public int getTileX() {
+		return this.tileX;
+	}
+	public int getTileY() {
+		return this.tileY;
 	}
 	
 	// IS

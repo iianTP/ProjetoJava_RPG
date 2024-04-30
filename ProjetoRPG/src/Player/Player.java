@@ -39,16 +39,16 @@ public class Player extends Stats {
 	public void update() {
 		
 		// Caminhada
-		if (key.up) {
+		if (key.goingUp()) {
 			super.setDirection("up");
 			super.setY(super.getY() - super.getWalkSpeed());
-		} else if (key.down) {
+		} else if (key.goingDown()) {
 			super.setDirection("down");
 			super.setY(super.getY() + super.getWalkSpeed());
-		} else if (key.left) {
+		} else if (key.goingLeft()) {
 			super.setDirection("left");
 			super.setX(super.getX() - super.getWalkSpeed());
-		} else if (key.right) {
+		} else if (key.goingRight()) {
 			super.setDirection("right");
 			super.setX(super.getX() + super.getWalkSpeed());
 		}
@@ -60,16 +60,19 @@ public class Player extends Stats {
 		BufferedImage sprite = null;
 		
 		// Atualização de sprites do player
-		if (super.getDirection().equals("up")) {
-			sprite = super.getIdleSprites()[0];
-		} else if (super.getDirection().equals("down")) {
-			sprite = super.getIdleSprites()[1];
-		} else if (super.getDirection().equals("left")) {
-			sprite = super.getIdleSprites()[2];
-		} else if (super.getDirection().equals("right")) {
-			sprite = super.getIdleSprites()[3];
-		}
 		
+		//if (!key.goingUp() && !key.goingDown() && !key.goingLeft() && !key.goingRight()) {
+			if (super.getDirection().equals("up")) {
+				sprite = super.getIdleSprites()[0];
+			} else if (super.getDirection().equals("down")) {
+				sprite = super.getIdleSprites()[1];
+			} else if (super.getDirection().equals("left")) {
+				sprite = super.getIdleSprites()[2];
+			} else if (super.getDirection().equals("right")) {
+				sprite = super.getIdleSprites()[3];
+			}
+		//}
+
 		// Desenha o sprite do player
 		brush.drawImage(sprite, super.getX(), super.getY(), gs.getTileResolution(), gs.getTileResolution(), null);
 		
