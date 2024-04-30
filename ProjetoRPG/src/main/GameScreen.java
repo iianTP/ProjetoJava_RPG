@@ -2,11 +2,12 @@ package main;
 
 import javax.swing.JPanel;
 
-import Entities.Assassin;
-import Entities.Healer;
-import Entities.Mage;
-import Entities.Player;
-import Entities.Warrior;
+import Player.Assassin;
+import Player.Healer;
+import Player.Mage;
+import Player.Player;
+import Player.Warrior;
+import Tiles.TileManager;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,10 +24,9 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private int gameState = 0;
 
+	private TileManager tiles = new TileManager();
 	private KeyInput key = new KeyInput();
-	
 	private Thread gameThread;
-	
 	private Player player;
 	
 	public GameScreen() {
@@ -42,6 +42,8 @@ public class GameScreen extends JPanel implements Runnable {
 	public void startThread() {
 		
 		String playerClass = "mage";
+		
+		// Identificação da classe escolhida
 		if (playerClass.equals("mage")) {
 			
 			this.player = new Mage(key);
@@ -72,6 +74,7 @@ public class GameScreen extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		
+		// GAME LOOP
 		while(gameThread != null) {
 			
 			this.startNanoTime = System.nanoTime();
@@ -79,6 +82,7 @@ public class GameScreen extends JPanel implements Runnable {
 			update();
 			repaint();
 			
+			// Loop a 60 FPS
 			while(System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {
 				continue;
 			}
@@ -88,7 +92,9 @@ public class GameScreen extends JPanel implements Runnable {
 	}
 	
 	public void update() {
+		
 		this.player.update();
+		
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -96,6 +102,8 @@ public class GameScreen extends JPanel implements Runnable {
 		super.paintComponent(g);
 
 		Graphics2D g2D = (Graphics2D) g;
+		
+		tiles.draw(g2D);
 		
 		if (this.player != null) {
 			this.player.draw(g2D);

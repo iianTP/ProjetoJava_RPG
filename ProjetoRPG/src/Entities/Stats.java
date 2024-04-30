@@ -10,9 +10,5 @@ public class Stats extends Entity{
 	private int magicDefense;
 	private int health;
 	private int maxHealth;
-	private int experience;
-	private int maxExperience;
-	private int level;
-	private int gold;
 
 }

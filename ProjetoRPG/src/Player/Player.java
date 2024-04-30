@@ -1,8 +1,9 @@
-package Entities;
+package Player;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import Entities.Stats;
 import main.GameScreen;
 import main.KeyInput;
 
@@ -12,31 +13,44 @@ public class Player extends Stats {
 	
 	private GameScreen gs = new GameScreen();
 	
+	private int experience;
+	private int maxExperience;
+	private int level;
+	private int gold;
+	
 	public Player(KeyInput key) {
 		
+		// Input do teclado
 		this.key = key;
+		
+		// Coordenadas iniciais do player (centro da tela)
 		super.setX(337);
 		super.setY(337);
+		
+		// Velocidade do player
 		super.setWalkSpeed(3);
-		super.setDirection("down");
+		
+		// Direção do player
+		super.setDirection("down"); 
 		
 	}
 	
+	// Atualização do estado do player
 	public void update() {
 		
 		// Caminhada
 		if (key.up) {
 			super.setDirection("up");
-			super.setY(super.getY()-super.getWalkSpeed());
+			super.setY(super.getY() - super.getWalkSpeed());
 		} else if (key.down) {
 			super.setDirection("down");
-			super.setY(super.getY()+super.getWalkSpeed());
+			super.setY(super.getY() + super.getWalkSpeed());
 		} else if (key.left) {
 			super.setDirection("left");
-			super.setX(super.getX()-super.getWalkSpeed());
+			super.setX(super.getX() - super.getWalkSpeed());
 		} else if (key.right) {
 			super.setDirection("right");
-			super.setX(super.getX()+super.getWalkSpeed());
+			super.setX(super.getX() + super.getWalkSpeed());
 		}
 		
 	}
@@ -55,8 +69,21 @@ public class Player extends Stats {
 		} else if (super.getDirection().equals("right")) {
 			sprite = super.getIdleSprites()[3];
 		}
+		
+		// Desenha o sprite do player
+		brush.drawImage(sprite, super.getX(), super.getY(), gs.getTileResolution(), gs.getTileResolution(), null);
+		
+	}
 	
-		brush.drawImage(sprite, super.getX(), super.getY(), gs.getTileResolution(), gs.getTileResolution(), null); // Desenha sprite em 48x48 px
+	public void attack() {
+		
+	}
+	
+	public void magic() {
+		
+	}
+	
+	public void defense() {
 		
 	}
 	
