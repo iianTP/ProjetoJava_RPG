@@ -32,6 +32,16 @@ public class Healer extends Player{
 	
 	public void setStats() {
 		
+		super.setHealth(20);
+		super.setMaxHealth(20);
+		super.setMana(20);
+		super.setMaxMana(20);
+		
+		super.setStrenght(1);
+		super.setDefense(2);
+		super.setMagic(4);
+		super.setMagicDefense(5);
+		
 	}
 	
 }

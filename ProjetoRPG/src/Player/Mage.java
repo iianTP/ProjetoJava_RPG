@@ -30,6 +30,16 @@ public class Mage extends Player {
 	
 	public void setStats() {
 		
+		super.setHealth(20);
+		super.setMaxHealth(20);
+		super.setMana(20);
+		super.setMaxMana(20);
+		
+		super.setStrenght(2);
+		super.setDefense(3);
+		super.setMagic(5);
+		super.setMagicDefense(4);
+
 	}
 	
 

@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import Entities.Stats;
+import Tiles.TileManager;
 import main.GameScreen;
 import main.KeyInput;
 
@@ -13,10 +14,14 @@ public class Player extends Stats {
 	
 	private GameScreen gs = new GameScreen();
 	
+	private TileManager tileM;
+	
 	private int experience;
 	private int maxExperience;
 	private int level;
 	private int gold;
+	
+	private int[][] hitbox = {{5, 10}, {10, 14}};
 	
 	public Player(KeyInput key) {
 		
@@ -24,8 +29,8 @@ public class Player extends Stats {
 		this.key = key;
 		
 		// Coordenadas iniciais do player (centro da tela)
-		super.setX(337);
-		super.setY(337);
+		super.setX(336);
+		super.setY(336);
 		
 		// Velocidade do player
 		super.setWalkSpeed(3);
@@ -33,24 +38,22 @@ public class Player extends Stats {
 		// Direção do player
 		super.setDirection("down"); 
 		
+		tileM = new TileManager();
+		
+		this.experience = 0;
+		this.maxExperience = 20;
+		this.level = 1;
+		this.gold = 0;
+		
 	}
 	
 	// Atualização do estado do player
 	public void update() {
 		
-		// Caminhada
-		if (key.goingUp()) {
-			super.setDirection("up");
-			super.setY(super.getY() - super.getWalkSpeed());
-		} else if (key.goingDown()) {
-			super.setDirection("down");
-			super.setY(super.getY() + super.getWalkSpeed());
-		} else if (key.goingLeft()) {
-			super.setDirection("left");
-			super.setX(super.getX() - super.getWalkSpeed());
-		} else if (key.goingRight()) {
-			super.setDirection("right");
-			super.setX(super.getX() + super.getWalkSpeed());
+		walk();
+		
+		if (this.experience >= this.maxExperience) {
+			levelUp();
 		}
 		
 	}
@@ -78,16 +81,66 @@ public class Player extends Stats {
 		
 	}
 	
-	public void attack() {
+	public void walk() {
+		
+		// Caminhada
+		if (key.goingUp()) {
+			
+			super.setDirection("up");
+			super.setY(super.getY() - super.getWalkSpeed());
+			
+		} else if (key.goingDown()) {
+			
+			super.setDirection("down");
+			super.setY(super.getY() + super.getWalkSpeed());
+			
+		} else if (key.goingLeft()) {
+			
+			super.setDirection("left");
+			super.setX(super.getX() - super.getWalkSpeed());
+			
+		} else if (key.goingRight()) {
+			
+			super.setDirection("right");
+			super.setX(super.getX() + super.getWalkSpeed());
+			
+		}
 		
 	}
 	
-	public void magic() {
+	public void addExperience(int experience) {
+		this.experience += experience;
+	}
+	
+	public void addGold(int gold) {
+		this.gold += gold;
+	}
+	public void reduceGold(int gold) {
+		this.gold -= gold;
+	}
+	
+	public void levelUp() {
+		
+		this.level += 1;
+		this.experience = 0;
+		this.maxExperience += 5;
+		
+		super.buffStats();
 		
 	}
 	
-	public void defense() {
-		
+	public int getExperience() {
+		return this.experience;
 	}
+	public int getMaxExperience() {
+		return this.maxExperience;
+	}
+	public int getLevel() {
+		return this.level;
+	}
+	public int getGold() {
+		return this.gold;
+	}
+	
 	
 }

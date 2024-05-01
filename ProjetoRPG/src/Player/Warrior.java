@@ -32,6 +32,16 @@ public class Warrior extends Player {
 	
 	public void setStats() {
 		
+		super.setHealth(20);
+		super.setMaxHealth(20);
+		super.setMana(20);
+		super.setMaxMana(20);
+		
+		super.setStrenght(5);
+		super.setDefense(4);
+		super.setMagic(1);
+		super.setMagicDefense(1);
+		
 	}
 	
 }

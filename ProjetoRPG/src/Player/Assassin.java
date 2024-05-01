@@ -18,10 +18,10 @@ public class Assassin extends Player {
 		try {
 			
 			super.setIdleSprites(
-					ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png")),
-					ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png")),
-					ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png")),
-					ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"))
+					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleUp.png")),
+					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")),
+					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleLeft.png")),
+					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleRight.png"))
 			);
 			
 		} catch (IOException e) {
@@ -31,6 +31,16 @@ public class Assassin extends Player {
 	}
 	
 	public void setStats() {
+		
+		super.setHealth(20);
+		super.setMaxHealth(20);
+		super.setMana(20);
+		super.setMaxMana(20);
+		
+		super.setStrenght(3);
+		super.setDefense(5);
+		super.setMagic(2);
+		super.setMagicDefense(2);
 		
 	}
 

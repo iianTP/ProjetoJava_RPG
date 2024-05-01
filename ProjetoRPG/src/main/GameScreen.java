@@ -41,7 +41,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	public void startThread() {
 		
-		String playerClass = "mage";
+		String playerClass = "healer";
 		
 		// Identificação da classe escolhida
 		if (playerClass.equals("mage")) {

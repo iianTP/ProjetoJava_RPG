@@ -68,6 +68,12 @@ public class TileManager {
 		
 	}
 	
+	public Tile tile(int x, int y){
+
+		return tiles[tileNums[x/48][y/48]-1];
+		
+	}
+	
 	public void draw(Graphics2D brush) {
 		
 		for(int i = 0; i < 15; i++) {
