@@ -8,14 +8,14 @@ public class Tile {
 	
 	private int tileX, tileY;
 	
-	private boolean walkable;
+	private boolean collision;
 	
 	// SET
 	public void setTile(BufferedImage tile) {
 		this.tile = tile;
 	}
-	public void setWalkable(boolean walkable) {
-		this.walkable = walkable;
+	public void setCollision(boolean collision) {
+		this.collision = collision;
 	}
 	public void setTileX(int tileX) {
 		this.tileX = tileX;
@@ -35,8 +35,7 @@ public class Tile {
 		return this.tileY;
 	}
 	
-	// IS
-	public boolean isWalkable() {
-		return walkable;
+	public boolean checkCollision() {
+		return collision;
 	}
 }

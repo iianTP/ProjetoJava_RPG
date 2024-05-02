@@ -3,42 +3,36 @@ package Player;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import Entities.Collision;
 import Entities.Stats;
 import Tiles.TileManager;
 import main.GameScreen;
 import main.KeyInput;
+import main.ScreenInfo;
 
 public class Player extends Stats {
 	
 	private KeyInput key;
-	
-	private GameScreen gs = new GameScreen();
-	
-	private TileManager tileM;
-	
+	private ScreenInfo screen;
+	private Collision collision;
+
 	private int experience;
 	private int maxExperience;
 	private int level;
 	private int gold;
 	
-	private int[][] hitbox = {{5, 10}, {10, 14}};
-	
 	public Player(KeyInput key) {
 		
-		// Input do teclado
-		this.key = key;
+		this.key = key; // Input do teclado
+		this.screen = new ScreenInfo();
+		this.collision = new Collision();
 		
 		// Coordenadas iniciais do player (centro da tela)
 		super.setX(336);
 		super.setY(336);
 		
-		// Velocidade do player
-		super.setWalkSpeed(3);
-		
-		// Direção do player
-		super.setDirection("down"); 
-		
-		tileM = new TileManager();
+		super.setWalkSpeed(3); // Velocidade do player
+		super.setDirection("down"); // Direção do player
 		
 		this.experience = 0;
 		this.maxExperience = 20;
@@ -52,7 +46,7 @@ public class Player extends Stats {
 		
 		walk();
 		
-		if (this.experience >= this.maxExperience) {
+		while(this.experience >= this.maxExperience) {
 			levelUp();
 		}
 		
@@ -77,37 +71,49 @@ public class Player extends Stats {
 		//}
 
 		// Desenha o sprite do player
-		brush.drawImage(sprite, super.getX(), super.getY(), gs.getTileResolution(), gs.getTileResolution(), null);
+		brush.drawImage(sprite, super.getX(), super.getY(), this.screen.tileSide(), this.screen.tileSide(), null);
 		
 	}
 	
+	// Caminhada
 	public void walk() {
 		
-		// Caminhada
-		if (key.goingUp()) {
+		if (!key.notWalking()) {
 			
-			super.setDirection("up");
-			super.setY(super.getY() - super.getWalkSpeed());
+			if (key.goingUp()) {
+				super.setDirection("up");
+			} else if (key.goingDown()) {
+				super.setDirection("down");
+			} else if (key.goingLeft()) {
+				super.setDirection("left");
+			} else if (key.goingRight()) {
+				super.setDirection("right");
+			}
 			
-		} else if (key.goingDown()) {
+			super.setCollision(false);
+			this.collision.collision(this);
 			
-			super.setDirection("down");
-			super.setY(super.getY() + super.getWalkSpeed());
-			
-		} else if (key.goingLeft()) {
-			
-			super.setDirection("left");
-			super.setX(super.getX() - super.getWalkSpeed());
-			
-		} else if (key.goingRight()) {
-			
-			super.setDirection("right");
-			super.setX(super.getX() + super.getWalkSpeed());
+			if (!super.getCollision()) {
+				
+				if (super.getDirection().equals("up")) {
+					super.setY(super.getY() - super.getWalkSpeed());
+				} else if (super.getDirection().equals("down")) {
+					super.setY(super.getY() + super.getWalkSpeed());
+				} else if (super.getDirection().equals("left")) {
+					super.setX(super.getX() - super.getWalkSpeed());
+				} else if (super.getDirection().equals("right")) {
+					super.setX(super.getX() + super.getWalkSpeed());
+				}
+				
+			}
 			
 		}
+			
 		
 	}
 	
+	
+
 	public void addExperience(int experience) {
 		this.experience += experience;
 	}
@@ -115,6 +121,7 @@ public class Player extends Stats {
 	public void addGold(int gold) {
 		this.gold += gold;
 	}
+	
 	public void reduceGold(int gold) {
 		this.gold -= gold;
 	}
@@ -132,12 +139,15 @@ public class Player extends Stats {
 	public int getExperience() {
 		return this.experience;
 	}
+	
 	public int getMaxExperience() {
 		return this.maxExperience;
 	}
+	
 	public int getLevel() {
 		return this.level;
 	}
+	
 	public int getGold() {
 		return this.gold;
 	}

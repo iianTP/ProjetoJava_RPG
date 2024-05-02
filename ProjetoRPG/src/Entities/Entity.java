@@ -19,6 +19,8 @@ public class Entity {
 	// Parado ou andando
 	private boolean idle;
 	
+	private boolean collision;
+	
 	// SET
 	public void setX(int x) {
 		this.x = x;
@@ -44,6 +46,10 @@ public class Entity {
 		
 	}
 	
+	public void setCollision(boolean collision) {
+		this.collision = collision;
+	}
+	
 	// GET
 	public int getX() {
 		return this.x;
@@ -59,6 +65,9 @@ public class Entity {
 	}
 	public BufferedImage[] getIdleSprites() {
 		return new BufferedImage[] {this.idleUp, this.idleDown, this.idleLeft, this.idleRight};
+	}
+	public boolean getCollision() {
+		return this.collision;
 	}
 	
 }

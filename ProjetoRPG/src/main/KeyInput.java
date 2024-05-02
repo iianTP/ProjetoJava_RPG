@@ -66,4 +66,15 @@ public class KeyInput implements KeyListener {
 	public boolean goingRight() {
 		return right;
 	}
+	
+	public boolean notWalking() {
+		
+		if (!up && !down && !left && !right) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 }

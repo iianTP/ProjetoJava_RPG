@@ -16,8 +16,7 @@ import java.awt.Graphics2D;
 
 public class GameScreen extends JPanel implements Runnable {
 	
-	private int tileResolution = 48; // Texturas 48px x 48px
-	private int screenSide = 720; // Dimensões da tela 720px x 720px
+	private ScreenInfo screen = new ScreenInfo();
 	
 	private long startNanoTime;
 	private double oneFrameInNano = 1000000000/60;
@@ -31,7 +30,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	public GameScreen() {
 		
-		this.setPreferredSize(new Dimension(this.screenSide, this.screenSide));
+		this.setPreferredSize(new Dimension(screen.screenSide(), screen.screenSide()));
 		this.setBackground(Color.gray);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(key);
@@ -41,7 +40,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	public void startThread() {
 		
-		String playerClass = "healer";
+		String playerClass = "assassin";
 		
 		// Identificação da classe escolhida
 		if (playerClass.equals("mage")) {
@@ -65,10 +64,6 @@ public class GameScreen extends JPanel implements Runnable {
 		this.gameThread = new Thread(this);
 		this.gameThread.start();
 		
-	}
-	
-	public int getTileResolution() {
-		return tileResolution;
 	}
 	
 	@Override
