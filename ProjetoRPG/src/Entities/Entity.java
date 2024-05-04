@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 public class Entity {
 	
 	// Coordenadas e velocidade
-	private int x, y;
+	private int worldX, worldY;
 	private int walkSpeed;
 	
 	private int spriteCount = 0;
@@ -22,20 +22,14 @@ public class Entity {
 	// Direção
 	private String direction;
 	
-	// Parado ou andando
-	private boolean idle;
-	
 	private boolean collision;
-	
-	
-	
 	
 	// SET
 	public void setX(int x) {
-		this.x = x;
+		this.worldX = x;
 	}
 	public void setY(int y) {
-		this.y = y;
+		this.worldY = y;
 	}
 	public void setWalkSpeed(int walkSpeed) {
 		this.walkSpeed = walkSpeed;
@@ -74,10 +68,10 @@ public class Entity {
 	
 	// GET
 	public int getX() {
-		return this.x;
+		return this.worldX;
 	}
 	public int getY() {
-		return this.y;
+		return this.worldY;
 	}
 	public int getWalkSpeed() {
 		return this.walkSpeed;
@@ -100,6 +94,20 @@ public class Entity {
 	}
 	public int getAnimationFrame() {
 		return this.animationFrame;
+	}
+	
+	
+	public void goUp() {
+		this.worldY -= this.walkSpeed;
+	}
+	public void goDown() {
+		this.worldY += this.walkSpeed;
+	}
+	public void goLeft() {
+		this.worldX -= this.walkSpeed;
+	}
+	public void goRight() {
+		this.worldX += this.walkSpeed;
 	}
 	
 	

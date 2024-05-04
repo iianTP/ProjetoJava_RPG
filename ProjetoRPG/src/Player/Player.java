@@ -15,6 +15,9 @@ public class Player extends Stats {
 	private KeyInput key;
 	private ScreenInfo screen;
 	private Collision collision;
+	
+	private int screenX;
+	private int screenY;
 
 	private int experience;
 	private int maxExperience;
@@ -28,11 +31,14 @@ public class Player extends Stats {
 		this.collision = new Collision();
 		
 		// Coordenadas iniciais do player (centro da tela)
-		super.setX(336);
-		super.setY(336);
+		super.setX(2160/2);
+		super.setY(2160/2);
 		
 		super.setWalkSpeed(3); // Velocidade do player
 		super.setDirection("down"); // Direção do player
+		
+		this.screenX = this.screen.screenSide()/2 - this.screen.tileSide()/2;
+		this.screenY = this.screen.screenSide()/2 - this.screen.tileSide()/2;
 		
 		this.experience = 0;
 		this.maxExperience = 20;
@@ -122,7 +128,7 @@ public class Player extends Stats {
 		}
 
 		// Desenha o sprite do player
-		brush.drawImage(sprite, super.getX(), super.getY(), this.screen.tileSide(), this.screen.tileSide(), null);
+		brush.drawImage(sprite, this.screenX, this.screenY, this.screen.tileSide(), this.screen.tileSide(), null);
 		
 	}
 	
@@ -147,13 +153,13 @@ public class Player extends Stats {
 			if (!super.getCollision()) {
 				
 				if (super.getDirection().equals("up")) {
-					super.setY(super.getY() - super.getWalkSpeed());
+					super.goUp();
 				} else if (super.getDirection().equals("down")) {
-					super.setY(super.getY() + super.getWalkSpeed());
+					super.goDown();
 				} else if (super.getDirection().equals("left")) {
-					super.setX(super.getX() - super.getWalkSpeed());
+					super.goLeft();
 				} else if (super.getDirection().equals("right")) {
-					super.setX(super.getX() + super.getWalkSpeed());
+					super.goRight();
 				}
 				
 			}

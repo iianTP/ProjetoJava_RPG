@@ -10,14 +10,20 @@ public class Collision {
 	
 	public void collision(Entity entity) {
 		
-		int x = entity.getX();
-		int y = entity.getY();
+		int x = entity.getX() - 24;
+		int y = entity.getY() - 24;
 		int speed = entity.getWalkSpeed();
+		
+		int hitboxTop = y + this.hitbox[0][1];
+		int hitboxBottom = y + this.hitbox[1][1];
+		
+		int hitboxLeft = x + this.hitbox[0][0];
+		int hitboxRight = x + this.hitbox[1][0];
 		
 		if (entity.getDirection().equals("up")) {
 			
-			if (this.tiles.tile(x + this.hitbox[0][0], y + this.hitbox[0][1] - speed).checkCollision() ||
-				this.tiles.tile(x + this.hitbox[1][0], y + this.hitbox[0][1] - speed).checkCollision()) {
+			if (this.tiles.tile(hitboxLeft, hitboxTop - speed).checkCollision() ||
+				this.tiles.tile(hitboxRight, hitboxTop - speed).checkCollision()) {
 				entity.setCollision(true);
 			} else {
 				entity.setCollision(false);
@@ -25,8 +31,8 @@ public class Collision {
 			
 		} else if (entity.getDirection().equals("down")) {
 			
-			if (this.tiles.tile(x + this.hitbox[0][0], y + this.hitbox[1][1] + speed).checkCollision() ||
-				this.tiles.tile(x + this.hitbox[1][0], y + this.hitbox[1][1] + speed).checkCollision()) {
+			if (this.tiles.tile(hitboxLeft, hitboxBottom + speed).checkCollision() ||
+				this.tiles.tile(hitboxRight, hitboxBottom + speed).checkCollision()) {
 				entity.setCollision(true);
 			} else {
 				entity.setCollision(false);
@@ -34,8 +40,8 @@ public class Collision {
 			
 		} else if (entity.getDirection().equals("left")) {
 			
-			if (this.tiles.tile(x + this.hitbox[0][0] - speed, y + this.hitbox[0][1]).checkCollision() ||
-				this.tiles.tile(x + this.hitbox[0][0] - speed, y + this.hitbox[1][1]).checkCollision()) {
+			if (this.tiles.tile(hitboxLeft - speed, hitboxTop).checkCollision() ||
+				this.tiles.tile(hitboxLeft - speed, hitboxBottom).checkCollision()) {
 				entity.setCollision(true);
 			} else {
 				entity.setCollision(false);
@@ -43,8 +49,8 @@ public class Collision {
 			
 		} else if (entity.getDirection().equals("right")) {
 			
-			if (this.tiles.tile(x + this.hitbox[1][0] + speed, y + this.hitbox[0][1]).checkCollision() ||
-				this.tiles.tile(x + this.hitbox[1][0] + speed, y + this.hitbox[1][1]).checkCollision()) {
+			if (this.tiles.tile(hitboxRight + speed, hitboxTop).checkCollision() ||
+				this.tiles.tile(hitboxRight + speed, hitboxBottom).checkCollision()) {
 				entity.setCollision(true);
 			} else {
 				entity.setCollision(false);

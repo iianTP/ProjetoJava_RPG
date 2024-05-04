@@ -98,7 +98,7 @@ public class GameScreen extends JPanel implements Runnable {
 
 		Graphics2D g2D = (Graphics2D) g;
 		
-		tiles.draw(g2D);
+		tiles.draw(g2D, this.player.getX(), this.player.getY());
 		
 		if (this.player != null) {
 			this.player.draw(g2D);

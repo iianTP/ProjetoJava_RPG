@@ -3,10 +3,10 @@ package Tiles;
 import java.awt.Graphics2D;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -21,27 +21,34 @@ public class TileManager {
 	
 	public TileManager() {
 		
-		this.tiles = new Tile[2];
-		this.tileNums = new int[15][15];
-		this.screen = new ScreenInfo();
 		
+		this.tileNums = new int[45][45];
+		this.screen = new ScreenInfo();
+
 		this.setTiles();
 		this.loadTiles();
-		
+
 	}
 	
 	public void setTiles() {
+		
+		File folder = new File("./map/textures");
+		File[] fileList = folder.listFiles();
+		
+		this.tiles = new Tile[fileList.length];
+		
 		try {
 			
-			tiles[0] = new Tile();
-			tiles[0]
-			.setTile(ImageIO.read(getClass().getResourceAsStream("/grasses/grass.png")));
-			tiles[0].setCollision(false);
-			
-			tiles[1] = new Tile();
-			tiles[1]
-			.setTile(ImageIO.read(getClass().getResourceAsStream("/walls/wall.png")));
-			tiles[1].setCollision(true);
+			for (int i = 0; i < fileList.length; i++) {
+				
+				int tileId = Integer.parseInt(fileList[i].getName().split("_")[1].split("-")[0]);
+				String collision = fileList[i].getName().split("_")[1].split("-")[1];
+				
+				this.tiles[tileId-1] = new Tile();
+				this.tiles[tileId-1].setTile(ImageIO.read(getClass().getResourceAsStream("/textures/sprite_"+tileId+"-"+collision+"_.png")));
+				this.tiles[tileId-1].setCollision((collision.equals("t")) ? true : false);
+	
+			}
 			
 		} catch (IOException e) {
 			
@@ -52,16 +59,17 @@ public class TileManager {
 	
 	public void loadTiles() {
 		
-		InputStream file = getClass().getResourceAsStream("/maps/teste.txt");
+		InputStream file = getClass().getResourceAsStream("/maps/lobby.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(file));
+		String ln;
 		
 		try {
-			for(int i = 0; i < 15; i++) {
+			for(int i = 0; i < 45; i++) {
 				
-				String ln = reader.readLine();
+				ln = reader.readLine();
 				
-				for(int j = 0; j < 15; j++) {
-					
+				for(int j = 0; j < 45; j++) {
+										
 					tileNums[i][j] = Integer.parseInt(ln.split(",")[j]);
 					
 				}
@@ -79,15 +87,19 @@ public class TileManager {
 		
 	}
 	
-	public void draw(Graphics2D brush) {
+	public void draw(Graphics2D brush, int wX, int wY) {
 		
-		for(int i = 0; i < this.screen.tilesPerSide(); i++) {
+		int x, y;
+		
+		for(int i = 0; i < 45; i++) {
 			
-			for(int j = 0; j < this.screen.tilesPerSide(); j++) {
+			y = i*this.screen.tileSide() - wY + this.screen.screenSide()/2;
+			
+			for(int j = 0; j < 45; j++) {
 				
-				brush.drawImage(tiles[tileNums[i][j]-1].getTile(), i*48, j*48, 48, 48, null);
-				tiles[tileNums[i][j]-1].setTileX(i*48);
-				tiles[tileNums[i][j]-1].setTileY(i*48);
+				x = j*this.screen.tileSide() - wX + this.screen.screenSide()/2;
+				
+				brush.drawImage(tiles[tileNums[i][j]-1].getTile(), x, y, 48, 48, null);
 				
 			}
 		
