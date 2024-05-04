@@ -22,6 +22,7 @@ public class Mage extends Player {
 				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png")),
 				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"))
 			);
+			super.setWalkSprites();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

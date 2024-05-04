@@ -50,6 +50,12 @@ public class Player extends Stats {
 			levelUp();
 		}
 		
+		super.addSpriteCount();
+		
+		if (super.getSpriteCount() >= 20) {
+			super.switchAnimationFrame();
+			super.resetSpriteCount();
+		}
 	}
 
 	public void draw(Graphics2D brush) {
@@ -58,17 +64,62 @@ public class Player extends Stats {
 		
 		// Atualização de sprites do player
 		
-		//if (!key.goingUp() && !key.goingDown() && !key.goingLeft() && !key.goingRight()) {
+		if (!key.goingUp() && !key.goingDown() && !key.goingLeft() && !key.goingRight()) {
 			if (super.getDirection().equals("up")) {
+				
 				sprite = super.getIdleSprites()[0];
+				
 			} else if (super.getDirection().equals("down")) {
+				
 				sprite = super.getIdleSprites()[1];
+				
 			} else if (super.getDirection().equals("left")) {
+				
 				sprite = super.getIdleSprites()[2];
+				
 			} else if (super.getDirection().equals("right")) {
+				
 				sprite = super.getIdleSprites()[3];
+				
 			}
-		//}
+		} else {
+			
+			if (super.getDirection().equals("up")) {
+				
+				if (super.getAnimationFrame() == 1) {
+					sprite = super.getWalkSprites()[0][0];
+				} else {
+					sprite = super.getWalkSprites()[1][0];
+				}
+				
+				
+			} else if (super.getDirection().equals("down")) {
+				
+				if (super.getAnimationFrame() == 1) {
+					sprite = super.getWalkSprites()[0][1];
+				} else {
+					sprite = super.getWalkSprites()[1][1];
+				}
+				
+			} else if (super.getDirection().equals("left")) {
+				
+				if (super.getAnimationFrame() == 1) {
+					sprite = super.getWalkSprites()[0][2];
+				} else {
+					sprite = super.getWalkSprites()[1][2];
+				}
+				
+			} else if (super.getDirection().equals("right")) {
+				
+				if (super.getAnimationFrame() == 1) {
+					sprite = super.getWalkSprites()[0][3];
+				} else {
+					sprite = super.getWalkSprites()[1][3];
+				}
+				
+			}
+			
+		}
 
 		// Desenha o sprite do player
 		brush.drawImage(sprite, super.getX(), super.getY(), this.screen.tileSide(), this.screen.tileSide(), null);

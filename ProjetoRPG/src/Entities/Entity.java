@@ -1,12 +1,18 @@
 package Entities;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Entity {
 	
 	// Coordenadas e velocidade
 	private int x, y;
 	private int walkSpeed;
+	
+	private int spriteCount = 0;
+	private int animationFrame = 1;
 	
 	// Sprites
 	private BufferedImage idleUp, idleDown, idleRight, idleLeft;
@@ -20,6 +26,9 @@ public class Entity {
 	private boolean idle;
 	
 	private boolean collision;
+	
+	
+	
 	
 	// SET
 	public void setX(int x) {
@@ -45,10 +54,23 @@ public class Entity {
 		this.idleRight = idleRight;
 		
 	}
-	
+	public void setWalkSprites() throws IOException {
+		
+		this.up1 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkUp1.png"));
+		this.up2 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkUp2.png"));
+		this.down1 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkDown1.png"));
+		this.down2 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkDown2.png"));
+		this.left1 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkLeft1.png"));
+		this.left2 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkLeft2.png"));
+		this.right1 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkRight1.png"));
+		this.right2 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkRight2.png"));
+		
+	}
 	public void setCollision(boolean collision) {
 		this.collision = collision;
 	}
+	
+	
 	
 	// GET
 	public int getX() {
@@ -66,8 +88,29 @@ public class Entity {
 	public BufferedImage[] getIdleSprites() {
 		return new BufferedImage[] {this.idleUp, this.idleDown, this.idleLeft, this.idleRight};
 	}
+	public BufferedImage[][] getWalkSprites() {
+		return new BufferedImage[][] {{this.up1, this.down1, this.left1, this.right1},
+									  {this.up2, this.down2, this.left2, this.right2}};
+	}
 	public boolean getCollision() {
 		return this.collision;
+	}
+	public int getSpriteCount() {
+		return this.spriteCount;
+	}
+	public int getAnimationFrame() {
+		return this.animationFrame;
+	}
+	
+	
+	public void addSpriteCount() {
+		this.spriteCount++;
+	}
+	public void resetSpriteCount() {
+		this.spriteCount = 0;
+	}
+	public void switchAnimationFrame() {
+		this.animationFrame = (this.animationFrame == 1) ? 2 : 1;
 	}
 	
 }
