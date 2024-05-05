@@ -2,7 +2,10 @@ package Entities;
 
 import Quests.Quest;
 
-public class Npc {
-	String[] dialogue;
-	Quest[] quests;
+public class Npc extends Entity {
+	
+	private String[] dialogue;
+	private Quest[] quests;
+	private Collision collision;
+	
 }

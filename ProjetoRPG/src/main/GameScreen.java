@@ -7,6 +7,7 @@ import Player.Healer;
 import Player.Mage;
 import Player.Player;
 import Player.Warrior;
+import Tiles.TheVoid;
 import Tiles.TileManager;
 
 import java.awt.Color;
@@ -24,6 +25,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private int gameState = 0;
 
 	private TileManager tiles = new TileManager();
+	private TheVoid theVoid = new TheVoid();
 	private KeyInput key = new KeyInput();
 	private Thread gameThread;
 	private Player player;
@@ -98,9 +100,12 @@ public class GameScreen extends JPanel implements Runnable {
 
 		Graphics2D g2D = (Graphics2D) g;
 		
-		tiles.draw(g2D, this.player.getX(), this.player.getY());
+		this.theVoid.draw(g2D);
 		
 		if (this.player != null) {
+			
+			this.tiles.draw(g2D, this.player.getX(), this.player.getY());
+			
 			this.player.draw(g2D);
 		}
 	

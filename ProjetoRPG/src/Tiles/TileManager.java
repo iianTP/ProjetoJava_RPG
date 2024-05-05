@@ -99,7 +99,7 @@ public class TileManager {
 				
 				x = j*this.screen.tileSide() - wX + this.screen.screenSide()/2;
 				
-				brush.drawImage(tiles[tileNums[i][j]-1].getTile(), x, y, 48, 48, null);
+				brush.drawImage(tiles[tileNums[i][j]-1].getTile(), x, y, this.screen.tileSide(), this.screen.tileSide(), null);
 				
 			}
 		
