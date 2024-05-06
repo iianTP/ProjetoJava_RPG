@@ -11,6 +11,7 @@ public class TheVoid {
 	private BufferedImage[] images;
 	
 	private int imageNum;
+	private int counter;
 
 	public TheVoid() {
 		
@@ -30,10 +31,13 @@ public class TheVoid {
 	}
 	
 	public void draw(Graphics2D brush) {
-			
-		brush.drawImage(images[imageNum-1], 0, 0, 720, 720, null);
 		
-		this.imageNum = (this.imageNum == 5) ? 1 : this.imageNum + 1;
+		if (this.counter > 10) {
+			this.imageNum = (this.imageNum == 5) ? 1 : this.imageNum + 1;
+			this.counter = 0;
+		}
+		brush.drawImage(images[imageNum-1], 0, 0, 720, 720, null);
+		this.counter++;
 		
 	}
 

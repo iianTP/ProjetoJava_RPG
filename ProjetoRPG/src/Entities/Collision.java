@@ -1,5 +1,6 @@
 package Entities;
 
+import Npcs.Npc;
 import Tiles.TileManager;
 
 public class Collision {
@@ -8,7 +9,7 @@ public class Collision {
 	
 	private TileManager tiles = new TileManager();
 	
-	public void collision(Entity entity) {
+	public void checkTile(Entity entity) {
 		
 		int x = entity.getX() - 24;
 		int y = entity.getY() - 24;
@@ -59,6 +60,55 @@ public class Collision {
 		} else {
 			entity.setCollision(false);
 		}
+		
+	}
+	
+	public void checkNpc(Entity entity, Npc[] npc) {
+		
+		int x = entity.getX() - 24;
+		int y = entity.getY() - 24;
+		int speed = entity.getWalkSpeed();
+		
+		int hitboxTop = y + this.hitbox[0][1];
+		int hitboxBottom = y + this.hitbox[1][1];
+		
+		int hitboxLeft = x + this.hitbox[0][0];
+		int hitboxRight = x + this.hitbox[1][0];
+		
+		
+		for (int i = 0; i < npc.length; i++) {
+
+			if (entity.getDirection().equals("up")) {
+				
+				if (npc[i].checkHitbox(hitboxLeft, hitboxTop - speed) ||
+					npc[i].checkHitbox(hitboxRight, hitboxTop - speed)) {
+					entity.setCollision(true);
+				}
+				
+			} else if (entity.getDirection().equals("down")) {
+				
+				if (npc[i].checkHitbox(hitboxLeft, hitboxBottom + speed) ||
+					npc[i].checkHitbox(hitboxRight, hitboxBottom + speed)) {
+					entity.setCollision(true);
+				}
+				
+			} else if (entity.getDirection().equals("left")) {
+				
+				if (npc[i].checkHitbox(hitboxLeft - speed, hitboxTop) ||
+					npc[i].checkHitbox(hitboxLeft - speed, hitboxBottom)) {
+					entity.setCollision(true);
+				}
+				
+			} else if (entity.getDirection().equals("right")) {
+				
+				if (npc[i].checkHitbox(hitboxRight + speed, hitboxTop) ||
+					npc[i].checkHitbox(hitboxRight + speed, hitboxBottom)) {
+					entity.setCollision(true);
+				}
+				
+			}
+			
+		}	
 		
 	}
 	

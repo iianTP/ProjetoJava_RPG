@@ -4,12 +4,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Npcs.Npc;
 import main.KeyInput;
 
 public class Healer extends Player{
 
-	public Healer(KeyInput key) {
-		super(key);	
+	public Healer(KeyInput key, Npc[] npcs) {
+		super(key, npcs);	
 		setSprites();
 	}
 	

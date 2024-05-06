@@ -4,12 +4,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Npcs.Npc;
 import main.KeyInput;
 
 public class Mage extends Player {
 
-	public Mage(KeyInput key) {
-		super(key);	
+	public Mage(KeyInput key, Npc[] npcs) {
+		super(key, npcs);
 		setSprites();
 	}
 	

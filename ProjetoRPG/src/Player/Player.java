@@ -5,8 +5,7 @@ import java.awt.image.BufferedImage;
 
 import Entities.Collision;
 import Entities.Stats;
-import Tiles.TileManager;
-import main.GameScreen;
+import Npcs.Npc;
 import main.KeyInput;
 import main.ScreenInfo;
 
@@ -15,6 +14,7 @@ public class Player extends Stats {
 	private KeyInput key;
 	private ScreenInfo screen;
 	private Collision collision;
+	private Npc[] npcs;
 	
 	private int screenX;
 	private int screenY;
@@ -24,11 +24,12 @@ public class Player extends Stats {
 	private int level;
 	private int gold;
 	
-	public Player(KeyInput key) {
+	public Player(KeyInput key, Npc[] npcs) {
 		
 		this.key = key; // Input do teclado
 		this.screen = new ScreenInfo();
 		this.collision = new Collision();
+		this.npcs = npcs;
 		
 		// Coordenadas iniciais do player (centro da tela)
 		super.setX(2160/2);
@@ -148,7 +149,8 @@ public class Player extends Stats {
 			}
 			
 			super.setCollision(false);
-			this.collision.collision(this);
+			this.collision.checkTile(this);
+			this.collision.checkNpc(this, npcs);
 			
 			if (!super.getCollision()) {
 				
@@ -169,7 +171,9 @@ public class Player extends Stats {
 		
 	}
 	
-	
+	public void interact() {
+		
+	}
 
 	public void addExperience(int experience) {
 		this.experience += experience;

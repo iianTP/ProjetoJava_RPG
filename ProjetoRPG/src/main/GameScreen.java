@@ -2,6 +2,8 @@ package main;
 
 import javax.swing.JPanel;
 
+import Npcs.Npc;
+import Npcs.Test;
 import Player.Assassin;
 import Player.Healer;
 import Player.Mage;
@@ -14,6 +16,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.IOException;
 
 public class GameScreen extends JPanel implements Runnable {
 	
@@ -29,6 +32,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private KeyInput key = new KeyInput();
 	private Thread gameThread;
 	private Player player;
+	private Npc[] npcs = new Npc[1];
 	
 	public GameScreen() {
 		
@@ -47,21 +51,23 @@ public class GameScreen extends JPanel implements Runnable {
 		// Identificação da classe escolhida
 		if (playerClass.equals("mage")) {
 			
-			this.player = new Mage(key);
+			this.player = new Mage(key, npcs);
 			
 		} else if (playerClass.equals("warrior")) {
 			
-			this.player = new Warrior(key);
+			this.player = new Warrior(key, npcs);
 			
 		} else if (playerClass.equals("healer")) {
 			
-			this.player = new Healer(key);
+			this.player = new Healer(key, npcs);
 			
 		} else if (playerClass.equals("assassin")) {
 			
-			this.player = new Assassin(key);
+			this.player = new Assassin(key, npcs);
 			
 		}
+		
+		this.npcs[0] = new Test();
 			
 		this.gameThread = new Thread(this);
 		this.gameThread.start();
@@ -102,11 +108,27 @@ public class GameScreen extends JPanel implements Runnable {
 		
 		this.theVoid.draw(g2D);
 		
-		if (this.player != null) {
+		
+		
+		
+		if (this.player != null && this.npcs != null) {
 			
 			this.tiles.draw(g2D, this.player.getX(), this.player.getY());
 			
-			this.player.draw(g2D);
+			if (this.screen.screenSide()/2 - 24 < this.npcs[0].getY() - this.player.getY() + this.screen.screenSide()/2) {
+				
+				this.player.draw(g2D);
+			
+				this.npcs[0].draw(g2D, this.player.getX(), this.player.getY());
+			
+			} else {
+				
+				this.npcs[0].draw(g2D, this.player.getX(), this.player.getY());
+				
+				this.player.draw(g2D);
+			}
+			
+			
 		}
 	
 		g2D.dispose();

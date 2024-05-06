@@ -4,12 +4,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Npcs.Npc;
 import main.KeyInput;
 
 public class Warrior extends Player {
 
-	public Warrior(KeyInput key) {
-		super(key);	
+	public Warrior(KeyInput key, Npc[] npcs) {
+		super(key, npcs);
 		setSprites();
 	}
 	
