@@ -15,7 +15,7 @@ public class Warrior extends Player {
 	}
 	
 	public void setSprites() {
-		
+	
 		try {
 			
 			super.setIdleSprites(
