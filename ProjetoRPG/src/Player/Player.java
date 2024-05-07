@@ -12,23 +12,22 @@ import main.ScreenInfo;
 public class Player extends Stats {
 	
 	private KeyInput key;
-	private ScreenInfo screen;
-	private Collision collision;
 	private Npc[] npcs;
+	private ScreenInfo screen = new ScreenInfo();
+	private Collision collision = new Collision();
 	
-	private int screenX;
-	private int screenY;
+	private int screenX = this.screen.screenSide()/2 - this.screen.tileSide()/2;
+	private int screenY = this.screen.screenSide()/2 - this.screen.tileSide()/2;
 
-	private int experience;
-	private int maxExperience;
-	private int level;
-	private int gold;
+	private int experience = 0;
+	private int maxExperience = 20;
+	private int level = 1;
+	private int gold = 0;
+
 	
 	public Player(KeyInput key, Npc[] npcs) {
 		
 		this.key = key; // Input do teclado
-		this.screen = new ScreenInfo();
-		this.collision = new Collision();
 		this.npcs = npcs;
 		
 		// Coordenadas iniciais do player (centro da tela)
@@ -37,14 +36,6 @@ public class Player extends Stats {
 		
 		super.setWalkSpeed(3); // Velocidade do player
 		super.setDirection("down"); // Direção do player
-		
-		this.screenX = this.screen.screenSide()/2 - this.screen.tileSide()/2;
-		this.screenY = this.screen.screenSide()/2 - this.screen.tileSide()/2;
-		
-		this.experience = 0;
-		this.maxExperience = 20;
-		this.level = 1;
-		this.gold = 0;
 		
 	}
 	
@@ -71,24 +62,18 @@ public class Player extends Stats {
 		
 		// Atualização de sprites do player
 		
-		if (!key.goingUp() && !key.goingDown() && !key.goingLeft() && !key.goingRight()) {
+		if (this.key.notWalking()) {
+			
 			if (super.getDirection().equals("up")) {
-				
 				sprite = super.getIdleSprites()[0];
-				
 			} else if (super.getDirection().equals("down")) {
-				
 				sprite = super.getIdleSprites()[1];
-				
 			} else if (super.getDirection().equals("left")) {
-				
 				sprite = super.getIdleSprites()[2];
-				
 			} else if (super.getDirection().equals("right")) {
-				
 				sprite = super.getIdleSprites()[3];
-				
 			}
+			
 		} else {
 			
 			if (super.getDirection().equals("up")) {
@@ -98,7 +83,6 @@ public class Player extends Stats {
 				} else {
 					sprite = super.getWalkSprites()[1][0];
 				}
-				
 				
 			} else if (super.getDirection().equals("down")) {
 				
@@ -136,15 +120,15 @@ public class Player extends Stats {
 	// Caminhada
 	public void walk() {
 		
-		if (!key.notWalking()) {
+		if (!this.key.notWalking()) {
 			
-			if (key.goingUp()) {
+			if (this.key.goingUp()) {
 				super.setDirection("up");
-			} else if (key.goingDown()) {
+			} else if (this.key.goingDown()) {
 				super.setDirection("down");
-			} else if (key.goingLeft()) {
+			} else if (this.key.goingLeft()) {
 				super.setDirection("left");
-			} else if (key.goingRight()) {
+			} else if (this.key.goingRight()) {
 				super.setDirection("right");
 			}
 			

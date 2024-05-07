@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyInput implements KeyListener {
 
 	private boolean up, down, left, right;
+	private boolean interaction;
 	
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -28,6 +29,9 @@ public class KeyInput implements KeyListener {
 		case KeyEvent.VK_D:
 			right = true;
 			break;
+		case KeyEvent.VK_E:
+			interaction = true;
+			break;
 		}
 		
 	}
@@ -49,6 +53,9 @@ public class KeyInput implements KeyListener {
 			break;
 		case KeyEvent.VK_D:
 			right = false;
+			break;
+		case KeyEvent.VK_E:
+			interaction = false;
 			break;
 		}
 		
@@ -76,5 +83,9 @@ public class KeyInput implements KeyListener {
 		}
 		
 	}
-	
+
+	public boolean isInteracting() {
+		return interaction;
+	}
+
 }

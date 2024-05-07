@@ -24,15 +24,13 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private long startNanoTime;
 	private double oneFrameInNano = 1000000000/60;
-	
-	private int gameState = 0;
 
 	private TileManager tiles = new TileManager();
-	private TheVoid theVoid = new TheVoid();
 	private KeyInput key = new KeyInput();
+	private Npc[] npcs = new Npc[1];
+	private TheVoid theVoid = new TheVoid();
 	private Thread gameThread;
 	private Player player;
-	private Npc[] npcs = new Npc[1];
 	
 	public GameScreen() {
 		
@@ -107,9 +105,7 @@ public class GameScreen extends JPanel implements Runnable {
 		Graphics2D g2D = (Graphics2D) g;
 		
 		this.theVoid.draw(g2D);
-		
-		
-		
+
 		
 		if (this.player != null && this.npcs != null) {
 			

@@ -2,9 +2,9 @@ package main;
 
 import javax.swing.JFrame;
 
-public class GameFrame extends JFrame {
+public class FrameSetup extends JFrame {
 	
-	public GameFrame() {
+	public FrameSetup() {
 
 		GameScreen screen = new GameScreen();
 		

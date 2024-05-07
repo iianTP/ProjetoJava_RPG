@@ -15,16 +15,12 @@ import main.ScreenInfo;
 public class TileManager {
 	
 	private Tile[] tiles;
-	private ScreenInfo screen;
+	private ScreenInfo screen = new ScreenInfo();
 	
-	private int[][] tileNums;
+	private int[][] tileNums = new int[45][45];
 	
 	public TileManager() {
 		
-		
-		this.tileNums = new int[45][45];
-		this.screen = new ScreenInfo();
-
 		this.setTiles();
 		this.loadTiles();
 
@@ -32,8 +28,7 @@ public class TileManager {
 	
 	public void setTiles() {
 		
-		File folder = new File("./map/textures");
-		File[] fileList = folder.listFiles();
+		File[] fileList = new File("./map/textures").listFiles();
 		
 		this.tiles = new Tile[fileList.length];
 		
@@ -75,7 +70,7 @@ public class TileManager {
 				}
 			}
 		} catch (Exception e) {
-			
+			System.out.print(e.getMessage());
 		}
 			
 		
