@@ -16,22 +16,16 @@ public class KeyInput implements KeyListener {
 		
 		int key = e.getKeyCode();
 		
-		switch (key) {
-		case KeyEvent.VK_W:
+		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
 			up = true;
-			break;
-		case KeyEvent.VK_S:
+		} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
 			down = true;
-			break;
-		case KeyEvent.VK_A:
+		} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
 			left = true;
-			break;
-		case KeyEvent.VK_D:
+		} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
 			right = true;
-			break;
-		case KeyEvent.VK_E:
+		} else if (key == KeyEvent.VK_E) {
 			interaction = true;
-			break;
 		}
 		
 	}
@@ -41,22 +35,16 @@ public class KeyInput implements KeyListener {
 		
 		int key = e.getKeyCode();
 
-		switch (key) {
-		case KeyEvent.VK_W:
+		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
 			up = false;
-			break;
-		case KeyEvent.VK_S:
+		} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
 			down = false;
-			break;
-		case KeyEvent.VK_A:
+		} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
 			left = false;
-			break;
-		case KeyEvent.VK_D:
+		} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
 			right = false;
-			break;
-		case KeyEvent.VK_E:
+		} else if (key == KeyEvent.VK_E) {
 			interaction = false;
-			break;
 		}
 		
 	}

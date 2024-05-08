@@ -2,15 +2,15 @@ package main;
 
 import javax.swing.JPanel;
 
-import Npcs.Npc;
-import Npcs.Test;
-import Player.Assassin;
-import Player.Healer;
-import Player.Mage;
-import Player.Player;
-import Player.Warrior;
-import Tiles.TheVoid;
-import Tiles.TileManager;
+import classes.Assassin;
+import classes.Healer;
+import classes.Mage;
+import classes.Warrior;
+import entities.Npc;
+import entities.Player;
+import npcs.Test;
+import tiles.TheVoid;
+import tiles.TileManager;
 
 import java.awt.Color;
 import java.awt.Dimension;
