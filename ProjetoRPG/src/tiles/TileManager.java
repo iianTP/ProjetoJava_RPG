@@ -28,7 +28,7 @@ public class TileManager {
 	
 	public void setTiles() {
 		
-		File[] fileList = new File("./map/textures").listFiles();
+		File[] fileList = new File("./res/textures").listFiles();
 		
 		this.tiles = new Tile[fileList.length];
 		

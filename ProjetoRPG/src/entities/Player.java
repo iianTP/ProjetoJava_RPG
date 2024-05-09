@@ -41,7 +41,7 @@ public class Player extends Stats {
 		
 		walk();
 		
-		while(this.experience >= this.maxExperience) {
+		while (this.experience >= this.maxExperience) {
 			levelUp();
 		}
 		

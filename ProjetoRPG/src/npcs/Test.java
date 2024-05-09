@@ -8,12 +8,12 @@ import entities.Npc;
 
 public class Test extends Npc {
 	
-	public Test() {
+	public Test(int x, int y) {
 		
 		super.setDirection("down");
 		
-		super.setX(1157);
-		super.setY(1157);
+		super.setX(x);
+		super.setY(y);
 		
 		try {
 			

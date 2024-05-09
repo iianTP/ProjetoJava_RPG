@@ -17,6 +17,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class GameScreen extends JPanel implements Runnable {
 	
@@ -27,10 +28,14 @@ public class GameScreen extends JPanel implements Runnable {
 
 	private TileManager tiles = new TileManager();
 	private KeyInput key = new KeyInput();
-	private Npc[] npcs = new Npc[1];
+	private Npc[] npcs = new Npc[2];
 	private TheVoid theVoid = new TheVoid();
+	private UI ui = new UI();
+	
 	private Thread gameThread;
 	private Player player;
+	
+	private int gameState = 0;
 	
 	public GameScreen() {
 		
@@ -65,7 +70,8 @@ public class GameScreen extends JPanel implements Runnable {
 			
 		}
 		
-		this.npcs[0] = new Test();
+		this.npcs[0] = new Test(1157,1157);
+		this.npcs[1] = new Test(1000,1000);
 			
 		this.gameThread = new Thread(this);
 		this.gameThread.start();
@@ -110,22 +116,37 @@ public class GameScreen extends JPanel implements Runnable {
 		if (this.player != null && this.npcs != null) {
 			
 			this.tiles.draw(g2D, this.player.getX(), this.player.getY());
+					
+			// Sistema de profundidade entre NPC e Player 
+			int count = 0;
+			int[] npcInFrontIndex = new int[0];
 			
-			if (this.screen.screenSide()/2 - 24 < this.npcs[0].getY() - this.player.getY() + this.screen.screenSide()/2) {
+			for (int i = 0; i < npcs.length; i++) {
 				
-				this.player.draw(g2D);
-			
-				this.npcs[0].draw(g2D, this.player.getX(), this.player.getY());
-			
-			} else {
+				if (this.screen.screenSide()/2 - 24 >= this.npcs[i].getY() - this.player.getY() + this.screen.screenSide()/2) {
+					
+					this.npcs[i].draw(g2D, this.player.getX(), this.player.getY());
 				
-				this.npcs[0].draw(g2D, this.player.getX(), this.player.getY());
+				} else {
+					
+					npcInFrontIndex = Arrays.copyOf(npcInFrontIndex, count+1);
+					npcInFrontIndex[count] = i;
+					count++;
+					
+				}
 				
-				this.player.draw(g2D);
 			}
 			
+			this.player.draw(g2D);
+			
+			for (int i = 0; i < npcInFrontIndex.length; i++) {
+				npcs[npcInFrontIndex[i]].draw(g2D, this.player.getX(), this.player.getY());
+			}
+			//
 			
 		}
+		
+		this.ui.draw(g2D);
 	
 		g2D.dispose();
 		

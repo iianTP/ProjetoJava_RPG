@@ -7,6 +7,7 @@ public class KeyInput implements KeyListener {
 
 	private boolean up, down, left, right;
 	private boolean interaction;
+	private boolean pause;
 	
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -17,15 +18,17 @@ public class KeyInput implements KeyListener {
 		int key = e.getKeyCode();
 		
 		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-			up = true;
+			this.up = true;
 		} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-			down = true;
+			this.down = true;
 		} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-			left = true;
+			this.left = true;
 		} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-			right = true;
+			this.right = true;
 		} else if (key == KeyEvent.VK_E) {
-			interaction = true;
+			this.interaction = true;
+		} else if (key == KeyEvent.VK_P) {
+			this.pause = pause ? false : true;
 		}
 		
 	}
@@ -36,44 +39,42 @@ public class KeyInput implements KeyListener {
 		int key = e.getKeyCode();
 
 		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-			up = false;
+			this.up = false;
 		} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-			down = false;
+			this.down = false;
 		} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-			left = false;
+			this.left = false;
 		} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-			right = false;
+			this.right = false;
 		} else if (key == KeyEvent.VK_E) {
-			interaction = false;
+			this.interaction = false;
 		}
 		
 	}
 	
 	public boolean goingUp() {
-		return up;
+		return this.up;
 	}
 	public boolean goingDown() {
-		return down;
+		return this.down;
 	}
 	public boolean goingLeft() {
-		return left;
+		return this.left;
 	}
 	public boolean goingRight() {
-		return right;
+		return this.right;
 	}
 	
 	public boolean notWalking() {
-		
-		if (!up && !down && !left && !right) {
-			return true;
-		} else {
-			return false;
-		}
-		
+		return (!this.up && !this.down && !this.left && !this.right) ? true : false;
 	}
 
 	public boolean isInteracting() {
-		return interaction;
+		return this.interaction;
+	}
+	
+	public boolean isPaused() {
+		return this.pause;
 	}
 
 }
