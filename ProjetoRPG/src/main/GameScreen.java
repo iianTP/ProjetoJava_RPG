@@ -86,6 +86,10 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			this.startNanoTime = System.nanoTime();
 			
+			while(this.key.isPaused()) {
+				repaint();
+			}
+			
 			update();
 			repaint();
 			
@@ -144,6 +148,10 @@ public class GameScreen extends JPanel implements Runnable {
 			}
 			//
 			
+		}
+		
+		if (this.key.isPaused()) {
+			this.ui.pauseScreen(g2D);
 		}
 		
 		this.ui.draw(g2D);

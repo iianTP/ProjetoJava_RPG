@@ -59,7 +59,7 @@ public class Player extends Stats {
 		
 		// Atualização de sprites do player
 		
-		if (this.key.notWalking()) {
+		if (this.key.notWalking() || this.key.isPaused()) {
 			
 			if (super.getDirection().equals("up")) {
 				sprite = super.getIdleSprites()[0];
