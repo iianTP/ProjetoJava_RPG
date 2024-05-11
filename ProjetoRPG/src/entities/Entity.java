@@ -64,7 +64,7 @@ public class Entity {
 		this.collision = collision;
 	}
 	
-	
+	public int[][] getHitbox() {return null;}
 	
 	// GET
 	public int getX() {

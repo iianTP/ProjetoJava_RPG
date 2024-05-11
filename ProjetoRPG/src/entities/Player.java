@@ -20,8 +20,9 @@ public class Player extends Stats {
 	private int maxExperience = 20;
 	private int level = 1;
 	private int gold = 0;
-
 	
+	private int[][] hitbox = {{12, 30}, {33, 45}};
+
 	public Player(KeyInput key, Npc[] npcs) {
 		
 		this.key = key; // Input do teclado
@@ -53,13 +54,13 @@ public class Player extends Stats {
 		}
 	}
 
-	public void draw(Graphics2D brush) {
+	public void draw(Graphics2D brush, int gameState) {
 		
 		BufferedImage sprite = null;
 		
 		// Atualização de sprites do player
 		
-		if (this.key.notWalking() || this.key.isPaused()) {
+		if (this.key.notWalking() || gameState == 2) {
 			
 			if (super.getDirection().equals("up")) {
 				sprite = super.getIdleSprites()[0];
@@ -130,8 +131,15 @@ public class Player extends Stats {
 			}
 			
 			super.setCollision(false);
+			
+			super.setX(super.getX() - 24);
+			super.setY(super.getY() - 24);
+			
 			this.collision.checkTile(this);
 			this.collision.checkNpc(this, npcs);
+			
+			super.setX(super.getX() + 24);
+			super.setY(super.getY() + 24);
 			
 			if (!super.getCollision()) {
 				
@@ -192,6 +200,15 @@ public class Player extends Stats {
 	
 	public int getGold() {
 		return this.gold;
+	}
+	
+	@Override
+	public int[][] getHitbox() {
+		return hitbox;
+	}
+
+	public void setHitbox(int[][] hitbox) {
+		this.hitbox = hitbox;
 	}
 	
 	

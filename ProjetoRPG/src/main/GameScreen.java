@@ -27,7 +27,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private double oneFrameInNano = 1000000000/60;
 
 	private TileManager tiles = new TileManager();
-	private KeyInput key = new KeyInput();
+	private KeyInput key = new KeyInput(this);
 	private Npc[] npcs = new Npc[2];
 	private TheVoid theVoid = new TheVoid();
 	private UI ui = new UI();
@@ -35,7 +35,11 @@ public class GameScreen extends JPanel implements Runnable {
 	private Thread gameThread;
 	private Player player;
 	
-	private int gameState = 0;
+	private int gameState = 1;
+	private final int menu = 0;
+	private final int playing = 1;
+	private final int pause = 2;
+	private final int battle = 3;
 	
 	public GameScreen() {
 		
@@ -86,10 +90,6 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			this.startNanoTime = System.nanoTime();
 			
-			while(this.key.isPaused()) {
-				repaint();
-			}
-			
 			update();
 			repaint();
 			
@@ -104,7 +104,11 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	public void update() {
 		
+		if (gameState == playing) {
 			this.player.update();
+			this.npcs[0].update(this.player);
+		}
+		
 		
 	}
 	
@@ -141,7 +145,7 @@ public class GameScreen extends JPanel implements Runnable {
 				
 			}
 			
-			this.player.draw(g2D);
+			this.player.draw(g2D, gameState);
 			
 			for (int i = 0; i < npcInFrontIndex.length; i++) {
 				npcs[npcInFrontIndex[i]].draw(g2D, this.player.getX(), this.player.getY());
@@ -150,13 +154,28 @@ public class GameScreen extends JPanel implements Runnable {
 			
 		}
 		
-		if (this.key.isPaused()) {
+		if (gameState == pause) {
 			this.ui.pauseScreen(g2D);
 		}
 		
 		this.ui.draw(g2D);
 	
 		g2D.dispose();
+		
+	}
+
+	public int getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(int gameState) {
+		this.gameState = gameState;
+	}
+	
+	public void changeMap(String map) {
+		this.tiles = new TileManager(/*map*/);
+		this.player.setX(894);
+		this.player.setY(894);
 		
 	}
 	

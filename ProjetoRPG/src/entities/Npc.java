@@ -9,11 +9,19 @@ public class Npc extends Entity {
 	
 	private String[] dialogue;
 	private Quest[] quests;
-	private Collision collision;
+	private Collision collision = new Collision();
 	
 	private ScreenInfo screen = new ScreenInfo();
 	
+	private String location;
+	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
+	private int frameCounter = 0;
+	
+	public void action(Player player) {}
+	public void update(Player player) {
+		action(player);
+	}
 	
 	public void draw(Graphics2D brush, int wX, int wY) {
 		
@@ -36,6 +44,32 @@ public class Npc extends Entity {
 			return false;
 		}
 		
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+	public int getFrameCounter() {
+		return frameCounter;
+	}
+	public void addFrameCounter() {
+		this.frameCounter++;
+	}
+	public void resetFrameCounter() {
+		this.frameCounter = 0;
+	}
+	public Collision collision() {
+		return collision;
+	}
+	
+	@Override
+	public int[][] getHitbox() {
+		return hitbox;
 	}
 	
 }

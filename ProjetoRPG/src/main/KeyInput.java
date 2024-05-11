@@ -7,7 +7,12 @@ public class KeyInput implements KeyListener {
 
 	private boolean up, down, left, right;
 	private boolean interaction;
-	private boolean pause;
+	
+	private GameScreen gs;
+	
+	public KeyInput(GameScreen gs) {
+		this.gs = gs;
+	}
 	
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -28,7 +33,11 @@ public class KeyInput implements KeyListener {
 		} else if (key == KeyEvent.VK_E) {
 			this.interaction = true;
 		} else if (key == KeyEvent.VK_P) {
-			this.pause = pause ? false : true;
+			if(gs.getGameState() == 1) {
+				gs.setGameState(2);
+			} else if (gs.getGameState() == 2) {
+				gs.setGameState(1);
+			}
 		}
 		
 	}
@@ -73,8 +82,4 @@ public class KeyInput implements KeyListener {
 		return this.interaction;
 	}
 	
-	public boolean isPaused() {
-		return this.pause;
-	}
-
 }
