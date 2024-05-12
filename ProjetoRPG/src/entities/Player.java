@@ -177,9 +177,7 @@ public class Player extends Stats {
 		super.setY(super.getY() + 24);
 		
 		if (super.getCollision()) {
-			
 			this.collision.getCollidingWith().interaction();
-			
 		}
 		
 	}

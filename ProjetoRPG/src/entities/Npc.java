@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import main.ScreenInfo;
 import quests.Quest;
@@ -26,10 +27,26 @@ public class Npc extends Entity {
 	
 	public void draw(Graphics2D brush, int wX, int wY) {
 		
+		BufferedImage sprite = null;
+		
+		if (super.getDirection().equals("up")) {
+			sprite = super.getIdleSprites()[0];
+		} else if (super.getDirection().equals("down")) {
+			sprite = super.getIdleSprites()[1];
+		} else if (super.getDirection().equals("left")) {
+			sprite = super.getIdleSprites()[2];
+		} else if (super.getDirection().equals("right")) {
+			sprite = super.getIdleSprites()[3];
+		}
+		
+		if (super.getDirection().equals("idle")) {
+			sprite = super.getIdleSprites()[1];
+		}
+		
 		int x = super.getX() - wX + this.screen.screenSide()/2;
 		int y = super.getY() - wY + this.screen.screenSide()/2;
 		
-		brush.drawImage(super.getIdleSprites()[1], x, y, this.screen.tileSide(), this.screen.tileSide(), null);
+		brush.drawImage(sprite, x, y, this.screen.tileSide(), this.screen.tileSide(), null);
 
 	}
 	

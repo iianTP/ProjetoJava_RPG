@@ -24,8 +24,6 @@ public class Entity {
 	
 	private boolean collision;
 	
-	private Collision checkCollision;
-	
 	// SET
 	public void setX(int x) {
 		this.x = x;
@@ -121,12 +119,6 @@ public class Entity {
 	}
 	public void switchAnimationFrame() {
 		this.animationFrame = (this.animationFrame == 1) ? 2 : 1;
-	}
-	public Collision getCheckCollision() {
-		return checkCollision;
-	}
-	public void setCheckCollision(Collision checkCollision) {
-		this.checkCollision = checkCollision;
 	}
 	
 }
