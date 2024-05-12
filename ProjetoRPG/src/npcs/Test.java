@@ -73,4 +73,9 @@ public class Test extends Npc {
 		
 	}
 	
+	@Override
+	public void interaction() {
+		System.out.println("foi");
+	}
+	
 }

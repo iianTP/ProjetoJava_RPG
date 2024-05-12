@@ -42,6 +42,10 @@ public class Player extends Stats {
 		
 		walk();
 		
+		if (this.key.isInteracting()) {
+			interact();
+		}
+		
 		while (this.experience >= this.maxExperience) {
 			levelUp();
 		}
@@ -161,6 +165,22 @@ public class Player extends Stats {
 	}
 	
 	public void interact() {
+		
+		super.setCollision(false);
+		
+		super.setX(super.getX() - 24);
+		super.setY(super.getY() - 24);
+		
+		this.collision.checkNpc(this, npcs);
+		
+		super.setX(super.getX() + 24);
+		super.setY(super.getY() + 24);
+		
+		if (super.getCollision()) {
+			
+			this.collision.getCollidingWith().interaction();
+			
+		}
 		
 	}
 

@@ -4,9 +4,9 @@ import tiles.TileManager;
 
 public class Collision {
 	
-	
-	
 	private TileManager tiles = new TileManager();
+	
+	private Npc collidingWith;
 	
 	public void checkTile(Entity entity) {
 		
@@ -89,6 +89,7 @@ public class Collision {
 					if (npc[i].checkHitbox(hitboxLeft, hitboxTop - speed) ||
 						npc[i].checkHitbox(hitboxRight, hitboxTop - speed)) {
 						entity.setCollision(true);
+						this.collidingWith = npc[i];
 					}
 					
 				} else if (entity.getDirection().equals("down")) {
@@ -114,10 +115,18 @@ public class Collision {
 					
 				}
 				
+				if (entity.getCollision()) {
+					this.collidingWith = npc[i];
+				}
+				
 			}
 			
 		}
 		
+	}
+
+	public Npc getCollidingWith() {
+		return collidingWith;
 	}
 	
 }

@@ -18,6 +18,7 @@ public class Npc extends Entity {
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	private int frameCounter = 0;
 	
+	public void interaction() {}
 	public void action(Player player) {}
 	public void update(Player player) {
 		action(player);
