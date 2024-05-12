@@ -183,6 +183,20 @@ public class Player extends Stats {
 		}
 		
 	}
+	
+	public boolean checkHitbox(int npcX, int npcY) {
+		
+		int x = super.getX()-24;
+		int y = super.getY()-24;
+		
+		if (npcX > hitbox[0][0] + x && npcX < hitbox[1][0] + x && 
+			npcY > hitbox[0][1] + y && npcY < hitbox[1][1] + y) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
 
 	public void addExperience(int experience) {
 		this.experience += experience;

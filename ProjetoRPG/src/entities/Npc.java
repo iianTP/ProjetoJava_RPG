@@ -19,9 +19,9 @@ public class Npc extends Entity {
 	private int frameCounter = 0;
 	
 	public void interaction() {}
-	public void action(Player player) {}
-	public void update(Player player) {
-		action(player);
+	public void action(Player player, Npc[] npcs) {}
+	public void update(Player player, Npc[] npcs) {
+		action(player, npcs);
 	}
 	
 	public void draw(Graphics2D brush, int wX, int wY) {
@@ -65,12 +65,12 @@ public class Npc extends Entity {
 		this.frameCounter = 0;
 	}
 	public Collision collision() {
-		return collision;
+		return this.collision;
 	}
 	
 	@Override
 	public int[][] getHitbox() {
-		return hitbox;
+		return this.hitbox;
 	}
 	
 }

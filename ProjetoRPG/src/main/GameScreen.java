@@ -106,7 +106,7 @@ public class GameScreen extends JPanel implements Runnable {
 		
 		if (gameState == playing) {
 			this.player.update();
-			this.npcs[0].update(this.player);
+			this.npcs[0].update(this.player, this.npcs);
 		}
 		
 		

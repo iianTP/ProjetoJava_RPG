@@ -5,8 +5,8 @@ import tiles.TileManager;
 public class Collision {
 	
 	private TileManager tiles = new TileManager();
-	
-	private Npc collidingWith;
+
+	private Npc npcNearby;
 	
 	public void checkTile(Entity entity) {
 		
@@ -89,7 +89,6 @@ public class Collision {
 					if (npc[i].checkHitbox(hitboxLeft, hitboxTop - speed) ||
 						npc[i].checkHitbox(hitboxRight, hitboxTop - speed)) {
 						entity.setCollision(true);
-						this.collidingWith = npc[i];
 					}
 					
 				} else if (entity.getDirection().equals("down")) {
@@ -116,7 +115,7 @@ public class Collision {
 				}
 				
 				if (entity.getCollision()) {
-					this.collidingWith = npc[i];
+					this.npcNearby = npc[i];
 				}
 				
 			}
@@ -126,7 +125,56 @@ public class Collision {
 	}
 
 	public Npc getCollidingWith() {
-		return collidingWith;
+		return this.npcNearby;
+	}
+	
+	public void checkPlayer(Npc npc, Player player) {
+		
+		if (npc.getHitbox() != null) {
+			
+			int x = npc.getX();
+			int y = npc.getY();
+			int speed = npc.getWalkSpeed();
+			
+			int hitboxTop = y + npc.getHitbox()[0][1];
+			int hitboxBottom = y + npc.getHitbox()[1][1];
+			
+			int hitboxLeft = x + npc.getHitbox()[0][0];
+			int hitboxRight = x + npc.getHitbox()[1][0];
+			
+			if (npc.getDirection().equals("up")) {
+				
+				if (player.checkHitbox(hitboxLeft, hitboxTop - speed) ||
+					player.checkHitbox(hitboxRight, hitboxTop - speed)) {
+					npc.setCollision(true);
+				}
+				
+			} else if (npc.getDirection().equals("down")) {
+				
+				if (player.checkHitbox(hitboxLeft, hitboxBottom + speed) ||
+					player.checkHitbox(hitboxRight, hitboxBottom + speed)) {
+					npc.setCollision(true);
+				}
+				
+			} else if (npc.getDirection().equals("left")) {
+				
+				if (player.checkHitbox(hitboxLeft - speed, hitboxTop) ||
+					player.checkHitbox(hitboxLeft - speed, hitboxBottom)) {
+					npc.setCollision(true);
+				}
+				
+			} else if (npc.getDirection().equals("right")) {
+				
+				if (player.checkHitbox(hitboxRight + speed, hitboxTop) ||
+					player.checkHitbox(hitboxRight + speed, hitboxBottom)) {
+					npc.setCollision(true);
+				}
+				
+			} 
+			
+		}
+		
+		
 	}
 	
 }

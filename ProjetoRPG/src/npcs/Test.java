@@ -11,15 +11,13 @@ import entities.Player;
 
 public class Test extends Npc {
 	
-	
-	
 	public Test(int x, int y) {
 		
 		super.setDirection("down");
 
 		super.setX(x);
 		super.setY(y);
-		super.setWalkSpeed(3);
+		super.setWalkSpeed(1);
 		
 		try {
 			
@@ -37,20 +35,22 @@ public class Test extends Npc {
 	}
 	
 	@Override
-	public void action(Player player) {
+	public void action(Player player, Npc[] npcs) {
 		super.addFrameCounter();
 		if (super.getFrameCounter() == 120) {
 			Random random = new Random();
 			int randInt = random.nextInt(100)+1;
 			
-			if (randInt <= 25) {
+			if (randInt <= 20) {
 				super.setDirection("up");
-			} else if (randInt > 25 && randInt <= 50) {
+			} else if (randInt > 20 && randInt <= 40) {
 				super.setDirection("down");
-			} else if (randInt > 50 && randInt <= 75) {
+			} else if (randInt > 40 && randInt <= 60) {
 				super.setDirection("left");
-			} else if (randInt > 75 && randInt <= 100) {
+			} else if (randInt > 60 && randInt <= 80) {
 				super.setDirection("right");
+			} else if (randInt > 80 && randInt <= 100) {
+				super.setDirection("idle");
 			}
 
 			super.resetFrameCounter();
@@ -58,6 +58,8 @@ public class Test extends Npc {
 		
 		super.setCollision(false);
 		super.collision().checkTile(this);
+		super.collision().checkNpc(this, npcs);
+		super.collision().checkPlayer(this, player);
 		
 		if (!super.getCollision()) {
 			if (super.getDirection().equals("up")) {
