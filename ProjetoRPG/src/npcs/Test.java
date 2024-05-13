@@ -13,7 +13,7 @@ public class Test extends Npc {
 	
 	public Test(int x, int y) {
 		
-		super.setDirection("down");
+		super.setDirection("idle");
 
 		super.setX(x);
 		super.setY(y);

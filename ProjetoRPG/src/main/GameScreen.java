@@ -24,7 +24,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private ScreenInfo screen = new ScreenInfo();
 	
 	private long startNanoTime;
-	private double oneFrameInNano = 1000000000/60;
+	private final double oneFrameInNano = 1000000000/60;
 
 	private TileManager tiles = new TileManager();
 	private KeyInput key = new KeyInput(this);
@@ -84,7 +84,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	@Override
 	public void run() {
-		
+
 		// GAME LOOP
 		while(gameThread != null) {
 			
@@ -94,10 +94,8 @@ public class GameScreen extends JPanel implements Runnable {
 			repaint();
 			
 			// Loop a 60 FPS
-			while(System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {
-				continue;
-			}
-			
+			while(System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {}
+
 		}
 		
 	}

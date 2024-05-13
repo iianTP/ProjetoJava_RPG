@@ -64,9 +64,8 @@ public class Entity {
 		this.collision = collision;
 	}
 	
-	public int[][] getHitbox() {return null;}
-	
 	// GET
+	public int[][] getHitbox() {return null;}
 	public int getX() {
 		return this.x;
 	}
@@ -95,7 +94,7 @@ public class Entity {
 	public int getAnimationFrame() {
 		return this.animationFrame;
 	}
-	
+	//
 	
 	public void goUp() {
 		this.y -= this.walkSpeed;

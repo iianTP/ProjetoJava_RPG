@@ -18,7 +18,6 @@ public class Collision {
 			
 			int hitboxTop = y + entity.getHitbox()[0][1];
 			int hitboxBottom = y + entity.getHitbox()[1][1];
-			
 			int hitboxLeft = x + entity.getHitbox()[0][0];
 			int hitboxRight = x + entity.getHitbox()[1][0];
 			
@@ -77,10 +76,8 @@ public class Collision {
 			
 			int hitboxTop = y + entity.getHitbox()[0][1];
 			int hitboxBottom = y + entity.getHitbox()[1][1];
-			
 			int hitboxLeft = x + entity.getHitbox()[0][0];
 			int hitboxRight = x + entity.getHitbox()[1][0];
-			
 			
 			for (int i = 0; i < npc.length; i++) {
 
@@ -138,7 +135,6 @@ public class Collision {
 			
 			int hitboxTop = y + npc.getHitbox()[0][1];
 			int hitboxBottom = y + npc.getHitbox()[1][1];
-			
 			int hitboxLeft = x + npc.getHitbox()[0][0];
 			int hitboxRight = x + npc.getHitbox()[1][0];
 			

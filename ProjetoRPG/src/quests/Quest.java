@@ -5,9 +5,17 @@ public class Quest {
 	private String name;
 	private String type;
 	private String description;
-	private String reward;
+	
+	private Reward reward;
 	
 	private boolean done = false;
+	
+	public Quest(String name, String type, String description, Reward reward) {
+		this.name = name;
+		this.type = type;
+		this.description = description;
+		this.reward = reward;
+	}
 
 	// SET
 	public void setName(String name) {
@@ -18,9 +26,6 @@ public class Quest {
 	}
 	public void setType(String type) {
 		this.type = type;
-	}
-	public void setReward(String reward) {
-		this.reward = reward;
 	}
 	public void setDone() {
 		this.done = true;
@@ -35,9 +40,6 @@ public class Quest {
 	}
 	public String getDescription() {
 		return this.description;
-	}
-	public String getReward() {
-		return this.reward;
 	}
 
 	// IS

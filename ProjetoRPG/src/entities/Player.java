@@ -183,7 +183,7 @@ public class Player extends Stats {
 	}
 	
 	public boolean checkHitbox(int npcX, int npcY) {
-		
+
 		int x = super.getX()-24;
 		int y = super.getY()-24;
 		
