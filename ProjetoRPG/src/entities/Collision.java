@@ -121,7 +121,7 @@ public class Collision {
 		
 	}
 
-	public Npc getCollidingWith() {
+	public Npc getNpcNearby() {
 		return this.npcNearby;
 	}
 	

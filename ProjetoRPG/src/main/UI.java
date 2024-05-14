@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 
 public class UI {
 	
-	Font font = new Font("Arial", Font.PLAIN, 30);
+	private Font font = new Font("Arial", Font.PLAIN, 30);
 	
 	public void pauseScreen(Graphics2D brush) {
 		

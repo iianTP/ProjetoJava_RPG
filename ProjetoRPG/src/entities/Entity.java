@@ -23,6 +23,7 @@ public class Entity {
 	private String direction;
 	
 	private boolean collision;
+	// private Collision collision = new Collision();
 	
 	// SET
 	public void setX(int x) {

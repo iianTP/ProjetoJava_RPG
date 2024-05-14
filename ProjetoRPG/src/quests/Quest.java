@@ -17,17 +17,7 @@ public class Quest {
 		this.reward = reward;
 	}
 
-	// SET
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public void setDone() {
+	public void questComplete() {
 		this.done = true;
 	}
 
