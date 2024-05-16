@@ -8,6 +8,8 @@ public class KeyInput implements KeyListener {
 	private boolean up, down, left, right;
 	private boolean interaction;
 	
+	private int dialogueIndex = 0;
+	
 	private GameScreen gs;
 	
 	public KeyInput(GameScreen gs) {
@@ -22,23 +24,30 @@ public class KeyInput implements KeyListener {
 		
 		int key = e.getKeyCode();
 		
-		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-			this.up = true;
-		} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-			this.down = true;
-		} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-			this.left = true;
-		} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-			this.right = true;
-		} else if (key == KeyEvent.VK_E) {
-			this.interaction = true;
-		} else if (key == KeyEvent.VK_P) {
-			if(gs.getGameState() == 1) {
+		if (gs.getGameState() == 1) {
+			if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
+				this.up = true;
+			} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
+				this.down = true;
+			} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
+				this.left = true;
+			} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
+				this.right = true;
+			} else if (key == KeyEvent.VK_E) {
+				this.interaction = true;
+			} else if (key == KeyEvent.VK_P) {
 				gs.setGameState(2);
-			} else if (gs.getGameState() == 2) {
+			}
+		} else if (gs.getGameState() == 2) {
+			if (key == KeyEvent.VK_P) {
 				gs.setGameState(1);
 			}
+		} else if (gs.getGameState() == 3) {
+			if (key == KeyEvent.VK_ENTER) {
+				this.dialogueIndex++;
+			}
 		}
+		
 		
 	}
 
@@ -75,11 +84,18 @@ public class KeyInput implements KeyListener {
 	}
 	
 	public boolean notWalking() {
-		return (!this.up && !this.down && !this.left && !this.right) ? true : false;
+		return !this.up && !this.down && !this.left && !this.right;
 	}
 
 	public boolean isInteracting() {
 		return this.interaction;
+	}
+
+	public int getDialogueIndex() {
+		return this.dialogueIndex;
+	}
+	public void resetDialogueIndex() {
+		this.dialogueIndex = 0;
 	}
 	
 }

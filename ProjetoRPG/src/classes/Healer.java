@@ -6,12 +6,13 @@ import javax.imageio.ImageIO;
 
 import entities.Npc;
 import entities.Player;
+import main.GameScreen;
 import main.KeyInput;
 
 public class Healer extends Player{
 
-	public Healer(KeyInput key, Npc[] npcs) {
-		super(key, npcs);	
+	public Healer(KeyInput key, Npc[] npcs, GameScreen gs) {
+		super(key, npcs, gs);	
 		setSprites();
 	}
 	
@@ -31,7 +32,7 @@ public class Healer extends Player{
 		}
 		
 	}
-	
+	/*
 	public void setStats() {
 		
 		super.setHealth(20);
@@ -45,5 +46,5 @@ public class Healer extends Player{
 		super.setMagicDefense(5);
 		
 	}
-	
+	*/
 }

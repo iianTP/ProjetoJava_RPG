@@ -1,6 +1,6 @@
 package entities;
 
-public class Stats extends Entity {
+public class Stats {
 	
 	private int strenght;
 	private int defense;

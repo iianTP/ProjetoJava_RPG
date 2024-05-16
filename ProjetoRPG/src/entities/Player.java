@@ -3,10 +3,11 @@ package entities;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import main.GameScreen;
 import main.KeyInput;
 import main.ScreenInfo;
 
-public class Player extends Stats {
+public class Player extends Entity {
 	
 	private KeyInput key;
 	private Npc[] npcs;
@@ -23,8 +24,8 @@ public class Player extends Stats {
 	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 
-	public Player(KeyInput key, Npc[] npcs) {
-		
+	public Player(KeyInput key, Npc[] npcs, GameScreen gs) {
+		super(gs);
 		this.key = key; // Input do teclado
 		this.npcs = npcs;
 		
@@ -214,7 +215,7 @@ public class Player extends Stats {
 		this.experience = 0;
 		this.maxExperience += 5;
 		
-		super.buffStats();
+		//super.buffStats();
 		
 	}
 	

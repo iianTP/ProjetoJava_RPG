@@ -5,7 +5,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.GameScreen;
+
 public class Entity {
+	
+	private GameScreen gs;
 	
 	// Coordenadas no mapa e velocidade
 	private int x, y;
@@ -24,6 +28,10 @@ public class Entity {
 	
 	private boolean collision;
 	// private Collision collision = new Collision();
+	
+	public Entity(GameScreen gs) {
+		this.gs = gs;
+	}
 	
 	// SET
 	public void setX(int x) {
@@ -119,6 +127,10 @@ public class Entity {
 	}
 	public void switchAnimationFrame() {
 		this.animationFrame = (this.animationFrame == 1) ? 2 : 1;
+	}
+
+	public GameScreen getGs() {
+		return gs;
 	}
 	
 }

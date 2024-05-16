@@ -6,12 +6,13 @@ import javax.imageio.ImageIO;
 
 import entities.Npc;
 import entities.Player;
+import main.GameScreen;
 import main.KeyInput;
 
 public class Mage extends Player {
 
-	public Mage(KeyInput key, Npc[] npcs) {
-		super(key, npcs);
+	public Mage(KeyInput key, Npc[] npcs, GameScreen gs) {
+		super(key, npcs, gs);
 		setSprites();
 	}
 	
@@ -30,7 +31,7 @@ public class Mage extends Player {
 			e.printStackTrace();
 		}
 	}
-	
+	/*
 	public void setStats() {
 		
 		super.setHealth(20);
@@ -44,6 +45,6 @@ public class Mage extends Player {
 		super.setMagicDefense(4);
 
 	}
-	
+	*/
 
 }

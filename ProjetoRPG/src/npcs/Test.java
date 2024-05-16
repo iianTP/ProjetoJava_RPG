@@ -8,10 +8,14 @@ import javax.imageio.ImageIO;
 
 import entities.Npc;
 import entities.Player;
+import main.GameScreen;
 
 public class Test extends Npc {
 	
-	public Test(int x, int y) {
+	private String[] dialogue = {"gdsgdsd", "sdgshsrhse"};
+	
+	public Test(int x, int y, GameScreen gs) {
+		super(gs);
 		
 		super.setDirection("idle");
 
@@ -78,6 +82,8 @@ public class Test extends Npc {
 	@Override
 	public void interaction() {
 		System.out.println("foi");
+		super.getGs().setNpcDialogue(dialogue);
+		super.getGs().setGameState(3);
 	}
 	
 }

@@ -39,7 +39,9 @@ public class GameScreen extends JPanel implements Runnable {
 	private final int menu = 0;
 	private final int playing = 1;
 	private final int pause = 2;
-	private final int battle = 3;
+	private final int dialogue = 3;
+	
+	private String[] npcDialogue;
 	
 	public GameScreen() {
 		
@@ -58,24 +60,24 @@ public class GameScreen extends JPanel implements Runnable {
 		// Identificação da classe escolhida
 		if (playerClass.equals("mage")) {
 			
-			this.player = new Mage(key, npcs);
+			this.player = new Mage(key, npcs, this);
 			
 		} else if (playerClass.equals("warrior")) {
 			
-			this.player = new Warrior(key, npcs);
+			this.player = new Warrior(key, npcs, this);
 			
 		} else if (playerClass.equals("healer")) {
 			
-			this.player = new Healer(key, npcs);
+			this.player = new Healer(key, npcs, this);
 			
 		} else if (playerClass.equals("assassin")) {
 			
-			this.player = new Assassin(key, npcs);
+			this.player = new Assassin(key, npcs, this);
 			
 		}
 		
-		this.npcs[0] = new Test(1157,1157);
-		this.npcs[1] = new Test(1000,1000);
+		this.npcs[0] = new Test(1157,1157, this);
+		this.npcs[1] = new Test(1000,1000, this);
 			
 		this.gameThread = new Thread(this);
 		this.gameThread.start();
@@ -84,7 +86,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	@Override
 	public void run() {
-
+		
 		// GAME LOOP
 		while(gameThread != null) {
 			
@@ -131,7 +133,9 @@ public class GameScreen extends JPanel implements Runnable {
 				
 				if (this.screen.screenSide()/2 - 24 >= this.npcs[i].getY() - this.player.getY() + this.screen.screenSide()/2) {
 					
-					this.npcs[i].draw(g2D, this.player.getX(), this.player.getY());
+					if (npcs[i] != null) {
+						this.npcs[i].draw(g2D, this.player.getX(), this.player.getY());
+					}
 				
 				} else {
 					
@@ -156,6 +160,18 @@ public class GameScreen extends JPanel implements Runnable {
 			this.ui.pauseScreen(g2D);
 		}
 		
+		if (gameState == dialogue) {
+			int index = this.key.getDialogueIndex();
+			if (index == this.npcDialogue.length) {
+				this.key.resetDialogueIndex();
+				this.gameState = playing;
+			} else {
+				this.ui.dialogueBox(g2D);
+				this.ui.dialogueText(g2D, npcDialogue[index]);
+			}
+			
+		}
+		
 		this.ui.draw(g2D);
 	
 		g2D.dispose();
@@ -163,7 +179,7 @@ public class GameScreen extends JPanel implements Runnable {
 	}
 
 	public int getGameState() {
-		return gameState;
+		return this.gameState;
 	}
 
 	public void setGameState(int gameState) {
@@ -175,6 +191,10 @@ public class GameScreen extends JPanel implements Runnable {
 		this.player.setX(894);
 		this.player.setY(894);
 		
+	}
+
+	public void setNpcDialogue(String[] npcDialogue) {
+		this.npcDialogue = npcDialogue;
 	}
 	
 }

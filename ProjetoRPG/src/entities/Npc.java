@@ -3,6 +3,7 @@ package entities;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import main.GameScreen;
 import main.ScreenInfo;
 import quests.Quest;
 
@@ -18,6 +19,10 @@ public class Npc extends Entity {
 	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	private int frameCounter = 0;
+	
+	public Npc(GameScreen gs) {
+		super(gs);
+	}
 	
 	public void interaction() {}
 	public void action(Player player, Npc[] npcs) {}
