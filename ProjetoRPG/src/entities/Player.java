@@ -9,6 +9,8 @@ import main.ScreenInfo;
 
 public class Player extends Entity {
 	
+	private String id = "player";
+	
 	private KeyInput key;
 	private Npc[] npcs;
 	private ScreenInfo screen = new ScreenInfo();
@@ -58,8 +60,9 @@ public class Player extends Entity {
 			super.resetSpriteCount();
 		}
 	}
-
-	public void draw(Graphics2D brush, int gameState) {
+	
+	@Override
+	public void drawPlayer(Graphics2D brush, int gameState) {
 		
 		BufferedImage sprite = null;
 		
@@ -242,6 +245,16 @@ public class Player extends Entity {
 
 	public void setHitbox(int[][] hitbox) {
 		this.hitbox = hitbox;
+	}
+	
+	@Override
+	public String getId() {
+		return id;
+	}
+	
+	@Override
+	public int getScreenY() {
+		return this.screenY;
 	}
 	
 	

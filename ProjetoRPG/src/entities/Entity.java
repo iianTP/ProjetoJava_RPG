@@ -1,5 +1,6 @@
 package entities;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -32,6 +33,11 @@ public class Entity {
 	public Entity(GameScreen gs) {
 		this.gs = gs;
 	}
+	
+	public int getScreenY() {return 0;}
+	public String getId() {return null;}
+	public void drawPlayer(Graphics2D brush, int gameState) {}
+	public void drawNpc(Graphics2D brush, int wX, int wY) {}
 	
 	// SET
 	public void setX(int x) {

@@ -6,6 +6,7 @@ import classes.Assassin;
 import classes.Healer;
 import classes.Mage;
 import classes.Warrior;
+import entities.Entity;
 import entities.Npc;
 import entities.Player;
 import npcs.Test;
@@ -18,149 +19,124 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GameScreen extends JPanel implements Runnable {
-	
+
 	private ScreenInfo screen = new ScreenInfo();
-	
+
 	private long startNanoTime;
-	private final double oneFrameInNano = 1000000000/60;
+	private final double oneFrameInNano = 1000000000 / 60;
 
 	private TileManager tiles = new TileManager();
 	private KeyInput key = new KeyInput(this);
 	private Npc[] npcs = new Npc[2];
 	private TheVoid theVoid = new TheVoid();
 	private UI ui = new UI();
-	
+
 	private Thread gameThread;
 	private Player player;
-	
+
 	private int gameState = 1;
 	private final int menu = 0;
 	private final int playing = 1;
 	private final int pause = 2;
 	private final int dialogue = 3;
-	
+
 	private String[] npcDialogue;
-	
+
 	public GameScreen() {
-		
+
 		this.setPreferredSize(new Dimension(screen.screenSide(), screen.screenSide()));
 		this.setBackground(Color.gray);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(key);
 		this.setFocusable(true);
-		
+
 	}
-	
+
 	public void startThread() {
-		
+
 		String playerClass = "mage";
-		
+
 		// Identificação da classe escolhida
 		if (playerClass.equals("mage")) {
-			
+
 			this.player = new Mage(key, npcs, this);
-			
+
 		} else if (playerClass.equals("warrior")) {
-			
+
 			this.player = new Warrior(key, npcs, this);
-			
+
 		} else if (playerClass.equals("healer")) {
-			
+
 			this.player = new Healer(key, npcs, this);
-			
+
 		} else if (playerClass.equals("assassin")) {
-			
+
 			this.player = new Assassin(key, npcs, this);
-			
-		}
-		
-		this.npcs[0] = new Test(1157,1157, this);
-		this.npcs[1] = new Test(1000,1000, this);
-			
-		this.gameThread = new Thread(this);
-		this.gameThread.start();
-		
-	}
-	
-	@Override
-	public void run() {
-		
-		// GAME LOOP
-		while(gameThread != null) {
-			
-			this.startNanoTime = System.nanoTime();
-			
-			update();
-			repaint();
-			
-			// Loop a 60 FPS
-			while(System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {}
 
 		}
-		
+//1157
+		this.npcs[0] = new Test(1000, 1010, this);
+		this.npcs[1] = new Test(1000, 1000, this);
+
+		this.gameThread = new Thread(this);
+		this.gameThread.start();
+
 	}
-	
+
+	@Override
+	public void run() {
+
+		// GAME LOOP
+		while (gameThread != null) {
+
+			this.startNanoTime = System.nanoTime();
+
+			update();
+			repaint();
+
+			// Loop a 60 FPS
+			while (System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {
+			}
+
+		}
+
+	}
+
 	public void update() {
-		
+
 		if (gameState == playing) {
 			this.player.update();
 			this.npcs[0].update(this.player, this.npcs);
 		}
-		
-		
+
 	}
-	
+
 	public void paintComponent(Graphics g) {
-		
+
 		super.paintComponent(g);
 
 		Graphics2D g2D = (Graphics2D) g;
-		
+
 		this.theVoid.draw(g2D);
 
-		
 		if (this.player != null && this.npcs != null) {
-			
+
 			this.tiles.draw(g2D, this.player.getX(), this.player.getY());
-					
-			// Sistema de profundidade entre NPC e Player 
-			int count = 0;
-			int[] npcInFrontIndex = new int[0];
-			
-			for (int i = 0; i < npcs.length; i++) {
-				
-				if (this.screen.screenSide()/2 - 24 >= this.npcs[i].getY() - this.player.getY() + this.screen.screenSide()/2) {
-					
-					if (npcs[i] != null) {
-						this.npcs[i].draw(g2D, this.player.getX(), this.player.getY());
-					}
-				
-				} else {
-					
-					npcInFrontIndex = Arrays.copyOf(npcInFrontIndex, count+1);
-					npcInFrontIndex[count] = i;
-					count++;
-					
-				}
-				
-			}
-			
-			this.player.draw(g2D, gameState);
-			
-			for (int i = 0; i < npcInFrontIndex.length; i++) {
-				npcs[npcInFrontIndex[i]].draw(g2D, this.player.getX(), this.player.getY());
-			}
-			//
+
+			displayEnts(g2D);
 			
 		}
-		
+
 		if (gameState == pause) {
 			this.ui.pauseScreen(g2D);
 		}
-		
+
 		if (gameState == dialogue) {
+			
 			int index = this.key.getDialogueIndex();
 			if (index == this.npcDialogue.length) {
 				this.key.resetDialogueIndex();
@@ -169,12 +145,59 @@ public class GameScreen extends JPanel implements Runnable {
 				this.ui.dialogueBox(g2D);
 				this.ui.dialogueText(g2D, npcDialogue[index]);
 			}
-			
+
+		}
+
+		this.ui.draw(g2D);
+
+		g2D.dispose();
+
+	}
+	
+	public void displayEnts(Graphics2D g2D) {
+		
+		Npc[] npcsBehind = new Npc[0];
+		Npc[] npcsInFront = new Npc[0];
+
+		for (int i = 0; i < npcs.length; i++) {
+
+			if (this.screen.screenSide() / 2 - 24 >= this.npcs[i].getY() - this.player.getY()
+					+ this.screen.screenSide() / 2) {
+				npcsBehind = Arrays.copyOf(npcsBehind, npcsBehind.length+1);
+				npcsBehind[npcsBehind.length-1] = npcs[i];
+			} else {
+				npcsInFront = Arrays.copyOf(npcsInFront, npcsInFront.length+1);
+				npcsInFront[npcsInFront.length-1] = npcs[i];
+			}
+
 		}
 		
-		this.ui.draw(g2D);
+		sortCoords(npcsBehind);
+		sortCoords(npcsInFront);
+		
+		for (int i = 0; i < npcsBehind.length; i++) {
+			npcsBehind[i].drawNpc(g2D, this.player.getX(), this.player.getY());
+		}
+
+		this.player.drawPlayer(g2D, gameState);
+
+		for (int i = 0; i < npcsInFront.length; i++) {
+			npcsInFront[i].drawNpc(g2D, this.player.getX(), this.player.getY());
+		}
+		
+	}
 	
-		g2D.dispose();
+	public void sortCoords(Npc[] a) {
+
+		for (int i = 0; i < a.length-1; i++) {
+			for (int j = 0; j < a.length-1; j++) {
+				if (a[j].getScreenY() > a[j+1].getScreenY()) {
+					Npc t = a[j];
+					a[j] = a[j+1];
+					a[j+1] = t;
+				}
+			}
+		}
 		
 	}
 
@@ -185,16 +208,16 @@ public class GameScreen extends JPanel implements Runnable {
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
 	}
-	
+
 	public void changeMap(String map) {
-		this.tiles = new TileManager(/*map*/);
+		this.tiles = new TileManager(/* map */);
 		this.player.setX(894);
 		this.player.setY(894);
-		
+
 	}
 
 	public void setNpcDialogue(String[] npcDialogue) {
 		this.npcDialogue = npcDialogue;
 	}
-	
+
 }

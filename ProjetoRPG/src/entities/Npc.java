@@ -9,6 +9,8 @@ import quests.Quest;
 
 public class Npc extends Entity {
 	
+	private String id = "npc";
+	
 	private String[] dialogue;
 	private Quest[] quests;
 	private Collision collision = new Collision();
@@ -17,6 +19,8 @@ public class Npc extends Entity {
 	
 	private String location;
 	
+	private int screenX;
+	private int screenY;
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	private int frameCounter = 0;
 	
@@ -30,7 +34,8 @@ public class Npc extends Entity {
 		action(player, npcs);
 	}
 	
-	public void draw(Graphics2D brush, int wX, int wY) {
+	@Override
+	public void drawNpc(Graphics2D brush, int wX, int wY) {
 		
 		BufferedImage sprite = null;
 		
@@ -48,10 +53,10 @@ public class Npc extends Entity {
 			sprite = super.getIdleSprites()[1];
 		}
 		
-		int x = super.getX() - wX + this.screen.screenSide()/2;
-		int y = super.getY() - wY + this.screen.screenSide()/2;
+		this.screenX = super.getX() - wX + this.screen.screenSide()/2;
+		setScreenY(super.getY() - wY + this.screen.screenSide()/2);
 		
-		brush.drawImage(sprite, x, y, this.screen.tileSide(), this.screen.tileSide(), null);
+		brush.drawImage(sprite, this.screenX, this.screenY, this.screen.tileSide(), this.screen.tileSide(), null);
 
 	}
 	
@@ -93,6 +98,28 @@ public class Npc extends Entity {
 	@Override
 	public int[][] getHitbox() {
 		return this.hitbox;
+	}
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	public int getScreenX() {
+		return screenX;
+	}
+
+	public void setScreenX(int screenX) {
+		this.screenX = screenX;
+	}
+
+	@Override
+	public int getScreenY() {
+		return this.screenY;
+	}
+
+	public void setScreenY(int screenY) {
+		this.screenY = screenY;
 	}
 	
 }
