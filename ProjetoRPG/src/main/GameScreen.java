@@ -37,13 +37,16 @@ public class GameScreen extends JPanel implements Runnable {
 
 	private Thread gameThread;
 	private Player player;
-
-	private int gameState = 1;
+	
 	private final int menu = 0;
 	private final int playing = 1;
 	private final int pause = 2;
 	private final int dialogue = 3;
+	private final int inventory = 4;
+	private final int battle = 5;
 
+	private int gameState = playing;
+	
 	private String[] npcDialogue;
 
 	public GameScreen() {
@@ -79,7 +82,7 @@ public class GameScreen extends JPanel implements Runnable {
 
 		}
 //1157
-		this.npcs[0] = new Test(1000, 1010, this);
+		this.npcs[0] = new Test(1048, 1012, this);
 		this.npcs[1] = new Test(1000, 1000, this);
 
 		this.gameThread = new Thread(this);
@@ -148,7 +151,7 @@ public class GameScreen extends JPanel implements Runnable {
 
 		}
 
-		this.ui.draw(g2D);
+		this.ui.draw(g2D, this.player.getX(), this.player.getY());
 
 		g2D.dispose();
 

@@ -24,6 +24,8 @@ public class Npc extends Entity {
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	private int frameCounter = 0;
 	
+	private boolean walking = false;
+	
 	public Npc(GameScreen gs) {
 		super(gs);
 	}
@@ -48,11 +50,11 @@ public class Npc extends Entity {
 		} else if (super.getDirection().equals("right")) {
 			sprite = super.getIdleSprites()[3];
 		}
-		
+		/*
 		if (super.getDirection().equals("idle")) {
 			sprite = super.getIdleSprites()[1];
 		}
-		
+		*/
 		this.screenX = super.getX() - wX + this.screen.screenSide()/2;
 		setScreenY(super.getY() - wY + this.screen.screenSide()/2);
 		
@@ -120,6 +122,14 @@ public class Npc extends Entity {
 
 	public void setScreenY(int screenY) {
 		this.screenY = screenY;
+	}
+
+	public boolean isWalking() {
+		return walking;
+	}
+
+	public void setWalking(boolean walking) {
+		this.walking = walking;
 	}
 	
 }

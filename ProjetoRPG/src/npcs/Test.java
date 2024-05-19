@@ -17,7 +17,7 @@ public class Test extends Npc {
 	public Test(int x, int y, GameScreen gs) {
 		super(gs);
 		
-		super.setDirection("idle");
+		super.setDirection("down");
 
 		super.setX(x);
 		super.setY(y);
@@ -47,14 +47,19 @@ public class Test extends Npc {
 			
 			if (randInt <= 20) {
 				super.setDirection("up");
+				super.setWalking(true);
 			} else if (randInt > 20 && randInt <= 40) {
 				super.setDirection("down");
+				super.setWalking(true);
 			} else if (randInt > 40 && randInt <= 60) {
 				super.setDirection("left");
+				super.setWalking(true);
 			} else if (randInt > 60 && randInt <= 80) {
 				super.setDirection("right");
+				super.setWalking(true);
 			} else if (randInt > 80 && randInt <= 100) {
-				super.setDirection("idle");
+				//super.setDirection("idle");
+				super.setWalking(false);
 			}
 
 			super.resetFrameCounter();
@@ -65,7 +70,7 @@ public class Test extends Npc {
 		super.collision().checkNpc(this, npcs);
 		super.collision().checkPlayer(this, player);
 		
-		if (!super.getCollision()) {
+		if (!super.getCollision() && super.isWalking()) {
 			if (super.getDirection().equals("up")) {
 				super.goUp();
 			} else if (super.getDirection().equals("down")) {

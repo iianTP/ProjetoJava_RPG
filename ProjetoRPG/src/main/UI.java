@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 
 public class UI {
 	
-	private Font font = new Font("Arial", Font.PLAIN, 30);
+	private Font font = new Font("Arial", Font.PLAIN, 20);
 	
 	public void pauseScreen(Graphics2D brush) {
 		
@@ -31,11 +31,11 @@ public class UI {
 		
 	}
 	
-	public void draw(Graphics2D brush) {
+	public void draw(Graphics2D brush, int x, int y) {
 		
 		brush.setFont(font);
 		brush.setColor(Color.black);
-		brush.drawString("afijub", 48, 48);
+		brush.drawString("wX: " + x + " wY: " + y, 48, 48);
 		
 	}
 

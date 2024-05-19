@@ -66,7 +66,7 @@ public class Collision {
 		
 	}
 	
-	public void checkNpc(Entity entity, Npc[] npc) {
+	public void checkNpc(Entity entity, Npc[] npcs) {
 		
 		if (entity.getHitbox() != null) {
 			
@@ -79,40 +79,44 @@ public class Collision {
 			int hitboxLeft = x + entity.getHitbox()[0][0];
 			int hitboxRight = x + entity.getHitbox()[1][0];
 			
-			for (int i = 0; i < npc.length; i++) {
+			for (int i = 0; i < npcs.length; i++) {
+				
+				if(entity == npcs[i]) {
+					continue;
+				}
 
 				if (entity.getDirection().equals("up")) {
 					
-					if (npc[i].checkHitbox(hitboxLeft, hitboxTop - speed) ||
-						npc[i].checkHitbox(hitboxRight, hitboxTop - speed)) {
+					if (npcs[i].checkHitbox(hitboxLeft, hitboxTop - speed) ||
+						npcs[i].checkHitbox(hitboxRight, hitboxTop - speed)) {
 						entity.setCollision(true);
 					}
 					
 				} else if (entity.getDirection().equals("down")) {
 					
-					if (npc[i].checkHitbox(hitboxLeft, hitboxBottom + speed) ||
-						npc[i].checkHitbox(hitboxRight, hitboxBottom + speed)) {
+					if (npcs[i].checkHitbox(hitboxLeft, hitboxBottom + speed) ||
+						npcs[i].checkHitbox(hitboxRight, hitboxBottom + speed)) {
 						entity.setCollision(true);
 					}
 					
 				} else if (entity.getDirection().equals("left")) {
 					
-					if (npc[i].checkHitbox(hitboxLeft - speed, hitboxTop) ||
-						npc[i].checkHitbox(hitboxLeft - speed, hitboxBottom)) {
+					if (npcs[i].checkHitbox(hitboxLeft - speed, hitboxTop) ||
+						npcs[i].checkHitbox(hitboxLeft - speed, hitboxBottom)) {
 						entity.setCollision(true);
 					}
 					
 				} else if (entity.getDirection().equals("right")) {
 					
-					if (npc[i].checkHitbox(hitboxRight + speed, hitboxTop) ||
-						npc[i].checkHitbox(hitboxRight + speed, hitboxBottom)) {
+					if (npcs[i].checkHitbox(hitboxRight + speed, hitboxTop) ||
+						npcs[i].checkHitbox(hitboxRight + speed, hitboxBottom)) {
 						entity.setCollision(true);
 					}
 					
 				}
 				
 				if (entity.getCollision()) {
-					this.npcNearby = npc[i];
+					this.npcNearby = npcs[i];
 				}
 				
 			}
