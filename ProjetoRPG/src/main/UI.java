@@ -3,10 +3,20 @@ package main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class UI {
 	
 	private Font font = new Font("Arial", Font.PLAIN, 20);
+	
+	private BufferedImage battleUI;
+	
+	public UI() {
+		setBattleUI();
+	}
 	
 	public void pauseScreen(Graphics2D brush) {
 		
@@ -31,12 +41,29 @@ public class UI {
 		
 	}
 	
+	public void battleScreen(Graphics2D brush) throws IOException {
+		
+		brush.setColor(new Color(0,0,0,200));
+		brush.fillRoundRect(0, 0, 720, 720, 10, 10);
+		brush.drawImage(this.battleUI, 0, 0, 720, 720, null);
+		
+	}
+	
 	public void draw(Graphics2D brush, int x, int y) {
 		
 		brush.setFont(font);
 		brush.setColor(Color.black);
 		brush.drawString("wX: " + x + " wY: " + y, 48, 48);
 		
+	}
+
+	public void setBattleUI() {
+		try {
+			this.battleUI = ImageIO.read(getClass().getResourceAsStream("/battle/battleUI.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

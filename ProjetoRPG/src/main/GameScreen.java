@@ -102,8 +102,7 @@ public class GameScreen extends JPanel implements Runnable {
 			repaint();
 
 			// Loop a 60 FPS
-			while (System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {
-			}
+			while (System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {}
 
 		}
 
@@ -112,8 +111,13 @@ public class GameScreen extends JPanel implements Runnable {
 	public void update() {
 
 		if (gameState == playing) {
+			
 			this.player.update();
-			this.npcs[0].update(this.player, this.npcs);
+			
+			for (int i = 0; i < npcs.length; i++) {
+				this.npcs[i].update(this.player, this.npcs);
+			}
+			
 		}
 
 	}
@@ -127,31 +131,43 @@ public class GameScreen extends JPanel implements Runnable {
 		this.theVoid.draw(g2D);
 
 		if (this.player != null && this.npcs != null) {
-
-			this.tiles.draw(g2D, this.player.getX(), this.player.getY());
-
-			displayEnts(g2D);
 			
-		}
-
-		if (gameState == pause) {
-			this.ui.pauseScreen(g2D);
-		}
-
-		if (gameState == dialogue) {
-			
-			int index = this.key.getDialogueIndex();
-			if (index == this.npcDialogue.length) {
-				this.key.resetDialogueIndex();
-				this.gameState = playing;
+			if (gameState == battle) {
+				
+				try {
+					this.ui.battleScreen(g2D);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 			} else {
-				this.ui.dialogueBox(g2D);
-				this.ui.dialogueText(g2D, npcDialogue[index]);
+				
+				this.tiles.draw(g2D, this.player.getX(), this.player.getY());
+
+				displayEnts(g2D);
+				
+				this.ui.draw(g2D, this.player.getX(), this.player.getY());
+				
+			}
+			
+			if (gameState == pause) {
+				this.ui.pauseScreen(g2D);
 			}
 
-		}
+			if (gameState == dialogue) {
+				
+				int index = this.key.getDialogueIndex();
+				if (index == this.npcDialogue.length) {
+					this.key.resetDialogueIndex();
+					this.gameState = playing;
+				} else {
+					this.ui.dialogueBox(g2D);
+					this.ui.dialogueText(g2D, npcDialogue[index]);
+				}
 
-		this.ui.draw(g2D, this.player.getX(), this.player.getY());
+			}
+			
+		}
 
 		g2D.dispose();
 
@@ -164,8 +180,7 @@ public class GameScreen extends JPanel implements Runnable {
 
 		for (int i = 0; i < npcs.length; i++) {
 
-			if (this.screen.screenSide() / 2 - 24 >= this.npcs[i].getY() - this.player.getY()
-					+ this.screen.screenSide() / 2) {
+			if (this.player.getScreenY() >= this.npcs[i].getScreenY()) {
 				npcsBehind = Arrays.copyOf(npcsBehind, npcsBehind.length+1);
 				npcsBehind[npcsBehind.length-1] = npcs[i];
 			} else {
@@ -175,27 +190,28 @@ public class GameScreen extends JPanel implements Runnable {
 
 		}
 		
-		sortCoords(npcsBehind);
-		sortCoords(npcsInFront);
+		sortYCoords(npcsBehind);
+		sortYCoords(npcsInFront);
 		
 		for (int i = 0; i < npcsBehind.length; i++) {
-			npcsBehind[i].drawNpc(g2D, this.player.getX(), this.player.getY());
+			npcsBehind[i].draw(g2D, this.player.getX(), this.player.getY());
 		}
 
-		this.player.drawPlayer(g2D, gameState);
+		this.player.draw(g2D, gameState);
 
 		for (int i = 0; i < npcsInFront.length; i++) {
-			npcsInFront[i].drawNpc(g2D, this.player.getX(), this.player.getY());
+			npcsInFront[i].draw(g2D, this.player.getX(), this.player.getY());
 		}
 		
 	}
 	
-	public void sortCoords(Npc[] a) {
-
+	public void sortYCoords(Npc[] a) {
+		
+		Npc t;
 		for (int i = 0; i < a.length-1; i++) {
 			for (int j = 0; j < a.length-1; j++) {
 				if (a[j].getScreenY() > a[j+1].getScreenY()) {
-					Npc t = a[j];
+					t = a[j];
 					a[j] = a[j+1];
 					a[j+1] = t;
 				}

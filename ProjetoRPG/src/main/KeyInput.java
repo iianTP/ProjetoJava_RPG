@@ -37,6 +37,8 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			} else if (key == KeyEvent.VK_P) {
 				gs.setGameState(2);
+			} else if (key == KeyEvent.VK_B) {
+				gs.setGameState(5);
 			}
 		} else if (gs.getGameState() == 2) {
 			if (key == KeyEvent.VK_P) {
@@ -45,6 +47,12 @@ public class KeyInput implements KeyListener {
 		} else if (gs.getGameState() == 3) {
 			if (key == KeyEvent.VK_ENTER) {
 				this.dialogueIndex++;
+			}
+		} else if (gs.getGameState() == 4) {
+
+		} else if (gs.getGameState() == 5) {
+			if (key == KeyEvent.VK_B) {
+				gs.setGameState(1);
 			}
 		}
 		

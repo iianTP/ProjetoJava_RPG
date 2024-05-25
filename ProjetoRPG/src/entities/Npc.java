@@ -9,8 +9,6 @@ import quests.Quest;
 
 public class Npc extends Entity {
 	
-	private String id = "npc";
-	
 	private String[] dialogue;
 	private Quest[] quests;
 	private Collision collision = new Collision();
@@ -36,8 +34,7 @@ public class Npc extends Entity {
 		action(player, npcs);
 	}
 	
-	@Override
-	public void drawNpc(Graphics2D brush, int wX, int wY) {
+	public void draw(Graphics2D brush, int wX, int wY) {
 		
 		BufferedImage sprite = null;
 		
@@ -102,11 +99,6 @@ public class Npc extends Entity {
 		return this.hitbox;
 	}
 
-	@Override
-	public String getId() {
-		return id;
-	}
-
 	public int getScreenX() {
 		return screenX;
 	}
@@ -115,7 +107,6 @@ public class Npc extends Entity {
 		this.screenX = screenX;
 	}
 
-	@Override
 	public int getScreenY() {
 		return this.screenY;
 	}

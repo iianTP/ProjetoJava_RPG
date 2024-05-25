@@ -34,11 +34,6 @@ public class Entity {
 		this.gs = gs;
 	}
 	
-	public int getScreenY() {return 0;}
-	public String getId() {return null;}
-	public void drawPlayer(Graphics2D brush, int gameState) {}
-	public void drawNpc(Graphics2D brush, int wX, int wY) {}
-	
 	// SET
 	public void setX(int x) {
 		this.x = x;
