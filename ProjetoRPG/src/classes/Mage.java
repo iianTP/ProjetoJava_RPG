@@ -6,14 +6,19 @@ import javax.imageio.ImageIO;
 
 import entities.Npc;
 import entities.Player;
+import entities.Stats;
 import main.GameScreen;
 import main.KeyInput;
 
 public class Mage extends Player {
+	
+	private Stats stats = new Stats();
 
 	public Mage(KeyInput key, Npc[] npcs, GameScreen gs) {
 		super(key, npcs, gs);
-		setSprites();
+		this.setSprites();
+		this.setStats();
+		super.setStats(stats);
 	}
 	
 	public void setSprites() {
@@ -31,20 +36,20 @@ public class Mage extends Player {
 			e.printStackTrace();
 		}
 	}
-	/*
+	
 	public void setStats() {
 		
-		super.setHealth(20);
-		super.setMaxHealth(20);
-		super.setMana(20);
-		super.setMaxMana(20);
+		this.stats.setHealth(20);
+		this.stats.setMaxHealth(20);
+		this.stats.setMana(20);
+		this.stats.setMaxMana(20);
 		
-		super.setStrenght(2);
-		super.setDefense(3);
-		super.setMagic(5);
-		super.setMagicDefense(4);
+		this.stats.setStrenght(2);
+		this.stats.setDefense(3);
+		this.stats.setMagic(5);
+		this.stats.setMagicDefense(4);
 
 	}
-	*/
+	
 
 }

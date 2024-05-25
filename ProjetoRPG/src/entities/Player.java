@@ -13,6 +13,7 @@ public class Player extends Entity {
 	private Npc[] npcs;
 	private ScreenInfo screen = new ScreenInfo();
 	private Collision collision = new Collision();
+	private Stats stats;
 	
 	private int screenX = this.screen.screenSide()/2 - this.screen.tileSide()/2;
 	private int screenY = this.screen.screenSide()/2 - this.screen.tileSide()/2;
@@ -246,6 +247,14 @@ public class Player extends Entity {
 	
 	public int getScreenY() {
 		return this.screenY;
+	}
+
+	public Stats getStats() {
+		return stats;
+	}
+
+	public void setStats(Stats stats) {
+		this.stats = stats;
 	}
 	
 	

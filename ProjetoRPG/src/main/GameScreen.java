@@ -6,6 +6,8 @@ import classes.Assassin;
 import classes.Healer;
 import classes.Mage;
 import classes.Warrior;
+import enemies.Ghost;
+import entities.Enemie;
 import entities.Entity;
 import entities.Npc;
 import entities.Player;
@@ -28,15 +30,20 @@ public class GameScreen extends JPanel implements Runnable {
 
 	private long startNanoTime;
 	private final double oneFrameInNano = 1000000000 / 60;
-
-	private TileManager tiles = new TileManager();
-	private KeyInput key = new KeyInput(this);
-	private Npc[] npcs = new Npc[2];
-	private TheVoid theVoid = new TheVoid();
-	private UI ui = new UI();
-
+	
 	private Thread gameThread;
+
+	private KeyInput key = new KeyInput(this);
+	
+	private TileManager tiles = new TileManager();
+	
+	private UI ui = new UI();
+	
+	private TheVoid theVoid = new TheVoid();
+	
 	private Player player;
+	private Npc[] npcs = new Npc[2];
+	private Enemie enemie;
 	
 	private final int menu = 0;
 	private final int playing = 1;
@@ -118,6 +125,12 @@ public class GameScreen extends JPanel implements Runnable {
 				this.npcs[i].update(this.player, this.npcs);
 			}
 			
+		} else if (gameState == battle) {
+			
+			if (this.enemie == null) {
+				this.enemie = new Ghost();
+			}
+			
 		}
 
 	}
@@ -127,18 +140,22 @@ public class GameScreen extends JPanel implements Runnable {
 		super.paintComponent(g);
 
 		Graphics2D g2D = (Graphics2D) g;
+		
+		this.ui.setBrush(g2D);
 
 		this.theVoid.draw(g2D);
 
 		if (this.player != null && this.npcs != null) {
 			
-			if (gameState == battle) {
+			if (gameState == battle && this.enemie != null) {
 				
-				try {
-					this.ui.battleScreen(g2D);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+
+				this.ui.battleScreen(this.player.getStats(), this.enemie.getStats());
+				
+				g2D.drawImage(this.player.getIdleSprites()[0], 7*16, 18*16, 48*2+24, 48*2+24, null);
+				
+				g2D.drawImage(this.enemie.getSprite(), 31*16, 9*16, 48, 48, null);
+				
 				
 			} else {
 				
@@ -146,12 +163,12 @@ public class GameScreen extends JPanel implements Runnable {
 
 				displayEnts(g2D);
 				
-				this.ui.draw(g2D, this.player.getX(), this.player.getY());
+				this.ui.draw(this.player.getX(), this.player.getY());
 				
 			}
 			
 			if (gameState == pause) {
-				this.ui.pauseScreen(g2D);
+				this.ui.pauseScreen();
 			}
 
 			if (gameState == dialogue) {
@@ -161,8 +178,8 @@ public class GameScreen extends JPanel implements Runnable {
 					this.key.resetDialogueIndex();
 					this.gameState = playing;
 				} else {
-					this.ui.dialogueBox(g2D);
-					this.ui.dialogueText(g2D, npcDialogue[index]);
+					this.ui.dialogueBox();
+					this.ui.dialogueText(npcDialogue[index]);
 				}
 
 			}
@@ -237,6 +254,14 @@ public class GameScreen extends JPanel implements Runnable {
 
 	public void setNpcDialogue(String[] npcDialogue) {
 		this.npcDialogue = npcDialogue;
+	}
+
+	public Enemie getEnemie() {
+		return enemie;
+	}
+
+	public void setEnemie(Enemie enemie) {
+		this.enemie = enemie;
 	}
 
 }

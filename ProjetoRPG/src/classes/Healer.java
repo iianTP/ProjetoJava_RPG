@@ -6,14 +6,19 @@ import javax.imageio.ImageIO;
 
 import entities.Npc;
 import entities.Player;
+import entities.Stats;
 import main.GameScreen;
 import main.KeyInput;
 
 public class Healer extends Player{
+	
+	private Stats stats = new Stats();
 
 	public Healer(KeyInput key, Npc[] npcs, GameScreen gs) {
 		super(key, npcs, gs);	
-		setSprites();
+		this.setSprites();
+		this.setStats();
+		super.setStats(stats);
 	}
 	
 	public void setSprites() {
@@ -32,19 +37,19 @@ public class Healer extends Player{
 		}
 		
 	}
-	/*
+	
 	public void setStats() {
 		
-		super.setHealth(20);
-		super.setMaxHealth(20);
-		super.setMana(20);
-		super.setMaxMana(20);
+		this.stats.setHealth(20);
+		this.stats.setMaxHealth(20);
+		this.stats.setMana(20);
+		this.stats.setMaxMana(20);
 		
-		super.setStrenght(1);
-		super.setDefense(2);
-		super.setMagic(4);
-		super.setMagicDefense(5);
+		this.stats.setStrenght(1);
+		this.stats.setDefense(2);
+		this.stats.setMagic(4);
+		this.stats.setMagicDefense(5);
 		
 	}
-	*/
+	
 }

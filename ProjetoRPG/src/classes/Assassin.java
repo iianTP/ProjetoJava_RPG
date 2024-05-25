@@ -6,14 +6,19 @@ import javax.imageio.ImageIO;
 
 import entities.Npc;
 import entities.Player;
+import entities.Stats;
 import main.GameScreen;
 import main.KeyInput;
 
 public class Assassin extends Player {
 	
+	private Stats stats = new Stats();
+	
 	public Assassin(KeyInput key, Npc[] npcs, GameScreen gs) {
 		super(key, npcs, gs);
-		setSprites();
+		this.setSprites();
+		this.setStats();
+		super.setStats(stats);
 	}
 	
 	public void setSprites() {
@@ -32,19 +37,19 @@ public class Assassin extends Player {
 		}
 		
 	}
-	/*
+	
 	public void setStats() {
 		
-		super.setHealth(20);
-		super.setMaxHealth(20);
-		super.setMana(20);
-		super.setMaxMana(20);
+		this.stats.setHealth(20);
+		this.stats.setMaxHealth(20);
+		this.stats.setMana(20);
+		this.stats.setMaxMana(20);
 		
-		super.setStrenght(3);
-		super.setDefense(5);
-		super.setMagic(2);
-		super.setMagicDefense(2);
+		this.stats.setStrenght(3);
+		this.stats.setDefense(5);
+		this.stats.setMagic(2);
+		this.stats.setMagicDefense(2);
 		
 	}
-*/
+
 }
