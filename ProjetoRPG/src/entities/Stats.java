@@ -11,6 +11,12 @@ public class Stats {
 	private int health;
 	private int maxHealth;
 	
+	
+	public void damage(int dmg) {
+		this.health -= dmg;
+	}
+	
+	
 	// SET
 	public void setStrenght(int strenght) {
 		this.strenght = strenght;
@@ -36,6 +42,7 @@ public class Stats {
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
 	}
+	//
 	
 	// GET
 	public int getStrenght() {
@@ -62,6 +69,7 @@ public class Stats {
 	public int getMaxHealth() {
 		return this.maxHealth;
 	}
+	//
 	
 	public void buffStats() {
 		this.maxHealth += 5;

@@ -26,10 +26,10 @@ public class Warrior extends Player {
 		try {
 			
 			super.setIdleSprites(
-					ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png")),
-					ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png")),
-					ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png")),
-					ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"))
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleUp.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleDown.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleLeft.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleRight.png"))
 			);
 			
 		} catch (IOException e) {

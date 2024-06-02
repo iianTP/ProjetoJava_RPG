@@ -37,13 +37,14 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private TileManager tiles = new TileManager();
 	
-	private UI ui = new UI();
+	private UI ui;
 	
 	private TheVoid theVoid = new TheVoid();
 	
 	private Player player;
 	private Npc[] npcs = new Npc[2];
 	private Enemie enemie;
+	//private Entity[] team = new Entity[3];
 	
 	private final int menu = 0;
 	private final int playing = 1;
@@ -63,14 +64,30 @@ public class GameScreen extends JPanel implements Runnable {
 		this.setDoubleBuffered(true);
 		this.addKeyListener(key);
 		this.setFocusable(true);
+		
+		this.ui = new UI(key);
 
 	}
 
+	//inicialização do game loop
 	public void startThread() {
 
-		String playerClass = "mage";
+		setPlayerClass();
+//1157
+		this.npcs[0] = new Test(1048, 1012, this);
+		this.npcs[1] = new Test(1000, 1000, this);
 
-		// Identificação da classe escolhida
+		this.gameThread = new Thread(this);
+		this.gameThread.start();
+
+	}
+	//
+	
+	// Identificação da classe escolhida pelo Player
+	public void setPlayerClass(){
+		
+		String playerClass = "warrior";
+
 		if (playerClass.equals("mage")) {
 
 			this.player = new Mage(key, npcs, this);
@@ -88,14 +105,9 @@ public class GameScreen extends JPanel implements Runnable {
 			this.player = new Assassin(key, npcs, this);
 
 		}
-//1157
-		this.npcs[0] = new Test(1048, 1012, this);
-		this.npcs[1] = new Test(1000, 1000, this);
-
-		this.gameThread = new Thread(this);
-		this.gameThread.start();
-
+		
 	}
+	//
 
 	@Override
 	public void run() {
@@ -112,9 +124,11 @@ public class GameScreen extends JPanel implements Runnable {
 			while (System.nanoTime() - this.startNanoTime < this.oneFrameInNano) {}
 
 		}
+		//
 
 	}
-
+	
+	//atualização das entidades
 	public void update() {
 
 		if (gameState == playing) {
@@ -131,10 +145,18 @@ public class GameScreen extends JPanel implements Runnable {
 				this.enemie = new Ghost();
 			}
 			
+			if (this.key.isInteracting()) {
+				if (this.key.getCmdNum() == 0) {
+					this.enemie.damage(this.player.getStats().getStrenght());
+				}
+			}
+			
 		}
 
 	}
+	//
 
+	//exibição gráfica do jogo
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
@@ -152,9 +174,9 @@ public class GameScreen extends JPanel implements Runnable {
 
 				this.ui.battleScreen(this.player.getStats(), this.enemie.getStats());
 				
-				g2D.drawImage(this.player.getIdleSprites()[0], 7*16, 18*16, 48*2+24, 48*2+24, null);
+				g2D.drawImage(this.player.getIdleSprites()[0], 96*3, 128*3, 48, 48, null);
 				
-				g2D.drawImage(this.enemie.getSprite(), 31*16, 9*16, 48, 48, null);
+				g2D.drawImage(this.enemie.getSprite(), 104*3, 40*3, 48*2, 48*2, null);
 				
 				
 			} else {
@@ -189,7 +211,9 @@ public class GameScreen extends JPanel implements Runnable {
 		g2D.dispose();
 
 	}
+	//
 	
+	//exibição das entidades
 	public void displayEnts(Graphics2D g2D) {
 		
 		Npc[] npcsBehind = new Npc[0];
@@ -221,7 +245,9 @@ public class GameScreen extends JPanel implements Runnable {
 		}
 		
 	}
+	//
 	
+	//ordenação das entidades pela coordenada Y na tela
 	public void sortYCoords(Npc[] a) {
 		
 		Npc t;
@@ -236,14 +262,11 @@ public class GameScreen extends JPanel implements Runnable {
 		}
 		
 	}
+	//
 
-	public int getGameState() {
-		return this.gameState;
-	}
+	
+	
 
-	public void setGameState(int gameState) {
-		this.gameState = gameState;
-	}
 
 	public void changeMap(String map) {
 		this.tiles = new TileManager(/* map */);
@@ -251,15 +274,21 @@ public class GameScreen extends JPanel implements Runnable {
 		this.player.setY(894);
 
 	}
+	
+	public int getGameState() {
+		return this.gameState;
+	}
+	public void setGameState(int gameState) {
+		this.gameState = gameState;
+	}
 
 	public void setNpcDialogue(String[] npcDialogue) {
 		this.npcDialogue = npcDialogue;
 	}
 
 	public Enemie getEnemie() {
-		return enemie;
+		return this.enemie;
 	}
-
 	public void setEnemie(Enemie enemie) {
 		this.enemie = enemie;
 	}

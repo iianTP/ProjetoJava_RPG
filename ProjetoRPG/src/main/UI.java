@@ -20,7 +20,11 @@ public class UI {
 	
 	private Graphics2D brush;
 	
-	public UI() {
+	private KeyInput key;
+	
+	private int[][] battleButtonSelected = {{460, 533},{571, 533},{460, 581},{571, 581},{460, 629}};
+	
+	public UI(KeyInput key) {
 		
 		setBattleUI();
 		InputStream is = getClass().getResourceAsStream("/fonts/ARCADEPI.ttf");
@@ -30,8 +34,11 @@ public class UI {
 			e.printStackTrace();
 		}
 		
+		this.key = key;
+		
 	}
 	
+	// PAUSE
 	public void pauseScreen() {
 		
 		brush.setFont(font);
@@ -40,6 +47,7 @@ public class UI {
 		
 	}
 	
+	// CAIXA DE DIALOGO
 	public void dialogueBox() {
 		
 		brush.setColor(new Color(0,0,0,200));
@@ -47,6 +55,7 @@ public class UI {
 		
 	}
 	
+	// DIALOGO
 	public void dialogueText(String dialogue) {
 		
 		brush.setFont(font);
@@ -55,22 +64,41 @@ public class UI {
 		
 	}
 	
+	// TELA DE COMBATE
 	public void battleScreen(Stats playerStats, Stats enemieStats) {
 		
 		brush.setColor(new Color(0,0,0,200));
 		brush.fillRoundRect(0, 0, 720, 720, 10, 10);
 		brush.drawImage(this.battleUI, 0, 0, 720, 720, null);
 		
-		brush.setFont(font);
+		brush.setFont(font.deriveFont(Font.PLAIN, 15F));
 		brush.setColor(Color.green);
-		brush.drawString("HP: " + playerStats.getHealth() +"/"+ playerStats.getMaxHealth(), 28*16, 26*16);
-		brush.drawString("HP: " + enemieStats.getHealth() +"/"+ enemieStats.getMaxHealth(), 3*16, 3*16);
+		brush.drawString("HP: " + playerStats.getHealth() +"/"+ playerStats.getMaxHealth(), 24, 240);
+		brush.drawString("HP: " + playerStats.getHealth() +"/"+ playerStats.getMaxHealth(), 24, 282);
+		brush.drawString("HP: " + playerStats.getHealth() +"/"+ playerStats.getMaxHealth(), 24, 324);
+		brush.drawString("HP: " + playerStats.getHealth() +"/"+ playerStats.getMaxHealth(), 24, 366);
+		
+		brush.drawString("HP: " + enemieStats.getHealth() +"/"+ enemieStats.getMaxHealth(), 528, 48);
 		
 		brush.setColor(Color.magenta);
-		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 28*16, 28*16);
+		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 261);
+		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 303);
+		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 345);
+		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 387);
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
+		brush.setColor(Color.white);
+		brush.drawString("ATAQUE", 475, 533);
+		brush.drawString("DEFESA", 586, 533);
+		brush.drawString("BOLSA", 475, 581);
+		brush.drawString("MAGIA", 586, 581);
+		brush.drawString("FUGIR", 475, 629);
+
+		brush.drawString(">", this.battleButtonSelected[this.key.getCmdNum()][0], this.battleButtonSelected[this.key.getCmdNum()][1]);
 		
 	}
 	
+	// TESTE(COORDENADAS)
 	public void draw(int x, int y) {
 		
 		brush.setFont(font);
