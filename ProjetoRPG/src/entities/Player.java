@@ -3,9 +3,10 @@ package entities;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import main.GameScreen;
+import entities.npcs.Npc;
 import main.KeyInput;
-import main.ScreenInfo;
+import main.screen.GameScreen;
+import main.screen.ScreenInfo;
 
 public class Player extends Entity {
 	

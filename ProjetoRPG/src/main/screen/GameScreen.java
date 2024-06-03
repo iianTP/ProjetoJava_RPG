@@ -1,17 +1,18 @@
-package main;
+package main.screen;
 
 import javax.swing.JPanel;
 
-import classes.Assassin;
-import classes.Healer;
-import classes.Mage;
-import classes.Warrior;
-import enemies.Ghost;
-import entities.Enemie;
 import entities.Entity;
-import entities.Npc;
 import entities.Player;
-import npcs.Test;
+import entities.classes.Assassin;
+import entities.classes.Healer;
+import entities.classes.Mage;
+import entities.classes.Warrior;
+import entities.enemies.Enemie;
+import entities.enemies.Ghost;
+import entities.npcs.Npc;
+import entities.npcs.Test;
+import main.KeyInput;
 import tiles.TheVoid;
 import tiles.TileManager;
 
@@ -19,10 +20,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class GameScreen extends JPanel implements Runnable {
 

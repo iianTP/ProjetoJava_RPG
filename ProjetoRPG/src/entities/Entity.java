@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import main.GameScreen;
+import main.screen.GameScreen;
 
 public class Entity {
 	

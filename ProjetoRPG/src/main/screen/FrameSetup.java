@@ -1,4 +1,4 @@
-package main;
+package main.screen;
 
 import javax.swing.JFrame;
 

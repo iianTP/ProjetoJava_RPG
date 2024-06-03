@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
-import main.ScreenInfo;
+import main.screen.ScreenInfo;
 
 public class TileManager {
 	

@@ -3,6 +3,8 @@ package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import main.screen.GameScreen;
+
 public class KeyInput implements KeyListener {
 
 	private boolean up, down, left, right;

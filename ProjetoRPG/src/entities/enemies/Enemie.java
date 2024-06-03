@@ -1,6 +1,8 @@
-package entities;
+package entities.enemies;
 
 import java.awt.image.BufferedImage;
+
+import entities.Stats;
 
 public class Enemie {
 	

@@ -1,10 +1,9 @@
-package enemies;
+package entities.enemies;
 
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entities.Enemie;
 import entities.Stats;
 
 public class Ghost extends Enemie {

@@ -1,4 +1,4 @@
-package enemies;
+package entities.enemies;
 
 import entities.Stats;
 

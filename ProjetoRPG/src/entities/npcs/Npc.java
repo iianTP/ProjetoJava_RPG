@@ -1,10 +1,13 @@
-package entities;
+package entities.npcs;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import main.GameScreen;
-import main.ScreenInfo;
+import entities.Collision;
+import entities.Entity;
+import entities.Player;
+import main.screen.GameScreen;
+import main.screen.ScreenInfo;
 import quests.Quest;
 
 public class Npc extends Entity {

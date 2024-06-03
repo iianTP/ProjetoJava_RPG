@@ -1,14 +1,14 @@
-package classes;
+package entities.classes;
 
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entities.Npc;
 import entities.Player;
 import entities.Stats;
-import main.GameScreen;
+import entities.npcs.Npc;
 import main.KeyInput;
+import main.screen.GameScreen;
 
 public class Healer extends Player{
 	

@@ -1,4 +1,4 @@
-package npcs;
+package entities.npcs;
 
 import java.io.IOException;
 
@@ -6,9 +6,8 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import entities.Npc;
 import entities.Player;
-import main.GameScreen;
+import main.screen.GameScreen;
 
 public class Test extends Npc {
 	

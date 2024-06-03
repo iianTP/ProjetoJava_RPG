@@ -1,4 +1,4 @@
-package main;
+package main.screen;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -11,6 +11,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import entities.Stats;
+import main.KeyInput;
 
 public class UI {
 	

@@ -1,5 +1,6 @@
 package entities;
 
+import entities.npcs.Npc;
 import tiles.TileManager;
 
 public class Collision {
