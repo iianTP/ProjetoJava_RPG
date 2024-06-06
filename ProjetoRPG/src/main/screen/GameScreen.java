@@ -84,7 +84,7 @@ public class GameScreen extends JPanel implements Runnable {
 	// Identificação da classe escolhida pelo Player
 	public void setPlayerClass(){
 		
-		String playerClass = "warrior";
+		String playerClass = "mage";
 
 		if (playerClass.equals("mage")) {
 
