@@ -18,18 +18,18 @@ public class Assassin extends Player {
 		super(key, npcs, gs);
 		this.setSprites();
 		this.setStats();
-		super.setStats(stats);
 	}
 	
+	@Override
 	public void setSprites() {
 		
 		try {
 			
 			super.setIdleSprites(
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleUp.png")),
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")),
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleLeft.png")),
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleRight.png"))
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleUp.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleLeft.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleRight.png"))
 			);
 			
 		} catch (IOException e) {
@@ -38,6 +38,7 @@ public class Assassin extends Player {
 		
 	}
 	
+	@Override
 	public void setStats() {
 		
 		this.stats.setHealth(20);
@@ -49,7 +50,7 @@ public class Assassin extends Player {
 		this.stats.setDefense(5);
 		this.stats.setMagic(2);
 		this.stats.setMagicDefense(2);
-		
+		super.setStats(stats);
 	}
 
 }

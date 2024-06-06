@@ -40,6 +40,8 @@ public abstract class Player extends Entity {
 		
 	}
 	
+	public abstract void setStats();
+	
 	// Atualização do estado do player
 	public void update() {
 		

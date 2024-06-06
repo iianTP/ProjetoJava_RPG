@@ -33,6 +33,8 @@ public abstract class Entity {
 		this.gs = gs;
 	}
 	
+	public abstract void setSprites();
+	
 	// SET
 	public void setX(int x) {
 		this.x = x;

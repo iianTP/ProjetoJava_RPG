@@ -21,21 +21,12 @@ public class Test extends Npc {
 		super.setX(x);
 		super.setY(y);
 		super.setWalkSpeed(1);
+		setSprites();
 		
-		try {
-			
-			super.setIdleSprites(
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleUp.png")),
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")),
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleLeft.png")),
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleRight.png"))
-			);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 	}
+	
+	
 	
 	@Override
 	public void action(Player player, Npc[] npcs) {
@@ -88,6 +79,22 @@ public class Test extends Npc {
 		System.out.println("foi");
 		super.getGs().setNpcDialogue(dialogue);
 		super.getGs().setGameState(3);
+	}
+
+	@Override
+	public void setSprites() {
+		try {
+			
+			super.setIdleSprites(
+					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleUp.png")),
+					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")),
+					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleLeft.png")),
+					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleRight.png"))
+			);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 	
 }

@@ -31,8 +31,9 @@ public abstract class Npc extends Entity {
 		super(gs);
 	}
 	
-	public void interaction() {}
-	public void action(Player player, Npc[] npcs) {}
+	public abstract void interaction();
+	public abstract void action(Player player, Npc[] npcs);
+	
 	public void update(Player player, Npc[] npcs) {
 		action(player, npcs);
 	}

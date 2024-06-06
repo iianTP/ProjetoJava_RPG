@@ -18,9 +18,9 @@ public class Healer extends Player{
 		super(key, npcs, gs);	
 		this.setSprites();
 		this.setStats();
-		super.setStats(stats);
 	}
 	
+	@Override
 	public void setSprites() {
 		
 		try {
@@ -38,6 +38,7 @@ public class Healer extends Player{
 		
 	}
 	
+	@Override
 	public void setStats() {
 		
 		this.stats.setHealth(20);
@@ -49,7 +50,7 @@ public class Healer extends Player{
 		this.stats.setDefense(2);
 		this.stats.setMagic(4);
 		this.stats.setMagicDefense(5);
-		
+		super.setStats(stats);
 	}
 	
 }

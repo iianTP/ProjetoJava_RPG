@@ -18,10 +18,11 @@ public class Mage extends Player {
 		super(key, npcs, gs);
 		this.setSprites();
 		this.setStats();
-		super.setStats(stats);
 	}
 	
+	@Override
 	public void setSprites() {
+		
 		try {
 			
 			super.setIdleSprites(
@@ -30,6 +31,7 @@ public class Mage extends Player {
 				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png")),
 				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"))
 			);
+			
 			super.setWalkSprites();
 			
 		} catch (IOException e) {
@@ -37,6 +39,7 @@ public class Mage extends Player {
 		}
 	}
 	
+	@Override
 	public void setStats() {
 		
 		this.stats.setHealth(20);
@@ -48,7 +51,7 @@ public class Mage extends Player {
 		this.stats.setDefense(3);
 		this.stats.setMagic(5);
 		this.stats.setMagicDefense(4);
-
+		super.setStats(stats);
 	}
 	
 

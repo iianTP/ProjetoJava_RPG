@@ -18,9 +18,9 @@ public class Warrior extends Player {
 		super(key, npcs, gs);
 		this.setSprites();
 		this.setStats();
-		super.setStats(stats);
 	}
 	
+	@Override
 	public void setSprites() {
 	
 		try {
@@ -38,6 +38,7 @@ public class Warrior extends Player {
 		
 	}
 	
+	@Override
 	public void setStats() {
 		
 		this.stats.setHealth(20);
@@ -49,7 +50,7 @@ public class Warrior extends Player {
 		this.stats.setDefense(4);
 		this.stats.setMagic(1);
 		this.stats.setMagicDefense(1);
-		
+		super.setStats(stats);
 	}
 	
 }
