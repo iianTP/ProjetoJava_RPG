@@ -12,8 +12,8 @@ public class Stats {
 	private int maxHealth;
 	
 	
-	public void damage(int dmg) {
-		this.health -= dmg;
+	public void damage(int damage) {
+		this.health -= damage;
 	}
 	
 	

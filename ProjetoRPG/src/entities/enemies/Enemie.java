@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import entities.Stats;
 
-public class Enemie {
+public abstract class Enemie {
 	
 	private Stats stats;
 	private BufferedImage sprite;
@@ -26,7 +26,7 @@ public class Enemie {
 		this.sprite = sprite;
 	}
 	
-	public void damage(int damage) {
+	public void takeDamage(int damage) {
 		this.stats.damage(damage);
 	}
 	

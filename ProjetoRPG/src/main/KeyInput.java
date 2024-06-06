@@ -58,7 +58,7 @@ public class KeyInput implements KeyListener {
 
 		} else if (gs.getGameState() == 5) {
 			if (key == KeyEvent.VK_B) {
-				gs.setGameState(1);
+				//gs.setGameState(1);
 			}
 			else if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
 				if (cmdNum > 1) {
@@ -123,10 +123,12 @@ public class KeyInput implements KeyListener {
 	}
 
 	public boolean isInteracting() {
-		return this.interaction;
-	}
-	public void stopInteracting() {
-		this.interaction = false;
+		if (this.interaction) {
+			this.interaction = false;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public int getDialogueIndex() {
@@ -138,6 +140,10 @@ public class KeyInput implements KeyListener {
 
 	public int getCmdNum() {
 		return this.cmdNum;
+	}
+	
+	public void finishBattle() {
+		gs.setGameState(1);
 	}
 	
 	

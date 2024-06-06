@@ -8,7 +8,7 @@ import main.KeyInput;
 import main.screen.GameScreen;
 import main.screen.ScreenInfo;
 
-public class Player extends Entity {
+public abstract class Player extends Entity {
 	
 	private KeyInput key;
 	private Npc[] npcs;

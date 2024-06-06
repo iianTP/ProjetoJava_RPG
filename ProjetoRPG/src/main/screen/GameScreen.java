@@ -13,6 +13,7 @@ import entities.enemies.Ghost;
 import entities.npcs.Npc;
 import entities.npcs.Test;
 import main.KeyInput;
+import states.Battle;
 import tiles.TheVoid;
 import tiles.TileManager;
 
@@ -54,6 +55,8 @@ public class GameScreen extends JPanel implements Runnable {
 	private int gameState = playing;
 	
 	private String[] npcDialogue;
+	
+	private Battle b;
 
 	public GameScreen() {
 
@@ -131,6 +134,10 @@ public class GameScreen extends JPanel implements Runnable {
 
 		if (gameState == playing) {
 			
+			if (this.enemie != null) {
+				this.enemie = null;
+			}
+			
 			this.player.update();
 			
 			for (int i = 0; i < npcs.length; i++) {
@@ -141,14 +148,9 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			if (this.enemie == null) {
 				this.enemie = new Ghost();
+				b = new Battle(player, enemie, key);
 			}
-			
-			if (this.key.isInteracting()) {
-				if (this.key.getCmdNum() == 0) {
-					this.enemie.damage(this.player.getStats().getStrenght());
-				}
-			}
-			
+			b.combat();
 		}
 
 	}
@@ -168,14 +170,14 @@ public class GameScreen extends JPanel implements Runnable {
 		if (this.player != null && this.npcs != null) {
 			
 			if (gameState == battle && this.enemie != null) {
-				
 
 				this.ui.battleScreen(this.player.getStats(), this.enemie.getStats());
+				
+				this.ui.battleText(this.b.getBattleState());
 				
 				g2D.drawImage(this.player.getIdleSprites()[0], 96*3, 128*3, 48, 48, null);
 				
 				g2D.drawImage(this.enemie.getSprite(), 104*3, 40*3, 48*2, 48*2, null);
-				
 				
 			} else {
 				

@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 import main.screen.GameScreen;
 
-public class Entity {
+public abstract class Entity {
 	
 	private GameScreen gs;
 	

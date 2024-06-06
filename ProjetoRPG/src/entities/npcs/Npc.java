@@ -10,7 +10,7 @@ import main.screen.GameScreen;
 import main.screen.ScreenInfo;
 import quests.Quest;
 
-public class Npc extends Entity {
+public abstract class Npc extends Entity {
 	
 	private String[] dialogue;
 	private Quest[] quests;

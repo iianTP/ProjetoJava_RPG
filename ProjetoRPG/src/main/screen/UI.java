@@ -99,6 +99,20 @@ public class UI {
 		
 	}
 	
+	public void battleText(String turn) {
+		
+		// 16 176
+		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
+		brush.setColor(Color.white);
+		if (turn.equals("player")) {
+			brush.drawString("SEU TURNO", 16*3, 176*3);
+		} else {
+			brush.drawString("TURNO DO OPONENTE", 16*3, 176*3);
+		}
+		
+		
+	}
+	
 	// TESTE(COORDENADAS)
 	public void draw(int x, int y) {
 		
