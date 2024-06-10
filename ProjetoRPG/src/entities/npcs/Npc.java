@@ -1,5 +1,6 @@
 package entities.npcs;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -7,7 +8,6 @@ import entities.Collision;
 import entities.Entity;
 import entities.Player;
 import main.screen.GameScreen;
-import main.screen.ScreenInfo;
 import quests.Quest;
 
 public abstract class Npc extends Entity {
@@ -15,8 +15,6 @@ public abstract class Npc extends Entity {
 	private String[] dialogue;
 	private Quest[] quests;
 	private Collision collision = new Collision();
-	
-	private ScreenInfo screen = new ScreenInfo();
 	
 	private String location;
 	
@@ -56,10 +54,16 @@ public abstract class Npc extends Entity {
 			sprite = super.getIdleSprites()[1];
 		}
 		*/
-		this.screenX = super.getX() - wX + this.screen.screenSide()/2;
-		setScreenY(super.getY() - wY + this.screen.screenSide()/2);
+		this.screenX = super.getX() - wX + super.getGs().getScreenSide()/2;
+		setScreenY(super.getY() - wY + super.getGs().getScreenSide()/2);
 		
-		brush.drawImage(sprite, this.screenX, this.screenY, this.screen.tileSide(), this.screen.tileSide(), null);
+		// SOMBRA
+		brush.setColor(new Color(0,0,0,100));
+		brush.drawRect(this.screenX, this.screenY, 48, 48);
+		brush.fillOval(this.screenX, this.screenY+40, 48, 15);
+		//
+		
+		brush.drawImage(sprite, this.screenX, this.screenY, super.getGs().getTileSide(), super.getGs().getTileSide(), null);
 
 	}
 	

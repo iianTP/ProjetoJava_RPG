@@ -1,23 +1,22 @@
 package entities;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import entities.npcs.Npc;
 import main.KeyInput;
 import main.screen.GameScreen;
-import main.screen.ScreenInfo;
 
 public abstract class Player extends Entity {
 	
 	private KeyInput key;
 	private Npc[] npcs;
-	private ScreenInfo screen = new ScreenInfo();
 	private Collision collision = new Collision();
 	private Stats stats;
 	
-	private int screenX = this.screen.screenSide()/2 - this.screen.tileSide()/2;
-	private int screenY = this.screen.screenSide()/2 - this.screen.tileSide()/2;
+	private int screenX = super.getGs().getScreenSide()/2 - super.getGs().getTileSide()/2;
+	private int screenY = super.getGs().getScreenSide()/2 - super.getGs().getTileSide()/2;
 
 	private int experience = 0;
 	private int maxExperience = 20;
@@ -25,6 +24,8 @@ public abstract class Player extends Entity {
 	private int gold = 0;
 	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
+	
+	private Color black100Faded = new Color(0,0,0,100);
 
 	public Player(KeyInput key, Npc[] npcs, GameScreen gs) {
 		super(gs);
@@ -62,13 +63,13 @@ public abstract class Player extends Entity {
 			super.resetSpriteCount();
 		}
 	}
+	//
 	
 	public void draw(Graphics2D brush, int gameState) {
 		
 		BufferedImage sprite = null;
 		
 		// Atualização de sprites do player
-		
 		if (this.key.notWalking() || gameState == 2) {
 			
 			if (super.getDirection().equals("up")) {
@@ -118,10 +119,17 @@ public abstract class Player extends Entity {
 			}
 			
 		}
+		//
+		
+		// SOMBRA
+		brush.setColor(this.black100Faded);
+		brush.drawRect(this.screenX, this.screenY-1, 48, 48);
+		brush.fillOval(this.screenX, this.screenY+40, 48, 15);
+		//
 
 		// Desenha o sprite do player
-		brush.drawImage(sprite, this.screenX, this.screenY, this.screen.tileSide(), this.screen.tileSide(), null);
-		
+		brush.drawImage(sprite, this.screenX, this.screenY, super.getGs().getTileSide(), super.getGs().getTileSide(), null);
+		//
 	}
 	
 	// Caminhada

@@ -89,27 +89,22 @@ public class UI {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
-		brush.drawString("ATAQUE", 475, 533);
-		brush.drawString("DEFESA", 586, 533);
-		brush.drawString("BOLSA", 475, 581);
-		brush.drawString("MAGIA", 586, 581);
-		brush.drawString("FUGIR", 475, 629);
+		brush.drawString("ATAQUE", 475, 533); // cmdNum = 0
+		brush.drawString("DEFESA", 586, 533); // cmdNum = 1
+		brush.drawString("MAGIA", 475, 581);  // cmdNum = 2
+		brush.drawString("BOLSA", 586, 581);  // cmdNum = 3
+		brush.drawString("FUGIR", 475, 629);  // cmdNum = 4
 
 		brush.drawString(">", this.battleButtonSelected[this.key.getCmdNum()][0], this.battleButtonSelected[this.key.getCmdNum()][1]);
 		
 	}
 	
-	public void battleText(String turn) {
+	public void battleText(String message) {
 		
 		// 16 176
-		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
+		brush.setFont(font.deriveFont(Font.PLAIN, 14F));
 		brush.setColor(Color.white);
-		if (turn.equals("player")) {
-			brush.drawString("SEU TURNO", 16*3, 176*3);
-		} else {
-			brush.drawString("TURNO DO OPONENTE", 16*3, 176*3);
-		}
-		
+		brush.drawString("- "+message, 16*3, 176*3);
 		
 	}
 	

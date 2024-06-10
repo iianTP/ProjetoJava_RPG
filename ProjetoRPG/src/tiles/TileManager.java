@@ -10,12 +10,9 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
-import main.screen.ScreenInfo;
-
 public class TileManager {
 	
 	private Tile[] tiles;
-	private ScreenInfo screen = new ScreenInfo();
 	
 	private int[][] tileNums = new int[45][45];
 	
@@ -88,13 +85,13 @@ public class TileManager {
 		
 		for(int i = 0; i < 45; i++) {
 			
-			y = i*this.screen.tileSide() - wY + this.screen.screenSide()/2;
+			y = i*48 - wY + 720/2;
 			
 			for(int j = 0; j < 45; j++) {
 				
-				x = j*this.screen.tileSide() - wX + this.screen.screenSide()/2;
+				x = j*48 - wX + 720/2;
 				
-				brush.drawImage(tiles[tileNums[i][j]-1].getTile(), x, y, this.screen.tileSide(), this.screen.tileSide(), null);
+				brush.drawImage(tiles[tileNums[i][j]-1].getTile(), x, y, 48, 48, null);
 				
 			}
 		

@@ -25,8 +25,9 @@ import java.util.Arrays;
 
 public class GameScreen extends JPanel implements Runnable {
 
-	private ScreenInfo screen = new ScreenInfo();
-
+	private int tileSide = 48; // Texturas 48px x 48px
+	private int screenSide = 720; // Dimensões da tela 720px x 720px
+	
 	private long startNanoTime;
 	private final double oneFrameInNano = 1000000000 / 60;
 	
@@ -60,7 +61,7 @@ public class GameScreen extends JPanel implements Runnable {
 
 	public GameScreen() {
 
-		this.setPreferredSize(new Dimension(screen.screenSide(), screen.screenSide()));
+		this.setPreferredSize(new Dimension(this.screenSide, this.screenSide));
 		this.setBackground(Color.gray);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(key);
@@ -87,7 +88,7 @@ public class GameScreen extends JPanel implements Runnable {
 	// Identificação da classe escolhida pelo Player
 	public void setPlayerClass(){
 		
-		String playerClass = "mage";
+		String playerClass = "warrior";
 
 		if (playerClass.equals("mage")) {
 
@@ -173,7 +174,7 @@ public class GameScreen extends JPanel implements Runnable {
 
 				this.ui.battleScreen(this.player.getStats(), this.enemie.getStats());
 				
-				this.ui.battleText(this.b.getBattleState());
+				this.ui.battleText(this.b.getMessage());
 				
 				g2D.drawImage(this.player.getIdleSprites()[0], 96*3, 128*3, 48, 48, null);
 				
@@ -273,6 +274,13 @@ public class GameScreen extends JPanel implements Runnable {
 		this.player.setX(894);
 		this.player.setY(894);
 
+	}
+	
+	public int getTileSide() {
+		return this.tileSide;
+	}
+	public int getScreenSide() {
+		return this.screenSide;
 	}
 	
 	public int getGameState() {
