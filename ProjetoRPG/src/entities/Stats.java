@@ -11,11 +11,9 @@ public class Stats {
 	private int health;
 	private int maxHealth;
 	
-	
 	public void damage(int damage) {
 		this.health -= damage;
 	}
-	
 	
 	// SET
 	public void setStrenght(int strenght) {

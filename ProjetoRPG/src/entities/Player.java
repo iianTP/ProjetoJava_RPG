@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import entities.enemies.Enemie;
 import entities.npcs.Npc;
+import habilities.IHabilities;
 import main.KeyInput;
 import main.screen.GameScreen;
 
-public abstract class Player extends Entity {
+public abstract class Player extends Entity implements IHabilities {
 	
 	private KeyInput key;
 	private Npc[] npcs;
@@ -194,6 +196,40 @@ public abstract class Player extends Entity {
 		}
 		
 	}
+	
+	
+	
+	
+	// MÉTODOS DE COMBATE
+	
+	@Override
+	public <T> void attack(T target) {
+		if (target instanceof Enemie) {
+			((Enemie) target).takeDamage(this.stats.getStrenght());
+		}
+	}
+
+	@Override
+	public <T> void magic(T target) {
+		if (target instanceof Enemie) {
+			
+		}
+	}
+
+	@Override
+	public void defend() {
+		
+	}
+	
+	@Override
+	public void takeDamage(int damage) {
+		this.stats.damage(damage);
+	}
+	
+	//
+	
+	
+	
 	
 	public boolean checkHitbox(int npcX, int npcY) {
 

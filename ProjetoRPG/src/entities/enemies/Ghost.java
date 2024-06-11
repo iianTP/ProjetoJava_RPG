@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entities.Entity;
 import entities.Stats;
 
 public class Ghost extends Enemie {
@@ -39,5 +40,5 @@ public class Ghost extends Enemie {
 		}
 
 	}
-	
+
 }

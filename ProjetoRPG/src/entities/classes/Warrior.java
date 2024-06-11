@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 
 import entities.Player;
 import entities.Stats;
+import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import main.KeyInput;
 import main.screen.GameScreen;
@@ -52,5 +53,5 @@ public class Warrior extends Player {
 		this.stats.setMagicDefense(1);
 		super.setStats(stats);
 	}
-	
+
 }
