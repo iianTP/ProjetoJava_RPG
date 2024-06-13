@@ -4,6 +4,8 @@ public class Stats {
 	
 	private int strenght;
 	private int defense;
+	private int agility;
+	private int criticalDamage;
 	private int mana;
 	private int maxMana;
 	private int magic;
@@ -12,33 +14,72 @@ public class Stats {
 	private int maxHealth;
 	
 	public void damage(int damage) {
-		this.health -= damage;
+		if (damage >= 0) {
+			this.health -= damage;
+		}
+	}
+	
+	public void heal(int heal) {
+		if (heal >= 0) {
+			this.health += heal;
+		}
+	}
+	
+	public void buffStats() {
+		this.maxHealth += 5;
+		this.maxMana += 5;
 	}
 	
 	// SET
 	public void setStrenght(int strenght) {
-		this.strenght = strenght;
+		if (strenght >= 0) {
+			this.strenght = strenght;
+		}
 	}
 	public void setDefense(int defense) {
-		this.defense = defense;
+		if (defense >= 0) {
+			this.defense = defense;
+		}
+	}
+	public void setAgility(int agility) {
+		if (agility >= 0) {
+			this.agility = agility;
+		}
+	}
+	public void setCriticalDamage(int criticalDamage) {
+		if (criticalDamage >= 0) {
+			this.criticalDamage = criticalDamage;
+		}
 	}
 	public void setMana(int mana) {
-		this.mana = mana;
+		if (mana >= 0) {
+			this.mana = mana;
+		}
 	}
 	public void setMaxMana(int maxMana) {
-		this.maxMana = maxMana;
+		if (maxMana >= 0) {
+			this.maxMana = maxMana;
+		}
 	}
 	public void setMagic(int magic) {
-		this.magic = magic;
+		if (magic >= 0) {
+			this.magic = magic;
+		}
 	}
 	public void setMagicDefense(int magicDefense) {
-		this.magicDefense = magicDefense;
+		if (magicDefense >= 0) {
+			this.magicDefense = magicDefense;
+		}
 	}
 	public void setHealth(int health) {
-		this.health = health;
+		if (health >= 0) {
+			this.health = health;
+		}
 	}
 	public void setMaxHealth(int maxHealth) {
-		this.maxHealth = maxHealth;
+		if (maxHealth >= 0) {
+			this.maxHealth = maxHealth;
+		}
 	}
 	//
 	
@@ -48,6 +89,12 @@ public class Stats {
 	}
 	public int getDefense() {
 		return this.defense;
+	}
+	public int getAgility() {
+		return agility;
+	}
+	public int getCriticalDamage() {
+		return criticalDamage;
 	}
 	public int getMana() {
 		return this.mana;
@@ -69,9 +116,4 @@ public class Stats {
 	}
 	//
 	
-	public void buffStats() {
-		this.maxHealth += 5;
-		this.maxMana += 5;
-	}
-
 }

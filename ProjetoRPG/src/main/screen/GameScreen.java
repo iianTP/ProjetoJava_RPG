@@ -25,15 +25,15 @@ import java.util.Arrays;
 
 public class GameScreen extends JPanel implements Runnable {
 
-	private int tileSide = 48; // Texturas 48px x 48px
-	private int screenSide = 720; // Dimensões da tela 720px x 720px
+	private final int tileSide = 48; // Texturas 48px x 48px
+	private final int screenSide = 720; // Dimensões da tela 720px x 720px
 	
 	private long startNanoTime;
 	private final double oneFrameInNano = 1000000000 / 60;
 	
 	private Thread gameThread;
 
-	private KeyInput key = new KeyInput(this);
+	private final KeyInput key = new KeyInput(this);
 	
 	private TileManager tiles = new TileManager();
 	
@@ -88,7 +88,7 @@ public class GameScreen extends JPanel implements Runnable {
 	// Identificação da classe escolhida pelo Player
 	public void setPlayerClass(){
 		
-		String playerClass = "warrior";
+		String playerClass = "mage";
 
 		if (playerClass.equals("mage")) {
 
@@ -151,12 +151,20 @@ public class GameScreen extends JPanel implements Runnable {
 				this.enemie = new Ghost();
 				b = new Battle(player, enemie, key);
 			}
-			b.combat();
+			if (!b.isBattleEnded()) {
+				b.combat();
+			} else {
+				gameState = playing;
+			}
+			
 		}
 
 	}
 	//
 
+	
+	
+	
 	//exibição gráfica do jogo
 	public void paintComponent(Graphics g) {
 
@@ -239,7 +247,7 @@ public class GameScreen extends JPanel implements Runnable {
 			npcsBehind[i].draw(g2D, this.player.getX(), this.player.getY());
 		}
 
-		this.player.draw(g2D, gameState);
+		this.player.draw(g2D);
 
 		for (int i = 0; i < npcsInFront.length; i++) {
 			npcsInFront[i].draw(g2D, this.player.getX(), this.player.getY());

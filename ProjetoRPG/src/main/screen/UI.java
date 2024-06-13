@@ -23,7 +23,9 @@ public class UI {
 	
 	private KeyInput key;
 	
-	private int[][] battleButtonSelected = {{460, 533},{571, 533},{460, 581},{571, 581},{460, 629}};
+	private int[][] battleButtonSelected = {{460, 533}, {571, 533}, 
+											{460, 581}, {571, 581}, 
+											{460, 629}, {571, 629}};
 	
 	public UI(KeyInput key) {
 		
@@ -73,13 +75,26 @@ public class UI {
 		brush.drawImage(this.battleUI, 0, 0, 720, 720, null);
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 15F));
-		brush.setColor(Color.green);
-		brush.drawString("HP: " + playerStats.getHealth() +"/"+ playerStats.getMaxHealth(), 24, 240);
-		brush.drawString("HP: " + playerStats.getHealth() +"/"+ playerStats.getMaxHealth(), 24, 282);
-		brush.drawString("HP: " + playerStats.getHealth() +"/"+ playerStats.getMaxHealth(), 24, 324);
-		brush.drawString("HP: " + playerStats.getHealth() +"/"+ playerStats.getMaxHealth(), 24, 366);
 		
-		brush.drawString("HP: " + enemieStats.getHealth() +"/"+ enemieStats.getMaxHealth(), 528, 48);
+		brush.setColor(Color.red);
+		brush.fillRect(64, 233, 96, 5);
+		brush.fillRect(64, 275, 96, 5);
+		brush.fillRect(64, 317, 96, 5);
+		brush.fillRect(64, 359, 96, 5);
+		brush.fillRect(568, 41, 96, 5);
+		
+		brush.setColor(Color.green);
+		brush.drawString("HP: ", 24, 240);
+		brush.fillRect(64, 233, 96*playerStats.getHealth()/playerStats.getMaxHealth(), 5);
+		brush.drawString("HP: ", 24, 282);
+		brush.fillRect(64, 275, 96*playerStats.getHealth()/playerStats.getMaxHealth(), 5);
+		brush.drawString("HP: ", 24, 324);
+		brush.fillRect(64, 317, 96*playerStats.getHealth()/playerStats.getMaxHealth(), 5);
+		brush.drawString("HP: ", 24, 366);
+		brush.fillRect(64, 359, 96*playerStats.getHealth()/playerStats.getMaxHealth(), 5);
+		
+		brush.drawString("HP: ", 528, 48);
+		brush.fillRect(568, 41, 96*enemieStats.getHealth()/enemieStats.getMaxHealth(), 5);
 		
 		brush.setColor(Color.magenta);
 		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 261);
@@ -93,7 +108,8 @@ public class UI {
 		brush.drawString("DEFESA", 586, 533); // cmdNum = 1
 		brush.drawString("MAGIA", 475, 581);  // cmdNum = 2
 		brush.drawString("BOLSA", 586, 581);  // cmdNum = 3
-		brush.drawString("FUGIR", 475, 629);  // cmdNum = 4
+		brush.drawString("ESPEC.", 475, 629); // cmdNum = 4
+		brush.drawString("FUGIR", 586, 629);  // cmdNum = 5
 
 		brush.drawString(">", this.battleButtonSelected[this.key.getCmdNum()][0], this.battleButtonSelected[this.key.getCmdNum()][1]);
 		
@@ -121,7 +137,6 @@ public class UI {
 		try {
 			this.battleUI = ImageIO.read(getClass().getResourceAsStream("/battle/battleUI.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

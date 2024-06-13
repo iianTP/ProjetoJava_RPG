@@ -50,6 +50,8 @@ public class Mage extends Player {
 		
 		this.stats.setStrenght(2);
 		this.stats.setDefense(3);
+		this.stats.setAgility(3);
+		this.stats.setCriticalDamage(15);
 		this.stats.setMagic(5);
 		this.stats.setMagicDefense(4);
 		super.setStats(stats);

@@ -49,6 +49,8 @@ public class Healer extends Player{
 		
 		this.stats.setStrenght(1);
 		this.stats.setDefense(2);
+		this.stats.setAgility(2);
+		this.stats.setCriticalDamage(10);
 		this.stats.setMagic(4);
 		this.stats.setMagicDefense(5);
 		super.setStats(stats);

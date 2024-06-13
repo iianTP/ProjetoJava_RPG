@@ -49,6 +49,8 @@ public class Warrior extends Player {
 		
 		this.stats.setStrenght(5);
 		this.stats.setDefense(4);
+		this.stats.setAgility(3);
+		this.stats.setCriticalDamage(25);
 		this.stats.setMagic(1);
 		this.stats.setMagicDefense(1);
 		super.setStats(stats);

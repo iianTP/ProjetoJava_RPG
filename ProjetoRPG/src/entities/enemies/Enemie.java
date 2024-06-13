@@ -1,30 +1,23 @@
 package entities.enemies;
 
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import entities.Player;
 import entities.Stats;
-import habilities.IHabilities;
+import habilities.ICombat;
 
-public abstract class Enemie implements IHabilities {
+public abstract class Enemie implements ICombat {
 	
 	private Stats stats;
 	private BufferedImage sprite;
+	private final Random rng = new Random();
 	
 	private int attackChance = 10;
 	private int defenseChance = 5;
 	
-	public Stats getStats() {
-		return this.stats;
-	}
-	public void setStats(Stats stats) {
-		this.stats = stats;
-	}
-	public BufferedImage getSprite() {
-		return this.sprite;
-	}
-	public void setSprite(BufferedImage sprite) {
-		this.sprite = sprite;
+	public int enemieRng(int range, int minNum) {
+		return this.rng.nextInt(range) + minNum;
 	}
 	
 	// MÉTODOS DE COMBATE
@@ -46,7 +39,12 @@ public abstract class Enemie implements IHabilities {
 	
 	@Override
 	public void defend() {
-		
+		if (this.stats.getHealth() < this.stats.getMaxHealth()) {
+			this.stats.heal(this.enemieRng(this.stats.getDefense(), 0));
+			if (this.stats.getHealth() > this.stats.getMaxHealth()) {
+				this.stats.setHealth(this.stats.getMaxHealth());
+			}
+		}
 	}
 	
 	@Override
@@ -69,6 +67,19 @@ public abstract class Enemie implements IHabilities {
 	
 	public int getFullChance() {
 		return attackChance + defenseChance;
+	}
+	
+	public Stats getStats() {
+		return this.stats;
+	}
+	public void setStats(Stats stats) {
+		this.stats = stats;
+	}
+	public BufferedImage getSprite() {
+		return this.sprite;
+	}
+	public void setSprite(BufferedImage sprite) {
+		this.sprite = sprite;
 	}
 	
 

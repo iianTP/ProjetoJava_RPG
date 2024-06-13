@@ -1,6 +1,6 @@
 package habilities;
 
-public interface IHabilities {
+public interface ICombat {
 	
 	public <T> void attack(T target);
 	

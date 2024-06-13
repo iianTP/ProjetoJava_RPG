@@ -2,6 +2,7 @@ package entities;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -29,11 +30,17 @@ public abstract class Entity {
 	private boolean collision;
 	// private Collision collision = new Collision();
 	
+	private final Random rng = new Random();
+	
 	public Entity(GameScreen gs) {
 		this.gs = gs;
 	}
 	
 	public abstract void setSprites();
+	
+	public int rng(int range, int minNum) {
+		return this.rng.nextInt(range) + minNum;
+	}
 	
 	// SET
 	public void setX(int x) {

@@ -3,18 +3,19 @@ package entities;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
-import habilities.IHabilities;
+import habilities.ICombat;
 import main.KeyInput;
 import main.screen.GameScreen;
 
-public abstract class Player extends Entity implements IHabilities {
+public abstract class Player extends Entity implements ICombat {
 	
-	private KeyInput key;
-	private Npc[] npcs;
-	private Collision collision = new Collision();
+	private final KeyInput key;
+	private final Npc[] npcs;
+	private final Collision collision = new Collision();
 	private Stats stats;
 	
 	private int screenX = super.getGs().getScreenSide()/2 - super.getGs().getTileSide()/2;
@@ -67,12 +68,12 @@ public abstract class Player extends Entity implements IHabilities {
 	}
 	//
 	
-	public void draw(Graphics2D brush, int gameState) {
+	public void draw(Graphics2D brush) {
 		
 		BufferedImage sprite = null;
 		
 		// Atualização de sprites do player
-		if (this.key.notWalking() || gameState == 2) {
+		if (this.key.notWalking() || super.getGs().getGameState() == 2) {
 			
 			if (super.getDirection().equals("up")) {
 				sprite = super.getIdleSprites()[0];
@@ -218,7 +219,12 @@ public abstract class Player extends Entity implements IHabilities {
 
 	@Override
 	public void defend() {
-		
+		if (this.stats.getHealth() < this.stats.getMaxHealth()) {
+			this.stats.heal(super.rng(this.stats.getDefense(), 0));
+			if (this.stats.getHealth() > this.stats.getMaxHealth()) {
+				this.stats.setHealth(this.stats.getMaxHealth());
+			}
+		}
 	}
 	
 	@Override

@@ -1,7 +1,5 @@
 package states;
 
-import java.util.Random;
-
 import entities.Player;
 import entities.enemies.Enemie;
 import main.KeyInput;
@@ -11,14 +9,12 @@ public class Battle {
 	private Player player;
 	private Enemie enemie;
 	private KeyInput key;
-	private Random rng = new Random();
 	
-	private String[] battleCicle = {"player-turn", "enemie-turn", "enemie-text"};
-	private String battleState = battleCicle[0];
-	
-	private int battleCicleIndex = 0;
+	private String battleState = "player-turn";
 	
 	private String message = "SEU TURNO";
+	
+	private boolean battleEnded = false;
 	
 	public Battle(Player player, Enemie enemie, KeyInput key) {
 		this.player = player;
@@ -33,41 +29,66 @@ public class Battle {
 			if (this.battleState.equals("player-turn")) {
 				
 				switch (this.key.getCmdNum()) {
-				case 0:
+				case 0: // ATTACK
+					
 					this.player.attack(this.enemie);
-					this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
-					this.proceedCicle();
+					
+					if (this.enemie.getStats().getHealth() <= 0) {
+						
+						this.message = "SEU OPONENTE FOI DERROTADO";
+						battleEnded = true;
+						return;
+						
+					} else {
+						
+						this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
+						battleState = "enemie-turn";
+						
+					}
+					
 					break;
-				case 1:
+					
+				case 1: // DEFENSE
+					
+					int playerHpBefore = this.player.getStats().getHealth();
+					
 					this.player.defend();
+					
+					int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
+					
+					if (playerHpDifference > 0) {
+						this.message = "VOCE RECUPEROU VIDA (+"+playerHpDifference+"HP)";
+					} else {
+						this.message = "VOCE NAO FEZ NADA";
+					}
+					
+					battleState = "enemie-turn";
 					break;
-				case 2:
+					
+				case 2: // MAGIC
 					break;
-				case 3:
+				case 3: // INVENTORY
 					break;
-				case 4:
-					key.finishBattle();
+				case 4: // SPECIAL
 					break;
+				case 5: // FLEE
+					battleEnded = true;
+					return;
 				}
 				
 			}
 			
 			else if (this.battleState.equals("enemie-turn")) {
-				
-				if (this.enemie.getStats().getHealth() <= 0) {
-					this.key.finishBattle();
-					return;
-				}
 			
 				this.enemieMove();
-				this.proceedCicle();
+				battleState = "enemie-text";
 					
 			}
 			
 			else if (this.battleState.equals("enemie-text")) {
 				
 				this.message = "SEU TURNO";
-				this.proceedCicle();
+				battleState = "player-turn";
 				
 			}
 			
@@ -78,32 +99,35 @@ public class Battle {
 	
 	public void enemieMove() {
 		
-		int randomNumber = this.rng.nextInt(this.enemie.getFullChance()) + 1;
+		int randomNumber = this.enemie.enemieRng(this.enemie.getFullChance(), 1);
 		int playerHpBefore = this.player.getStats().getHealth();
+		int enemieHpBefore = this.enemie.getStats().getHealth();
 		
 		if (randomNumber <= this.enemie.getAttackChance()) {
 			this.enemie.attack(player);
-			int difference = this.player.getStats().getHealth() - playerHpBefore;
-			this.message = "SEU OPONENTE LHE GOLPEOU ("+difference+"HP)";
+			int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
+			this.message = "SEU OPONENTE LHE GOLPEOU ("+playerHpDifference+"HP)";
 		} else {
 			this.enemie.defend();
-			this.message = "SEU OPONENTE NAO FEZ NADA";
+			int enemieHpDifference = this.enemie.getStats().getHealth() - enemieHpBefore;
+			if (enemieHpDifference > 0) {
+				this.message = "SEU OPONENTE RECUPEROU VIDA (+"+enemieHpDifference+"HP)";
+			} else {
+				this.message = "SEU OPONENTE NAO FEZ NADA";
+			}
 		}
 		
 	}
 	
-	public void proceedCicle() {
-		
-		this.battleCicleIndex += (this.battleCicleIndex < 2) ? 1 : -2;
-		this.battleState = this.battleCicle[this.battleCicleIndex];
-		
-	}
-
 	public String getBattleState() {
 		return battleState;
 	}
 
 	public String getMessage() {
 		return message;
+	}
+
+	public boolean isBattleEnded() {
+		return battleEnded;
 	}
 }

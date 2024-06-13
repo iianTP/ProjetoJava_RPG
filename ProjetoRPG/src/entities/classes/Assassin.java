@@ -50,6 +50,8 @@ public class Assassin extends Player {
 		
 		this.stats.setStrenght(3);
 		this.stats.setDefense(5);
+		this.stats.setAgility(4);
+		this.stats.setCriticalDamage(20);
 		this.stats.setMagic(2);
 		this.stats.setMagicDefense(2);
 		super.setStats(stats);

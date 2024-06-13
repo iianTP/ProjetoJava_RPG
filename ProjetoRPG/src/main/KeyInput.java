@@ -65,7 +65,7 @@ public class KeyInput implements KeyListener {
 					this.cmdNum -= 2;
 				}
 			} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-				if (cmdNum < 3) {
+				if (cmdNum < 4) {
 					this.cmdNum += 2;
 				}
 			} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
@@ -73,7 +73,7 @@ public class KeyInput implements KeyListener {
 					this.cmdNum--;
 				}
 			} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-				if (cmdNum % 2 == 0 && cmdNum != 4) {
+				if (cmdNum % 2 == 0) {
 					this.cmdNum++;
 				}
 			} else if (key == KeyEvent.VK_E) {
@@ -141,10 +141,5 @@ public class KeyInput implements KeyListener {
 	public int getCmdNum() {
 		return this.cmdNum;
 	}
-	
-	public void finishBattle() {
-		gs.setGameState(1);
-	}
-	
 	
 }
