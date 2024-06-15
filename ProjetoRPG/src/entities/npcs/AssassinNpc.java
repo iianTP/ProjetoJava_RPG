@@ -2,31 +2,67 @@ package entities.npcs;
 
 import java.io.IOException;
 
-import java.util.Random;
-
 import javax.imageio.ImageIO;
 
 import entities.Player;
+import entities.Stats;
+
 import main.screen.GameScreen;
 
-public class Test extends Npc {
+public class AssassinNpc extends Npc {
 	
-	private String[] dialogue = {"gdsgdsd", "sdgshsrhse"};
+	private Stats stats = new Stats();
 	
-	public Test(int x, int y, GameScreen gs) {
+	public AssassinNpc(int x, int y, GameScreen gs) {
 		super(gs);
-		
-		super.setDirection("down");
-
+		this.setSprites();
+		this.setStats();
 		super.setX(x);
 		super.setY(y);
-		super.setWalkSpeed(1);
-		setSprites();
+		super.setWalkSpeed(3);
+		super.setDirection("down");
+	}
+	
+	@Override
+	public void setSprites() {
+		
+		try {
+			
+			super.setIdleSprites(
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleUp.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleLeft.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleRight.png"))
+			);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
-	
-	
+	public void setStats() {
+		
+		this.stats.setHealth(20);
+		this.stats.setMaxHealth(20);
+		this.stats.setMana(20);
+		this.stats.setMaxMana(20);
+		
+		this.stats.setStrenght(3);
+		this.stats.setDefense(5);
+		this.stats.setAgility(4);
+		this.stats.setCriticalDamage(20);
+		this.stats.setMagic(2);
+		this.stats.setMagicDefense(2);
+
+	}
+
+	@Override
+	public void interaction() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	public void action(Player player, Npc[] npcs) {
 		
@@ -37,19 +73,12 @@ public class Test extends Npc {
 			
 			if (randInt <= 20) {
 				super.setDirection("up");
-				super.setWalking(true);
 			} else if (randInt > 20 && randInt <= 40) {
 				super.setDirection("down");
-				super.setWalking(true);
 			} else if (randInt > 40 && randInt <= 60) {
 				super.setDirection("left");
-				super.setWalking(true);
 			} else if (randInt > 60 && randInt <= 80) {
 				super.setDirection("right");
-				super.setWalking(true);
-			} else if (randInt > 80 && randInt <= 100) {
-				//super.setDirection("idle");
-				super.setWalking(false);
 			}
 
 			super.resetFrameCounter();
@@ -73,28 +102,5 @@ public class Test extends Npc {
 		}
 		
 	}
-	
-	@Override
-	public void interaction() {
-		System.out.println("foi");
-		super.getGs().setNpcDialogue(dialogue);
-		super.getGs().setGameState(3);
-	}
 
-	@Override
-	public void setSprites() {
-		try {
-			
-			super.setIdleSprites(
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleUp.png")),
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")),
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleLeft.png")),
-					ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleRight.png"))
-			);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
-	
 }

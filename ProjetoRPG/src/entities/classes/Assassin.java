@@ -16,8 +16,8 @@ public class Assassin extends Player {
 	
 	private Stats stats = new Stats();
 	
-	public Assassin(KeyInput key, Npc[] npcs, GameScreen gs) {
-		super(key, npcs, gs);
+	public Assassin(KeyInput key, GameScreen gs) {
+		super(key, gs);
 		this.setSprites();
 		this.setStats();
 	}

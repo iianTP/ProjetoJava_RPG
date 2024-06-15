@@ -72,8 +72,8 @@ public abstract class Npc extends Entity {
 		int x = super.getX();
 		int y = super.getY();
 		
-		if (playerX > hitbox[0][0] + x && playerX < hitbox[1][0] + x && 
-			playerY > hitbox[0][1] + y && playerY < hitbox[1][1] + y) {
+		if (playerX >= hitbox[0][0] + x && playerX <= hitbox[1][0] + x && 
+			playerY >= hitbox[0][1] + y && playerY <= hitbox[1][1] + y) {
 			return true;
 		} else {
 			return false;

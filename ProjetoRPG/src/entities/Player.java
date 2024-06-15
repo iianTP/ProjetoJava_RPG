@@ -14,7 +14,7 @@ import main.screen.GameScreen;
 public abstract class Player extends Entity implements ICombat {
 	
 	private final KeyInput key;
-	private final Npc[] npcs;
+	private Npc[] npcs;
 	private final Collision collision = new Collision();
 	private Stats stats;
 	
@@ -30,10 +30,9 @@ public abstract class Player extends Entity implements ICombat {
 	
 	private Color black100Faded = new Color(0,0,0,100);
 
-	public Player(KeyInput key, Npc[] npcs, GameScreen gs) {
+	public Player(KeyInput key, GameScreen gs) {
 		super(gs);
 		this.key = key; // Input do teclado
-		this.npcs = npcs;
 		
 		// Coordenadas iniciais do player (centro da tela)
 		super.setX(2160/2);
@@ -156,7 +155,10 @@ public abstract class Player extends Entity implements ICombat {
 			super.setY(super.getY() - 24);
 			
 			this.collision.checkTile(this);
-			this.collision.checkNpc(this, npcs);
+			if (npcs != null) {
+				this.collision.checkNpc(this, npcs);
+			}
+			
 			
 			super.setX(super.getX() + 24);
 			super.setY(super.getY() + 24);
@@ -234,16 +236,13 @@ public abstract class Player extends Entity implements ICombat {
 	
 	//
 	
-	
-	
-	
 	public boolean checkHitbox(int npcX, int npcY) {
 
 		int x = super.getX()-24;
 		int y = super.getY()-24;
 		
-		if (npcX > hitbox[0][0] + x && npcX < hitbox[1][0] + x && 
-			npcY > hitbox[0][1] + y && npcY < hitbox[1][1] + y) {
+		if (npcX >= hitbox[0][0] + x && npcX <= hitbox[1][0] + x && 
+			npcY >= hitbox[0][1] + y && npcY <= hitbox[1][1] + y) {
 			return true;
 		} else {
 			return false;
@@ -308,6 +307,10 @@ public abstract class Player extends Entity implements ICombat {
 
 	public void setStats(Stats stats) {
 		this.stats = stats;
+	}
+	
+	public void setNpcs(Npc[] npcs) {
+		this.npcs = npcs;
 	}
 	
 	

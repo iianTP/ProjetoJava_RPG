@@ -4,16 +4,24 @@ import javax.swing.JPanel;
 
 import entities.Entity;
 import entities.Player;
+
 import entities.classes.Assassin;
 import entities.classes.Healer;
 import entities.classes.Mage;
 import entities.classes.Warrior;
+
 import entities.enemies.Enemie;
 import entities.enemies.Ghost;
+import entities.npcs.AssassinNpc;
+import entities.npcs.HealerNpc;
+import entities.npcs.MageNpc;
 import entities.npcs.Npc;
 import entities.npcs.Test;
+import entities.npcs.WarriorNpc;
 import main.KeyInput;
+
 import states.Battle;
+
 import tiles.TheVoid;
 import tiles.TileManager;
 
@@ -21,6 +29,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import java.util.Arrays;
 
 public class GameScreen extends JPanel implements Runnable {
@@ -43,6 +52,8 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private Player player;
 	private Npc[] npcs = new Npc[2];
+	private Npc[] teammates = new Npc[3];
+	private Npc[] allNpcs = new Npc[npcs.length+teammates.length];
 	private Enemie enemie;
 	//private Entity[] team = new Entity[3];
 	
@@ -67,18 +78,20 @@ public class GameScreen extends JPanel implements Runnable {
 		this.addKeyListener(key);
 		this.setFocusable(true);
 		
-		this.ui = new UI(key);
-
+		this.ui = new UI(this.key);
+		
 	}
 
 	//inicialização do game loop
 	public void startThread() {
-
+		
+		
 		setPlayerClass();
-//1157
-		this.npcs[0] = new Test(1048, 1012, this);
-		this.npcs[1] = new Test(1000, 1000, this);
-
+		
+		setAllNpcs();
+		
+		this.player.setNpcs(allNpcs);
+		
 		this.gameThread = new Thread(this);
 		this.gameThread.start();
 
@@ -91,25 +104,49 @@ public class GameScreen extends JPanel implements Runnable {
 		String playerClass = "mage";
 
 		if (playerClass.equals("mage")) {
-
-			this.player = new Mage(key, npcs, this);
-
+			
+			this.player = new Mage(key, this);
+			
+			teammates[0] = new AssassinNpc(this.player.getX()-24, this.player.getY()-48, this);
+			teammates[1] = new HealerNpc(this.player.getX()-24, this.player.getY()-48-24, this);
+			teammates[2] = new WarriorNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
+			
 		} else if (playerClass.equals("warrior")) {
 
-			this.player = new Warrior(key, npcs, this);
+			this.player = new Warrior(key, this);
+			
+			teammates[0] = new AssassinNpc(this.player.getX()-24, this.player.getY()-48, this);
+			teammates[1] = new HealerNpc(this.player.getX()-24, this.player.getY()-48-24, this);
+			teammates[2] = new MageNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
 
 		} else if (playerClass.equals("healer")) {
 
-			this.player = new Healer(key, npcs, this);
+			this.player = new Healer(key, this);
+			
+			teammates[0] = new AssassinNpc(this.player.getX()-24, this.player.getY()-48, this);
+			teammates[1] = new MageNpc(this.player.getX()-24, this.player.getY()-48-24, this);
+			teammates[2] = new WarriorNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
 
 		} else if (playerClass.equals("assassin")) {
 
-			this.player = new Assassin(key, npcs, this);
+			this.player = new Assassin(key, this);
+			
+			teammates[0] = new MageNpc(this.player.getX()-24, this.player.getY()-48, this);
+			teammates[1] = new HealerNpc(this.player.getX()-24, this.player.getY()-48-24, this);
+			teammates[2] = new WarriorNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
 
 		}
 		
 	}
 	//
+	
+	public void setAllNpcs() {
+		this.npcs[0] = new Test(1333, 1386, this);
+		this.npcs[1] = new Test(1224, 1234, this);
+		
+		System.arraycopy(npcs, 0, allNpcs, 0, npcs.length);
+		System.arraycopy(teammates, 0, allNpcs, npcs.length, 3);
+	}
 
 	@Override
 	public void run() {
@@ -173,7 +210,7 @@ public class GameScreen extends JPanel implements Runnable {
 		Graphics2D g2D = (Graphics2D) g;
 		
 		this.ui.setBrush(g2D);
-
+		
 		this.theVoid.draw(g2D);
 
 		if (this.player != null && this.npcs != null) {
@@ -181,6 +218,8 @@ public class GameScreen extends JPanel implements Runnable {
 			if (gameState == battle && this.enemie != null) {
 
 				this.ui.battleScreen(this.player.getStats(), this.enemie.getStats());
+				
+				this.ui.battleOptionsBox(this.b.getBattleState());
 				
 				this.ui.battleText(this.b.getMessage());
 				
@@ -228,14 +267,18 @@ public class GameScreen extends JPanel implements Runnable {
 		Npc[] npcsBehind = new Npc[0];
 		Npc[] npcsInFront = new Npc[0];
 
-		for (int i = 0; i < npcs.length; i++) {
+		for (int i = 0; i < allNpcs.length; i++) {
 
-			if (this.player.getScreenY() >= this.npcs[i].getScreenY()) {
+			if (this.player.getScreenY() >= allNpcs[i].getScreenY()) {
+				
 				npcsBehind = Arrays.copyOf(npcsBehind, npcsBehind.length+1);
-				npcsBehind[npcsBehind.length-1] = npcs[i];
+				npcsBehind[npcsBehind.length-1] = allNpcs[i];
+				
 			} else {
+				
 				npcsInFront = Arrays.copyOf(npcsInFront, npcsInFront.length+1);
-				npcsInFront[npcsInFront.length-1] = npcs[i];
+				npcsInFront[npcsInFront.length-1] = allNpcs[i];
+				
 			}
 
 		}

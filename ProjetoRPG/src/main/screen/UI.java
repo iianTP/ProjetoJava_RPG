@@ -21,11 +21,17 @@ public class UI {
 	
 	private Graphics2D brush;
 	
-	private KeyInput key;
+	private final KeyInput key;
 	
-	private int[][] battleButtonSelected = {{460, 533}, {571, 533}, 
-											{460, 581}, {571, 581}, 
-											{460, 629}, {571, 629}};
+	int battleButtonInitX = 475;
+	int battleButtonInitY = 550;
+	
+	private int[][] battleButtonSelected = {{battleButtonInitX-15, battleButtonInitY}, 
+											{battleButtonInitX-15+111, battleButtonInitY},
+											{battleButtonInitX-15, battleButtonInitY+48}, 
+											{battleButtonInitX-15+111, battleButtonInitY+48}, 
+											{battleButtonInitX-15, battleButtonInitY+48+48}, 
+											{battleButtonInitX-15+111, battleButtonInitY+48+48}};
 	
 	public UI(KeyInput key) {
 		
@@ -97,30 +103,59 @@ public class UI {
 		brush.fillRect(568, 41, 96*enemieStats.getHealth()/enemieStats.getMaxHealth(), 5);
 		
 		brush.setColor(Color.magenta);
-		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 261);
-		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 303);
-		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 345);
-		brush.drawString("Mana: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 387);
+		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 261);
+		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 303);
+		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 345);
+		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 387);
+		
+	}
+	
+	public void battleOptionsBox(String battleState) {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
-		brush.drawString("ATAQUE", 475, 533); // cmdNum = 0
-		brush.drawString("DEFESA", 586, 533); // cmdNum = 1
-		brush.drawString("MAGIA", 475, 581);  // cmdNum = 2
-		brush.drawString("BOLSA", 586, 581);  // cmdNum = 3
-		brush.drawString("ESPEC.", 475, 629); // cmdNum = 4
-		brush.drawString("FUGIR", 586, 629);  // cmdNum = 5
+		
+		if (battleState.equals("choose-move")) {
+			
+			brush.drawString("ATAQUE", battleButtonInitX, battleButtonInitY); // cmdNum = 0
+			brush.drawString("DEFESA", battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
+			brush.drawString("MAGIA", battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
+			brush.drawString("BOLSA", battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
+			brush.drawString("ESPEC.", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+			brush.drawString("FUGIR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
 
-		brush.drawString(">", this.battleButtonSelected[this.key.getCmdNum()][0], this.battleButtonSelected[this.key.getCmdNum()][1]);
+		} else if (battleState.equals("choose-spell") || battleState.equals("choose-item")) {
+			
+			brush.drawString("-", battleButtonInitX, battleButtonInitY); // cmdNum = 0
+			brush.drawString("-", battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
+			brush.drawString("-", battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
+			brush.drawString("-", battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
+			brush.drawString("-", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+			brush.drawString("VOLTAR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
+			
+		} /*else if (battleState.equals("choose-item")) {
+			
+			brush.drawString("-", battleButtonInitX, battleButtonInitY); // cmdNum = 0
+			brush.drawString("-", battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
+			brush.drawString("-", battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
+			brush.drawString("-", battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
+			brush.drawString("-", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+			brush.drawString("-->", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
+			
+		}*/
+		
+		if (!battleState.equals("enemie-turn") && !battleState.equals("enemie-text")) {
+			brush.drawString(">", this.battleButtonSelected[this.key.getCmdNum()][0], this.battleButtonSelected[this.key.getCmdNum()][1]);
+		}
+		
 		
 	}
 	
 	public void battleText(String message) {
 		
-		// 16 176
-		brush.setFont(font.deriveFont(Font.PLAIN, 14F));
+		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
-		brush.drawString("- "+message, 16*3, 176*3);
+		brush.drawString("* "+message, 16*3, 176*3);
 		
 	}
 	
@@ -132,6 +167,7 @@ public class UI {
 		brush.drawString("wX: " + x + " wY: " + y, 48, 48);
 		
 	}
+	//
 
 	public void setBattleUI() {
 		try {
@@ -140,13 +176,10 @@ public class UI {
 			e.printStackTrace();
 		}
 	}
-
-	public Graphics2D getBrush() {
-		return brush;
-	}
-
+	
 	public void setBrush(Graphics2D brush) {
 		this.brush = brush;
 	}
+
 
 }

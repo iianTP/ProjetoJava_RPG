@@ -1,4 +1,4 @@
-package entities.classes;
+package entities.npcs;
 
 import java.io.IOException;
 
@@ -11,14 +11,18 @@ import entities.npcs.Npc;
 import main.KeyInput;
 import main.screen.GameScreen;
 
-public class Healer extends Player{
+public class HealerNpc extends Npc {
 	
 	private Stats stats = new Stats();
 
-	public Healer(KeyInput key, GameScreen gs) {
-		super(key, gs);	
+	public HealerNpc(int x, int y, GameScreen gs) {
+		super(gs);	
 		this.setSprites();
 		this.setStats();
+		super.setX(x);
+		super.setY(y);
+		super.setWalkSpeed(3);
+		super.setDirection("down");
 	}
 	
 	@Override
@@ -39,7 +43,7 @@ public class Healer extends Player{
 		
 	}
 	
-	@Override
+
 	public void setStats() {
 		
 		this.stats.setHealth(20);
@@ -53,7 +57,19 @@ public class Healer extends Player{
 		this.stats.setCriticalDamage(10);
 		this.stats.setMagic(4);
 		this.stats.setMagicDefense(5);
-		super.setStats(stats);
+
+	}
+
+	@Override
+	public void interaction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void action(Player player, Npc[] npcs) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
