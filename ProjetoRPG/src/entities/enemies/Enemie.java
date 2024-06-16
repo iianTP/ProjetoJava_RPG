@@ -31,7 +31,7 @@ public abstract class Enemie implements ICombat {
 	}
 
 	@Override
-	public <T> void magic(T target) {
+	public <T> void magic(T target, int spellId) {
 		if (target instanceof Player) {
 			
 		}

@@ -178,8 +178,8 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			this.player.update();
 			
-			for (int i = 0; i < npcs.length; i++) {
-				this.npcs[i].update(this.player, this.npcs);
+			for (int i = 0; i < allNpcs.length; i++) {
+				this.allNpcs[i].update(this.player, this.allNpcs);
 			}
 			
 		} else if (gameState == battle) {

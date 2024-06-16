@@ -7,6 +7,7 @@ import java.util.Random;
 
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
+import entities.npcs.Test;
 import habilities.ICombat;
 import main.KeyInput;
 import main.screen.GameScreen;
@@ -28,7 +29,13 @@ public abstract class Player extends Entity implements ICombat {
 	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	
-	private Color black100Faded = new Color(0,0,0,100);
+	private final Color black100Faded = new Color(0,0,0,100);
+	
+	private boolean unlockedSpell1 = false;
+	private boolean unlockedSpell2 = false;
+	private boolean unlockedSpell3 = false;
+	private boolean unlockedSpell4 = false;
+	private boolean unlockedSpell5 = false;
 
 	public Player(KeyInput key, GameScreen gs) {
 		super(gs);
@@ -125,7 +132,6 @@ public abstract class Player extends Entity implements ICombat {
 		
 		// SOMBRA
 		brush.setColor(this.black100Faded);
-		brush.drawRect(this.screenX, this.screenY-1, 48, 48);
 		brush.fillOval(this.screenX, this.screenY+40, 48, 15);
 		//
 
@@ -213,7 +219,7 @@ public abstract class Player extends Entity implements ICombat {
 	}
 
 	@Override
-	public <T> void magic(T target) {
+	public <T> void magic(T target, int spellId) {
 		if (target instanceof Enemie) {
 			
 		}

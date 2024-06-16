@@ -91,6 +91,7 @@ public class Collision {
 					if (npcs[i].checkHitbox(hitboxLeft, hitboxTop - speed) ||
 						npcs[i].checkHitbox(hitboxRight, hitboxTop - speed)) {
 						entity.setCollision(true);
+						this.npcNearby = npcs[i];
 					}
 					
 				} else if (entity.getDirection().equals("down")) {
@@ -98,6 +99,7 @@ public class Collision {
 					if (npcs[i].checkHitbox(hitboxLeft, hitboxBottom + speed) ||
 						npcs[i].checkHitbox(hitboxRight, hitboxBottom + speed)) {
 						entity.setCollision(true);
+						this.npcNearby = npcs[i];
 					}
 					
 				} else if (entity.getDirection().equals("left")) {
@@ -105,6 +107,7 @@ public class Collision {
 					if (npcs[i].checkHitbox(hitboxLeft - speed, hitboxTop) ||
 						npcs[i].checkHitbox(hitboxLeft - speed, hitboxBottom)) {
 						entity.setCollision(true);
+						this.npcNearby = npcs[i];
 					}
 					
 				} else if (entity.getDirection().equals("right")) {
@@ -112,14 +115,11 @@ public class Collision {
 					if (npcs[i].checkHitbox(hitboxRight + speed, hitboxTop) ||
 						npcs[i].checkHitbox(hitboxRight + speed, hitboxBottom)) {
 						entity.setCollision(true);
+						this.npcNearby = npcs[i];
 					}
 					
 				}
-				
-				if (entity.getCollision()) {
-					this.npcNearby = npcs[i];
-				}
-				
+
 			}
 			
 		}

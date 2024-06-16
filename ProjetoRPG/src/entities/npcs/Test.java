@@ -97,4 +97,8 @@ public class Test extends Npc {
 		}		
 	}
 	
+	public String teste() {
+		return dialogue[0];
+	}
+	
 }

@@ -63,6 +63,8 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
+						this.player.magic(this.enemie, this.key.getCmdNum());
+						
 					} else if (this.battleState.equals("choose-item")) {
 						
 					} else if (this.battleState.equals("choose-special")) {
