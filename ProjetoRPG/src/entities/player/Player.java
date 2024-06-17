@@ -1,14 +1,18 @@
-package entities;
+package entities.player;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import entities.Collision;
+import entities.Entity;
+import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.npcs.Test;
 import habilities.ICombat;
+import habilities.Spells;
 import main.KeyInput;
 import main.screen.GameScreen;
 
@@ -31,11 +35,7 @@ public abstract class Player extends Entity implements ICombat {
 	
 	private final Color black100Faded = new Color(0,0,0,100);
 	
-	private boolean unlockedSpell1 = false;
-	private boolean unlockedSpell2 = false;
-	private boolean unlockedSpell3 = false;
-	private boolean unlockedSpell4 = false;
-	private boolean unlockedSpell5 = false;
+	private Spells spells = new Spells();
 
 	public Player(KeyInput key, GameScreen gs) {
 		super(gs);
@@ -219,9 +219,9 @@ public abstract class Player extends Entity implements ICombat {
 	}
 
 	@Override
-	public <T> void magic(T target, int spellId) {
+	public <T> void magic(T target, String spellId) {
 		if (target instanceof Enemie) {
-			
+			this.spells.castSpell(spellId/*, enemie*/);
 		}
 	}
 
@@ -317,6 +317,10 @@ public abstract class Player extends Entity implements ICombat {
 	
 	public void setNpcs(Npc[] npcs) {
 		this.npcs = npcs;
+	}
+
+	public Spells getSpells() {
+		return spells;
 	}
 	
 	

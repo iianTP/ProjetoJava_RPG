@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 import entities.Collision;
 import entities.Entity;
-import entities.Player;
+import entities.player.Player;
 import main.screen.GameScreen;
 import quests.Quest;
 

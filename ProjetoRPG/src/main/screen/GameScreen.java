@@ -3,13 +3,6 @@ package main.screen;
 import javax.swing.JPanel;
 
 import entities.Entity;
-import entities.Player;
-
-import entities.classes.Assassin;
-import entities.classes.Healer;
-import entities.classes.Mage;
-import entities.classes.Warrior;
-
 import entities.enemies.Enemie;
 import entities.enemies.Ghost;
 import entities.npcs.AssassinNpc;
@@ -18,6 +11,11 @@ import entities.npcs.MageNpc;
 import entities.npcs.Npc;
 import entities.npcs.Test;
 import entities.npcs.WarriorNpc;
+import entities.player.Assassin;
+import entities.player.Healer;
+import entities.player.Mage;
+import entities.player.Player;
+import entities.player.Warrior;
 import main.KeyInput;
 
 import states.Battle;
@@ -62,13 +60,13 @@ public class GameScreen extends JPanel implements Runnable {
 	private final int pause = 2;
 	private final int dialogue = 3;
 	private final int inventory = 4;
-	private final int battle = 5;
+	private final int combat = 5;
 
 	private int gameState = playing;
 	
 	private String[] npcDialogue;
 	
-	private Battle b;
+	private Battle battle;
 
 	public GameScreen() {
 
@@ -182,14 +180,14 @@ public class GameScreen extends JPanel implements Runnable {
 				this.allNpcs[i].update(this.player, this.allNpcs);
 			}
 			
-		} else if (gameState == battle) {
+		} else if (gameState == combat) {
 			
 			if (this.enemie == null) {
 				this.enemie = new Ghost();
-				b = new Battle(player, enemie, key);
+				battle = new Battle(player, enemie, key);
 			}
-			if (!b.isBattleEnded()) {
-				b.combat();
+			if (!battle.isBattleEnded()) {
+				battle.combat();
 			} else {
 				gameState = playing;
 			}
@@ -215,13 +213,11 @@ public class GameScreen extends JPanel implements Runnable {
 
 		if (this.player != null && this.npcs != null) {
 			
-			if (gameState == battle && this.enemie != null) {
+			if (gameState == combat && this.enemie != null) {
 
-				this.ui.battleScreen(this.player.getStats(), this.enemie.getStats());
+				this.ui.battleScreen(this.player, this.enemie, this.battle.getBattleState());
 				
-				this.ui.battleOptionsBox(this.b.getBattleState());
-				
-				this.ui.battleText(this.b.getMessage());
+				this.ui.battleText(this.battle.getMessage());
 				
 				g2D.drawImage(this.player.getIdleSprites()[0], 96*3, 128*3, 48, 48, null);
 				

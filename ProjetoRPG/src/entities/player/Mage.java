@@ -1,21 +1,20 @@
-package entities.classes;
+package entities.player;
 
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entities.Player;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import main.KeyInput;
 import main.screen.GameScreen;
 
-public class Warrior extends Player {
+public class Mage extends Player {
 	
 	private Stats stats = new Stats();
 
-	public Warrior(KeyInput key, GameScreen gs) {
+	public Mage(KeyInput key, GameScreen gs) {
 		super(key, gs);
 		this.setSprites();
 		this.setStats();
@@ -23,20 +22,21 @@ public class Warrior extends Player {
 	
 	@Override
 	public void setSprites() {
-	
+		
 		try {
 			
 			super.setIdleSprites(
-					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleUp.png")),
-					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleDown.png")),
-					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleLeft.png")),
-					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleRight.png"))
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"))
 			);
+			
+			super.setWalkSprites();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	@Override
@@ -47,13 +47,13 @@ public class Warrior extends Player {
 		this.stats.setMana(20);
 		this.stats.setMaxMana(20);
 		
-		this.stats.setStrenght(5);
-		this.stats.setDefense(4);
+		this.stats.setStrenght(2);
+		this.stats.setDefense(3);
 		this.stats.setAgility(3);
-		this.stats.setCriticalDamage(25);
-		this.stats.setMagic(1);
-		this.stats.setMagicDefense(1);
+		this.stats.setCriticalDamage(15);
+		this.stats.setMagic(5);
+		this.stats.setMagicDefense(4);
 		super.setStats(stats);
 	}
-
+	
 }

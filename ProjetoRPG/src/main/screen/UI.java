@@ -11,6 +11,9 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import entities.Stats;
+import entities.enemies.Enemie;
+import entities.player.Player;
+import habilities.Spells;
 import main.KeyInput;
 
 public class UI {
@@ -74,7 +77,10 @@ public class UI {
 	}
 	
 	// TELA DE COMBATE
-	public void battleScreen(Stats playerStats, Stats enemieStats) {
+	public void battleScreen(Player player, Enemie enemie, String battleState) {
+		
+		Stats playerStats = player.getStats();
+		Stats enemieStats = enemie.getStats();
 		
 		brush.setColor(new Color(0,0,0,200));
 		brush.fillRoundRect(0, 0, 720, 720, 10, 10);
@@ -108,9 +114,11 @@ public class UI {
 		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 345);
 		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 387);
 		
+		battleOptionsBox(player, battleState);
+		
 	}
 	
-	public void battleOptionsBox(String battleState) {
+	public void battleOptionsBox(Player player, String battleState) {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
@@ -124,16 +132,22 @@ public class UI {
 			brush.drawString("ESPEC.", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
 			brush.drawString("FUGIR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
 
-		} else if (battleState.equals("choose-spell") || battleState.equals("choose-item")) {
+		} else if (battleState.equals("choose-spell")) {
 			
-			brush.drawString("-", battleButtonInitX, battleButtonInitY); // cmdNum = 0
-			brush.drawString("-", battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
-			brush.drawString("-", battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
-			brush.drawString("-", battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
-			brush.drawString("-", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+			Spells spells = player.getSpells();
+			
+			brush.setFont(font.deriveFont(Font.PLAIN, 18F));
+			brush.drawString(spells.getSpell1(), battleButtonInitX, battleButtonInitY); // cmdNum = 0
+			brush.drawString(spells.getSpell2(), battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
+			brush.drawString(spells.getSpell3(), battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
+			brush.drawString(spells.getSpell4(), battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
+			brush.drawString(spells.getSpell5(), battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+			brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 			brush.drawString("VOLTAR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
 			
 		} /*else if (battleState.equals("choose-item")) {
+		
+			// Item[] items = player.getItems();
 			
 			brush.drawString("-", battleButtonInitX, battleButtonInitY); // cmdNum = 0
 			brush.drawString("-", battleButtonInitX+111, battleButtonInitY); // cmdNum = 1

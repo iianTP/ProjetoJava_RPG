@@ -1,7 +1,7 @@
 package states;
 
-import entities.Player;
 import entities.enemies.Enemie;
+import entities.player.Player;
 import main.KeyInput;
 
 public class Battle {
@@ -63,7 +63,9 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
-						this.player.magic(this.enemie, this.key.getCmdNum());
+						String spell = this.player.getSpells().getSpell1();
+						
+						this.player.magic(this.enemie, spell);
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
@@ -94,6 +96,10 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
+						String spell = this.player.getSpells().getSpell2();
+						
+						this.player.magic(this.enemie, spell);
+						
 					} else if (this.battleState.equals("choose-item")) {
 						
 					} else if (this.battleState.equals("choose-special")) {
@@ -109,6 +115,10 @@ public class Battle {
 						this.battleState = "choose-spell";
 						
 					} else if (this.battleState.equals("choose-spell")) {
+						
+						String spell = this.player.getSpells().getSpell3();
+						
+						this.player.magic(this.enemie, spell);
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
@@ -126,6 +136,10 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
+						String spell = this.player.getSpells().getSpell4();
+						
+						this.player.magic(this.enemie, spell);
+						
 					} else if (this.battleState.equals("choose-item")) {
 						
 					} else if (this.battleState.equals("choose-special")) {
@@ -141,6 +155,10 @@ public class Battle {
 						this.battleState = "choose-special";
 						
 					} else if (this.battleState.equals("choose-spell")) {
+						
+						String spell = this.player.getSpells().getSpell5();
+						
+						this.player.magic(this.enemie, spell);
 						
 					} else if (this.battleState.equals("choose-item")) {
 						

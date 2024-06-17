@@ -42,6 +42,8 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			} else if (key == KeyEvent.VK_P) {
 				gs.setGameState(2);
+			} else if (key == KeyEvent.VK_Z) {
+				gs.setGameState(4);
 			} else if (key == KeyEvent.VK_B) {
 				gs.setGameState(5);
 			}
@@ -55,12 +57,12 @@ public class KeyInput implements KeyListener {
 				this.dialogueIndex++;
 			}
 		} else if (gs.getGameState() == 4) {
-
-		} else if (gs.getGameState() == 5) {
-			if (key == KeyEvent.VK_B) {
-				//gs.setGameState(1);
+			if (key == KeyEvent.VK_Z) {
+				gs.setGameState(1);
 			}
-			else if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
+		} else if (gs.getGameState() == 5) {
+
+			if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
 				if (cmdNum > 1) {
 					this.cmdNum -= 2;
 				}
@@ -79,6 +81,7 @@ public class KeyInput implements KeyListener {
 			} else if (key == KeyEvent.VK_E) {
 				this.interaction = true;
 			}
+			
 		}
 		
 		

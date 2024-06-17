@@ -3,8 +3,8 @@ package entities.enemies;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import entities.Player;
 import entities.Stats;
+import entities.player.Player;
 import habilities.ICombat;
 
 public abstract class Enemie implements ICombat {
@@ -31,7 +31,7 @@ public abstract class Enemie implements ICombat {
 	}
 
 	@Override
-	public <T> void magic(T target, int spellId) {
+	public <T> void magic(T target, String spellId) {
 		if (target instanceof Player) {
 			
 		}

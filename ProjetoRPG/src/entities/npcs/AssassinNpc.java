@@ -4,9 +4,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entities.Player;
 import entities.Stats;
-
+import entities.player.Player;
 import main.screen.GameScreen;
 
 public class AssassinNpc extends Npc {

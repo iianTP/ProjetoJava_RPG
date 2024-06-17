@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entities.Player;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
+import entities.player.Player;
 import main.KeyInput;
 import main.screen.GameScreen;
 

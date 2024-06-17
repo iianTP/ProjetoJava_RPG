@@ -6,7 +6,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import entities.Player;
+import entities.player.Player;
 import main.screen.GameScreen;
 
 public class Test extends Npc {
