@@ -26,15 +26,18 @@ public class UI {
 	
 	private final KeyInput key;
 	
-	int battleButtonInitX = 475;
-	int battleButtonInitY = 550;
+	private int battleButtonInitX = 475;
+	private int battleButtonInitY = 550;
 	
-	private int[][] battleButtonSelected = {{battleButtonInitX-15, battleButtonInitY}, 
-											{battleButtonInitX-15+111, battleButtonInitY},
-											{battleButtonInitX-15, battleButtonInitY+48}, 
-											{battleButtonInitX-15+111, battleButtonInitY+48}, 
-											{battleButtonInitX-15, battleButtonInitY+48+48}, 
-											{battleButtonInitX-15+111, battleButtonInitY+48+48}};
+	private String playerMenuState = "main";
+	private int[][] pMenuMainButtons = {{48+20, 48*3},{48+20, 48*4}};
+	
+	private int[][] battleButtons = {{battleButtonInitX-15, battleButtonInitY}, 
+									 {battleButtonInitX-15+111, battleButtonInitY},
+									 {battleButtonInitX-15, battleButtonInitY+48}, 
+									 {battleButtonInitX-15+111, battleButtonInitY+48}, 
+									 {battleButtonInitX-15, battleButtonInitY+48+48}, 
+									 {battleButtonInitX-15+111, battleButtonInitY+48+48}};
 	
 	public UI(KeyInput key) {
 		
@@ -75,6 +78,8 @@ public class UI {
 		brush.drawString(dialogue, 48+24, 48*2);
 		
 	}
+	
+	
 	
 	// TELA DE COMBATE
 	public void battleScreen(Player player, Enemie enemie, String battleState) {
@@ -159,7 +164,7 @@ public class UI {
 		}*/
 		
 		if (!battleState.equals("enemie-turn") && !battleState.equals("enemie-text")) {
-			brush.drawString(">", this.battleButtonSelected[this.key.getCmdNum()][0], this.battleButtonSelected[this.key.getCmdNum()][1]);
+			brush.drawString(">", this.battleButtons[this.key.getCmdNum()][0], this.battleButtons[this.key.getCmdNum()][1]);
 		}
 		
 		
@@ -172,6 +177,45 @@ public class UI {
 		brush.drawString("* "+message, 16*3, 176*3);
 		
 	}
+	//
+	
+	
+	
+	
+	
+	
+	
+	public void playerMenu() {
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48,48*2,48*3,48*11,10,10);
+		
+		brush.setColor(Color.white);
+		brush.drawString("STATS", 48+25, 48*3);
+		brush.drawString("BOLSA", 48+25, 48*4);
+		brush.drawString("NIVEL: ", 48+25, 48*11);
+		brush.setColor(Color.yellow);
+		brush.drawString("OURO: ", 48+25, 48*12);
+		
+		if (this.playerMenuState.equals("main")) {
+			
+			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 1) {
+				this.key.correctCmdNum();
+			}
+			
+			brush.drawString(">",this.pMenuMainButtons[this.key.getCmdNum()][0],
+								 this.pMenuMainButtons[this.key.getCmdNum()][1]);
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// TESTE(COORDENADAS)
 	public void draw(int x, int y) {

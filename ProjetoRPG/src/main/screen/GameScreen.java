@@ -236,6 +236,10 @@ public class GameScreen extends JPanel implements Runnable {
 			if (gameState == pause) {
 				this.ui.pauseScreen();
 			}
+			
+			if (gameState == inventory) {
+				this.ui.playerMenu();
+			}
 
 			if (gameState == dialogue) {
 				
