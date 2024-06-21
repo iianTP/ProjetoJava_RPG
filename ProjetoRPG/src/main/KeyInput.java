@@ -60,6 +60,8 @@ public class KeyInput implements KeyListener {
 		} else if (gs.getGameState() == 4) {
 			if (key == KeyEvent.VK_Z) {
 				gs.setGameState(1);
+			} else if (key == KeyEvent.VK_E) {
+				this.interaction = true;
 			}
 			
 			this.commandNum(key);
@@ -147,6 +149,9 @@ public class KeyInput implements KeyListener {
 
 	public int getCmdNum() {
 		return this.cmdNum;
+	}
+	public void resetCmdNum() {
+		this.cmdNum = 0;
 	}
 	public void correctCmdNum() {
 		this.cmdNum = this.cmdNumBackup;

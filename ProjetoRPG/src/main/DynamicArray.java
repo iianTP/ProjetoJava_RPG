@@ -13,7 +13,7 @@ public abstract class DynamicArray<T> {
 	private List first;
 	private List last;
 
-	public void addItem(T data) {
+	public void addData(T data) {
 		List newSlot = new List(data);
 		if (this.last == null) {
 			this.first = last = newSlot;
@@ -23,15 +23,16 @@ public abstract class DynamicArray<T> {
 		}
 	}
 	
-	public T getItem(int itemIndex) {
+	public T getData(int itemIndex) {
 		int i = 0;
 		List slot = this.first;
 		while (i != itemIndex) {
-			slot = slot.next;
 			if (slot == null) {
-				return null; // throw exception later
+				break;
 			}
+			slot = slot.next;
+			i++;
 		}
-		return slot.data;
+		return (slot != null) ? slot.data : null;
 	}
 }

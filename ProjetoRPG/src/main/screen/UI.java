@@ -7,13 +7,18 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
+import entities.npcs.Npc;
 import entities.player.Player;
+import exceptions.InventoryIndexOutOfRangeException;
 import habilities.Spells;
+import items.Item;
 import main.KeyInput;
 
 public class UI {
@@ -30,7 +35,8 @@ public class UI {
 	private int battleButtonInitY = 550;
 	
 	private String playerMenuState = "main";
-	private int[][] pMenuMainButtons = {{48+20, 48*3},{48+20, 48*4}};
+	private int[][] pMenuMainButtons = {{48+20-10, 48*3},{48+20-10, 48*4}};
+	private int[][] pMenuInventoryButtons = new int[11][2];
 	
 	private int[][] battleButtons = {{battleButtonInitX-15, battleButtonInitY}, 
 									 {battleButtonInitX-15+111, battleButtonInitY},
@@ -38,6 +44,9 @@ public class UI {
 									 {battleButtonInitX-15+111, battleButtonInitY+48}, 
 									 {battleButtonInitX-15, battleButtonInitY+48+48}, 
 									 {battleButtonInitX-15+111, battleButtonInitY+48+48}};
+	
+	private int[] rainbow = {0,0,255};
+	private int rainbowState = 1;
 	
 	public UI(KeyInput key) {
 		
@@ -164,7 +173,8 @@ public class UI {
 		}*/
 		
 		if (!battleState.equals("enemie-turn") && !battleState.equals("enemie-text")) {
-			brush.drawString(">", this.battleButtons[this.key.getCmdNum()][0], this.battleButtons[this.key.getCmdNum()][1]);
+			brush.drawString(">", this.battleButtons[this.key.getCmdNum()][0],
+								  this.battleButtons[this.key.getCmdNum()][1]);
 		}
 		
 		
@@ -181,11 +191,33 @@ public class UI {
 	
 	
 	
+	public void rainbowStuff() {
+		
+		if(rainbowState == 1) {
+			rainbow[0]++;
+			rainbow[2]--;
+			if (rainbow[0] == 255) {
+				this.rainbowState = 2;
+			}
+		} else if (rainbowState == 2){
+			rainbow[1]++;
+			rainbow[0]--;
+			if (rainbow[1] == 255) {
+				this.rainbowState = 3;
+			}
+		} else if (rainbowState == 3) {
+			rainbow[2]++;
+			rainbow[1]--;
+			if (rainbow[2] == 255) {
+				this.rainbowState = 1;
+			}
+		}
+		
+	}
 	
 	
 	
-	
-	public void playerMenu() {
+	public void playerMenu(Player player, Npc[] teammates) {
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48,48*2,48*3,48*11,10,10);
@@ -193,9 +225,9 @@ public class UI {
 		brush.setColor(Color.white);
 		brush.drawString("STATS", 48+25, 48*3);
 		brush.drawString("BOLSA", 48+25, 48*4);
-		brush.drawString("NIVEL: ", 48+25, 48*11);
+		brush.drawString("NIVEL: "+player.getLevel(), 48+25, 48*11);
 		brush.setColor(Color.yellow);
-		brush.drawString("OURO: ", 48+25, 48*12);
+		brush.drawString("OURO: "+player.getGold(), 48+25, 48*12);
 		
 		if (this.playerMenuState.equals("main")) {
 			
@@ -205,6 +237,98 @@ public class UI {
 			
 			brush.drawString(">",this.pMenuMainButtons[this.key.getCmdNum()][0],
 								 this.pMenuMainButtons[this.key.getCmdNum()][1]);
+			
+			if (this.key.isInteracting()) {
+				if (this.key.getCmdNum() == 0) {
+					this.playerMenuState = "stats";
+				} else if (this.key.getCmdNum() == 1) {
+					this.playerMenuState = "inventory";
+				}
+				this.key.resetCmdNum();
+			}
+			
+			
+		} 
+		
+		else if (this.playerMenuState.equals("stats")) {
+			rainbowStuff();
+			brush.setColor(Color.black);
+			brush.fillRoundRect(48*4+10,48*2,48*8,48*11,10,10);
+			
+			Entity[] team = {player,teammates[0],teammates[1],teammates[2]};
+			int firstCharBoxX = 235;
+			int charBoxSide = 48+24+6;
+			
+			brush.fillRect(0, 0, 0, 0);
+			
+			for (int i = 0; i < 4; i++) {
+				brush.setColor(new Color(rainbow[0]/2,rainbow[1]/2,rainbow[2]/2));
+				brush.fillRoundRect(firstCharBoxX+82*i-3, 48*3-3, charBoxSide, charBoxSide,10,10);
+				brush.drawImage(team[i].getIdleSprites()[1], firstCharBoxX+82*i, 48*3, charBoxSide-6, charBoxSide-6, null);
+			
+				
+				brush.setColor(Color.red);
+				brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
+				brush.setColor(Color.green);
+				brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
+				brush.setColor(Color.magenta);
+				brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, 48*2);
+				
+			}
+			
+			brush.setColor(Color.white);
+			brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
+			brush.setColor(Color.yellow);
+			brush.drawString(">",48*4+35-15, 48*3+40*11);
+			if (this.key.isInteracting()) {
+				this.playerMenuState = "main";
+				this.key.resetCmdNum();
+			}
+		}
+		
+		else if (this.playerMenuState.equals("inventory")) {
+			
+			brush.setColor(Color.black);
+			brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
+			brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
+			
+			brush.setColor(Color.white);
+			for(int i = 0; i < 10; i++) {
+				
+				if (this.pMenuInventoryButtons[i][0] == 0 && this.pMenuInventoryButtons[i][1] == 0 ) {
+					this.pMenuInventoryButtons[i][0] = 48*4+35-15;
+					this.pMenuInventoryButtons[i][1] = 48*3+40*i;
+				}
+				
+				Item item;
+				try {
+					item = player.getInventory().getItem(i);
+					String itemName = (item != null) ? item.getName() : "";
+					brush.drawString("- "+itemName, 48*4+35, 48*3+40*i);
+				} catch (InventoryIndexOutOfRangeException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			this.pMenuInventoryButtons[10][0] = 48*4+35-15;
+			this.pMenuInventoryButtons[10][1] = 48*3+40*11;
+			brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
+			
+			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 10) {
+				this.key.correctCmdNum();
+			}
+			
+			brush.setColor(Color.yellow);
+			brush.drawString(">",this.pMenuInventoryButtons[this.key.getCmdNum()][0],
+					 			 this.pMenuInventoryButtons[this.key.getCmdNum()][1]);
+			
+			if (this.key.isInteracting()) {
+				if (this.key.getCmdNum() == 10) {
+					this.playerMenuState = "main";
+				}
+				this.key.resetCmdNum();
+			}
+
 		}
 		
 	}

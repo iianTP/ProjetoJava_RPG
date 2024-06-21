@@ -238,7 +238,7 @@ public class GameScreen extends JPanel implements Runnable {
 			}
 			
 			if (gameState == inventory) {
-				this.ui.playerMenu();
+				this.ui.playerMenu(this.player, this.teammates);
 			}
 
 			if (gameState == dialogue) {

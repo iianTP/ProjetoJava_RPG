@@ -7,6 +7,8 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import entities.player.Player;
+import exceptions.InventoryIsFullException;
+import items.Armor;
 import main.screen.GameScreen;
 
 public class Test extends Npc {
@@ -75,10 +77,19 @@ public class Test extends Npc {
 	}
 	
 	@Override
-	public void interaction() {
+	public void interaction(Player player) {
 		System.out.println("foi");
 		super.getGs().setNpcDialogue(dialogue);
 		super.getGs().setGameState(3);
+		
+		if (!player.getInventory().isFull()) {
+			try {
+				player.getInventory().addItem(new Armor(1));
+			} catch (InventoryIsFullException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 	@Override

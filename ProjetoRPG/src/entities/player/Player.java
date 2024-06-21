@@ -13,6 +13,7 @@ import entities.npcs.Npc;
 import entities.npcs.Test;
 import habilities.ICombat;
 import habilities.Spells;
+import items.Inventory;
 import main.KeyInput;
 import main.screen.GameScreen;
 
@@ -22,6 +23,7 @@ public abstract class Player extends Entity implements ICombat {
 	private Npc[] npcs;
 	private final Collision collision = new Collision();
 	private Stats stats;
+	private Inventory inventory = new Inventory();
 	
 	private int screenX = super.getGs().getScreenSide()/2 - super.getGs().getTileSide()/2;
 	private int screenY = super.getGs().getScreenSide()/2 - super.getGs().getTileSide()/2;
@@ -202,6 +204,7 @@ public abstract class Player extends Entity implements ICombat {
 		
 		if (super.getCollision()) {
 			this.collision.getNpcNearby().interaction();
+			this.collision.getNpcNearby().interaction(this);
 		}
 		
 	}
@@ -321,6 +324,10 @@ public abstract class Player extends Entity implements ICombat {
 
 	public Spells getSpells() {
 		return spells;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
 	}
 	
 	
