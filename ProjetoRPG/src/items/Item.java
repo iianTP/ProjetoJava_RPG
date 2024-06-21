@@ -6,8 +6,8 @@ public class Item {
 	private String description;
 	private String[] restriction;
 	
-	private boolean consumable;
-	private boolean equipable;
+	private boolean consumable = false;
+	private boolean equipable = false;
 	
 	// SET
 	public void setName(String name) {

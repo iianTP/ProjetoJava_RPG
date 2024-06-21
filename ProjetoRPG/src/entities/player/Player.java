@@ -14,6 +14,7 @@ import entities.npcs.Test;
 import habilities.ICombat;
 import habilities.Spells;
 import items.Inventory;
+import items.Item;
 import main.KeyInput;
 import main.screen.GameScreen;
 
@@ -32,6 +33,9 @@ public abstract class Player extends Entity implements ICombat {
 	private int maxExperience = 20;
 	private int level = 1;
 	private int gold = 0;
+	
+	private Item armor;
+	private Item weapon;
 	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	
@@ -328,6 +332,22 @@ public abstract class Player extends Entity implements ICombat {
 
 	public Inventory getInventory() {
 		return inventory;
+	}
+
+	public Item getArmor() {
+		return armor;
+	}
+
+	public void setArmor(Item armor) {
+		this.armor = armor;
+	}
+
+	public Item getWeapon() {
+		return weapon;
+	}
+
+	public void setWeapon(Item weapon) {
+		this.weapon = weapon;
 	}
 	
 	

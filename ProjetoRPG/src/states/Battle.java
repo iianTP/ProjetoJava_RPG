@@ -11,7 +11,7 @@ public class Battle {
 	private final KeyInput key;
 	
 	private String battleState = "choose-move";
-	
+
 	private String message = "SEU TURNO";
 	
 	private boolean battleEnded = false;

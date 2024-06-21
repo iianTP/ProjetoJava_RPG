@@ -37,6 +37,7 @@ public class UI {
 	private String playerMenuState = "main";
 	private int[][] pMenuMainButtons = {{48+20-10, 48*3},{48+20-10, 48*4}};
 	private int[][] pMenuInventoryButtons = new int[11][2];
+	private int[][] pMenuItemButtons = {{48*9+20+48-15, 48*2+229+48*4+15},{48*9+20+48-15, 48*2+229+48*5+15}};
 	
 	private int[][] battleButtons = {{battleButtonInitX-15, battleButtonInitY}, 
 									 {battleButtonInitX-15+111, battleButtonInitY},
@@ -47,6 +48,8 @@ public class UI {
 	
 	private int[] rainbow = {0,0,255};
 	private int rainbowState = 1;
+	
+	private Item itemSelected;
 	
 	public UI(KeyInput key) {
 		
@@ -190,34 +193,9 @@ public class UI {
 	//
 	
 	
-	
-	public void rainbowStuff() {
-		
-		if(rainbowState == 1) {
-			rainbow[0]++;
-			rainbow[2]--;
-			if (rainbow[0] == 255) {
-				this.rainbowState = 2;
-			}
-		} else if (rainbowState == 2){
-			rainbow[1]++;
-			rainbow[0]--;
-			if (rainbow[1] == 255) {
-				this.rainbowState = 3;
-			}
-		} else if (rainbowState == 3) {
-			rainbow[2]++;
-			rainbow[1]--;
-			if (rainbow[2] == 255) {
-				this.rainbowState = 1;
-			}
-		}
-		
-	}
-	
-	
-	
+	// MENU DO PLAYER
 	public void playerMenu(Player player, Npc[] teammates) {
+		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48,48*2,48*3,48*11,10,10);
@@ -251,69 +229,115 @@ public class UI {
 		} 
 		
 		else if (this.playerMenuState.equals("stats")) {
-			rainbowStuff();
-			brush.setColor(Color.black);
-			brush.fillRoundRect(48*4+10,48*2,48*8,48*11,10,10);
 			
-			Entity[] team = {player,teammates[0],teammates[1],teammates[2]};
-			int firstCharBoxX = 235;
-			int charBoxSide = 48+24+6;
+			statsMenu(player, teammates);
 			
-			brush.fillRect(0, 0, 0, 0);
-			
-			for (int i = 0; i < 4; i++) {
-				brush.setColor(new Color(rainbow[0]/2,rainbow[1]/2,rainbow[2]/2));
-				brush.fillRoundRect(firstCharBoxX+82*i-3, 48*3-3, charBoxSide, charBoxSide,10,10);
-				brush.drawImage(team[i].getIdleSprites()[1], firstCharBoxX+82*i, 48*3, charBoxSide-6, charBoxSide-6, null);
-			
-				
-				brush.setColor(Color.red);
-				brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
-				brush.setColor(Color.green);
-				brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
-				brush.setColor(Color.magenta);
-				brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, 48*2);
-				
-			}
-			
-			brush.setColor(Color.white);
-			brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
-			brush.setColor(Color.yellow);
-			brush.drawString(">",48*4+35-15, 48*3+40*11);
-			if (this.key.isInteracting()) {
-				this.playerMenuState = "main";
-				this.key.resetCmdNum();
-			}
 		}
 		
 		else if (this.playerMenuState.equals("inventory")) {
 			
-			brush.setColor(Color.black);
-			brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
-			brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
+			inventoryMenu(player);
 			
-			brush.setColor(Color.white);
-			for(int i = 0; i < 10; i++) {
+			if (this.itemSelected != null) {
 				
-				if (this.pMenuInventoryButtons[i][0] == 0 && this.pMenuInventoryButtons[i][1] == 0 ) {
-					this.pMenuInventoryButtons[i][0] = 48*4+35-15;
-					this.pMenuInventoryButtons[i][1] = 48*3+40*i;
-				}
-				
-				Item item;
-				try {
-					item = player.getInventory().getItem(i);
-					String itemName = (item != null) ? item.getName() : "";
-					brush.drawString("- "+itemName, 48*4+35, 48*3+40*i);
-				} catch (InventoryIndexOutOfRangeException e) {
-					e.printStackTrace();
-				}
-				
+				selectedItem(this.itemSelected);
+	
 			}
-			this.pMenuInventoryButtons[10][0] = 48*4+35-15;
-			this.pMenuInventoryButtons[10][1] = 48*3+40*11;
-			brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
+				
+		}
+	}
+	public void statsMenu(Player player, Npc[] teammates) {
+		
+		rainbowStuff();
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48*4+10,48*2,48*8,48*11,10,10);
+		
+		Entity[] team = {player,teammates[0],teammates[1],teammates[2]};
+		int firstCharBoxX = 235;
+		int charBoxSide = 48+24+6;
+		
+		brush.fillRect(0, 0, 0, 0);
+		
+		for (int i = 0; i < 4; i++) {
+			brush.setColor(new Color(rainbow[0]/2,rainbow[1]/2,rainbow[2]/2));
+			brush.fillRoundRect(firstCharBoxX+82*i-3, 48*3-3, charBoxSide, charBoxSide,10,10);
+			brush.drawImage(team[i].getIdleSprites()[1], firstCharBoxX+82*i, 48*3, charBoxSide-6, charBoxSide-6, null);
+		
 			
+			brush.setColor(Color.red);
+			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
+			brush.setColor(Color.green);
+			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
+			brush.setColor(Color.magenta);
+			brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, 48*2);
+			
+		}
+		
+		brush.setColor(Color.white);
+		brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
+		brush.setColor(Color.yellow);
+		brush.drawString(">",48*4+35-15, 48*3+40*11);
+		
+		if (this.key.isInteracting()) {
+			this.playerMenuState = "main";
+			this.key.resetCmdNum();
+		}
+		
+	}
+	
+	public void rainbowStuff() {
+		
+		if(rainbowState == 1) {
+			rainbow[0]++;
+			rainbow[2]--;
+			if (rainbow[0] == 255) {
+				this.rainbowState = 2;
+			}
+		} else if (rainbowState == 2){
+			rainbow[1]++;
+			rainbow[0]--;
+			if (rainbow[1] == 255) {
+				this.rainbowState = 3;
+			}
+		} else if (rainbowState == 3) {
+			rainbow[2]++;
+			rainbow[1]--;
+			if (rainbow[2] == 255) {
+				this.rainbowState = 1;
+			}
+		}
+		
+	}
+	
+	public void inventoryMenu(Player player) {
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
+		brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
+		
+		brush.setColor(Color.white);
+		for(int i = 0; i < 10; i++) {
+			
+			if (this.pMenuInventoryButtons[i][0] == 0 && this.pMenuInventoryButtons[i][1] == 0 ) {
+				this.pMenuInventoryButtons[i][0] = 48*4+35-15;
+				this.pMenuInventoryButtons[i][1] = 48*3+40*i;
+			}
+
+			Item item;
+			try {
+				item = player.getInventory().getItem(i);
+				String itemName = (item != null) ? item.getName() : "";
+				brush.drawString("- "+itemName, 48*4+35, 48*3+40*i);
+			} catch (InventoryIndexOutOfRangeException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		this.pMenuInventoryButtons[10][0] = 48*4+35-15;
+		this.pMenuInventoryButtons[10][1] = 48*3+40*11;
+		
+		brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
+		
+		if(this.itemSelected == null) {
 			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 10) {
 				this.key.correctCmdNum();
 			}
@@ -323,17 +347,62 @@ public class UI {
 					 			 this.pMenuInventoryButtons[this.key.getCmdNum()][1]);
 			
 			if (this.key.isInteracting()) {
+				
 				if (this.key.getCmdNum() == 10) {
 					this.playerMenuState = "main";
+				} else {
+					
+					try {
+						Item itemSelected = player.getInventory().getItem(this.key.getCmdNum());
+						if (itemSelected != null) {
+							this.itemSelected = itemSelected;
+						}
+					} catch (InventoryIndexOutOfRangeException e) {
+						e.printStackTrace();
+					}
+					
 				}
 				this.key.resetCmdNum();
 			}
-
 		}
 		
 	}
 	
+	public void selectedItem(Item item) {
+		
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48*9+20, 48*2+229,219, 48*11-229, 10,10);
+		
+		
+		brush.setColor(Color.white);
+		
+		if (item.isUsable()) {
+			brush.drawString("USAR", 48*9+20+48, 48*2+229+48*4+15);
+		} else if (item.isEquipable()) {
+			brush.drawString("EQUIPAR", 48*9+20+48, 48*2+229+48*4+15);
+		}
+		
+		brush.drawString("VOLTAR", 48*9+20+48, 48*2+229+48*5+15);
+		
+		if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 1) {
+			this.key.correctCmdNum();
+		}
+		
+		brush.drawString(">",this.pMenuItemButtons[this.key.getCmdNum()][0],
+	 			 			this.pMenuItemButtons[this.key.getCmdNum()][1]);
+		
+		if (this.key.isInteracting()) {
+			
+			if (this.key.getCmdNum() == 0) {
+				
+			} else if (this.key.getCmdNum() == 1) {
+				this.itemSelected = null;
+			}
+			this.key.resetCmdNum();
+		}
+	}
 	
+	//
 	
 	
 	
