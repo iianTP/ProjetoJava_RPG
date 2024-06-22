@@ -24,7 +24,7 @@ public abstract class Player extends Entity implements ICombat {
 	private Npc[] npcs;
 	private final Collision collision = new Collision();
 	private Stats stats;
-	private Inventory inventory = new Inventory();
+	private Inventory inventory;
 	
 	private int screenX = super.getGs().getScreenSide()/2 - super.getGs().getTileSide()/2;
 	private int screenY = super.getGs().getScreenSide()/2 - super.getGs().getTileSide()/2;
@@ -46,6 +46,7 @@ public abstract class Player extends Entity implements ICombat {
 	public Player(KeyInput key, GameScreen gs) {
 		super(gs);
 		this.key = key; // Input do teclado
+		this.inventory = new Inventory(this.key);
 		
 		// Coordenadas iniciais do player (centro da tela)
 		super.setX(2160/2);

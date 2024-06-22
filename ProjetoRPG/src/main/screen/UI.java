@@ -18,6 +18,7 @@ import entities.npcs.Npc;
 import entities.player.Player;
 import exceptions.InventoryIndexOutOfRangeException;
 import habilities.Spells;
+import items.Inventory;
 import items.Item;
 import main.KeyInput;
 
@@ -37,7 +38,9 @@ public class UI {
 	private String playerMenuState = "main";
 	private int[][] pMenuMainButtons = {{48+20-10, 48*3},{48+20-10, 48*4}};
 	private int[][] pMenuInventoryButtons = new int[11][2];
-	private int[][] pMenuItemButtons = {{48*9+20+48-15, 48*2+229+48*4+15},{48*9+20+48-15, 48*2+229+48*5+15}};
+	private int[][] pMenuItemButtons = {{48*9+20+48-15, 48*2+229+48*4+15},
+										{48*9+20+48-15, 48*2+229+48*5+15-24},
+										{48*9+20+48-15, 48*2+229+48*5+15}};
 	
 	private int[][] battleButtons = {{battleButtonInitX-15, battleButtonInitY}, 
 									 {battleButtonInitX-15+111, battleButtonInitY},
@@ -50,6 +53,7 @@ public class UI {
 	private int rainbowState = 1;
 	
 	private Item itemSelected;
+	private int itemSelectedIndex;
 	
 	public UI(KeyInput key) {
 		
@@ -236,11 +240,11 @@ public class UI {
 		
 		else if (this.playerMenuState.equals("inventory")) {
 			
-			inventoryMenu(player);
+			inventoryMenu(player.getInventory());
 			
 			if (this.itemSelected != null) {
 				
-				selectedItem(this.itemSelected);
+				selectedItem(player.getInventory(), this.itemSelected);
 	
 			}
 				
@@ -309,12 +313,14 @@ public class UI {
 		
 	}
 	
-	public void inventoryMenu(Player player) {
+	public void inventoryMenu(Inventory inventory) {
+		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
 		brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
 		
 		brush.setColor(Color.white);
+		
 		for(int i = 0; i < 10; i++) {
 			
 			if (this.pMenuInventoryButtons[i][0] == 0 && this.pMenuInventoryButtons[i][1] == 0 ) {
@@ -324,7 +330,7 @@ public class UI {
 
 			Item item;
 			try {
-				item = player.getInventory().getItem(i);
+				item = inventory.getItem(i);
 				String itemName = (item != null) ? item.getName() : "";
 				brush.drawString("- "+itemName, 48*4+35, 48*3+40*i);
 			} catch (InventoryIndexOutOfRangeException e) {
@@ -332,12 +338,13 @@ public class UI {
 			}
 			
 		}
+		
 		this.pMenuInventoryButtons[10][0] = 48*4+35-15;
 		this.pMenuInventoryButtons[10][1] = 48*3+40*11;
-		
 		brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
 		
 		if(this.itemSelected == null) {
+			
 			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 10) {
 				this.key.correctCmdNum();
 			}
@@ -353,7 +360,8 @@ public class UI {
 				} else {
 					
 					try {
-						Item itemSelected = player.getInventory().getItem(this.key.getCmdNum());
+						Item itemSelected = inventory.getItem();
+						this.itemSelectedIndex = this.key.getCmdNum();
 						if (itemSelected != null) {
 							this.itemSelected = itemSelected;
 						}
@@ -363,12 +371,13 @@ public class UI {
 					
 				}
 				this.key.resetCmdNum();
+				
 			}
 		}
 		
 	}
 	
-	public void selectedItem(Item item) {
+	public void selectedItem(Inventory inventory, Item item) {
 		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*9+20, 48*2+229,219, 48*11-229, 10,10);
@@ -381,10 +390,11 @@ public class UI {
 		} else if (item.isEquipable()) {
 			brush.drawString("EQUIPAR", 48*9+20+48, 48*2+229+48*4+15);
 		}
+		brush.drawString("LARGAR", 48*9+20+48, 48*2+229+48*5+15-24);
 		
 		brush.drawString("VOLTAR", 48*9+20+48, 48*2+229+48*5+15);
 		
-		if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 1) {
+		if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 2) {
 			this.key.correctCmdNum();
 		}
 		
@@ -396,6 +406,14 @@ public class UI {
 			if (this.key.getCmdNum() == 0) {
 				
 			} else if (this.key.getCmdNum() == 1) {
+				
+				try {
+					inventory.removeItem(this.itemSelectedIndex);
+				} catch (InventoryIndexOutOfRangeException e) {
+					e.printStackTrace();
+				}
+				
+			} else if (this.key.getCmdNum() == 2) {
 				this.itemSelected = null;
 			}
 			this.key.resetCmdNum();

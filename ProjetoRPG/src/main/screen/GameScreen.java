@@ -2,7 +2,6 @@ package main.screen;
 
 import javax.swing.JPanel;
 
-import entities.Entity;
 import entities.enemies.Enemie;
 import entities.enemies.Ghost;
 import entities.npcs.AssassinNpc;

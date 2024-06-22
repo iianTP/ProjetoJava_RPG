@@ -88,6 +88,8 @@ public class Test extends Npc {
 			} catch (InventoryIsFullException e) {
 				e.printStackTrace();
 			}
+		} else {
+			System.out.println("inventário está cheio");
 		}
 		
 	}
