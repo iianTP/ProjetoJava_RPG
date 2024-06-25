@@ -18,7 +18,7 @@ import entities.player.Warrior;
 import main.KeyInput;
 
 import states.Battle;
-
+import states.PlayerMenu;
 import tiles.TheVoid;
 import tiles.TileManager;
 
@@ -66,6 +66,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private String[] npcDialogue;
 	
 	private Battle battle;
+	private PlayerMenu playerMenu = new PlayerMenu(this.key);
 
 	public GameScreen() {
 
@@ -191,6 +192,10 @@ public class GameScreen extends JPanel implements Runnable {
 				gameState = playing;
 			}
 			
+		} else if (gameState == inventory) {
+			
+			this.playerMenu.playerMenu(this.player.getInventory());
+			
 		}
 
 	}
@@ -214,7 +219,7 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			if (gameState == combat && this.enemie != null) {
 
-				this.ui.battleScreen(this.player, this.enemie, this.battle.getBattleState());
+				this.ui.battleScreen(this.player, this.enemie, this.battle);
 				
 				this.ui.battleText(this.battle.getMessage());
 				
@@ -237,7 +242,7 @@ public class GameScreen extends JPanel implements Runnable {
 			}
 			
 			if (gameState == inventory) {
-				this.ui.playerMenu(this.player, this.teammates);
+				this.ui.playerMenu(this.playerMenu, this.player, this.teammates);
 			}
 
 			if (gameState == dialogue) {

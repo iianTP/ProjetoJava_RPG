@@ -7,7 +7,11 @@ import main.KeyInput;
 
 public class Inventory extends DynamicArray<Item>{
 	
-	KeyInput key;
+	private KeyInput key;
+	
+	private Item armorEquiped;
+	private Item weaponEquiped;
+	private Item keyEquiped;
 	
 	public Inventory(KeyInput key) {
 		this.key = key;

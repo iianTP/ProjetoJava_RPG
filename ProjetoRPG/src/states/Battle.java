@@ -16,10 +16,13 @@ public class Battle {
 	
 	private boolean battleEnded = false;
 	
+	private int inventoryPage = 1;
+	
 	public Battle(Player player, Enemie enemie, KeyInput key) {
 		this.player = player;
 		this.enemie = enemie;
 		this.key = key;
+		this.key.resetCmdNum();
 	}
 	
 	public void combat() {
@@ -162,6 +165,8 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
+						this.battleState = "choose-move";
+						
 					} else if (this.battleState.equals("choose-special")) {
 						
 					}
@@ -179,6 +184,11 @@ public class Battle {
 						this.battleState = "choose-move";
 						
 					} else if (this.battleState.equals("choose-item")) {
+						
+						this.inventoryPage++;
+						if (this.inventoryPage > 3) {
+							this.inventoryPage = 1;
+						}
 						
 					} else if (this.battleState.equals("choose-special")) {
 						
@@ -230,5 +240,9 @@ public class Battle {
 
 	public boolean isBattleEnded() {
 		return battleEnded;
+	}
+	
+	public int getInventoryPage() {
+		return this.inventoryPage;
 	}
 }
