@@ -56,6 +56,7 @@ public class UI {
 	public UI(KeyInput key) {
 		
 		setBattleUI();
+		
 		InputStream is = getClass().getResourceAsStream("/fonts/ARCADEPI.ttf");
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 20F);
@@ -134,10 +135,11 @@ public class UI {
 		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 387);
 		
 		battleOptionsBox(player, battle);
+		effect(player.getEffects().getCurrentEffect(),enemie.getEffects().getCurrentEffect());
 		
 	}
 	
-	public void battleOptionsBox(Player player, Battle battle) {
+	private void battleOptionsBox(Player player, Battle battle) {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
@@ -202,6 +204,34 @@ public class UI {
 								  this.battleButtons[this.key.getCmdNum()][1]);
 		}
 		
+		
+	}
+	
+	
+	
+	private void effect(String pEffect,String eEffect) {
+		
+		BufferedImage playerEffect;
+		BufferedImage enemieEffect;
+		String file;
+		
+		try {
+			
+			if (!pEffect.equals("none")) {
+				file = "/effects/"+pEffect+".png";
+				playerEffect = ImageIO.read(getClass().getResourceAsStream(file));
+				brush.drawImage(playerEffect, 96*3, 128*3-8, 8, 8, null);
+			}
+			
+			if (!eEffect.equals("none")) {
+				file = "/effects/"+eEffect+".png";
+				enemieEffect = ImageIO.read(getClass().getResourceAsStream(file));
+				brush.drawImage(enemieEffect, 104*3, 40*3-16, 16, 16, null);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -391,9 +421,12 @@ public class UI {
 	
 	//
 	
+	// LOJA
+	public void shopScreen(Item[] items, int[] quatities, int gold) {
+		
+	}
 	
-	
-	
+	//
 	
 	
 	

@@ -60,6 +60,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private final int dialogue = 3;
 	private final int inventory = 4;
 	private final int combat = 5;
+	private final int shop = 6;
 
 	private int gameState = playing;
 	
@@ -97,7 +98,7 @@ public class GameScreen extends JPanel implements Runnable {
 	//
 	
 	// Identificação da classe escolhida pelo Player
-	public void setPlayerClass(){
+	private void setPlayerClass(){
 		
 		String playerClass = "mage";
 
@@ -138,7 +139,7 @@ public class GameScreen extends JPanel implements Runnable {
 	}
 	//
 	
-	public void setAllNpcs() {
+	private void setAllNpcs() {
 		this.npcs[0] = new Test(1333, 1386, this);
 		this.npcs[1] = new Test(1224, 1234, this);
 		
@@ -166,7 +167,7 @@ public class GameScreen extends JPanel implements Runnable {
 	}
 	
 	//atualização das entidades
-	public void update() {
+	private void update() {
 
 		if (gameState == playing) {
 			
@@ -177,7 +178,7 @@ public class GameScreen extends JPanel implements Runnable {
 			this.player.update();
 			
 			for (int i = 0; i < allNpcs.length; i++) {
-				this.allNpcs[i].update(this.player, this.allNpcs);
+				//this.allNpcs[i].update(this.player, this.allNpcs);
 			}
 			
 		} else if (gameState == combat) {
@@ -266,7 +267,7 @@ public class GameScreen extends JPanel implements Runnable {
 	//
 	
 	//exibição das entidades
-	public void displayEnts(Graphics2D g2D) {
+	private void displayEnts(Graphics2D g2D) {
 		
 		Npc[] npcsBehind = new Npc[0];
 		Npc[] npcsInFront = new Npc[0];
@@ -304,7 +305,7 @@ public class GameScreen extends JPanel implements Runnable {
 	//
 	
 	//ordenação das entidades pela coordenada Y na tela
-	public void sortYCoords(Npc[] a) {
+	private void sortYCoords(Npc[] a) {
 		
 		Npc t;
 		for (int i = 0; i < a.length-1; i++) {

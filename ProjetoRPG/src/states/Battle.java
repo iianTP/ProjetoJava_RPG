@@ -16,6 +16,8 @@ public class Battle {
 	
 	private boolean battleEnded = false;
 	
+	private int selectedButton;
+	
 	private int inventoryPage = 1;
 	
 	public Battle(Player player, Enemie enemie, KeyInput key) {
@@ -27,8 +29,9 @@ public class Battle {
 	
 	public void combat() {
 
+		this.selectedButton = this.key.getCmdNum();
+		
 		if (this.key.isInteracting()) {
-			
 			
 			if (this.battleState.equals("enemie-turn")) {
 				
@@ -46,7 +49,7 @@ public class Battle {
 
 			else {
 				
-				switch (this.key.getCmdNum()) {
+				switch (this.selectedButton) {
 				
 				case 0: // ATTACK
 					
@@ -66,9 +69,7 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
-						String spell = this.player.getSpells().getSpell1();
-						
-						this.player.magic(this.enemie, spell);
+						this.player.magic(this.enemie, this.selectedButton);
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
@@ -99,9 +100,7 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
-						String spell = this.player.getSpells().getSpell2();
-						
-						this.player.magic(this.enemie, spell);
+						this.player.magic(this.enemie, this.selectedButton);
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
@@ -119,9 +118,7 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
-						String spell = this.player.getSpells().getSpell3();
-						
-						this.player.magic(this.enemie, spell);
+						this.player.magic(this.enemie, this.selectedButton);
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
@@ -139,9 +136,7 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
-						String spell = this.player.getSpells().getSpell4();
-						
-						this.player.magic(this.enemie, spell);
+						this.player.magic(this.enemie, this.selectedButton);
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
@@ -159,9 +154,7 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
-						String spell = this.player.getSpells().getSpell5();
-						
-						this.player.magic(this.enemie, spell);
+						this.player.magic(this.enemie, this.selectedButton);
 						
 					} else if (this.battleState.equals("choose-item")) {
 						

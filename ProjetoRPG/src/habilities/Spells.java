@@ -1,36 +1,64 @@
 package habilities;
 
+import entities.enemies.Enemie;
+
 public class Spells {
 	
-	private String spell1 = "E.BULL.";
-	private String spell2 = "POISON";
-	private String spell3 = "B.SPEAR";
-	private String spell4 = "F.BALL";
-	private String spell5 = "CURSE";
+	private String spell1 = "D.ENER.";
+	private String spell2 = "VENENO";
+	private String spell3 = "L.SANG.";
+	private String spell4 = "B.FOGO";
+	private String spell5 = "MALDIC.";
 	
+	private Effects effects;
 	
-	public void castSpell(String spellId) {
+	public Spells(Effects effects) {
+		this.effects = effects;
+	}
+	
+	public void castSpell(int spellId, Enemie enemie) {
+		if (spellId < 0 || spellId > 4) {
+			
+		}
+		String spell = null;
+		switch(spellId) {
+		case 0:
+			spell = spell1;
+			break;
+		case 1:
+			spell = spell2;
+			break;
+		case 2:
+			spell = spell3;
+			break;
+		case 3:
+			spell = spell4;
+			break;
+		case 4:
+			spell = spell5;
+			break;
+		}
 		
-		if(spellId.equals("E.BULL.")) {
-			energyBullet();
-		} else if(spellId.equals("F.BALL")) {
-			fireBall();
-		} else if(spellId.equals("LIGHT.")) {
-			lightning();
-		} else if(spellId.equals("W.BLADE")) {
-			windBlades();
-		} else if(spellId.equals("B.SPEAR")) {
-			bloodSpear();
-		} else if(spellId.equals("POISON")) {
-			poison();
-		} else if(spellId.equals("HYPNO.")) {
-			hypnosis();
-		} else if(spellId.equals("CURSE")) {
-			curse();
-		} else if(spellId.equals("H.STEAL")) {
-			healthSteal();
-		} else if(spellId.equals("D.MAGIC")) {
-			darkMagic();
+		if(spell.equals("D.ENER.")) {
+			energyBullet(enemie);
+		} else if(spell.equals("B.FOGO")) {
+			fireBall(enemie);
+		} else if(spell.equals("RELAMP.")) {
+			lightning(enemie);
+		} else if(spell.equals("L.VENT.")) {
+			windBlades(enemie);
+		} else if(spell.equals("L.SANG.")) {
+			bloodSpear(enemie);
+		} else if(spell.equals("VENENO")) {
+			poison(enemie);
+		} else if(spell.equals("HIPNO.")) {
+			hypnosis(enemie);
+		} else if(spell.equals("MALDIC.")) {
+			curse(enemie);
+		} else if(spell.equals("R.VIDA")) {
+			healthSteal(enemie);
+		} else if(spell.equals("M.SOMB.")) {
+			darkMagic(enemie);
 		}
 		
 	}
@@ -39,37 +67,37 @@ public class Spells {
 	
 	
 	// FEITIÇOS DE EFEITO/ATAQUE DIRETO
-	public void energyBullet() {
+	public void energyBullet(Enemie enemie) {
 		System.out.println("energyBullet");
 	}
-	public void fireBall() {
+	public void fireBall(Enemie enemie) {
 		System.out.println("fireBall");
 	}
-	public void lightning() {
+	public void lightning(Enemie enemie) {
 		System.out.println("lightning");
 	}
-	public void windBlades() {
+	public void windBlades(Enemie enemie) {
 		System.out.println("windBlades");
 	}
-	public void bloodSpear() {
+	public void bloodSpear(Enemie enemie) {
 		System.out.println("bloodSpear");
 	}
 	//
 	
 	// FEITIÇOS DE EFEITO/ATAQUE INDIRETO
-	public void poison() {
+	public void poison(Enemie enemie) {
 		System.out.println("poison");
 	}
-	public void hypnosis() {
+	public void hypnosis(Enemie enemie) {
 		System.out.println("hypnosis");
 	}
-	public void curse() {
+	public void curse(Enemie enemie) {
 		System.out.println("curse");
 	}
-	public void healthSteal() {
+	public void healthSteal(Enemie enemie) {
 		System.out.println("healthSteal");
 	}
-	public void darkMagic() {
+	public void darkMagic(Enemie enemie) {
 		System.out.println("darkMagic");
 	}
 	//

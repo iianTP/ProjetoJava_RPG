@@ -11,6 +11,7 @@ import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.npcs.Test;
+import habilities.Effects;
 import habilities.ICombat;
 import habilities.Spells;
 import items.Inventory;
@@ -34,15 +35,13 @@ public abstract class Player extends Entity implements ICombat {
 	private int level = 1;
 	private int gold = 0;
 	
-	private Item armor;
-	private Item weapon;
-	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	
 	private final Color black100Faded = new Color(0,0,0,100);
 	
-	private Spells spells = new Spells();
-
+	private Effects effects = new Effects(this.stats);
+	private Spells spells = new Spells(this.effects);
+	
 	public Player(KeyInput key, GameScreen gs) {
 		super(gs);
 		this.key = key; // Input do teclado
@@ -172,7 +171,6 @@ public abstract class Player extends Entity implements ICombat {
 				this.collision.checkNpc(this, npcs);
 			}
 			
-			
 			super.setX(super.getX() + 24);
 			super.setY(super.getY() + 24);
 			
@@ -227,9 +225,9 @@ public abstract class Player extends Entity implements ICombat {
 	}
 
 	@Override
-	public <T> void magic(T target, String spellId) {
+	public <T> void magic(T target, int spellId) {
 		if (target instanceof Enemie) {
-			this.spells.castSpell(spellId/*, enemie*/);
+			this.spells.castSpell(spellId, (Enemie) target);
 		}
 	}
 
@@ -335,20 +333,9 @@ public abstract class Player extends Entity implements ICombat {
 		return inventory;
 	}
 
-	public Item getArmor() {
-		return armor;
-	}
 
-	public void setArmor(Item armor) {
-		this.armor = armor;
-	}
-
-	public Item getWeapon() {
-		return weapon;
-	}
-
-	public void setWeapon(Item weapon) {
-		this.weapon = weapon;
+	public Effects getEffects() {
+		return effects;
 	}
 	
 	

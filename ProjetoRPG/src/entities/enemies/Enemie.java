@@ -5,6 +5,7 @@ import java.util.Random;
 
 import entities.Stats;
 import entities.player.Player;
+import habilities.Effects;
 import habilities.ICombat;
 
 public abstract class Enemie implements ICombat {
@@ -12,6 +13,7 @@ public abstract class Enemie implements ICombat {
 	private Stats stats;
 	private BufferedImage sprite;
 	private final Random rng = new Random();
+	private Effects effects = new Effects(this.stats);
 	
 	private int attackChance = 10;
 	private int defenseChance = 5;
@@ -31,7 +33,7 @@ public abstract class Enemie implements ICombat {
 	}
 
 	@Override
-	public <T> void magic(T target, String spellId) {
+	public <T> void magic(T target, int spellId) {
 		if (target instanceof Player) {
 			
 		}
@@ -80,6 +82,10 @@ public abstract class Enemie implements ICombat {
 	}
 	public void setSprite(BufferedImage sprite) {
 		this.sprite = sprite;
+	}
+
+	public Effects getEffects() {
+		return effects;
 	}
 	
 
