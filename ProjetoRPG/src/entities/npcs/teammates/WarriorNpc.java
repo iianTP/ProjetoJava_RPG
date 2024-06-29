@@ -1,4 +1,4 @@
-package entities.npcs;
+package entities.npcs.teammates;
 
 import java.io.IOException;
 
@@ -11,11 +11,11 @@ import entities.player.Player;
 import main.KeyInput;
 import main.screen.GameScreen;
 
-public class MageNpc extends Npc {
+public class WarriorNpc extends Npc {
 	
 	private Stats stats = new Stats();
 
-	public MageNpc(int x, int y, GameScreen gs) {
+	public WarriorNpc(int x, int y, GameScreen gs) {
 		super(gs);
 		this.setSprites();
 		this.setStats();
@@ -27,21 +27,20 @@ public class MageNpc extends Npc {
 	
 	@Override
 	public void setSprites() {
-		
+	
 		try {
 			
 			super.setIdleSprites(
-				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png")),
-				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png")),
-				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png")),
-				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"))
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleUp.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleDown.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleLeft.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleRight.png"))
 			);
-			
-			super.setWalkSprites();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public void setStats() {
@@ -51,12 +50,12 @@ public class MageNpc extends Npc {
 		this.stats.setMana(20);
 		this.stats.setMaxMana(20);
 		
-		this.stats.setStrenght(2);
-		this.stats.setDefense(3);
+		this.stats.setStrenght(5);
+		this.stats.setDefense(4);
 		this.stats.setAgility(3);
-		this.stats.setCriticalDamage(15);
-		this.stats.setMagic(5);
-		this.stats.setMagicDefense(4);
+		this.stats.setCriticalDamage(25);
+		this.stats.setMagic(1);
+		this.stats.setMagicDefense(1);
 
 	}
 
@@ -71,5 +70,5 @@ public class MageNpc extends Npc {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 }

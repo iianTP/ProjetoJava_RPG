@@ -2,23 +2,14 @@ package main.screen;
 
 import javax.swing.JPanel;
 
-import entities.enemies.Enemie;
-import entities.enemies.Ghost;
-import entities.npcs.AssassinNpc;
-import entities.npcs.HealerNpc;
-import entities.npcs.MageNpc;
-import entities.npcs.Npc;
-import entities.npcs.Test;
-import entities.npcs.WarriorNpc;
-import entities.player.Assassin;
-import entities.player.Healer;
-import entities.player.Mage;
-import entities.player.Player;
-import entities.player.Warrior;
+import entities.enemies.*;
+import entities.npcs.*;
+import entities.npcs.teammates.*;
+import entities.player.*;
+import states.*;
+
 import main.KeyInput;
 
-import states.Battle;
-import states.PlayerMenu;
 import tiles.TheVoid;
 import tiles.TileManager;
 
@@ -52,6 +43,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private Npc[] teammates = new Npc[3];
 	private Npc[] allNpcs = new Npc[npcs.length+teammates.length];
 	private Enemie enemie;
+	private Seller seller;
 	//private Entity[] team = new Entity[3];
 	
 	private final int menu = 0;
@@ -60,7 +52,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private final int dialogue = 3;
 	private final int inventory = 4;
 	private final int combat = 5;
-	private final int shop = 6;
+	private final int buying = 6;
 
 	private int gameState = playing;
 	
@@ -68,6 +60,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private Battle battle;
 	private PlayerMenu playerMenu = new PlayerMenu(this.key);
+	private Shop shop;
 
 	public GameScreen() {
 
@@ -141,7 +134,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private void setAllNpcs() {
 		this.npcs[0] = new Test(1333, 1386, this);
-		this.npcs[1] = new Test(1224, 1234, this);
+		this.npcs[1] = new Seller(1224, 1234, this);
 		
 		System.arraycopy(npcs, 0, allNpcs, 0, npcs.length);
 		System.arraycopy(teammates, 0, allNpcs, npcs.length, 3);
@@ -197,13 +190,31 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			this.playerMenu.playerMenu(this.player.getInventory());
 			
+		} else if (gameState == buying) {
+			
+			if (this.shop == null) {
+				
+				if (this.player.getCollision().getNpcNearby() instanceof Seller) {
+					this.seller = (Seller) this.player.getCollision().getNpcNearby();
+					this.shop = new Shop(key, this.player, this.seller);
+				}
+				
+			}
+			
+			if (this.seller.isOutOfStock()) {
+				this.shop = null;
+				this.seller = null;
+				gameState = playing;
+			} else {
+				this.shop.shopCommands();
+			}
+			
+			
 		}
 
 	}
 	//
 
-	
-	
 	
 	//exibição gráfica do jogo
 	public void paintComponent(Graphics g) {
@@ -257,6 +268,10 @@ public class GameScreen extends JPanel implements Runnable {
 					this.ui.dialogueText(npcDialogue[index]);
 				}
 
+			}
+			
+			if (gameState == buying && this.seller != null) {
+				this.ui.shopScreen(seller.getStock(), this.shop, this.player.getGold());
 			}
 			
 		}

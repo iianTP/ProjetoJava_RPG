@@ -33,7 +33,7 @@ public abstract class Player extends Entity implements ICombat {
 	private int experience = 0;
 	private int maxExperience = 20;
 	private int level = 1;
-	private int gold = 0;
+	private int gold = 999;
 	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	
@@ -174,7 +174,7 @@ public abstract class Player extends Entity implements ICombat {
 			super.setX(super.getX() + 24);
 			super.setY(super.getY() + 24);
 			
-			if (!super.getCollision()) {
+			if (!super.isColliding()) {
 				
 				if (super.getDirection().equals("up")) {
 					super.goUp();
@@ -205,7 +205,7 @@ public abstract class Player extends Entity implements ICombat {
 		super.setX(super.getX() + 24);
 		super.setY(super.getY() + 24);
 		
-		if (super.getCollision()) {
+		if (super.isColliding()) {
 			this.collision.getNpcNearby().interaction();
 			this.collision.getNpcNearby().interaction(this);
 		}
@@ -269,7 +269,6 @@ public abstract class Player extends Entity implements ICombat {
 	public void addGold(int gold) {
 		this.gold += gold;
 	}
-	
 	public void reduceGold(int gold) {
 		this.gold -= gold;
 	}
@@ -336,6 +335,10 @@ public abstract class Player extends Entity implements ICombat {
 
 	public Effects getEffects() {
 		return effects;
+	}
+	
+	public Collision getCollision() {
+		return this.collision;
 	}
 	
 	

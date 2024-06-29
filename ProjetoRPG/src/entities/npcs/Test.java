@@ -62,7 +62,7 @@ public class Test extends Npc {
 		super.collision().checkNpc(this, npcs);
 		super.collision().checkPlayer(this, player);
 		
-		if (!super.getCollision() && super.isWalking()) {
+		if (!super.isColliding() && super.isWalking()) {
 			if (super.getDirection().equals("up")) {
 				super.goUp();
 			} else if (super.getDirection().equals("down")) {
@@ -91,7 +91,6 @@ public class Test extends Npc {
 		} else {
 			System.out.println("inventário está cheio");
 		}
-		
 	}
 
 	@Override
@@ -107,7 +106,7 @@ public class Test extends Npc {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 	
 	public String teste() {

@@ -1,4 +1,4 @@
-package entities.npcs;
+package entities.npcs.teammates;
 
 import java.io.IOException;
 
@@ -11,12 +11,12 @@ import entities.player.Player;
 import main.KeyInput;
 import main.screen.GameScreen;
 
-public class HealerNpc extends Npc {
+public class MageNpc extends Npc {
 	
 	private Stats stats = new Stats();
 
-	public HealerNpc(int x, int y, GameScreen gs) {
-		super(gs);	
+	public MageNpc(int x, int y, GameScreen gs) {
+		super(gs);
 		this.setSprites();
 		this.setStats();
 		super.setX(x);
@@ -31,19 +31,19 @@ public class HealerNpc extends Npc {
 		try {
 			
 			super.setIdleSprites(
-					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleUp.png")),
-					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleDown.png")),
-					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleLeft.png")),
-					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleRight.png"))
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleUp.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleLeft.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"))
 			);
+			
+			super.setWalkSprites();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
-
 	public void setStats() {
 		
 		this.stats.setHealth(20);
@@ -51,12 +51,12 @@ public class HealerNpc extends Npc {
 		this.stats.setMana(20);
 		this.stats.setMaxMana(20);
 		
-		this.stats.setStrenght(1);
-		this.stats.setDefense(2);
-		this.stats.setAgility(2);
-		this.stats.setCriticalDamage(10);
-		this.stats.setMagic(4);
-		this.stats.setMagicDefense(5);
+		this.stats.setStrenght(2);
+		this.stats.setDefense(3);
+		this.stats.setAgility(3);
+		this.stats.setCriticalDamage(15);
+		this.stats.setMagic(5);
+		this.stats.setMagicDefense(4);
 
 	}
 

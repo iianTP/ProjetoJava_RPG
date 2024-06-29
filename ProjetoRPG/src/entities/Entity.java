@@ -103,7 +103,7 @@ public abstract class Entity {
 		return new BufferedImage[][] {{this.up1, this.down1, this.left1, this.right1},
 									  {this.up2, this.down2, this.left2, this.right2}};
 	}
-	public boolean getCollision() {
+	public boolean isColliding() {
 		return this.collision;
 	}
 	public int getSpriteCount() {

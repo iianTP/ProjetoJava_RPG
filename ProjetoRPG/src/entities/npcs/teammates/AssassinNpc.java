@@ -1,10 +1,11 @@
-package entities.npcs;
+package entities.npcs.teammates;
 
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 import entities.Stats;
+import entities.npcs.Npc;
 import entities.player.Player;
 import main.screen.GameScreen;
 
@@ -88,7 +89,7 @@ public class AssassinNpc extends Npc {
 		super.collision().checkNpc(this, npcs);
 		super.collision().checkPlayer(this, player);
 		
-		if (!super.getCollision() && super.isWalking()) {
+		if (!super.isColliding() && super.isWalking()) {
 			if (super.getDirection().equals("up")) {
 				super.goUp();
 			} else if (super.getDirection().equals("down")) {

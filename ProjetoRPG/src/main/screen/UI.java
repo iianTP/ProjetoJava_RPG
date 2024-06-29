@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -16,13 +15,20 @@ import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.player.Player;
+
 import exceptions.InventoryIndexOutOfRangeException;
+
 import habilities.Spells;
+
 import items.Inventory;
 import items.Item;
+import items.Stock;
+
 import main.KeyInput;
+
 import states.Battle;
 import states.PlayerMenu;
+import states.Shop;
 
 public class UI {
 	
@@ -49,6 +55,10 @@ public class UI {
 									 {battleButtonInitX-15+111, battleButtonInitY+48}, 
 									 {battleButtonInitX-15, battleButtonInitY+48+48}, 
 									 {battleButtonInitX-15+111, battleButtonInitY+48+48}};
+	
+	private int[][] shopButtons;
+	private int[][] productButtons= {{48*11-15, 48*2+229+48*4+15},
+									{48*11-15, 48*2+229+48*5+15-24}};
 	
 	private int[] rainbow = {0,0,255};
 	private int rainbowState = 1;
@@ -244,6 +254,29 @@ public class UI {
 	}
 	//
 	
+	public void rainbowStuff() {
+		
+		if(rainbowState == 1) {
+			rainbow[0]++;
+			rainbow[2]--;
+			if (rainbow[0] == 255) {
+				this.rainbowState = 2;
+			}
+		} else if (rainbowState == 2){
+			rainbow[1]++;
+			rainbow[0]--;
+			if (rainbow[1] == 255) {
+				this.rainbowState = 3;
+			}
+		} else if (rainbowState == 3) {
+			rainbow[2]++;
+			rainbow[1]--;
+			if (rainbow[2] == 255) {
+				this.rainbowState = 1;
+			}
+		}
+		
+	}
 	
 	// MENU DO PLAYER
 	public void playerMenu(PlayerMenu pMenu, Player player, Npc[] teammates) {
@@ -324,31 +357,6 @@ public class UI {
 		brush.drawString(">",48*4+35-15, 48*3+40*11);
 		
 	}
-	
-	public void rainbowStuff() {
-		
-		if(rainbowState == 1) {
-			rainbow[0]++;
-			rainbow[2]--;
-			if (rainbow[0] == 255) {
-				this.rainbowState = 2;
-			}
-		} else if (rainbowState == 2){
-			rainbow[1]++;
-			rainbow[0]--;
-			if (rainbow[1] == 255) {
-				this.rainbowState = 3;
-			}
-		} else if (rainbowState == 3) {
-			rainbow[2]++;
-			rainbow[1]--;
-			if (rainbow[2] == 255) {
-				this.rainbowState = 1;
-			}
-		}
-		
-	}
-	
 	public void inventoryMenu(Item itemSelected, Inventory inventory) {
 		
 		brush.setColor(Color.black);
@@ -392,7 +400,6 @@ public class UI {
 		}
 		
 	}
-	
 	public void selectedItem(Item itemSelected, Inventory inventory) {
 		
 		brush.setColor(Color.black);
@@ -418,11 +425,63 @@ public class UI {
 	 			 			this.pMenuItemButtons[this.key.getCmdNum()][1]);
 		
 	}
-	
 	//
 	
 	// LOJA
-	public void shopScreen(Item[] items, int[] quatities, int gold) {
+	public void shopScreen(Stock stock, Shop shop, int gold) {
+		
+		if (this.shopButtons == null) {
+			shopButtons = new int[5][2];
+			for (int i = 0; i < 5; i++) {
+				shopButtons[i][0] = 48+25-15;
+				shopButtons[i][1] = 48*(3+i);
+			}
+		}
+		
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48,48*2,48*4,48*11,10,10);
+		brush.fillRoundRect(48*10,48*2,48*4,48*11,10,10);
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
+		brush.setColor(Color.white);
+		
+		
+		int index = 0;
+		Item item = stock.getItem(index);
+		while (item != null) {
+			brush.drawString("-"+item.getName()+" x"+stock.getAmount(index), 48+25, 48*(3+index));
+			index++;
+			item = stock.getItem(index);
+		}
+		
+		if (shop.getShopState().equals("choose-item")) {
+			
+			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > index-1) {
+				this.key.correctCmdNum();
+			}
+			
+			brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+			brush.setColor(Color.yellow);
+			brush.drawString(">", this.shopButtons[this.key.getCmdNum()][0],
+					  			this.shopButtons[this.key.getCmdNum()][1]);
+			
+		} else if (shop.getShopState().equals("buying")) {
+			
+			brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+			brush.drawString("COMPRAR",this.productButtons[0][0]+15,this.productButtons[0][1]);
+			brush.drawString("VOLTAR",this.productButtons[1][0]+15,this.productButtons[1][1]);
+			
+			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 1) {
+				this.key.correctCmdNum();
+			}
+			
+			brush.setColor(Color.yellow);
+			brush.drawString(">", this.productButtons[this.key.getCmdNum()][0],
+					  			this.productButtons[this.key.getCmdNum()][1]);
+			
+		}
+		
+		
 		
 	}
 	

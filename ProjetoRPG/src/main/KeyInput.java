@@ -64,30 +64,24 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			}
 			
-			this.commandNum(key);
+			this.commandNum(key,1);
 			
 		} else if (gs.getGameState() == 5) {
 
-			if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-				if (cmdNum > 1) {
-					this.cmdNum -= 2;
-				}
-			} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-				if (cmdNum < 4) {
-					this.cmdNum += 2;
-				}
-			} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-				if (cmdNum % 2 == 1) {
-					this.cmdNum--;
-				}
-			} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-				if (cmdNum % 2 == 0) {
-					this.cmdNum++;
-				}
+			if (key == KeyEvent.VK_E) {
+				this.interaction = true;
+			}
+			
+			this.commandNum(key,2);
+			
+		} else if (gs.getGameState() == 6) {
+			if (key == KeyEvent.VK_Z) {
+				gs.setGameState(1);
 			} else if (key == KeyEvent.VK_E) {
 				this.interaction = true;
 			}
 			
+			this.commandNum(key,1);
 		}
 		
 		
@@ -157,17 +151,24 @@ public class KeyInput implements KeyListener {
 		this.cmdNum = this.cmdNumBackup;
 	}
 	
-	public void commandNum(int key) {
+	public void commandNum(int key, int cols) {
+		
 		this.cmdNumBackup = cmdNum;
+		
 		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-			this.cmdNum--;
+			this.cmdNum -= cols;
 		} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-			this.cmdNum++;
+			this.cmdNum += cols;
 		} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-			this.cmdNum--;
+			if (cols > 1 && this.cmdNum % cols != 0) {
+				this.cmdNum--;
+			}
 		} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-			this.cmdNum++;
+			if (cols > 1 && (this.cmdNum+1) % cols != 0) {
+				this.cmdNum++;
+			}
 		}
+		
 		
 	}
 	

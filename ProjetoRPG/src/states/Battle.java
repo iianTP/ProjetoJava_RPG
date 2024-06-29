@@ -28,6 +28,10 @@ public class Battle {
 	}
 	
 	public void combat() {
+		
+		if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 5) {
+			this.key.correctCmdNum();
+		}
 
 		this.selectedButton = this.key.getCmdNum();
 		
@@ -73,10 +77,7 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
-					} else if (this.battleState.equals("choose-special")) {
-						
 					}
-					
 					
 					break;
 					
@@ -104,8 +105,6 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
-					} else if (this.battleState.equals("choose-special")) {
-						
 					}
 					
 					break;
@@ -122,8 +121,6 @@ public class Battle {
 						
 					} else if (this.battleState.equals("choose-item")) {
 						
-					} else if (this.battleState.equals("choose-special")) {
-						
 					}
 					
 					break;
@@ -139,8 +136,6 @@ public class Battle {
 						this.player.magic(this.enemie, this.selectedButton);
 						
 					} else if (this.battleState.equals("choose-item")) {
-						
-					} else if (this.battleState.equals("choose-special")) {
 						
 					}
 					
@@ -160,8 +155,6 @@ public class Battle {
 						
 						this.battleState = "choose-move";
 						
-					} else if (this.battleState.equals("choose-special")) {
-						
 					}
 					
 					break;
@@ -171,6 +164,7 @@ public class Battle {
 					if (this.battleState.equals("choose-move")) {
 						
 						this.battleEnded = true;
+						this.key.resetCmdNum();
 						
 					} else if (this.battleState.equals("choose-spell")) {
 						
@@ -182,8 +176,6 @@ public class Battle {
 						if (this.inventoryPage > 3) {
 							this.inventoryPage = 1;
 						}
-						
-					} else if (this.battleState.equals("choose-special")) {
 						
 					}
 					
