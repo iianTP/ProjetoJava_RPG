@@ -40,7 +40,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private Player player;
 	private Npc[] npcs = new Npc[2];
-	private Npc[] teammates = new Npc[3];
+	private Teammate[] teammates = new Teammate[3];
 	private Npc[] allNpcs = new Npc[npcs.length+teammates.length];
 	private Enemie enemie;
 	private Seller seller;
@@ -60,7 +60,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private Dialogue dialogue;
 	private Battle battle;
-	private PlayerMenu playerMenu = new PlayerMenu(this.key);
+	private PlayerMenu playerMenu; //= new PlayerMenu(this.key, this.player, this.teammates);
 	private Shop shop;
 
 	public GameScreen() {
@@ -94,7 +94,7 @@ public class GameScreen extends JPanel implements Runnable {
 	// Identificação da classe escolhida pelo Player
 	private void setPlayerClass(){
 		
-		String playerClass = "mage";
+		String playerClass = "warrior";
 
 		if (playerClass.equals("mage")) {
 			
@@ -195,6 +195,7 @@ public class GameScreen extends JPanel implements Runnable {
 			if (this.enemie == null) {
 				this.enemie = new Ghost();
 				this.battle = new Battle(player, enemie, key);
+				this.key.setButtonCols(2);
 			}
 			
 			this.battle.combat();
@@ -207,7 +208,12 @@ public class GameScreen extends JPanel implements Runnable {
 			
 		} else if (gameState == inventory) {
 			
-			this.playerMenu.playerMenu(this.player.getInventory());
+			if (this.playerMenu == null) {
+				playerMenu = new PlayerMenu(this.key, this.player, this.teammates);
+			}
+			
+			this.key.setButtonCols(1);
+			this.playerMenu.playerMenu();
 			
 		} else if (gameState == buying) {
 			
@@ -217,7 +223,7 @@ public class GameScreen extends JPanel implements Runnable {
 					this.seller = (Seller) this.player.getCollision().getNpcNearby();
 					this.shop = new Shop(key, this.player, this.seller);
 				}
-				
+				this.key.setButtonCols(1);
 			}
 			
 			if (this.seller.isOutOfStock()) {

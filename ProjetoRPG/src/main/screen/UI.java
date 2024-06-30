@@ -14,6 +14,7 @@ import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
+import entities.npcs.teammates.Teammate;
 import entities.player.Player;
 
 import exceptions.InventoryIndexOutOfRangeException;
@@ -48,6 +49,8 @@ public class UI {
 	private int[][] pMenuItemButtons = {{48*9+20+48-15, 48*2+229+48*4+15},
 										{48*9+20+48-15, 48*2+229+48*5+15-24},
 										{48*9+20+48-15, 48*2+229+48*5+15}};
+	private int[][] chooseCharacterButtons;
+	
 	
 	private int[][] battleButtons = {{battleButtonInitX-15, battleButtonInitY}, 
 									 {battleButtonInitX-15+111, battleButtonInitY},
@@ -55,6 +58,7 @@ public class UI {
 									 {battleButtonInitX-15+111, battleButtonInitY+48}, 
 									 {battleButtonInitX-15, battleButtonInitY+48+48}, 
 									 {battleButtonInitX-15+111, battleButtonInitY+48+48}};
+	
 	
 	private int[][] shopButtons;
 	private int[][] productButtons= {{48*11-15, 48*2+229+48*4+15},
@@ -279,7 +283,7 @@ public class UI {
 	}
 	
 	// MENU DO PLAYER
-	public void playerMenu(PlayerMenu pMenu, Player player, Npc[] teammates) {
+	public void playerMenu(PlayerMenu pMenu, Player player, Teammate[] teammates) {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		brush.setColor(Color.black);
@@ -310,7 +314,7 @@ public class UI {
 		
 		else if (pMenuState.equals("stats")) {
 			
-			statsMenu(player, teammates);
+			statsMenu(player, teammates, pMenuState);
 			
 		}
 		
@@ -324,9 +328,13 @@ public class UI {
 	
 			}
 				
+		} else if (pMenuState.equals("choose-character")) {
+			
+			chooseCharacter(player, teammates, pMenuState);
+			
 		}
 	}
-	public void statsMenu(Player player, Npc[] teammates) {
+	public void statsMenu(Player player, Teammate[] teammates, String pMenuState) {
 		
 		rainbowStuff();
 		brush.setColor(Color.black);
@@ -341,20 +349,83 @@ public class UI {
 			brush.fillRoundRect(firstCharBoxX+82*i-3, 48*3-3, charBoxSide, charBoxSide,10,10);
 			brush.drawImage(team[i].getIdleSprites()[1], firstCharBoxX+82*i, 48*3, charBoxSide-6, charBoxSide-6, null);
 		
-			
 			brush.setColor(Color.red);
 			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
 			brush.setColor(Color.green);
 			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
 			brush.setColor(Color.magenta);
 			brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, 48*2);
-			
 		}
 		
+		BufferedImage armorIcon = null;
+		BufferedImage weaponIcon = null;
+		try {
+			armorIcon = ImageIO.read(getClass().getResourceAsStream("/equipables/armor.png"));
+			weaponIcon = ImageIO.read(getClass().getResourceAsStream("/equipables/weapon.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
 		brush.setColor(Color.white);
-		brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
-		brush.setColor(Color.yellow);
-		brush.drawString(">",48*4+35-15, 48*3+40*11);
+		
+		brush.drawImage(armorIcon, firstCharBoxX-3, 48*6-24, 16, 16, null);
+		brush.drawImage(weaponIcon, firstCharBoxX-3, 48*7-24, 16, 16, null);
+		if (player.getArmorEquiped() != null) {
+			brush.drawString(player.getArmorEquiped().getName(), firstCharBoxX+20, 48*6-24+12);
+		} else {
+			brush.drawString("-",firstCharBoxX+20, 48*6-24+12);
+		}
+		if (player.getWeaponEquiped() != null) {
+			brush.drawString(player.getWeaponEquiped().getName(), firstCharBoxX+20, 48*7-24+12);
+		} else {
+			brush.drawString("-", firstCharBoxX+20, 48*7-24+12);
+		}
+		
+		for (int i = 0; i < 3; i++) {
+			
+			brush.drawImage(armorIcon, firstCharBoxX-3+82*(i+1), 48*6-24, 16, 16, null);
+			brush.drawImage(weaponIcon, firstCharBoxX-3+82*(i+1), 48*7-24, 16, 16, null);
+			
+			if (teammates[i].getArmorEquiped() != null) {
+				brush.drawString(teammates[i].getArmorEquiped().getName(),firstCharBoxX+20+82*(i+1), 48*6-24+12);
+			} else {
+				brush.drawString("-",firstCharBoxX+20+82*(i+1), 48*6-24+12);
+			}
+			if (teammates[i].getWeaponEquiped() != null) {
+				brush.drawString(teammates[i].getArmorEquiped().getName(),firstCharBoxX+20+82*(i+1), 48*7-24+12);
+			} else {
+				brush.drawString("-",firstCharBoxX+20+82*(i+1), 48*7-24+12);
+			}
+		}
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		
+		if (!pMenuState.equals("choose-character")) {
+			
+			brush.setColor(Color.white);
+			brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
+			brush.setColor(Color.yellow);
+			brush.drawString(">",48*4+35-15, 48*3+40*11);
+			
+		} else {
+			
+			if (this.chooseCharacterButtons == null) {
+				this.chooseCharacterButtons = new int[4][2];
+				for (int i = 0; i < 4; i++) {
+					this.chooseCharacterButtons[i][0] = firstCharBoxX+82*i-9 + charBoxSide/2;
+					this.chooseCharacterButtons[i][1] = 48*3-10;
+				}
+			}
+			
+			brush.setColor(Color.yellow);
+			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 3) {
+				this.key.correctCmdNum();
+			}
+			
+			brush.drawString("V",this.chooseCharacterButtons[this.key.getCmdNum()][0],
+		 			 			this.chooseCharacterButtons[this.key.getCmdNum()][1]);
+		}
 		
 	}
 	public void inventoryMenu(Item itemSelected, Inventory inventory) {
@@ -425,6 +496,12 @@ public class UI {
 	 			 			this.pMenuItemButtons[this.key.getCmdNum()][1]);
 		
 	}
+	
+	public void chooseCharacter(Player player, Teammate[] teammates, String pMenuState) {
+		this.key.setButtonCols(4);
+		statsMenu(player, teammates, pMenuState);
+	}
+	
 	//
 	
 	// LOJA

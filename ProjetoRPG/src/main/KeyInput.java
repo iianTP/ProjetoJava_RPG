@@ -13,6 +13,8 @@ public class KeyInput implements KeyListener {
 	private int cmdNum = 0;
 	private int cmdNumBackup;
 	
+	private int buttonCols;
+	
 	private GameScreen gs;
 	
 	public KeyInput(GameScreen gs) {
@@ -67,7 +69,7 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			}
 			
-			this.commandNum(key,1);
+			this.commandNum(key, this.buttonCols);
 			
 		} else if (gs.getGameState() == 5) {
 
@@ -75,7 +77,7 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			}
 			
-			this.commandNum(key,2);
+			this.commandNum(key, this.buttonCols);
 			
 		} else if (gs.getGameState() == 6) {
 			
@@ -85,7 +87,7 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			}
 			
-			this.commandNum(key,1);
+			this.commandNum(key, this.buttonCols);
 		}
 		
 		
@@ -167,6 +169,10 @@ public class KeyInput implements KeyListener {
 		}
 		
 		
+	}
+
+	public void setButtonCols(int buttonCols) {
+		this.buttonCols = buttonCols;
 	}
 	
 }

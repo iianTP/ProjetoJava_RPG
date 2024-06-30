@@ -11,7 +11,7 @@ import entities.player.Player;
 import main.KeyInput;
 import main.screen.GameScreen;
 
-public class MageNpc extends Npc {
+public class MageNpc extends Teammate {
 	
 	private Stats stats = new Stats();
 

@@ -9,7 +9,7 @@ import entities.npcs.Npc;
 import entities.player.Player;
 import main.screen.GameScreen;
 
-public class AssassinNpc extends Npc {
+public class AssassinNpc extends Teammate {
 	
 	private Stats stats = new Stats();
 	
@@ -54,16 +54,17 @@ public class AssassinNpc extends Npc {
 		this.stats.setCriticalDamage(20);
 		this.stats.setMagic(2);
 		this.stats.setMagicDefense(2);
+		super.setStats(stats);
 
 	}
 
-	@Override
+
 	public void interaction() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+
 	public void action(Player player, Npc[] npcs) {
 		
 		super.addFrameCounter();

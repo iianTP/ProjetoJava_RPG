@@ -1,5 +1,8 @@
 package items;
 
+import entities.Entity;
+import entities.npcs.teammates.Teammate;
+
 public class Item {
 	
 	private String name;
@@ -8,6 +11,23 @@ public class Item {
 	
 	private boolean consumable = false;
 	private boolean equipable = false;
+	
+	
+	public boolean checkRestriction(Entity entity) {
+		
+		String[] splitedClassStr = entity.getClass().getName().split("\\.");
+		String className = splitedClassStr[splitedClassStr.length-1].toLowerCase();
+		if (entity instanceof Teammate) {
+			className = className.replaceAll("npc", "");
+		}
+		
+		for (int i = 0 ; i < this.restriction.length; i++) {
+			if (this.restriction[i].equals(className)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	// SET
 	public void setName(String name) {

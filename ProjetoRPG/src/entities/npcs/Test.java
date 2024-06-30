@@ -23,6 +23,8 @@ public class Test extends Npc {
 		super.setWalkSpeed(1);
 		setSprites();
 		
+		super.setDialogue(new String[] {"gdsgdsd", "sdgshsrhse"});
+		
 	}
 	
 	

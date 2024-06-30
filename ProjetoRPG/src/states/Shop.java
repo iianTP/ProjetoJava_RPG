@@ -27,20 +27,24 @@ public class Shop {
 			this.key.correctCmdNum();
 		}
 		
-		this.selectedButton = this.key.getCmdNum();
+		
 		
 		if (this.key.isInteracting()) {
 			
 			if (this.shopState.equals("choose-item")) {
 				
 				this.shopState = "buying";
+				this.selectedButton = this.key.getCmdNum();
+				this.key.resetCmdNum();
 				
 			} else if (this.shopState.equals("buying")) {
 				
-				switch (this.selectedButton) {
+				switch (this.key.getCmdNum()) {
 				case 0: // COMPRAR
 					
 					Product product = seller.getStock().getProduct(this.selectedButton);
+					System.out.println(product.getItem().getName());
+					
 					if (this.player.getGold() >= product.getPrice() &&
 						!this.player.getInventory().isFull()) {
 						

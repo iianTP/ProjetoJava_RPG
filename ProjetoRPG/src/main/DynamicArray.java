@@ -57,6 +57,7 @@ public abstract class DynamicArray<T> {
 			if (slotBefore == null) {
 				this.first = slotAfter;
 			} else if (slotAfter == null) {
+				slotBefore.next = null;
 				this.last = slotBefore;
 			} else {
 				slotBefore.next = slotAfter;
@@ -64,4 +65,6 @@ public abstract class DynamicArray<T> {
 		}
 		
 	}
+	
+
 }

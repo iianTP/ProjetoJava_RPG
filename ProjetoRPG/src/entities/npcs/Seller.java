@@ -37,9 +37,8 @@ public class Seller extends Npc{
 	}
 	
 	private void setStock() {
-		for(int i = 0; i < 5; i++) {
-			this.stock.addItem(new Armor(1), 1, 10);
-		}
+		this.stock.addItem(new Armor(1), 99, 10);
+		this.stock.addItem(new Armor(2), 99, 10);
 	}
 	public Stock getStock() {
 		return stock;

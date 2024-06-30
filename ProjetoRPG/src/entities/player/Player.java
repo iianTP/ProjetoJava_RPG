@@ -3,19 +3,22 @@ package entities.player;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 import entities.Collision;
 import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
-import entities.npcs.Test;
+import exceptions.InventoryIsFullException;
 import habilities.Effects;
 import habilities.ICombat;
 import habilities.Spells;
+import items.Armor;
+import items.Cloak;
 import items.Inventory;
 import items.Item;
+import items.Staff;
+import items.Sword;
 import main.KeyInput;
 import main.screen.GameScreen;
 
@@ -41,6 +44,9 @@ public abstract class Player extends Entity implements ICombat {
 	
 	private Effects effects = new Effects(this.stats);
 	private Spells spells = new Spells(this.effects);
+	
+	private Item armorEquiped;
+	private Item weaponEquiped;
 	
 	public Player(KeyInput key, GameScreen gs) {
 		super(gs);
@@ -248,6 +254,30 @@ public abstract class Player extends Entity implements ICombat {
 	
 	//
 	
+	public void equipItem(Item item) {
+		if (item instanceof Armor || item instanceof Cloak) {
+			
+			if (this.armorEquiped != null) {
+				try {
+					this.inventory.addItem(this.armorEquiped);
+				} catch (InventoryIsFullException e) {
+					e.printStackTrace();
+				}
+			}
+			this.armorEquiped = item;
+			
+		} else if (item instanceof Sword || item instanceof Staff) {
+			if (this.weaponEquiped != null) {
+				try {
+					this.inventory.addItem(this.armorEquiped);
+				} catch (InventoryIsFullException e) {
+					e.printStackTrace();
+				}
+			}
+			this.weaponEquiped = item;
+		}
+	}
+	
 	public boolean checkHitbox(int npcX, int npcY) {
 
 		int x = super.getX()-24;
@@ -340,6 +370,20 @@ public abstract class Player extends Entity implements ICombat {
 	public Collision getCollision() {
 		return this.collision;
 	}
+
+	public Item getArmorEquiped() {
+		return armorEquiped;
+	}
+	public Item getWeaponEquiped() {
+		return weaponEquiped;
+	}
+	public void setArmorEquiped(Item armorEquiped) {
+		this.armorEquiped = armorEquiped;
+	}
+	public void setWeaponEquiped(Item weaponEquiped) {
+		this.weaponEquiped = weaponEquiped;
+	}
+
 	
 	
 }

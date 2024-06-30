@@ -9,10 +9,6 @@ public class Inventory extends DynamicArray<Item>{
 	
 	private KeyInput key;
 	
-	private Item armorEquiped;
-	private Item weaponEquiped;
-	private Item keyEquiped;
-	
 	public Inventory(KeyInput key) {
 		this.key = key;
 	}
@@ -23,7 +19,8 @@ public class Inventory extends DynamicArray<Item>{
 	public void addItem(Item item) throws InventoryIsFullException {
 		if (isFull()) {
 			throw new InventoryIsFullException();
-		} 
+		}
+		System.out.println("added");
 		super.addData(item);
 	}
 	
@@ -49,7 +46,7 @@ public class Inventory extends DynamicArray<Item>{
 		if (itemIndex < 0 || itemIndex > 9) {
 			throw new InventoryIndexOutOfRangeException();
 		}
-		
+		System.out.println("removed");
 		super.removeData(itemIndex);
 		
 	}
