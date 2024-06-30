@@ -10,8 +10,6 @@ public class KeyInput implements KeyListener {
 	private boolean up, down, left, right;
 	private boolean interaction;
 	
-	private int dialogueIndex = 0;
-	
 	private int cmdNum = 0;
 	private int cmdNumBackup;
 	
@@ -50,14 +48,19 @@ public class KeyInput implements KeyListener {
 			}
 			
 		} else if (gs.getGameState() == 2) {
+			
 			if (key == KeyEvent.VK_P) {
 				gs.setGameState(1);
 			}
+			
 		} else if (gs.getGameState() == 3) {
-			if (key == KeyEvent.VK_ENTER) {
-				this.dialogueIndex++;
+			
+			if (key == KeyEvent.VK_E) {
+				this.interaction = true;
 			}
+			
 		} else if (gs.getGameState() == 4) {
+			
 			if (key == KeyEvent.VK_Z) {
 				gs.setGameState(1);
 			} else if (key == KeyEvent.VK_E) {
@@ -75,6 +78,7 @@ public class KeyInput implements KeyListener {
 			this.commandNum(key,2);
 			
 		} else if (gs.getGameState() == 6) {
+			
 			if (key == KeyEvent.VK_Z) {
 				gs.setGameState(1);
 			} else if (key == KeyEvent.VK_E) {
@@ -132,13 +136,6 @@ public class KeyInput implements KeyListener {
 		} else {
 			return false;
 		}
-	}
-
-	public int getDialogueIndex() {
-		return this.dialogueIndex;
-	}
-	public void resetDialogueIndex() {
-		this.dialogueIndex = 0;
 	}
 
 	public int getCmdNum() {

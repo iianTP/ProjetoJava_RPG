@@ -13,8 +13,6 @@ import main.screen.GameScreen;
 
 public class Test extends Npc {
 	
-	private String[] dialogue = {"gdsgdsd", "sdgshsrhse"};
-	
 	public Test(int x, int y, GameScreen gs) {
 		super(gs);
 		
@@ -50,7 +48,6 @@ public class Test extends Npc {
 				super.setDirection("right");
 				super.setWalking(true);
 			} else if (randInt > 80 && randInt <= 100) {
-				//super.setDirection("idle");
 				super.setWalking(false);
 			}
 
@@ -79,7 +76,6 @@ public class Test extends Npc {
 	@Override
 	public void interaction(Player player) {
 		System.out.println("foi");
-		super.getGs().setNpcDialogue(dialogue);
 		super.getGs().setGameState(3);
 		
 		if (!player.getInventory().isFull()) {
@@ -107,10 +103,6 @@ public class Test extends Npc {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public String teste() {
-		return dialogue[0];
 	}
 	
 }

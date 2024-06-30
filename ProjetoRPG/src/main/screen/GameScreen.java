@@ -49,7 +49,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private final int menu = 0;
 	private final int playing = 1;
 	private final int pause = 2;
-	private final int dialogue = 3;
+	private final int talking = 3;
 	private final int inventory = 4;
 	private final int combat = 5;
 	private final int buying = 6;
@@ -58,6 +58,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private String[] npcDialogue;
 	
+	private Dialogue dialogue;
 	private Battle battle;
 	private PlayerMenu playerMenu = new PlayerMenu(this.key);
 	private Shop shop;
@@ -174,16 +175,34 @@ public class GameScreen extends JPanel implements Runnable {
 				//this.allNpcs[i].update(this.player, this.allNpcs);
 			}
 			
-		} else if (gameState == combat) {
+		} else if (gameState == talking) {
+			if (this.npcDialogue == null) {
+				this.npcDialogue = this.player.getCollision().getNpcNearby().getDialogue();
+				this.dialogue = new Dialogue(this.key, this.npcDialogue.length);
+			}
+			
+			this.dialogue.dialogue();
+			
+			if (this.dialogue.isDialogueEnded()) {
+				this.dialogue = null;
+				this.npcDialogue = null;
+				gameState = playing;
+			}
+		}
+		
+		else if (gameState == combat) {
 			
 			if (this.enemie == null) {
 				this.enemie = new Ghost();
-				battle = new Battle(player, enemie, key);
+				this.battle = new Battle(player, enemie, key);
 			}
-			if (!battle.isBattleEnded()) {
-				battle.combat();
-			} else {
+			
+			this.battle.combat();
+			
+			if (battle.isBattleEnded()) {
 				gameState = playing;
+				this.enemie = null;
+				this.battle = null;
 			}
 			
 		} else if (gameState == inventory) {
@@ -257,16 +276,16 @@ public class GameScreen extends JPanel implements Runnable {
 				this.ui.playerMenu(this.playerMenu, this.player, this.teammates);
 			}
 
-			if (gameState == dialogue) {
+			if (gameState == talking && this.dialogue != null) {
 				
-				int index = this.key.getDialogueIndex();
+			/*	int index = this.key.getDialogueIndex();
 				if (index == this.npcDialogue.length) {
 					this.key.resetDialogueIndex();
 					this.gameState = playing;
-				} else {
+				} else {*/
 					this.ui.dialogueBox();
-					this.ui.dialogueText(npcDialogue[index]);
-				}
+					this.ui.dialogueText(npcDialogue[this.dialogue.getDialogueIndex()]);
+				/*}*/
 
 			}
 			

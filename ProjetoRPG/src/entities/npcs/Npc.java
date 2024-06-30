@@ -12,7 +12,7 @@ import quests.Quest;
 
 public abstract class Npc extends Entity {
 	
-	private String[] dialogue;
+	private String[] dialogue = {"gdsgdsd", "sdgshsrhse"};
 	private Quest[] quests;
 	private Collision collision = new Collision();
 	
@@ -50,11 +50,7 @@ public abstract class Npc extends Entity {
 		} else if (super.getDirection().equals("right")) {
 			sprite = super.getIdleSprites()[3];
 		}
-		/*
-		if (super.getDirection().equals("idle")) {
-			sprite = super.getIdleSprites()[1];
-		}
-		*/
+
 		this.screenX = super.getX() - wX + super.getGs().getScreenSide()/2;
 		setScreenY(super.getY() - wY + super.getGs().getScreenSide()/2);
 		
@@ -130,6 +126,14 @@ public abstract class Npc extends Entity {
 
 	public void setWalking(boolean walking) {
 		this.walking = walking;
+	}
+
+	public String[] getDialogue() {
+		return dialogue;
+	}
+
+	public void setDialogue(String[] dialogue) {
+		this.dialogue = dialogue;
 	}
 	
 }
