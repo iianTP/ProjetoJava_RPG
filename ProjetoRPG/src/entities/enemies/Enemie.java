@@ -3,10 +3,11 @@ package entities.enemies;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import combat.BattleRng;
+import combat.Effects;
 import entities.Stats;
 import entities.player.Player;
-import habilities.Effects;
-import habilities.ICombat;
+import interfaces.ICombat;
 
 public abstract class Enemie implements ICombat {
 	
@@ -15,20 +16,27 @@ public abstract class Enemie implements ICombat {
 	private final Random rng = new Random();
 	private Effects effects = new Effects(this.stats);
 	
-	private int attackChance = 10;
-	private int defenseChance = 5;
-	
-	public int enemieRng(int range, int minNum) {
-		return this.rng.nextInt(range) + minNum;
-	}
+	private BattleRng battleRng = new BattleRng();
 	
 	// MÉTODOS DE COMBATE
+	
+	public void battleMove(Player player) {
+		
+		int randomNumber = this.battleRng.rng(this.battleRng.getFullChance(), 1);
+		
+		if (randomNumber <= this.battleRng.getAttackChance()) {
+			this.attack(player);
+		} else {
+			this.defend();
+		}
+		
+	}
 	
 	@Override
 	public <T> void attack(T target) {
 		if (target instanceof Player) {
 			((Player) target).takeDamage(this.stats.getStrenght());
-			this.increaseAttackChance();
+			this.battleRng.increaseAttackChance();
 		}
 	}
 
@@ -42,7 +50,7 @@ public abstract class Enemie implements ICombat {
 	@Override
 	public void defend() {
 		if (this.stats.getHealth() < this.stats.getMaxHealth()) {
-			this.stats.heal(this.enemieRng(this.stats.getDefense(), 0));
+			this.stats.heal(this.battleRng.rng(this.stats.getDefense(), 0));
 			if (this.stats.getHealth() > this.stats.getMaxHealth()) {
 				this.stats.setHealth(this.stats.getMaxHealth());
 			}
@@ -52,24 +60,14 @@ public abstract class Enemie implements ICombat {
 	@Override
 	public void takeDamage(int damage) {
 		this.stats.damage(damage);
-		this.increaseDefenseChance();
+		this.battleRng.increaseDefenseChance();
 	}
+	
+	
 	
 	//
 	
-	public int getAttackChance() {
-		return attackChance;
-	}
-	public void increaseAttackChance() {
-		this.attackChance += 2;
-	}
-	public void increaseDefenseChance() {
-		this.defenseChance += 1;
-	}
 	
-	public int getFullChance() {
-		return attackChance + defenseChance;
-	}
 	
 	public Stats getStats() {
 		return this.stats;

@@ -1,4 +1,4 @@
-package habilities;
+package combat;
 
 import entities.enemies.Enemie;
 

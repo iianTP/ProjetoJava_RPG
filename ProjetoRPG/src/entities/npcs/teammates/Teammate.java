@@ -1,5 +1,6 @@
 package entities.npcs.teammates;
 
+import combat.BattleRng;
 import entities.Stats;
 import entities.npcs.Npc;
 import items.Item;
@@ -9,6 +10,8 @@ public abstract class Teammate extends Npc {
 	
 	private Item armorEquiped;
 	private Item weaponEquiped;
+	
+	private BattleRng battleRng = new BattleRng();
 	
 	private Stats stats;
 

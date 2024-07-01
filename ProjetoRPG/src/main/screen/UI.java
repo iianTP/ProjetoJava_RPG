@@ -10,6 +10,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import combat.Spells;
 import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
@@ -18,9 +19,6 @@ import entities.npcs.teammates.Teammate;
 import entities.player.Player;
 
 import exceptions.InventoryIndexOutOfRangeException;
-
-import habilities.Spells;
-
 import items.Inventory;
 import items.Item;
 import items.Stock;

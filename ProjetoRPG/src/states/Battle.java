@@ -38,172 +38,41 @@ public class Battle {
 		if (this.key.isInteracting()) {
 			
 			if (this.battleState.equals("enemie-turn")) {
-				
-				this.enemieMove();
-				battleState = "enemie-text";
-					
-			}
-			
-			else if (this.battleState.equals("enemie-text")) {
+				enemieTurn();
+			} else if (this.battleState.equals("enemie-text")) {
 				
 				this.message = "SEU TURNO";
 				battleState = "choose-move";
 				
-			}
-
-			else {
-				
-				switch (this.selectedButton) {
-				
-				case 0: // ATTACK
-					
-					
-					if (this.battleState.equals("choose-move")) {
-						
-						this.player.attack(this.enemie);
-						
-						if (this.enemie.getStats().getHealth() <= 0) {
-							this.message = "SEU OPONENTE FOI DERROTADO";
-							this.battleEnded = true;
-							return;
-						} else {
-							this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
-							this.battleState = "enemie-turn";
-						}
-						
-					} else if (this.battleState.equals("choose-spell")) {
-						
-						this.player.magic(this.enemie, this.selectedButton);
-						
-					} else if (this.battleState.equals("choose-item")) {
-						
-					}
-					
-					break;
-					
-				case 1: // DEFENSE
-					
-					if (this.battleState.equals("choose-move")) {
-						
-						int playerHpBefore = this.player.getStats().getHealth();
-						
-						this.player.defend();
-						
-						int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
-						
-						if (playerHpDifference > 0) {
-							this.message = "VOCE RECUPEROU VIDA (+"+playerHpDifference+"HP)";
-						} else {
-							this.message = "VOCE NAO FEZ NADA";
-						}
-						
-						this.battleState = "enemie-turn";
-						
-					} else if (this.battleState.equals("choose-spell")) {
-						
-						this.player.magic(this.enemie, this.selectedButton);
-						
-					} else if (this.battleState.equals("choose-item")) {
-						
-					}
-					
-					break;
-					
-				case 2: // MAGIC
-					
-					if (this.battleState.equals("choose-move")) {
-						
-						this.battleState = "choose-spell";
-						
-					} else if (this.battleState.equals("choose-spell")) {
-						
-						this.player.magic(this.enemie, this.selectedButton);
-						
-					} else if (this.battleState.equals("choose-item")) {
-						
-					}
-					
-					break;
-					
-				case 3: // INVENTORY
-					
-					if (this.battleState.equals("choose-move")) {
-						
-						this.battleState = "choose-item";
-						
-					} else if (this.battleState.equals("choose-spell")) {
-						
-						this.player.magic(this.enemie, this.selectedButton);
-						
-					} else if (this.battleState.equals("choose-item")) {
-						
-					}
-					
-					break;
-					
-				case 4: // SPECIAL
-					
-					if (this.battleState.equals("choose-move")) {
-						
-						this.battleState = "choose-special";
-						
-					} else if (this.battleState.equals("choose-spell")) {
-						
-						this.player.magic(this.enemie, this.selectedButton);
-						
-					} else if (this.battleState.equals("choose-item")) {
-						
-						this.battleState = "choose-move";
-						
-					}
-					
-					break;
-					
-				case 5: // FLEE
-					
-					if (this.battleState.equals("choose-move")) {
-						
-						this.battleEnded = true;
-						this.key.resetCmdNum();
-						
-					} else if (this.battleState.equals("choose-spell")) {
-						
-						this.battleState = "choose-move";
-						
-					} else if (this.battleState.equals("choose-item")) {
-						
-						this.inventoryPage++;
-						if (this.inventoryPage > 3) {
-							this.inventoryPage = 1;
-						}
-						
-					}
-					
+			} else if (this.battleState.equals("choose-move")) {
+				this.chooseMove();
+				if (this.selectedButton == 5) {
 					return;
 				}
-				
+			}  else if (this.battleState.equals("choose-spell")) {
+				this.chooseSpell();
+			} else if (this.battleState.equals("choose-item")) {
+				this.chooseItem();
 			}
-			
+				
 		}
-		
-		
+			
 	}
 	
-	public void enemieMove() {
+	private void enemieTurn() {
 		
-		int randomNumber = this.enemie.enemieRng(this.enemie.getFullChance(), 1);
 		int playerHpBefore = this.player.getStats().getHealth();
 		int enemieHpBefore = this.enemie.getStats().getHealth();
 		
-		if (randomNumber <= this.enemie.getAttackChance()) {
+		this.enemie.battleMove(this.player);
+		
+		if (this.player.getStats().getHealth() < playerHpBefore) {
 			
-			this.enemie.attack(player);
 			int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
 			this.message = "SEU OPONENTE LHE GOLPEOU ("+playerHpDifference+"HP)";
 			
 		} else {
 			
-			this.enemie.defend();
 			int enemieHpDifference = this.enemie.getStats().getHealth() - enemieHpBefore;
 			if (enemieHpDifference > 0) {
 				this.message = "SEU OPONENTE RECUPEROU VIDA (+"+enemieHpDifference+"HP)";
@@ -212,8 +81,90 @@ public class Battle {
 			}
 			
 		}
+		battleState = "enemie-text";
 		
 	}
+	
+	private void chooseMove() {
+		
+		switch (this.selectedButton) {
+		case 0:
+			this.player.attack(this.enemie);
+			
+			if (this.enemie.getStats().getHealth() <= 0) {
+				this.message = "SEU OPONENTE FOI DERROTADO";
+				this.battleEnded = true;
+				return;
+			} else {
+				this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
+				this.battleState = "enemie-turn";
+			}
+			break;
+		case 1:
+			int playerHpBefore = this.player.getStats().getHealth();
+			
+			this.player.defend();
+			
+			int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
+			
+			if (playerHpDifference > 0) {
+				this.message = "VOCE RECUPEROU VIDA (+"+playerHpDifference+"HP)";
+			} else {
+				this.message = "VOCE NAO FEZ NADA";
+			}
+			this.battleState = "enemie-turn";
+			break;
+		case 2:
+			this.battleState = "choose-spell";
+			break;
+		case 3:
+			this.battleState = "choose-item";
+			break;
+		case 4:
+			this.battleState = "choose-special";
+			break;
+		case 5:
+			this.battleEnded = true;
+			this.key.resetCmdNum();
+			break;
+		}
+		
+	}
+	
+	private void chooseSpell() {
+		
+		if (this.selectedButton == 5) {
+			this.battleState = "choose-move";
+		} else {
+			this.player.magic(this.enemie, this.selectedButton);
+		}
+		
+	}
+	
+	private void chooseItem() {
+		
+		switch (this.selectedButton) {
+		case 0:
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			this.battleState = "choose-move";
+			break;
+		case 5:
+			this.inventoryPage++;
+			if (this.inventoryPage > 3) {
+				this.inventoryPage = 1;
+			}
+			break;
+		}
+		
+	}
+	
 	
 	public String getBattleState() {
 		return battleState;

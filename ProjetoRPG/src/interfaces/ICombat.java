@@ -1,4 +1,4 @@
-package habilities;
+package interfaces;
 
 public interface ICombat {
 	

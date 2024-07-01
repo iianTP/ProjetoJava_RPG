@@ -4,21 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import combat.Effects;
+import combat.Spells;
+import items.*;
+
 import entities.Collision;
 import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
+import entities.npcs.teammates.Teammate;
 import exceptions.InventoryIsFullException;
-import habilities.Effects;
-import habilities.ICombat;
-import habilities.Spells;
-import items.Armor;
-import items.Cloak;
-import items.Inventory;
-import items.Item;
-import items.Staff;
-import items.Sword;
+import interfaces.ICombat;
 import main.KeyInput;
 import main.screen.GameScreen;
 
@@ -26,6 +23,7 @@ public abstract class Player extends Entity implements ICombat {
 	
 	private final KeyInput key;
 	private Npc[] npcs;
+	private Teammate[] teammates;
 	private final Collision collision = new Collision();
 	private Stats stats;
 	private Inventory inventory;
@@ -254,28 +252,70 @@ public abstract class Player extends Entity implements ICombat {
 	
 	//
 	
-	public void equipItem(Item item) {
-		if (item instanceof Armor || item instanceof Cloak) {
+	public void equipItem(Item item, Entity target) {
+		
+		if (target instanceof Player) {
 			
-			if (this.armorEquiped != null) {
-				try {
-					this.inventory.addItem(this.armorEquiped);
-				} catch (InventoryIsFullException e) {
-					e.printStackTrace();
+			if (item instanceof Armor || item instanceof Cloak) {
+				
+				if (this.armorEquiped != null) {
+					try {
+						this.inventory.addItem(this.armorEquiped);
+					} catch (InventoryIsFullException e) {
+						e.printStackTrace();
+					}
 				}
-			}
-			this.armorEquiped = item;
 			
-		} else if (item instanceof Sword || item instanceof Staff) {
-			if (this.weaponEquiped != null) {
-				try {
-					this.inventory.addItem(this.armorEquiped);
-				} catch (InventoryIsFullException e) {
-					e.printStackTrace();
+				this.armorEquiped = item;
+				
+			} else if (item instanceof Sword || item instanceof Staff) {
+				if (this.weaponEquiped != null) {
+					try {
+						this.inventory.addItem(this.armorEquiped);
+					} catch (InventoryIsFullException e) {
+						e.printStackTrace();
+					}
 				}
+				
+				this.weaponEquiped = item;
+				
 			}
-			this.weaponEquiped = item;
+			
+		} else if (target instanceof Teammate) {
+			
+			Teammate teammate = (Teammate) target;
+			
+			if (item instanceof Armor || item instanceof Cloak) {
+				
+				if (teammate.getArmorEquiped() != null) {
+					try {
+						this.inventory.addItem(teammate.getArmorEquiped());
+					} catch (InventoryIsFullException e) {
+						e.printStackTrace();
+					}
+				}
+			
+				teammate.setArmorEquiped(item);
+				
+			} else if (item instanceof Sword || item instanceof Staff) {
+				if (teammate.getWeaponEquiped() != null) {
+					try {
+						this.inventory.addItem(teammate.getWeaponEquiped());
+					} catch (InventoryIsFullException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				teammate.setArmorEquiped(item);
+				
+			}
+			
 		}
+		
+	}
+
+	public void useItem(Item item, Entity target) {
+		
 	}
 	
 	public boolean checkHitbox(int npcX, int npcY) {

@@ -58,8 +58,6 @@ public class PlayerMenu {
 					chooseCharacter();
 				} catch (InventoryIndexOutOfRangeException e) {
 					e.printStackTrace();
-				} catch (InventoryIsFullException e) {
-					e.printStackTrace();
 				}
 			}
 			
@@ -107,43 +105,24 @@ public class PlayerMenu {
 		}
 	}
 	
-	private void chooseCharacter() throws InventoryIndexOutOfRangeException, InventoryIsFullException {
+	private void chooseCharacter() throws InventoryIndexOutOfRangeException {
 		
 		int characterSelected = this.key.getCmdNum();
-			
-		switch (characterSelected) {
-		case 0:
+		
+		if (characterSelected == 0) {
 			if (this.itemSelected.checkRestriction(player)) {
 				if (this.itemSelected.isEquipable()) {
 					this.player.getInventory().removeItem(this.itemSelectedIndex);
-					this.player.equipItem(itemSelected);
+					this.player.equipItem(itemSelected, this.player);
 				}
 			}
-			break;
-		case 1:
-			if (this.itemSelected.checkRestriction(teammates[0])) {
+		} else {
+			if (this.itemSelected.checkRestriction(teammates[characterSelected-1])) {
 				if (this.itemSelected.isEquipable()) {
 					this.player.getInventory().removeItem(this.itemSelectedIndex);
-					teammateEquipItem(teammates[0]);
+					this.player.equipItem(itemSelected, teammates[characterSelected-1]);
 				}
 			}
-			break;
-		case 2:
-			if (this.itemSelected.checkRestriction(teammates[1])) {
-				if (this.itemSelected.isEquipable()) {
-					this.player.getInventory().removeItem(this.itemSelectedIndex);
-					teammateEquipItem(teammates[1]);
-				}
-			}
-			break;
-		case 3:
-			if (this.itemSelected.checkRestriction(teammates[2])) {
-				if (this.itemSelected.isEquipable()) {
-					this.player.getInventory().removeItem(this.itemSelectedIndex);
-					teammateEquipItem(teammates[2]);
-				}
-			}
-			break;
 		}
 			
 		this.itemSelected = null;
@@ -152,25 +131,6 @@ public class PlayerMenu {
 		
 	}
 	
-	private void teammateEquipItem(Teammate teammate) throws InventoryIsFullException {
-		
-		if (this.itemSelected instanceof Armor || this.itemSelected instanceof Cloak) {
-			
-			if (teammate.getArmorEquiped() != null) {
-				this.player.getInventory().addItem(teammate.getArmorEquiped());
-			}
-			teammate.setArmorEquiped(this.itemSelected);
-			
-		} else if (this.itemSelected instanceof Sword || this.itemSelected instanceof Staff) {
-			
-			if (teammate.getWeaponEquiped() != null) {
-				this.player.getInventory().addItem(teammate.getWeaponEquiped());
-			}
-			teammate.setWeaponEquiped(this.itemSelected);
-			
-		}
-		
-	}
 	
 	public String getState() {
 		return this.state;
