@@ -1,6 +1,7 @@
 package states;
 
 import entities.enemies.Enemie;
+import entities.npcs.teammates.*;
 import entities.player.Player;
 import main.KeyInput;
 
@@ -8,9 +9,11 @@ public class Battle {
 	
 	private final Player player;
 	private final Enemie enemie;
+	private final Teammate[] teammates;
 	private final KeyInput key;
 	
 	private String battleState = "choose-move";
+	private int teammateIndex = 0;
 
 	private String message = "SEU TURNO";
 	
@@ -20,9 +23,10 @@ public class Battle {
 	
 	private int inventoryPage = 1;
 	
-	public Battle(Player player, Enemie enemie, KeyInput key) {
+	public Battle(Player player, Enemie enemie, KeyInput key, Teammate[] teammates) {
 		this.player = player;
 		this.enemie = enemie;
+		this.teammates = teammates;
 		this.key = key;
 		this.key.resetCmdNum();
 	}
@@ -44,7 +48,22 @@ public class Battle {
 				this.message = "SEU TURNO";
 				battleState = "choose-move";
 				
-			} else if (this.battleState.equals("choose-move")) {
+			} else if (this.battleState.equals("teammate-turn")) {
+				if (this.teammates[this.teammateIndex].getStats() != null)
+				this.teammateTurn();
+				
+			} else if (this.battleState.equals("teammate-text")) {
+				teammateIndex++;
+				if (this.teammateIndex == 3) {
+					battleState = "enemie-turn";
+					this.teammateIndex = 0;
+				} else {
+					battleState = "teammate-turn";
+				}
+				
+			}
+			
+			else if (this.battleState.equals("choose-move")) {
 				this.chooseMove();
 				if (this.selectedButton == 5) {
 					return;
@@ -97,7 +116,7 @@ public class Battle {
 				return;
 			} else {
 				this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
-				this.battleState = "enemie-turn";
+				this.battleState = "teammate-turn";
 			}
 			break;
 		case 1:
@@ -112,7 +131,7 @@ public class Battle {
 			} else {
 				this.message = "VOCE NAO FEZ NADA";
 			}
-			this.battleState = "enemie-turn";
+			this.battleState = "teammate-turn";
 			break;
 		case 2:
 			this.battleState = "choose-spell";
@@ -165,6 +184,45 @@ public class Battle {
 		
 	}
 	
+	private void teammateTurn() {
+		
+		String name = null;
+		
+		if (this.teammates[this.teammateIndex] instanceof WarriorNpc) {
+			name = "GUERREIRO";
+		} else if (this.teammates[this.teammateIndex] instanceof MageNpc) {
+			name = "MAGO";
+		} else if (this.teammates[this.teammateIndex] instanceof HealerNpc) {
+			name = "CURANDEIRO";
+		} else if (this.teammates[this.teammateIndex] instanceof AssassinNpc) {
+			name = "ASSASSINO";
+		}
+		
+		int teammateHpBefore = this.teammates[this.teammateIndex].getStats().getHealth();
+		int enemieHpBefore = this.enemie.getStats().getHealth();
+		
+		this.teammates[this.teammateIndex].battleMove(this.enemie);
+		
+		if (this.teammates[this.teammateIndex].getStats().getHealth() < teammateHpBefore) {
+			
+			int targetHpDifference = this.enemie.getStats().getHealth() - enemieHpBefore;
+			this.message = "O "+name+" GOLPEOU O INIMIGO ("+targetHpDifference+"HP)";
+			
+		} else {
+			
+			int teammmateHpDifference = 
+					this.teammates[this.teammateIndex].getStats().getHealth() - teammateHpBefore;
+			
+			if (teammmateHpDifference > 0) {
+				this.message = "O "+name+" RECUPEROU VIDA (+"+teammmateHpDifference+"HP)";
+			} else {
+				this.message = "O "+name+" NAO FEZ NADA";
+			}
+			
+		}
+		battleState = "teammate-text";
+		
+	}
 	
 	public String getBattleState() {
 		return battleState;

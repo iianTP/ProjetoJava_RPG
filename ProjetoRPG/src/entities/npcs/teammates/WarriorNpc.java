@@ -56,6 +56,7 @@ public class WarriorNpc extends Teammate {
 		this.stats.setCriticalDamage(25);
 		this.stats.setMagic(1);
 		this.stats.setMagicDefense(1);
+		super.setStats(stats);
 
 	}
 

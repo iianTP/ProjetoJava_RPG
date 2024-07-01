@@ -57,6 +57,7 @@ public class MageNpc extends Teammate {
 		this.stats.setCriticalDamage(15);
 		this.stats.setMagic(5);
 		this.stats.setMagicDefense(4);
+		super.setStats(stats);
 
 	}
 

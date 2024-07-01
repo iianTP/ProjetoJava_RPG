@@ -57,6 +57,7 @@ public class HealerNpc extends Teammate {
 		this.stats.setCriticalDamage(10);
 		this.stats.setMagic(4);
 		this.stats.setMagicDefense(5);
+		super.setStats(stats);
 
 	}
 
