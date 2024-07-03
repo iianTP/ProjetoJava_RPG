@@ -1,4 +1,4 @@
-package entities.npcs.teammates;
+package entities.teammates;
 
 import combat.BattleRng;
 import entities.Stats;
@@ -8,10 +8,7 @@ import interfaces.ICombat;
 import items.Item;
 import main.screen.GameScreen;
 
-public abstract class Teammate extends Npc implements ICombat {
-	
-	private Item armorEquiped;
-	private Item weaponEquiped;
+public abstract class Teammate extends Team implements ICombat {
 	
 	private BattleRng battleRng = new BattleRng();
 	
@@ -65,24 +62,13 @@ public abstract class Teammate extends Npc implements ICombat {
 	}
 	
 	
-	public Item getArmorEquiped() {
-		return armorEquiped;
-	}
-	public Item getWeaponEquiped() {
-		return weaponEquiped;
-	}
-	public void setArmorEquiped(Item armorEquiped) {
-		this.armorEquiped = armorEquiped;
-	}
-	public void setWeaponEquiped(Item weaponEquiped) {
-		this.weaponEquiped = weaponEquiped;
-	}
-	
 	public Stats getStats() {
 		return stats;
 	}
 	public void setStats(Stats stats) {
 		this.stats = stats;
 	}
+
+	public abstract String getName();
 
 }

@@ -15,9 +15,8 @@ import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
-import entities.npcs.teammates.Teammate;
 import entities.player.Player;
-
+import entities.teammates.Teammate;
 import exceptions.InventoryIndexOutOfRangeException;
 import items.Inventory;
 import items.Item;
@@ -34,6 +33,7 @@ public class UI {
 	private Font font; //= new Font("Arial", Font.PLAIN, 20);
 	
 	private BufferedImage battleUI;
+	private BufferedImage[] effects = new BufferedImage[6];
 	
 	private Graphics2D brush;
 	
@@ -68,7 +68,7 @@ public class UI {
 	public UI(KeyInput key) {
 		
 		setBattleUI();
-		
+		setEffects();
 		InputStream is = getClass().getResourceAsStream("/fonts/ARCADEPI.ttf");
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 20F);
@@ -109,10 +109,14 @@ public class UI {
 	
 	
 	// TELA DE COMBATE
-	public void battleScreen(Player player, Enemie enemie, Battle battle) {
+	public void battleScreen(Player player, Teammate[] teammates, Enemie enemie, Battle battle) {
 		
 		Stats playerStats = player.getStats();
 		Stats enemieStats = enemie.getStats();
+		
+		Stats teammate1Stats = teammates[0].getStats();
+		Stats teammate2Stats = teammates[1].getStats();
+		Stats teammate3Stats = teammates[2].getStats();
 		
 		brush.setColor(new Color(0,0,0,200));
 		brush.fillRoundRect(0, 0, 720, 720, 10, 10);
@@ -122,29 +126,39 @@ public class UI {
 		
 		brush.setColor(Color.red);
 		brush.fillRect(64, 233, 96, 5);
-		brush.fillRect(64, 275, 96, 5);
-		brush.fillRect(64, 317, 96, 5);
-		brush.fillRect(64, 359, 96, 5);
+		brush.fillRect(64, 275+15, 96, 5);
+		brush.fillRect(64, 317+30, 96, 5);
+		brush.fillRect(64, 359+45, 96, 5);
 		brush.fillRect(568, 41, 96, 5);
+		
+		
+		brush.setColor(Color.white);
+		brush.drawString("VOCE: ", 24, 240-15);
+		brush.drawString(teammates[0].getName()+": ", 24, 282);
+		brush.drawString(teammates[1].getName()+": ", 24, 324+15);
+		brush.drawString(teammates[2].getName()+": ", 24, 366+30);
 		
 		brush.setColor(Color.green);
 		brush.drawString("HP: ", 24, 240);
 		brush.fillRect(64, 233, 96*playerStats.getHealth()/playerStats.getMaxHealth(), 5);
-		brush.drawString("HP: ", 24, 282);
-		brush.fillRect(64, 275, 96*playerStats.getHealth()/playerStats.getMaxHealth(), 5);
-		brush.drawString("HP: ", 24, 324);
-		brush.fillRect(64, 317, 96*playerStats.getHealth()/playerStats.getMaxHealth(), 5);
-		brush.drawString("HP: ", 24, 366);
-		brush.fillRect(64, 359, 96*playerStats.getHealth()/playerStats.getMaxHealth(), 5);
+		
+		brush.drawString("HP: ", 24, 282+15);
+		brush.fillRect(64, 275+15, 96*teammate1Stats.getHealth()/teammate1Stats.getMaxHealth(), 5);
+		
+		brush.drawString("HP: ", 24, 324+30);
+		brush.fillRect(64, 317+30, 96*teammate2Stats.getHealth()/teammate2Stats.getMaxHealth(), 5);
+		
+		brush.drawString("HP: ", 24, 366+45);
+		brush.fillRect(64, 359+45, 96*teammate3Stats.getHealth()/teammate3Stats.getMaxHealth(), 5);
 		
 		brush.drawString("HP: ", 528, 48);
 		brush.fillRect(568, 41, 96*enemieStats.getHealth()/enemieStats.getMaxHealth(), 5);
 		
 		brush.setColor(Color.magenta);
 		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 261);
-		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 303);
-		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 345);
-		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 387);
+		brush.drawString("MP: " + teammate1Stats.getMana() +"/"+ teammate1Stats.getMaxMana(), 24, 303+15);
+		brush.drawString("MP: " + teammate2Stats.getMana() +"/"+ teammate2Stats.getMaxMana(), 24, 345+30);
+		brush.drawString("MP: " + teammate3Stats.getMana() +"/"+ teammate3Stats.getMaxMana(), 24, 387+45);
 		
 		battleOptionsBox(player, battle);
 		effect(player.getEffects().getCurrentEffect(),enemie.getEffects().getCurrentEffect());
@@ -219,12 +233,11 @@ public class UI {
 		
 	}
 	
-	
-	
 	private void effect(String pEffect,String eEffect) {
 		
 		BufferedImage playerEffect;
 		BufferedImage enemieEffect;
+		
 		String file;
 		
 		try {
@@ -584,6 +597,19 @@ public class UI {
 	
 	public void setBrush(Graphics2D brush) {
 		this.brush = brush;
+	}
+
+	public void setEffects() {
+		try {
+			this.effects[0] = ImageIO.read(getClass().getResourceAsStream("/effects/burning.png"));
+			this.effects[1] = ImageIO.read(getClass().getResourceAsStream("/effects/paralyzed.png"));
+			this.effects[2] = ImageIO.read(getClass().getResourceAsStream("/effects/poisoned.png"));
+			this.effects[3] = ImageIO.read(getClass().getResourceAsStream("/effects/hypnotized.png"));
+			this.effects[4] = ImageIO.read(getClass().getResourceAsStream("/effects/bleeding.png"));
+			this.effects[5] = ImageIO.read(getClass().getResourceAsStream("/effects/cursed.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 

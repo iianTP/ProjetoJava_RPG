@@ -8,7 +8,7 @@ public interface ICombat {
 	
 	public void defend();
 
-	//public <T> void special();
+	public <T> void special(T target);
 	
 	public void takeDamage(int damage);
 	

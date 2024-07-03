@@ -63,4 +63,10 @@ public class Seller extends Npc{
 		}		
 	}
 
+	@Override
+	public void setStats() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

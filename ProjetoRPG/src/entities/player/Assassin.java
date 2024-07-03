@@ -56,4 +56,10 @@ public class Assassin extends Player {
 		super.setStats(stats);
 	}
 
+	@Override
+	public <T> void special(T target) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

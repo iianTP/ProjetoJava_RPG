@@ -7,6 +7,7 @@ import combat.BattleRng;
 import combat.Effects;
 import entities.Stats;
 import entities.player.Player;
+import entities.teammates.Team;
 import interfaces.ICombat;
 
 public abstract class Enemie implements ICombat {
@@ -20,12 +21,12 @@ public abstract class Enemie implements ICombat {
 	
 	// MÉTODOS DE COMBATE
 	
-	public void battleMove(Player player) {
+	public void battleMove(Team target) {
 		
 		int randomNumber = this.battleRng.rng(this.battleRng.getFullChance(), 1);
 		
 		if (randomNumber <= this.battleRng.getAttackChance()) {
-			this.attack(player);
+			this.attack(target);
 		} else {
 			this.defend();
 		}
@@ -34,8 +35,8 @@ public abstract class Enemie implements ICombat {
 	
 	@Override
 	public <T> void attack(T target) {
-		if (target instanceof Player) {
-			((Player) target).takeDamage(this.stats.getStrenght());
+		if (target instanceof Team) {
+			((Team) target).takeDamage(this.stats.getStrenght());
 			this.battleRng.increaseAttackChance();
 		}
 	}

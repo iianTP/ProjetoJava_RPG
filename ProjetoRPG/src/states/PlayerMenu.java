@@ -1,7 +1,7 @@
 package states;
 
-import entities.npcs.teammates.Teammate;
 import entities.player.Player;
+import entities.teammates.Teammate;
 import exceptions.InventoryIndexOutOfRangeException;
 import exceptions.InventoryIsFullException;
 import items.Armor;
@@ -111,17 +111,13 @@ public class PlayerMenu {
 		
 		if (characterSelected == 0) {
 			if (this.itemSelected.checkRestriction(player)) {
-				if (this.itemSelected.isEquipable()) {
-					this.player.getInventory().removeItem(this.itemSelectedIndex);
-					this.player.equipItem(itemSelected, this.player);
-				}
+				this.player.getInventory().removeItem(this.itemSelectedIndex);
+				this.player.useItem(itemSelected);
 			}
 		} else {
 			if (this.itemSelected.checkRestriction(teammates[characterSelected-1])) {
-				if (this.itemSelected.isEquipable()) {
-					this.player.getInventory().removeItem(this.itemSelectedIndex);
-					this.player.equipItem(itemSelected, teammates[characterSelected-1]);
-				}
+				this.player.getInventory().removeItem(this.itemSelectedIndex);
+				teammates[characterSelected-1].useItem(itemSelected);
 			}
 		}
 			

@@ -1,8 +1,10 @@
 package states;
 
 import entities.enemies.Enemie;
-import entities.npcs.teammates.*;
 import entities.player.Player;
+import entities.teammates.*;
+import exceptions.InventoryIndexOutOfRangeException;
+import items.Item;
 import main.KeyInput;
 
 public class Battle {
@@ -39,20 +41,32 @@ public class Battle {
 
 		this.selectedButton = this.key.getCmdNum();
 		
+		if (this.enemie.getStats().getHealth() <= 0) {
+			this.message = "SEU OPONENTE FOI DERROTADO";
+			this.battleState = "ended";
+		} 
+		
 		if (this.key.isInteracting()) {
 			
 			if (this.battleState.equals("enemie-turn")) {
 				enemieTurn();
-			} else if (this.battleState.equals("enemie-text")) {
+			}
+			
+			else if (this.battleState.equals("enemie-text")) {
 				
 				this.message = "SEU TURNO";
 				battleState = "choose-move";
 				
-			} else if (this.battleState.equals("teammate-turn")) {
+			}
+			
+			else if (this.battleState.equals("teammate-turn")) {
+				
 				if (this.teammates[this.teammateIndex].getStats() != null)
 				this.teammateTurn();
 				
-			} else if (this.battleState.equals("teammate-text")) {
+			}
+			
+			else if (this.battleState.equals("teammate-text")) {
 				teammateIndex++;
 				if (this.teammateIndex == 3) {
 					battleState = "enemie-turn";
@@ -60,7 +74,6 @@ public class Battle {
 				} else {
 					battleState = "teammate-turn";
 				}
-				
 			}
 			
 			else if (this.battleState.equals("choose-move")) {
@@ -68,10 +81,22 @@ public class Battle {
 				if (this.selectedButton == 5) {
 					return;
 				}
-			}  else if (this.battleState.equals("choose-spell")) {
+			}
+			
+			else if (this.battleState.equals("choose-spell")) {
 				this.chooseSpell();
-			} else if (this.battleState.equals("choose-item")) {
-				this.chooseItem();
+			}
+			
+			else if (this.battleState.equals("choose-item")) {
+				try {
+					this.chooseItem();
+				} catch (InventoryIndexOutOfRangeException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			else if (this.battleState.equals("ended")) {
+				this.battleEnded = true;
 			}
 				
 		}
@@ -81,15 +106,30 @@ public class Battle {
 	private void enemieTurn() {
 		
 		int playerHpBefore = this.player.getStats().getHealth();
+		int teammate1HpBefore = this.teammates[0].getStats().getHealth();
+		int teammate2HpBefore = this.teammates[1].getStats().getHealth();
+		int teammate3HpBefore = this.teammates[2].getStats().getHealth();
+		
 		int enemieHpBefore = this.enemie.getStats().getHealth();
 		
 		this.enemie.battleMove(this.player);
+		this.enemie.battleMove(this.teammates[0]);
+		this.enemie.battleMove(this.teammates[1]);
+		this.enemie.battleMove(this.teammates[2]);
 		
 		if (this.player.getStats().getHealth() < playerHpBefore) {
 			
 			int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
-			this.message = "SEU OPONENTE LHE GOLPEOU ("+playerHpDifference+"HP)";
+			int teammate1HpDifference = this.teammates[0].getStats().getHealth() - teammate1HpBefore;
+			int teammate2HpDifference = this.teammates[1].getStats().getHealth() - teammate2HpBefore;
+			int teammate3HpDifference = this.teammates[2].getStats().getHealth() - teammate3HpBefore;
 			
+			this.message = "SEU OPONENTE ATACOU ";
+				/*	+ "J:("+playerHpDifference+"HP)"
+					+ "T1:("+teammate1HpDifference+"HP)"
+					+ "T2:("+teammate2HpDifference+"HP)"
+					+ "T3:("+teammate3HpDifference+"HP)";
+			*/
 		} else {
 			
 			int enemieHpDifference = this.enemie.getStats().getHealth() - enemieHpBefore;
@@ -110,14 +150,9 @@ public class Battle {
 		case 0:
 			this.player.attack(this.enemie);
 			
-			if (this.enemie.getStats().getHealth() <= 0) {
-				this.message = "SEU OPONENTE FOI DERROTADO";
-				this.battleEnded = true;
-				return;
-			} else {
-				this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
-				this.battleState = "teammate-turn";
-			}
+			this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
+			this.battleState = "teammate-turn";
+			
 			break;
 		case 1:
 			int playerHpBefore = this.player.getStats().getHealth();
@@ -160,53 +195,46 @@ public class Battle {
 		
 	}
 	
-	private void chooseItem() {
+	private void chooseItem() throws InventoryIndexOutOfRangeException {
 		
-		switch (this.selectedButton) {
-		case 0:
-			break;
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
+		Item itemSelected;
+		int itemIndex = this.selectedButton+4*(this.inventoryPage-1);
+		
+		if (itemIndex < 11 && this.selectedButton < 4) {
+			 itemSelected = this.player.getInventory().getItem(itemIndex);
+			 this.player.getInventory().removeItem(itemIndex);
+			 if (itemSelected != null) {
+				this.player.useItem(itemSelected);
+				this.battleState = "teammate-turn";
+			 }
+		}
+		
+		else if (this.selectedButton == 4) {
 			this.battleState = "choose-move";
-			break;
-		case 5:
+		}
+		
+		else if (this.selectedButton ==  5) {
 			this.inventoryPage++;
 			if (this.inventoryPage > 3) {
 				this.inventoryPage = 1;
 			}
-			break;
 		}
 		
 	}
 	
 	private void teammateTurn() {
 		
-		String name = null;
-		
-		if (this.teammates[this.teammateIndex] instanceof WarriorNpc) {
-			name = "GUERREIRO";
-		} else if (this.teammates[this.teammateIndex] instanceof MageNpc) {
-			name = "MAGO";
-		} else if (this.teammates[this.teammateIndex] instanceof HealerNpc) {
-			name = "CURANDEIRO";
-		} else if (this.teammates[this.teammateIndex] instanceof AssassinNpc) {
-			name = "ASSASSINO";
-		}
+		String name = this.teammates[this.teammateIndex].getName();
 		
 		int teammateHpBefore = this.teammates[this.teammateIndex].getStats().getHealth();
 		int enemieHpBefore = this.enemie.getStats().getHealth();
 		
 		this.teammates[this.teammateIndex].battleMove(this.enemie);
 		
-		if (this.teammates[this.teammateIndex].getStats().getHealth() < teammateHpBefore) {
+		if (this.enemie.getStats().getHealth() < enemieHpBefore) {
 			
-			int targetHpDifference = this.enemie.getStats().getHealth() - enemieHpBefore;
-			this.message = "O "+name+" GOLPEOU O INIMIGO ("+targetHpDifference+"HP)";
+			int enemieHpDifference = this.enemie.getStats().getHealth() - enemieHpBefore;
+			this.message = "O "+name+" GOLPEOU O INIMIGO ("+enemieHpDifference+"HP)";
 			
 		} else {
 			
@@ -220,7 +248,12 @@ public class Battle {
 			}
 			
 		}
-		battleState = "teammate-text";
+		
+		teammateIndex++;
+		if (this.teammateIndex == 3) {
+			battleState = "enemie-turn";
+			this.teammateIndex = 0;
+		}
 		
 	}
 	

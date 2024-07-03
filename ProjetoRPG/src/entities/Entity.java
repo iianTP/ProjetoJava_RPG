@@ -6,10 +6,11 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import interfaces.IEntitySetup;
 import items.Item;
 import main.screen.GameScreen;
 
-public abstract class Entity {
+public abstract class Entity implements IEntitySetup {
 	
 	private GameScreen gs;
 	
@@ -36,8 +37,6 @@ public abstract class Entity {
 	public Entity(GameScreen gs) {
 		this.gs = gs;
 	}
-	
-	public abstract void setSprites();
 	
 	public int rng(int range, int minNum) {
 		return this.rng.nextInt(range) + minNum;

@@ -4,8 +4,8 @@ import javax.swing.JPanel;
 
 import entities.enemies.*;
 import entities.npcs.*;
-import entities.npcs.teammates.*;
 import entities.player.*;
+import entities.teammates.*;
 import states.*;
 
 import main.KeyInput;
@@ -41,7 +41,6 @@ public class GameScreen extends JPanel implements Runnable {
 	private Player player;
 	private Npc[] npcs = new Npc[2];
 	private Teammate[] teammates = new Teammate[3];
-	private Npc[] allNpcs = new Npc[npcs.length+teammates.length];
 	private Enemie enemie;
 	private Seller seller;
 	//private Entity[] team = new Entity[3];
@@ -78,12 +77,11 @@ public class GameScreen extends JPanel implements Runnable {
 	//inicialização do game loop
 	public void startThread() {
 		
-		
 		setPlayerClass();
 		
-		setAllNpcs();
+		setNpcs();
 		
-		this.player.setNpcs(allNpcs);
+		this.player.setNpcs(npcs);
 		
 		this.gameThread = new Thread(this);
 		this.gameThread.start();
@@ -133,12 +131,9 @@ public class GameScreen extends JPanel implements Runnable {
 	}
 	//
 	
-	private void setAllNpcs() {
+	private void setNpcs() {
 		this.npcs[0] = new Test(1333, 1386, this);
 		this.npcs[1] = new Seller(1224, 1234, this);
-		
-		System.arraycopy(npcs, 0, allNpcs, 0, npcs.length);
-		System.arraycopy(teammates, 0, allNpcs, npcs.length, 3);
 	}
 
 	@Override
@@ -171,7 +166,7 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			this.player.update();
 			
-			for (int i = 0; i < allNpcs.length; i++) {
+			for (int i = 0; i < npcs.length; i++) {
 				//this.allNpcs[i].update(this.player, this.allNpcs);
 			}
 			
@@ -256,11 +251,14 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			if (gameState == combat && this.enemie != null) {
 
-				this.ui.battleScreen(this.player, this.enemie, this.battle);
+				this.ui.battleScreen(this.player, this.teammates,this.enemie, this.battle);
 				
 				this.ui.battleText(this.battle.getMessage());
 				
-				g2D.drawImage(this.player.getIdleSprites()[0], 96*3, 128*3, 48, 48, null);
+				g2D.drawImage(this.player.getIdleSprites()[0], 48*6, 48*8, 48, 48, null);
+				g2D.drawImage(this.teammates[0].getIdleSprites()[0], 48*4+24, 48*7, 48, 48, null);
+				g2D.drawImage(this.teammates[1].getIdleSprites()[0], 48*8, 48*8, 48, 48, null);
+				g2D.drawImage(this.teammates[2].getIdleSprites()[0], 48*10-24, 48*7, 48, 48, null);
 				
 				g2D.drawImage(this.enemie.getSprite(), 104*3, 40*3, 48*2, 48*2, null);
 				
@@ -284,14 +282,8 @@ public class GameScreen extends JPanel implements Runnable {
 
 			if (gameState == talking && this.dialogue != null) {
 				
-			/*	int index = this.key.getDialogueIndex();
-				if (index == this.npcDialogue.length) {
-					this.key.resetDialogueIndex();
-					this.gameState = playing;
-				} else {*/
-					this.ui.dialogueBox();
-					this.ui.dialogueText(npcDialogue[this.dialogue.getDialogueIndex()]);
-				/*}*/
+				this.ui.dialogueBox();
+				this.ui.dialogueText(npcDialogue[this.dialogue.getDialogueIndex()]);
 
 			}
 			
@@ -312,17 +304,17 @@ public class GameScreen extends JPanel implements Runnable {
 		Npc[] npcsBehind = new Npc[0];
 		Npc[] npcsInFront = new Npc[0];
 
-		for (int i = 0; i < allNpcs.length; i++) {
+		for (int i = 0; i < npcs.length; i++) {
 
-			if (this.player.getScreenY() >= allNpcs[i].getScreenY()) {
+			if (this.player.getScreenY() >= npcs[i].getScreenY()) {
 				
 				npcsBehind = Arrays.copyOf(npcsBehind, npcsBehind.length+1);
-				npcsBehind[npcsBehind.length-1] = allNpcs[i];
+				npcsBehind[npcsBehind.length-1] = npcs[i];
 				
 			} else {
 				
 				npcsInFront = Arrays.copyOf(npcsInFront, npcsInFront.length+1);
-				npcsInFront[npcsInFront.length-1] = allNpcs[i];
+				npcsInFront[npcsInFront.length-1] = npcs[i];
 				
 			}
 
@@ -345,15 +337,15 @@ public class GameScreen extends JPanel implements Runnable {
 	//
 	
 	//ordenação das entidades pela coordenada Y na tela
-	private void sortYCoords(Npc[] a) {
+	private void sortYCoords(Npc[] npcs) {
 		
 		Npc t;
-		for (int i = 0; i < a.length-1; i++) {
-			for (int j = 0; j < a.length-1; j++) {
-				if (a[j].getScreenY() > a[j+1].getScreenY()) {
-					t = a[j];
-					a[j] = a[j+1];
-					a[j+1] = t;
+		for (int i = 0; i < npcs.length-1; i++) {
+			for (int j = 0; j < npcs.length-1; j++) {
+				if (npcs[j].getScreenY() > npcs[j+1].getScreenY()) {
+					t = npcs[j];
+					npcs[j] = npcs[j+1];
+					npcs[j+1] = t;
 				}
 			}
 		}

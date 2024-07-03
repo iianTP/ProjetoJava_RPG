@@ -54,5 +54,11 @@ public class Healer extends Player{
 		this.stats.setMagicDefense(5);
 		super.setStats(stats);
 	}
+
+	@Override
+	public <T> void special(T target) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

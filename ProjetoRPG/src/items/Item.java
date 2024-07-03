@@ -1,7 +1,7 @@
 package items;
 
 import entities.Entity;
-import entities.npcs.teammates.Teammate;
+import entities.teammates.Teammate;
 
 public class Item {
 	

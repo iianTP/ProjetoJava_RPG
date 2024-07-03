@@ -41,4 +41,10 @@ public class Ghost extends Enemie {
 
 	}
 
+	@Override
+	public <T> void special(T target) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

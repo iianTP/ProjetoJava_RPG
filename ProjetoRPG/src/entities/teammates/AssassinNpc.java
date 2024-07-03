@@ -1,4 +1,4 @@
-package entities.npcs.teammates;
+package entities.teammates;
 
 import java.io.IOException;
 
@@ -12,6 +12,7 @@ import main.screen.GameScreen;
 public class AssassinNpc extends Teammate {
 	
 	private Stats stats = new Stats();
+	private String name = "ASSASSINO";
 	
 	public AssassinNpc(int x, int y, GameScreen gs) {
 		super(gs);
@@ -59,49 +60,14 @@ public class AssassinNpc extends Teammate {
 	}
 
 
-	public void interaction() {
+	@Override
+	public <T> void special(T target) {
 		// TODO Auto-generated method stub
 		
 	}
 
-
-	public void action(Player player, Npc[] npcs) {
-		
-		super.addFrameCounter();
-		if (super.getFrameCounter() == 120) {
-			
-			int randInt = super.rng(100, 1);
-			
-			if (randInt <= 20) {
-				super.setDirection("up");
-			} else if (randInt > 20 && randInt <= 40) {
-				super.setDirection("down");
-			} else if (randInt > 40 && randInt <= 60) {
-				super.setDirection("left");
-			} else if (randInt > 60 && randInt <= 80) {
-				super.setDirection("right");
-			}
-
-			super.resetFrameCounter();
-		}
-		
-		super.setCollision(false);
-		super.collision().checkTile(this);
-		super.collision().checkNpc(this, npcs);
-		super.collision().checkPlayer(this, player);
-		
-		if (!super.isColliding() && super.isWalking()) {
-			if (super.getDirection().equals("up")) {
-				super.goUp();
-			} else if (super.getDirection().equals("down")) {
-				super.goDown();
-			} else if (super.getDirection().equals("left")) {
-				super.goLeft();
-			} else if (super.getDirection().equals("right")) {
-				super.goRight();
-			}
-		}
-		
+	public String getName() {
+		return name;
 	}
 
 }

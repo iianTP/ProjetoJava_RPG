@@ -37,33 +37,33 @@ public abstract class DynamicArray<T> {
 	}
 	
 	public void removeData(int itemIndex) {
-		int i = 0;
-		
-		List slotBefore = null;
-		List slot = this.first;
-		List slotAfter = slot.next;
-		
-		while (i != itemIndex) {
-			if (slotAfter == null) {
-				break;
+		if (getData(itemIndex)!=null) {
+			int i = 0;
+			List slotBefore = null;
+			List slot = this.first;
+			List slotAfter = slot.next;
+			
+			while (i != itemIndex) {
+				if (slotAfter == null) {
+					break;
+				}
+				slotBefore = slot;
+				slot = slot.next;
+				slotAfter = slotAfter.next;
+				i++;
 			}
-			slotBefore = slot;
-			slot = slot.next;
-			slotAfter = slotAfter.next;
-			i++;
-		}
-		
-		if (slot != null) {
-			if (slotBefore == null) {
-				this.first = slotAfter;
-			} else if (slotAfter == null) {
-				slotBefore.next = null;
-				this.last = slotBefore;
-			} else {
-				slotBefore.next = slotAfter;
+			
+			if (slot != null) {
+				if (slotBefore == null) {
+					this.first = slotAfter;
+				} else if (slotAfter == null) {
+					slotBefore.next = null;
+					this.last = slotBefore;
+				} else {
+					slotBefore.next = slotAfter;
+				}
 			}
 		}
-		
 	}
 	
 

@@ -13,6 +13,8 @@ import main.screen.GameScreen;
 
 public class Test extends Npc {
 	
+	private Random random = new Random();
+	 
 	public Test(int x, int y, GameScreen gs) {
 		super(gs);
 		
@@ -27,15 +29,13 @@ public class Test extends Npc {
 		
 	}
 	
-	
-	
 	@Override
 	public void action(Player player, Npc[] npcs) {
 		
 		super.addFrameCounter();
 		if (super.getFrameCounter() == 120) {
 			
-			int randInt = super.rng(100, 1);
+			int randInt = super.rng(100,1);
 			
 			if (randInt <= 20) {
 				super.setDirection("up");
@@ -105,6 +105,11 @@ public class Test extends Npc {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void setStats() {
+		
 	}
 	
 }

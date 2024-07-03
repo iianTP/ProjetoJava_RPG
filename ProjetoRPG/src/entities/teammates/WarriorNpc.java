@@ -1,4 +1,4 @@
-package entities.npcs.teammates;
+package entities.teammates;
 
 import java.io.IOException;
 
@@ -14,6 +14,7 @@ import main.screen.GameScreen;
 public class WarriorNpc extends Teammate {
 	
 	private Stats stats = new Stats();
+	private String name = "GUERREIRO";
 
 	public WarriorNpc(int x, int y, GameScreen gs) {
 		super(gs);
@@ -60,16 +61,13 @@ public class WarriorNpc extends Teammate {
 
 	}
 
-	@Override
-	public void interaction() {
+	public <T> void special(T target) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void action(Player player, Npc[] npcs) {
-		// TODO Auto-generated method stub
-		
+	public String getName() {
+		return name;
 	}
 
 }

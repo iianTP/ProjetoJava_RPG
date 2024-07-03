@@ -55,5 +55,11 @@ public class Mage extends Player {
 		this.stats.setMagicDefense(4);
 		super.setStats(stats);
 	}
+
+	@Override
+	public <T> void special(T target) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

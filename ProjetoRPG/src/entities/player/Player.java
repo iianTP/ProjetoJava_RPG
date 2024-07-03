@@ -13,17 +13,17 @@ import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
-import entities.npcs.teammates.Teammate;
+import entities.teammates.Team;
+import entities.teammates.Teammate;
 import exceptions.InventoryIsFullException;
 import interfaces.ICombat;
 import main.KeyInput;
 import main.screen.GameScreen;
 
-public abstract class Player extends Entity implements ICombat {
+public abstract class Player extends Team {
 	
 	private final KeyInput key;
 	private Npc[] npcs;
-	private Teammate[] teammates;
 	private final Collision collision = new Collision();
 	private Stats stats;
 	private Inventory inventory;
@@ -57,6 +57,8 @@ public abstract class Player extends Entity implements ICombat {
 		
 		super.setWalkSpeed(3); // Velocidade do player
 		super.setDirection("down"); // Direção do player
+		
+		super.setPlayerInventory(this.inventory);
 		
 	}
 	
@@ -251,73 +253,7 @@ public abstract class Player extends Entity implements ICombat {
 	}
 	
 	//
-	
-	public void equipItem(Item item, Entity target) {
-		
-		if (target instanceof Player) {
-			
-			if (item instanceof Armor || item instanceof Cloak) {
-				
-				if (this.armorEquiped != null) {
-					try {
-						this.inventory.addItem(this.armorEquiped);
-					} catch (InventoryIsFullException e) {
-						e.printStackTrace();
-					}
-				}
-			
-				this.armorEquiped = item;
-				
-			} else if (item instanceof Sword || item instanceof Staff) {
-				if (this.weaponEquiped != null) {
-					try {
-						this.inventory.addItem(this.armorEquiped);
-					} catch (InventoryIsFullException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				this.weaponEquiped = item;
-				
-			}
-			
-		} else if (target instanceof Teammate) {
-			
-			Teammate teammate = (Teammate) target;
-			
-			if (item instanceof Armor || item instanceof Cloak) {
-				
-				if (teammate.getArmorEquiped() != null) {
-					try {
-						this.inventory.addItem(teammate.getArmorEquiped());
-					} catch (InventoryIsFullException e) {
-						e.printStackTrace();
-					}
-				}
-			
-				teammate.setArmorEquiped(item);
-				
-			} else if (item instanceof Sword || item instanceof Staff) {
-				if (teammate.getWeaponEquiped() != null) {
-					try {
-						this.inventory.addItem(teammate.getWeaponEquiped());
-					} catch (InventoryIsFullException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				teammate.setArmorEquiped(item);
-				
-			}
-			
-		}
-		
-	}
 
-	public void useItem(Item item, Entity target) {
-		
-	}
-	
 	public boolean checkHitbox(int npcX, int npcY) {
 
 		int x = super.getX()-24;
