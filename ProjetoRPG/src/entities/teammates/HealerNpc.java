@@ -8,6 +8,8 @@ import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.player.Player;
+import exceptions.InvalidCoordinateException;
+import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
 
@@ -18,10 +20,14 @@ public class HealerNpc extends Teammate {
 
 	public HealerNpc(int x, int y, GameScreen gs) {
 		super(gs);	
-		this.setSprites();
 		this.setStats();
-		super.setX(x);
-		super.setY(y);
+		this.setSprites();
+		try {
+			super.setX(x);
+			super.setY(y);
+		} catch (InvalidCoordinateException e) {
+			e.printStackTrace();
+		}
 		super.setWalkSpeed(3);
 		super.setDirection("down");
 	}
@@ -47,18 +53,22 @@ public class HealerNpc extends Teammate {
 
 	public void setStats() {
 		
-		this.stats.setHealth(20);
-		this.stats.setMaxHealth(20);
-		this.stats.setMana(20);
-		this.stats.setMaxMana(20);
-		
-		this.stats.setStrenght(1);
-		this.stats.setDefense(2);
-		this.stats.setAgility(2);
-		this.stats.setCriticalDamage(10);
-		this.stats.setMagic(4);
-		this.stats.setMagicDefense(5);
-		super.setStats(stats);
+		try {
+			this.stats.setHealth(20);
+			this.stats.setMaxHealth(20);
+			this.stats.setMana(20);
+			this.stats.setMaxMana(20);
+			
+			this.stats.setStrenght(1);
+			this.stats.setDefense(2);
+			this.stats.setAgility(2);
+			this.stats.setCriticalDamage(10);
+			this.stats.setMagic(4);
+			this.stats.setMagicDefense(5);
+			super.setStats(stats);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
 
 	}
 

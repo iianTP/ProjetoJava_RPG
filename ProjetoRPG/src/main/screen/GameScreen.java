@@ -6,6 +6,8 @@ import entities.enemies.*;
 import entities.npcs.*;
 import entities.player.*;
 import entities.teammates.*;
+import exceptions.InvalidCoordinateException;
+import exceptions.InvalidGameStateIndex;
 import states.*;
 
 import main.KeyInput;
@@ -353,14 +355,14 @@ public class GameScreen extends JPanel implements Runnable {
 	}
 	//
 
-	
-	
-
-
 	public void changeMap(String map) {
 		this.tiles = new TileManager(/* map */);
-		this.player.setX(894);
-		this.player.setY(894);
+		try {
+			this.player.setX(894);
+			this.player.setY(894);
+		} catch (InvalidCoordinateException e) {
+			e.printStackTrace();
+		}
 
 	}
 	
@@ -374,7 +376,10 @@ public class GameScreen extends JPanel implements Runnable {
 	public int getGameState() {
 		return this.gameState;
 	}
-	public void setGameState(int gameState) {
+	public void setGameState(int gameState) throws InvalidGameStateIndex {
+		if (gameState < 0 || gameState > 6) {
+			throw new InvalidGameStateIndex("estado de jogo "+gameState+" inválido");
+		}
 		this.gameState = gameState;
 	}
 

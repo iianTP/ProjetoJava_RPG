@@ -27,8 +27,6 @@ public class Shop {
 			this.key.correctCmdNum();
 		}
 		
-		
-		
 		if (this.key.isInteracting()) {
 			
 			if (this.shopState.equals("choose-item")) {

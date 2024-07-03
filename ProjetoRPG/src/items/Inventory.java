@@ -1,6 +1,6 @@
 package items;
 
-import exceptions.InventoryIndexOutOfRangeException;
+import exceptions.IndexOutOfRangeException;
 import exceptions.InventoryIsFullException;
 import main.DynamicArray;
 import main.KeyInput;
@@ -20,35 +20,33 @@ public class Inventory extends DynamicArray<Item>{
 		if (isFull()) {
 			throw new InventoryIsFullException();
 		}
-		System.out.println("added");
 		super.addData(item);
 	}
 	
 	
-	public Item getItem() throws InventoryIndexOutOfRangeException {
+	public Item getItem() throws IndexOutOfRangeException {
 		int itemIndex = this.key.getCmdNum();
 		if (itemIndex < 0 || itemIndex > 9) {
-			throw new InventoryIndexOutOfRangeException();
+			throw new IndexOutOfRangeException();
 		}
 		return super.getData(itemIndex);
 	}
 	
-	public Item getItem(int index) throws InventoryIndexOutOfRangeException {
+	public Item getItem(int index) throws IndexOutOfRangeException {
 		if (index < 0 || index > 9) {
-			throw new InventoryIndexOutOfRangeException();
+			throw new IndexOutOfRangeException();
 		}
 		return super.getData(index);
 	}
 	
 	
-	public void removeItem(int itemIndex) throws InventoryIndexOutOfRangeException {
+	public void removeItem(int itemIndex) throws IndexOutOfRangeException {
 		
 		if (itemIndex < 0 || itemIndex > 9) {
-			throw new InventoryIndexOutOfRangeException();
+			throw new IndexOutOfRangeException();
 		}
-		System.out.println("removed");
-		super.removeData(itemIndex);
-		
+		if (this.getData(itemIndex) != null) {
+			super.removeData(itemIndex);
+		}
 	}
-
 }

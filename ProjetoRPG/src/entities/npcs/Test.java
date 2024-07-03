@@ -7,6 +7,8 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import entities.player.Player;
+import exceptions.InvalidCoordinateException;
+import exceptions.InvalidGameStateIndex;
 import exceptions.InventoryIsFullException;
 import items.Armor;
 import main.screen.GameScreen;
@@ -20,8 +22,13 @@ public class Test extends Npc {
 		
 		super.setDirection("down");
 
-		super.setX(x);
-		super.setY(y);
+		try {
+			super.setX(x);
+			super.setY(y);
+		} catch (InvalidCoordinateException e) {
+			e.printStackTrace();
+		}
+		
 		super.setWalkSpeed(1);
 		setSprites();
 		
@@ -78,7 +85,11 @@ public class Test extends Npc {
 	@Override
 	public void interaction(Player player) {
 		System.out.println("foi");
-		super.getGs().setGameState(3);
+		try {
+			super.getGs().setGameState(3);
+		} catch (InvalidGameStateIndex e) {
+			e.printStackTrace();
+		}
 		
 		if (!player.getInventory().isFull()) {
 			try {
@@ -107,9 +118,4 @@ public class Test extends Npc {
 		}
 	}
 
-	@Override
-	public void setStats() {
-		
-	}
-	
 }

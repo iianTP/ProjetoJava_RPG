@@ -1,10 +1,12 @@
 package interfaces;
 
+import exceptions.InvalidTargetException;
+
 public interface ICombat {
 	
-	public <T> void attack(T target);
+	public <T> void attack(T target) throws InvalidTargetException;
 	
-	public <T> void magic(T target, int spellId);
+	public <T> void magic(T target, int spellId) throws InvalidTargetException;
 	
 	public void defend();
 

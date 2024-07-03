@@ -2,7 +2,7 @@ package states;
 
 import entities.player.Player;
 import entities.teammates.Teammate;
-import exceptions.InventoryIndexOutOfRangeException;
+import exceptions.IndexOutOfRangeException;
 import exceptions.InventoryIsFullException;
 import items.Armor;
 import items.Cloak;
@@ -56,7 +56,7 @@ public class PlayerMenu {
 			} else if (this.state.equals("choose-character")) {
 				try {
 					chooseCharacter();
-				} catch (InventoryIndexOutOfRangeException e) {
+				} catch (IndexOutOfRangeException e) {
 					e.printStackTrace();
 				}
 			}
@@ -77,7 +77,7 @@ public class PlayerMenu {
 				if (itemSelected != null) {
 					this.itemSelected = itemSelected;
 				}
-			} catch (InventoryIndexOutOfRangeException e) {
+			} catch (IndexOutOfRangeException e) {
 				e.printStackTrace();
 			}
 			
@@ -95,7 +95,7 @@ public class PlayerMenu {
 			
 			try {
 				this.player.getInventory().removeItem(this.itemSelectedIndex);
-			} catch (InventoryIndexOutOfRangeException e) {
+			} catch (IndexOutOfRangeException e) {
 				e.printStackTrace();
 			}
 			this.itemSelected = null;
@@ -105,7 +105,7 @@ public class PlayerMenu {
 		}
 	}
 	
-	private void chooseCharacter() throws InventoryIndexOutOfRangeException {
+	private void chooseCharacter() throws IndexOutOfRangeException {
 		
 		int characterSelected = this.key.getCmdNum();
 		

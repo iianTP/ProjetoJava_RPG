@@ -15,6 +15,10 @@ import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.teammates.Team;
 import entities.teammates.Teammate;
+import exceptions.InvalidCoordinateException;
+import exceptions.InvalidSpellIdException;
+import exceptions.InvalidStatsInputException;
+import exceptions.InvalidTargetException;
 import exceptions.InventoryIsFullException;
 import interfaces.ICombat;
 import main.KeyInput;
@@ -52,10 +56,15 @@ public abstract class Player extends Team {
 		this.inventory = new Inventory(this.key);
 		
 		// Coordenadas iniciais do player (centro da tela)
-		super.setX(2160/2);
-		super.setY(2160/2);
+		try {
+			super.setX(2160/2);
+			super.setY(2160/2);
+		} catch (InvalidCoordinateException e) {
+			e.printStackTrace();
+		}
 		
-		super.setWalkSpeed(3); // Velocidade do player
+		
+		super.setWalkSpeed(10); // Velocidade do player
 		super.setDirection("down"); // Direção do player
 		
 		super.setPlayerInventory(this.inventory);
@@ -169,16 +178,21 @@ public abstract class Player extends Team {
 			
 			super.setCollision(false);
 			
-			super.setX(super.getX() - 24);
-			super.setY(super.getY() - 24);
-			
-			this.collision.checkTile(this);
-			if (npcs != null) {
-				this.collision.checkNpc(this, npcs);
+			try {
+				super.setX(super.getX() - 24);
+				super.setY(super.getY() - 24);
+				this.collision.checkTile(this);
+				if (npcs != null) {
+					this.collision.checkNpc(this, npcs);
+				}
+				super.setX(super.getX() + 24);
+				super.setY(super.getY() + 24);
+			} catch (InvalidCoordinateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
-			super.setX(super.getX() + 24);
-			super.setY(super.getY() + 24);
+			
 			
 			if (!super.isColliding()) {
 				
@@ -203,13 +217,18 @@ public abstract class Player extends Team {
 		
 		super.setCollision(false);
 		
-		super.setX(super.getX() - 24);
-		super.setY(super.getY() - 24);
-		
-		this.collision.checkNpc(this, npcs);
-		
-		super.setX(super.getX() + 24);
-		super.setY(super.getY() + 24);
+		try {
+			super.setX(super.getX() - 24);
+			super.setY(super.getY() - 24);
+			
+			this.collision.checkNpc(this, npcs);
+			
+			super.setX(super.getX() + 24);
+			super.setY(super.getY() + 24);
+			
+		} catch (InvalidCoordinateException e) {
+			e.printStackTrace();
+		}
 		
 		if (super.isColliding()) {
 			this.collision.getNpcNearby().interaction();
@@ -224,32 +243,48 @@ public abstract class Player extends Team {
 	// MÉTODOS DE COMBATE
 	
 	@Override
-	public <T> void attack(T target) {
+	public <T> void attack(T target) throws InvalidTargetException {
 		if (target instanceof Enemie) {
 			((Enemie) target).takeDamage(this.stats.getStrenght());
+		} else {
+			throw new InvalidTargetException("alvo não é do tipo Enemie");
 		}
 	}
 
 	@Override
-	public <T> void magic(T target, int spellId) {
+	public <T> void magic(T target, int spellId) throws InvalidTargetException {
 		if (target instanceof Enemie) {
-			this.spells.castSpell(spellId, (Enemie) target);
+			try {
+				this.spells.castSpell(spellId, (Enemie) target);
+			} catch (InvalidSpellIdException e) {
+				e.printStackTrace();
+			}
+		} else {
+			throw new InvalidTargetException("alvo não é do tipo Enemie");
 		}
 	}
 
 	@Override
 	public void defend() {
 		if (this.stats.getHealth() < this.stats.getMaxHealth()) {
-			this.stats.heal(super.rng(this.stats.getDefense(), 0));
-			if (this.stats.getHealth() > this.stats.getMaxHealth()) {
-				this.stats.setHealth(this.stats.getMaxHealth());
+			try {
+				this.stats.heal(super.rng(this.stats.getDefense(), 0));
+				if (this.stats.getHealth() > this.stats.getMaxHealth()) {
+					this.stats.setHealth(this.stats.getMaxHealth());
+				}
+			} catch (InvalidStatsInputException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 	
 	@Override
 	public void takeDamage(int damage) {
-		this.stats.damage(damage);
+		try {
+			this.stats.damage(damage);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//

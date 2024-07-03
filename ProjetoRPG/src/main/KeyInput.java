@@ -3,6 +3,7 @@ package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import exceptions.InvalidGameStateIndex;
 import main.screen.GameScreen;
 
 public class KeyInput implements KeyListener {
@@ -31,6 +32,9 @@ public class KeyInput implements KeyListener {
 		
 		if (gs.getGameState() == 1) {
 			
+			try {
+				
+			
 			if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
 				this.up = true;
 			} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
@@ -49,10 +53,18 @@ public class KeyInput implements KeyListener {
 				gs.setGameState(5);
 			}
 			
+			} catch (InvalidGameStateIndex e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (gs.getGameState() == 2) {
 			
 			if (key == KeyEvent.VK_P) {
-				gs.setGameState(1);
+				try {
+					gs.setGameState(1);
+				} catch (InvalidGameStateIndex e1) {
+					e1.printStackTrace();
+				}
 			}
 			
 		} else if (gs.getGameState() == 3) {
@@ -64,7 +76,11 @@ public class KeyInput implements KeyListener {
 		} else if (gs.getGameState() == 4) {
 			
 			if (key == KeyEvent.VK_Z) {
-				gs.setGameState(1);
+				try {
+					gs.setGameState(1);
+				} catch (InvalidGameStateIndex e1) {
+					e1.printStackTrace();
+				}
 			} else if (key == KeyEvent.VK_E) {
 				this.interaction = true;
 			}
@@ -82,7 +98,11 @@ public class KeyInput implements KeyListener {
 		} else if (gs.getGameState() == 6) {
 			
 			if (key == KeyEvent.VK_Z) {
-				gs.setGameState(1);
+				try {
+					gs.setGameState(1);
+				} catch (InvalidGameStateIndex e1) {
+					e1.printStackTrace();
+				}
 			} else if (key == KeyEvent.VK_E) {
 				this.interaction = true;
 			}

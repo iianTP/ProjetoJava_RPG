@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
+import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
 
@@ -41,18 +42,23 @@ public class Healer extends Player{
 	@Override
 	public void setStats() {
 		
-		this.stats.setHealth(20);
-		this.stats.setMaxHealth(20);
-		this.stats.setMana(20);
-		this.stats.setMaxMana(20);
-		
-		this.stats.setStrenght(1);
-		this.stats.setDefense(2);
-		this.stats.setAgility(2);
-		this.stats.setCriticalDamage(10);
-		this.stats.setMagic(4);
-		this.stats.setMagicDefense(5);
-		super.setStats(stats);
+		try {
+			this.stats.setHealth(20);
+			this.stats.setMaxHealth(20);
+			this.stats.setMana(20);
+			this.stats.setMaxMana(20);
+			
+			this.stats.setStrenght(1);
+			this.stats.setDefense(2);
+			this.stats.setAgility(2);
+			this.stats.setCriticalDamage(10);
+			this.stats.setMagic(4);
+			this.stats.setMagicDefense(5);
+			super.setStats(stats);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
+	
 	}
 
 	@Override

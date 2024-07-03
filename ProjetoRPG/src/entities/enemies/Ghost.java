@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 
 import entities.Entity;
 import entities.Stats;
+import exceptions.InvalidStatsInputException;
 
 public class Ghost extends Enemie {
 	
@@ -19,16 +20,20 @@ public class Ghost extends Enemie {
 	
 	public void setStats() {
 		
-		this.stats.setHealth(20);
-		this.stats.setMaxHealth(20);
-		this.stats.setMana(20);
-		this.stats.setMaxMana(20);
+		try {
+			this.stats.setHealth(20);
+			this.stats.setMaxHealth(20);
+			this.stats.setMana(20);
+			this.stats.setMaxMana(20);
+			
+			this.stats.setStrenght(3);
+			this.stats.setDefense(5);
+			this.stats.setMagic(2);
+			this.stats.setMagicDefense(1);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
 		
-		this.stats.setStrenght(3);
-		this.stats.setDefense(5);
-		this.stats.setMagic(2);
-		this.stats.setMagicDefense(1);
-
 	}
 	
 	public void setSprite() {

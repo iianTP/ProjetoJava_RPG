@@ -5,11 +5,15 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import entities.player.Player;
+import exceptions.InvalidCoordinateException;
+import exceptions.InvalidGameStateIndex;
+import exceptions.InvalidProductSpecsException;
+import exceptions.ItemAlreadyInStockException;
 import items.Armor;
 import items.Stock;
 import main.screen.GameScreen;
 
-public class Seller extends Npc{
+public /*abstract*/ class Seller extends Npc{
 	
 	private Stock stock = new Stock();
 
@@ -18,9 +22,14 @@ public class Seller extends Npc{
 		
 		super.setDirection("down");
 
-		super.setX(x);
-		super.setY(y);
-		super.setWalkSpeed(1);
+		try {
+			super.setX(x);
+			super.setY(y);
+		} catch (InvalidCoordinateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		setSprites();
 		setStock();
 		
@@ -33,12 +42,22 @@ public class Seller extends Npc{
 	
 	@Override
 	public void interaction(Player player) {
-		super.getGs().setGameState(6);
+		try {
+			super.getGs().setGameState(6);
+		} catch (InvalidGameStateIndex e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void setStock() {
-		this.stock.addItem(new Armor(1), 99, 10);
-		this.stock.addItem(new Armor(2), 99, 10);
+		try {
+			this.stock.addItem(new Armor(1), 99, 10);
+			this.stock.addItem(new Armor(2), 99, 10);
+		} catch (ItemAlreadyInStockException e) {
+			e.printStackTrace();
+		} catch (InvalidProductSpecsException e) {
+			e.printStackTrace();
+		}
 	}
 	public Stock getStock() {
 		return stock;
@@ -63,10 +82,6 @@ public class Seller extends Npc{
 		}		
 	}
 
-	@Override
-	public void setStats() {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

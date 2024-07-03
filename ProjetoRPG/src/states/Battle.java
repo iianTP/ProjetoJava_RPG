@@ -3,7 +3,8 @@ package states;
 import entities.enemies.Enemie;
 import entities.player.Player;
 import entities.teammates.*;
-import exceptions.InventoryIndexOutOfRangeException;
+import exceptions.InvalidTargetException;
+import exceptions.IndexOutOfRangeException;
 import items.Item;
 import main.KeyInput;
 
@@ -90,7 +91,7 @@ public class Battle {
 			else if (this.battleState.equals("choose-item")) {
 				try {
 					this.chooseItem();
-				} catch (InventoryIndexOutOfRangeException e) {
+				} catch (IndexOutOfRangeException e) {
 					e.printStackTrace();
 				}
 			}
@@ -148,7 +149,11 @@ public class Battle {
 		
 		switch (this.selectedButton) {
 		case 0:
-			this.player.attack(this.enemie);
+			try {
+				this.player.attack(this.enemie);
+			} catch (InvalidTargetException e) {
+				e.printStackTrace();
+			}
 			
 			this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
 			this.battleState = "teammate-turn";
@@ -190,12 +195,16 @@ public class Battle {
 		if (this.selectedButton == 5) {
 			this.battleState = "choose-move";
 		} else {
-			this.player.magic(this.enemie, this.selectedButton);
+			try {
+				this.player.magic(this.enemie, this.selectedButton);
+			} catch (InvalidTargetException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
 	
-	private void chooseItem() throws InventoryIndexOutOfRangeException {
+	private void chooseItem() throws IndexOutOfRangeException {
 		
 		Item itemSelected;
 		int itemIndex = this.selectedButton+4*(this.inventoryPage-1);

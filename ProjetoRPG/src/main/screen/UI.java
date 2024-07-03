@@ -17,7 +17,7 @@ import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.player.Player;
 import entities.teammates.Teammate;
-import exceptions.InventoryIndexOutOfRangeException;
+import exceptions.IndexOutOfRangeException;
 import items.Inventory;
 import items.Item;
 import items.Stock;
@@ -214,7 +214,7 @@ public class UI {
 						brush.drawString("-", battleButtons[index][0]+15, battleButtons[index][1]);
 					}
 					
-				} catch (InventoryIndexOutOfRangeException e) {
+				} catch (IndexOutOfRangeException e) {
 					e.printStackTrace();
 				}
 				
@@ -459,7 +459,7 @@ public class UI {
 				item = inventory.getItem(i);
 				String itemName = (item != null) ? item.getName() : "";
 				brush.drawString("- "+itemName, 48*4+35, 48*3+40*i);
-			} catch (InventoryIndexOutOfRangeException e) {
+			} catch (IndexOutOfRangeException e) {
 				e.printStackTrace();
 			}
 			
@@ -535,11 +535,16 @@ public class UI {
 		
 		
 		int index = 0;
-		Item item = stock.getItem(index);
-		while (item != null) {
-			brush.drawString("-"+item.getName()+" x"+stock.getAmount(index), 48+25, 48*(3+index));
-			index++;
+		Item item;
+		try {
 			item = stock.getItem(index);
+			while (item != null) {
+				brush.drawString("-"+item.getName()+" x"+stock.getAmount(index), 48+25, 48*(3+index));
+				index++;
+				item = stock.getItem(index);
+			}
+		} catch (IndexOutOfRangeException e) {
+			e.printStackTrace();
 		}
 		
 		if (shop.getShopState().equals("choose-item")) {

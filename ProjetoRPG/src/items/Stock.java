@@ -1,28 +1,37 @@
 package items;
 
+import exceptions.IndexOutOfRangeException;
+import exceptions.InvalidProductSpecsException;
+import exceptions.ItemAlreadyInStockException;
 import main.DynamicArray;
 
 public class Stock extends DynamicArray<Product>{
 	
-	public void addItem(Item item, int amount, int price) {
+	public void addItem(Item item, int amount, int price) throws ItemAlreadyInStockException, InvalidProductSpecsException {
+		
+		if (amount < 0 || price < 0) {
+			throw new InvalidProductSpecsException();
+		}
 		
 		int i = 0;
 		Product prod = super.getData(i);
+		
 		while (prod != null) {
-			
 			if (prod.getItem().getName().equals(item.getName())) {
 				prod.increaseAmount();
-				break;
+				throw new ItemAlreadyInStockException("item já existe na loja");
 			}
 			i++;
 			prod = super.getData(i);
 		}
-		if (super.getData(i) == null) super.addData(new Product(item, amount, price));
+		
+		super.addData(new Product(item, amount, price));
+		
 	}
 	
-	public Item getItem(int index) {
+	public Item getItem(int index) throws IndexOutOfRangeException {
 		if (super.getData(index) == null) {
-			return null;
+			throw new IndexOutOfRangeException();
 		}
 		return super.getData(index).getItem();
 	}
@@ -34,6 +43,7 @@ public class Stock extends DynamicArray<Product>{
 	}
 	
 	public void removeItem(int itemIndex) {
+		
 		super.removeData(itemIndex);
 	}
 	

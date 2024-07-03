@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import exceptions.InvalidCoordinateException;
 import interfaces.IEntitySetup;
 import items.Item;
 import main.screen.GameScreen;
@@ -43,10 +44,16 @@ public abstract class Entity implements IEntitySetup {
 	}
 	
 	// SET
-	public void setX(int x) {
+	public void setX(int x) throws InvalidCoordinateException {
+		if (x < 0) {
+			throw new InvalidCoordinateException("coordenada x < 0");
+		}
 		this.x = x;
 	}
-	public void setY(int y) {
+	public void setY(int y) throws InvalidCoordinateException {
+		if (y < 0) {
+			throw new InvalidCoordinateException("coordenada y < 0");
+		}
 		this.y = y;
 	}
 	public void setWalkSpeed(int walkSpeed) {

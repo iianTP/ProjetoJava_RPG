@@ -1,6 +1,7 @@
 package combat;
 
 import entities.enemies.Enemie;
+import exceptions.InvalidSpellIdException;
 
 public class Spells {
 	
@@ -16,9 +17,9 @@ public class Spells {
 		this.effects = effects;
 	}
 	
-	public void castSpell(int spellId, Enemie enemie) {
+	public void castSpell(int spellId, Enemie enemie) throws InvalidSpellIdException {
 		if (spellId < 0 || spellId > 4) {
-			
+			throw new InvalidSpellIdException("ID de feitiço "+spellId+" inválido");
 		}
 		String spell = null;
 		switch(spellId) {
