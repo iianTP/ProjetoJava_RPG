@@ -23,6 +23,7 @@ import exceptions.InventoryIsFullException;
 import interfaces.ICombat;
 import main.KeyInput;
 import main.screen.GameScreen;
+import quests.QuestList;
 
 public abstract class Player extends Team {
 	
@@ -30,7 +31,9 @@ public abstract class Player extends Team {
 	private Npc[] npcs;
 	private final Collision collision = new Collision();
 	private Stats stats;
+	
 	private Inventory inventory;
+	private QuestList questList = new QuestList();
 	
 	private int screenX = super.getGs().getScreenSide()/2 - super.getGs().getTileSide()/2;
 	private int screenY = super.getGs().getScreenSide()/2 - super.getGs().getTileSide()/2;
@@ -393,6 +396,10 @@ public abstract class Player extends Team {
 	}
 	public void setWeaponEquiped(Item weaponEquiped) {
 		this.weaponEquiped = weaponEquiped;
+	}
+
+	public QuestList getQuestList() {
+		return questList;
 	}
 
 	

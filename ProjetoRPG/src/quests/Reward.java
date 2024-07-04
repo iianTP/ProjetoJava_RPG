@@ -3,6 +3,7 @@ package quests;
 import items.Item;
 
 public class Reward {
+	
 	private Item[] items;
 	private int gold;
 	

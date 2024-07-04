@@ -20,6 +20,8 @@ public class Battle {
 
 	private String message = "SEU TURNO";
 	
+	private String winner;
+	
 	private boolean battleEnded = false;
 	
 	private int selectedButton;
@@ -45,6 +47,13 @@ public class Battle {
 		if (this.enemie.getStats().getHealth() <= 0) {
 			this.message = "SEU OPONENTE FOI DERROTADO";
 			this.battleState = "ended";
+			this.winner = "player";
+		} 
+		
+		if (this.player.getStats().getHealth() <= 0) {
+			this.message = "VOCE FOI DERROTADO";
+			this.battleState = "ended";
+			this.winner = "enemie";
 		} 
 		
 		if (this.key.isInteracting()) {
@@ -280,5 +289,9 @@ public class Battle {
 	
 	public int getInventoryPage() {
 		return this.inventoryPage;
+	}
+
+	public String getWinner() {
+		return winner;
 	}
 }

@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import entities.enemies.*;
 import entities.npcs.*;
+import entities.npcs.questNpc.QTest;
 import entities.player.*;
 import entities.teammates.*;
 import exceptions.InvalidCoordinateException;
@@ -41,7 +42,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private TheVoid theVoid = new TheVoid();
 	
 	private Player player;
-	private Npc[] npcs = new Npc[2];
+	private Npc[] npcs = new Npc[3];
 	private Teammate[] teammates = new Teammate[3];
 	private Enemie enemie;
 	private Seller seller;
@@ -136,6 +137,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private void setNpcs() {
 		this.npcs[0] = new Test(1333, 1386, this);
 		this.npcs[1] = new Seller(1224, 1234, this);
+		this.npcs[2] = new QTest(900,900,this);
 	}
 
 	@Override
@@ -199,6 +201,7 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			if (battle.isBattleEnded()) {
 				gameState = playing;
+				this.player.getQuestList().checkKillEnemiesQuests(enemie, this.battle.getWinner());
 				this.enemie = null;
 				this.battle = null;
 			}
