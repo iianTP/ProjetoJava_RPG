@@ -3,7 +3,7 @@ package combat;
 import java.util.Random;
 
 public class BattleRng {
-	//ashdbjwefhbjef
+	//ashdbjwefhbjefefhbwejfwef
 	private int attackChance = 10;
 	private int defenseChance = 5;
 	
