@@ -20,7 +20,15 @@ public class Inventory extends DynamicArray<Item>{
 		if (isFull()) {
 			throw new InventoryIsFullException();
 		}
+		
 		super.addData(item);
+		System.out.println("added");
+		try {
+			System.out.println(getItem(0).getName());
+		} catch (IndexOutOfRangeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -48,5 +56,6 @@ public class Inventory extends DynamicArray<Item>{
 		if (this.getData(itemIndex) != null) {
 			super.removeData(itemIndex);
 		}
+		System.out.println("removed");
 	}
 }

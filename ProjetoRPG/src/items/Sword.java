@@ -1,8 +1,49 @@
 package items;
 
 public class Sword extends Item {
-	public Sword() {
+	
+	private int strength;
+	private int agility;
+	
+	public Sword(int type) {
 		super.setEquipable();
 		super.setRestriction(new String[] {"warrior"});
+		
+		switch(type) {
+		case 1:
+			super.setName("Capa Simples");
+			super.setDescription("Capa ideal para iniciantes em treinamento.");
+			this.strength = 1;
+			break;
+		case 2:
+			super.setName("teste");
+			this.strength = 2;
+			break;
+		case 3:
+			super.setName("teste");
+			this.strength = 3;
+			break;
+		case 4:
+			super.setName("teste");
+			this.strength = 4;
+			break;
+		case 5:
+			super.setName("teste");
+			this.strength = 5;
+			break;
+		case 6:
+			super.setName("teste");
+			this.strength = 6;
+			break;
+		}
+		
+	}
+
+	public int getStrength() {
+		return strength;
+	}
+
+	public int getAgility() {
+		return agility;
 	}
 }

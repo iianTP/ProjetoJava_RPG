@@ -2,6 +2,7 @@ package quests;
 
 import entities.enemies.Enemie;
 import entities.npcs.questNpc.QuestNpc;
+import items.Item;
 import main.DynamicArray;
 
 public class QuestList extends DynamicArray<Quest>{
@@ -11,7 +12,7 @@ public class QuestList extends DynamicArray<Quest>{
 		System.out.println(quest.getType());
 	}
 	
-	public Quest getQuest(int index) {
+	private Quest getQuest(int index) {
 		return super.getData(index);
 	}
 	
@@ -37,6 +38,23 @@ public class QuestList extends DynamicArray<Quest>{
 				i++;
 				quest = this.getQuest(i);
 			}
+		}
+	}
+
+	public void checkGetItemsQuests(Item item) {
+		int i = 0;
+		Quest quest = null;
+		quest = this.getQuest(i);
+		while (quest != null) {
+			if (quest instanceof GetItemQuest) {
+				((GetItemQuest) quest).checkGoal(item);
+				if (quest.isDone()) {
+					System.out.println("done");
+					break;
+				}
+			}
+			i++;
+			quest = this.getQuest(i);
 		}
 	}
 	

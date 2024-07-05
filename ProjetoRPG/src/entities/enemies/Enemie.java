@@ -16,7 +16,6 @@ public abstract class Enemie implements ICombat {
 	
 	private Stats stats;
 	private BufferedImage sprite;
-	private final Random rng = new Random();
 	private Effects effects = new Effects(this.stats);
 	
 	private BattleRng battleRng = new BattleRng();

@@ -30,7 +30,6 @@ public abstract class Player extends Team {
 	private final KeyInput key;
 	private Npc[] npcs;
 	private final Collision collision = new Collision();
-	private Stats stats;
 	
 	private Inventory inventory;
 	private QuestList questList = new QuestList();
@@ -46,9 +45,6 @@ public abstract class Player extends Team {
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	
 	private final Color black100Faded = new Color(0,0,0,100);
-	
-	private Effects effects = new Effects(this.stats);
-	private Spells spells = new Spells(this.effects);
 	
 	private Item armorEquiped;
 	private Item weaponEquiped;
@@ -73,8 +69,6 @@ public abstract class Player extends Team {
 		super.setPlayerInventory(this.inventory);
 		
 	}
-	
-	public abstract void setStats();
 	
 	// Atualização do estado do player
 	public void update() {
@@ -247,8 +241,9 @@ public abstract class Player extends Team {
 	
 	@Override
 	public <T> void attack(T target) throws InvalidTargetException {
+		Stats stats = super.getStats();
 		if (target instanceof Enemie) {
-			((Enemie) target).takeDamage(this.stats.getStrenght());
+			((Enemie) target).takeDamage(stats.getStrenght());
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Enemie");
 		}
@@ -256,9 +251,10 @@ public abstract class Player extends Team {
 
 	@Override
 	public <T> void magic(T target, int spellId) throws InvalidTargetException {
+		Spells spells = super.getSpells();
 		if (target instanceof Enemie) {
 			try {
-				this.spells.castSpell(spellId, (Enemie) target);
+				spells.castSpell(spellId, (Enemie) target);
 			} catch (InvalidSpellIdException e) {
 				e.printStackTrace();
 			}
@@ -269,11 +265,14 @@ public abstract class Player extends Team {
 
 	@Override
 	public void defend() {
-		if (this.stats.getHealth() < this.stats.getMaxHealth()) {
+		
+		Stats stats = super.getStats();
+		
+		if (stats.getHealth() < getStats().getMaxHealth()) {
 			try {
-				this.stats.heal(super.rng(this.stats.getDefense(), 0));
-				if (this.stats.getHealth() > this.stats.getMaxHealth()) {
-					this.stats.setHealth(this.stats.getMaxHealth());
+				stats.heal(super.rng(stats.getDefense(), 0));
+				if (stats.getHealth() > stats.getMaxHealth()) {
+					stats.setHealth(stats.getMaxHealth());
 				}
 			} catch (InvalidStatsInputException e) {
 				e.printStackTrace();
@@ -283,8 +282,9 @@ public abstract class Player extends Team {
 	
 	@Override
 	public void takeDamage(int damage) {
+		Stats stats = super.getStats();
 		try {
-			this.stats.damage(damage);
+			stats.damage(damage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
@@ -356,29 +356,12 @@ public abstract class Player extends Team {
 		return this.screenY;
 	}
 
-	public Stats getStats() {
-		return stats;
-	}
-
-	public void setStats(Stats stats) {
-		this.stats = stats;
-	}
-	
 	public void setNpcs(Npc[] npcs) {
 		this.npcs = npcs;
 	}
 
-	public Spells getSpells() {
-		return spells;
-	}
-
 	public Inventory getInventory() {
 		return inventory;
-	}
-
-
-	public Effects getEffects() {
-		return effects;
 	}
 	
 	public Collision getCollision() {

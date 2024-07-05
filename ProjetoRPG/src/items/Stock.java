@@ -30,10 +30,10 @@ public class Stock extends DynamicArray<Product>{
 	}
 	
 	public Item getItem(int index) throws IndexOutOfRangeException {
-		if (super.getData(index) == null) {
+/*		if (super.getData(index) == null) {
 			throw new IndexOutOfRangeException();
-		}
-		return super.getData(index).getItem();
+		}*/
+		return (super.getData(index) != null)? super.getData(index).getItem() : null;
 	}
 	public Product getProduct(int index) {
 		if (super.getData(index) == null) {

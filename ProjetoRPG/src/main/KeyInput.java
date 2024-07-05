@@ -54,7 +54,6 @@ public class KeyInput implements KeyListener {
 			}
 			
 			} catch (InvalidGameStateIndex e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		} else if (gs.getGameState() == 2) {
@@ -100,6 +99,7 @@ public class KeyInput implements KeyListener {
 			if (key == KeyEvent.VK_Z) {
 				try {
 					gs.setGameState(1);
+					this.resetCmdNum();
 				} catch (InvalidGameStateIndex e1) {
 					e1.printStackTrace();
 				}

@@ -15,7 +15,7 @@ public abstract class DynamicArray<T> {
 
 	public void addData(T data) {
 		List newSlot = new List(data);
-		if (this.last == null) {
+		if (this.first == null || this.last == null) {
 			this.first = last = newSlot;
 		} else {
 			this.last.next = newSlot;

@@ -14,8 +14,6 @@ public abstract class Teammate extends Team implements ICombat {
 	
 	private BattleRng battleRng = new BattleRng();
 	
-	private Stats stats;
-
 	public Teammate(GameScreen gs) {
 		super(gs);
 	}
@@ -38,8 +36,9 @@ public abstract class Teammate extends Team implements ICombat {
 	
 	@Override
 	public <T> void attack(T target) throws InvalidTargetException {
+		Stats stats = super.getStats();
 		if (target instanceof Enemie) {
-			((Enemie) target).takeDamage(this.stats.getStrenght());
+			((Enemie) target).takeDamage(stats.getStrenght());
 			this.battleRng.increaseAttackChance();
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Enemie");
@@ -57,11 +56,12 @@ public abstract class Teammate extends Team implements ICombat {
 	
 	@Override
 	public void defend() {
-		if (this.stats.getHealth() < this.stats.getMaxHealth()) {
+		Stats stats = super.getStats();		
+		if (stats.getHealth() < stats.getMaxHealth()) {
 			try {
-				this.stats.heal(this.battleRng.rng(this.stats.getDefense(), 0));
-				if (this.stats.getHealth() > this.stats.getMaxHealth()) {
-					this.stats.setHealth(this.stats.getMaxHealth());
+				stats.heal(this.battleRng.rng(stats.getDefense(), 0));
+				if (stats.getHealth() > stats.getMaxHealth()) {
+					stats.setHealth(stats.getMaxHealth());
 				}
 			} catch (InvalidStatsInputException e) {
 				e.printStackTrace();
@@ -71,22 +71,15 @@ public abstract class Teammate extends Team implements ICombat {
 	
 	@Override
 	public void takeDamage(int damage) {
+		Stats stats = super.getStats();		
 		try {
-			this.stats.damage(damage);
+			stats.damage(damage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
 		this.battleRng.increaseDefenseChance();
 	}
 	
-	
-	public Stats getStats() {
-		return stats;
-	}
-	public void setStats(Stats stats) {
-		this.stats = stats;
-	}
-
 	public abstract String getName();
 
 }

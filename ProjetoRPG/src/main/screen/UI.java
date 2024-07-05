@@ -16,6 +16,7 @@ import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.player.Player;
+import entities.teammates.Team;
 import entities.teammates.Teammate;
 import exceptions.IndexOutOfRangeException;
 import items.Inventory;
@@ -351,7 +352,7 @@ public class UI {
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*8,48*11,10,10);
 		
-		Entity[] team = {player,teammates[0],teammates[1],teammates[2]};
+		Team[] team = {player,teammates[0],teammates[1],teammates[2]};
 		int firstCharBoxX = 235;
 		int charBoxSide = 48+24+6;
 		
@@ -363,9 +364,9 @@ public class UI {
 			brush.setColor(Color.red);
 			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
 			brush.setColor(Color.green);
-			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
+			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3*team[i].getStats().getHealth()/team[i].getStats().getMaxHealth());
 			brush.setColor(Color.magenta);
-			brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, 48*2);
+			brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, 48*2*team[i].getStats().getMana()/team[i].getStats().getMaxMana());
 		}
 		
 		BufferedImage armorIcon = null;
@@ -544,6 +545,7 @@ public class UI {
 				item = stock.getItem(index);
 			}
 		} catch (IndexOutOfRangeException e) {
+			System.out.println(index);
 			e.printStackTrace();
 		}
 		

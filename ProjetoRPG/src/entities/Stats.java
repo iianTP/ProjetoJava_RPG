@@ -11,9 +11,19 @@ public class Stats {
 	private int mana;
 	private int maxMana;
 	private int magic;
+	private int itemMagic;
 	private int magicDefense;
 	private int health;
 	private int maxHealth;
+	
+	private int itemStrenght;
+	private int itemDefense;
+	private int itemAgility;
+	private int itemMagicDefense;
+	
+	private int potionStrenght;
+	private int potionAgility;
+	private int potionMagic;
 	
 	public void damage(int damage) throws InvalidStatsInputException {
 		if (damage < 0) {
@@ -27,6 +37,11 @@ public class Stats {
 			throw new InvalidStatsInputException("valor cura: "+heal+" < 0");
 		}
 		this.health += heal;
+		System.out.println("heal");
+	}
+	
+	public void addMana(int mana) {
+		this.mana += mana;
 	}
 	
 	public void buffStats() {
@@ -99,13 +114,13 @@ public class Stats {
 	
 	// GET
 	public int getStrenght() {
-		return this.strenght;
+		return this.strenght+this.itemStrenght+this.potionStrenght;
 	}
 	public int getDefense() {
-		return this.defense;
+		return this.defense+this.itemDefense;
 	}
 	public int getAgility() {
-		return agility;
+		return agility+this.itemAgility+this.potionAgility;
 	}
 	public int getCriticalDamage() {
 		return criticalDamage;
@@ -117,10 +132,10 @@ public class Stats {
 		return this.maxMana;
 	}
 	public int getMagic() {
-		return this.magic;
+		return this.magic+this.itemMagic+this.potionMagic;
 	}
 	public int getMagicDefense() {
-		return this.magicDefense;
+		return this.magicDefense+this.itemMagicDefense;
 	}
 	public int getHealth() {
 		return this.health;
@@ -129,5 +144,49 @@ public class Stats {
 		return this.maxHealth;
 	}
 	//
+
+	public void setItemStrenght(int itemStrenght) throws InvalidStatsInputException {
+		if (itemStrenght < 0) {
+			throw new InvalidStatsInputException("valor itemStrenght: "+itemStrenght+" < 0");
+		}
+		this.itemStrenght = itemStrenght;
+	}
+
+	public void setItemDefense(int itemDefense) throws InvalidStatsInputException {
+		if (itemDefense < 0) {
+			throw new InvalidStatsInputException("valor itemDefense: "+itemDefense+" < 0");
+		}
+		this.itemDefense = itemDefense;
+	}
+
+	public void setItemAgility(int itemAgility) {
+		this.itemAgility = itemAgility;
+	}
+
+	public void setItemMagic(int itemMagic) throws InvalidStatsInputException {
+		if (itemMagic < 0) {
+			throw new InvalidStatsInputException("valor itemMagic: "+itemMagic+" < 0");
+		}
+		this.itemMagic = itemMagic;
+	}
+
+	public void setItemMagicDefense(int itemMagicDefense) throws InvalidStatsInputException {
+		if (itemMagicDefense < 0) {
+			throw new InvalidStatsInputException("valor itemMagicDefense: "+itemMagicDefense+" < 0");
+		}
+		this.itemMagicDefense = itemMagicDefense;
+	}
+
+	public void setPotionStrenght(int potionStrenght) {
+		this.potionStrenght = potionStrenght;
+	}
+
+	public void setPotionAgility(int potionAgility) {
+		this.potionAgility = potionAgility;
+	}
+
+	public void setPotionMagic(int potionMagic) {
+		this.potionMagic = potionMagic;
+	}
 	
 }

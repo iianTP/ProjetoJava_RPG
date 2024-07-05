@@ -15,6 +15,10 @@ public class Item {
 	
 	public boolean checkRestriction(Entity entity) {
 		
+		if (this.restriction == null) {
+			return true;
+		}
+		
 		String[] splitedClassStr = entity.getClass().getName().split("\\.");
 		String className = splitedClassStr[splitedClassStr.length-1].toLowerCase();
 		if (entity instanceof Teammate) {

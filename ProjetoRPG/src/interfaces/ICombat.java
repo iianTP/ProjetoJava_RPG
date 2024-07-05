@@ -14,4 +14,6 @@ public interface ICombat {
 	
 	public void takeDamage(int damage);
 	
+	public void setStats();
+	
 }

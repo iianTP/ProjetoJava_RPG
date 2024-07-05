@@ -9,8 +9,7 @@ import exceptions.InvalidCoordinateException;
 import exceptions.InvalidGameStateIndex;
 import exceptions.InvalidProductSpecsException;
 import exceptions.ItemAlreadyInStockException;
-import items.Armor;
-import items.Stock;
+import items.*;
 import main.screen.GameScreen;
 
 public /*abstract*/ class Seller extends Npc{
@@ -53,6 +52,7 @@ public /*abstract*/ class Seller extends Npc{
 		try {
 			this.stock.addItem(new Armor(1), 99, 10);
 			this.stock.addItem(new Armor(2), 99, 10);
+			this.stock.addItem(new Potion(1), 99, 10);
 		} catch (ItemAlreadyInStockException e) {
 			e.printStackTrace();
 		} catch (InvalidProductSpecsException e) {
