@@ -204,6 +204,7 @@ public class GameScreen extends JPanel implements Runnable {
 				this.player.getQuestList().checkKillEnemiesQuests(enemie, this.battle.getWinner());
 				this.enemie = null;
 				this.battle = null;
+				this.key.resetCmdNum();
 			}
 			
 		} else if (gameState == inventory) {

@@ -40,7 +40,7 @@ public class Stats {
 		System.out.println("heal");
 	}
 	
-	public void addMana(int mana) {
+	public void alterMana(int mana) {
 		this.mana += mana;
 	}
 	

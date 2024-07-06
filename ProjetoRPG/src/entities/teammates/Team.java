@@ -1,7 +1,7 @@
 package entities.teammates;
 
 import combat.Effects;
-import combat.Spells;
+import combat.spells.KnownSpells;
 import entities.Entity;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
@@ -12,9 +12,6 @@ import main.screen.GameScreen;
 
 public abstract class Team extends Entity implements ICombat {
 	
-	public Effects getEffects() {
-		return effects;
-	}
 
 	private Item armorEquiped;
 	private Item weaponEquiped;
@@ -22,8 +19,8 @@ public abstract class Team extends Entity implements ICombat {
 	
 	private Stats stats;
 	
-	private Effects effects = new Effects(this.stats);
-	private Spells spells = new Spells(this.effects);
+	private Effects effects;
+	private KnownSpells spells;
 	
 	private int potionEffectCounter = 0;
 	private Potion potion;
@@ -136,10 +133,15 @@ public abstract class Team extends Entity implements ICombat {
 
 	public void setStats(Stats stats) {
 		this.stats = stats;
+		this.effects = new Effects(this.stats);
+		this.spells = new KnownSpells(this.stats);
 	}
 
-	public Spells getSpells() {
+	public KnownSpells getSpells() {
 		return spells;
+	}
+	public Effects getEffects() {
+		return effects;
 	}
 
 }

@@ -10,7 +10,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import combat.Spells;
+import combat.spells.KnownSpells;
 import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
@@ -184,14 +184,14 @@ public class UI {
 
 		} else if (battleState.equals("choose-spell")) {
 			
-			Spells spells = player.getSpells();
+			KnownSpells spells = player.getSpells();
 			
 			brush.setFont(font.deriveFont(Font.PLAIN, 18F));
-			brush.drawString(spells.getSpell1(), battleButtonInitX, battleButtonInitY); // cmdNum = 0
-			brush.drawString(spells.getSpell2(), battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
-			brush.drawString(spells.getSpell3(), battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
-			brush.drawString(spells.getSpell4(), battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
-			brush.drawString(spells.getSpell5(), battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+			brush.drawString(spells.getSpell1().getShortSpellName(), battleButtonInitX, battleButtonInitY); // cmdNum = 0
+			brush.drawString(spells.getSpell2().getShortSpellName(), battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
+			brush.drawString(spells.getSpell3().getShortSpellName(), battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
+			brush.drawString(spells.getSpell4().getShortSpellName(), battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
+			brush.drawString(spells.getSpell5().getShortSpellName(), battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
 			brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 			brush.drawString("VOLTAR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
 			

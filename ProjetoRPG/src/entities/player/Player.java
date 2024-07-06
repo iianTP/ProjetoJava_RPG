@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import combat.Effects;
-import combat.Spells;
+import combat.spells.KnownSpells;
 import items.*;
 
 import entities.Collision;
@@ -248,7 +248,7 @@ public abstract class Player extends Team {
 
 	@Override
 	public <T> void magic(T target, int spellId) throws InvalidTargetException {
-		Spells spells = super.getSpells();
+		KnownSpells spells = super.getSpells();
 		if (target instanceof Enemie) {
 			try {
 				spells.castSpell(spellId, (Enemie) target);

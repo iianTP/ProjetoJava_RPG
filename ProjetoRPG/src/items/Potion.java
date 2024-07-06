@@ -54,7 +54,7 @@ public class Potion extends Item {
 			}
 			break;
 		case 2:
-			stats.addMana(this.mana);
+			stats.alterMana(this.mana);
 			this.mana = 2;
 			break;
 		case 3:
