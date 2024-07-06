@@ -381,35 +381,45 @@ public class UI {
 		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
 		brush.setColor(Color.white);
 		
-		brush.drawImage(armorIcon, firstCharBoxX-3, 48*6-24, 16, 16, null);
-		brush.drawImage(weaponIcon, firstCharBoxX-3, 48*7-24, 16, 16, null);
-		if (player.getArmorEquiped() != null) {
-			brush.drawString(player.getArmorEquiped().getName(), firstCharBoxX+20, 48*6-24+12);
-		} else {
-			brush.drawString("-",firstCharBoxX+20, 48*6-24+12);
-		}
-		if (player.getWeaponEquiped() != null) {
-			brush.drawString(player.getWeaponEquiped().getName(), firstCharBoxX+20, 48*7-24+12);
-		} else {
-			brush.drawString("-", firstCharBoxX+20, 48*7-24+12);
+		for (int i = 0; i < 4; i++) {
+			
+			brush.drawImage(armorIcon, firstCharBoxX-3+82*i, 48*5, 16, 16, null);
+			brush.drawImage(weaponIcon, firstCharBoxX-3+82*i, 48*5+24, 16, 16, null);
+			
+			Item armorEquiped = team[i].getArmorEquiped();
+			Item weaponEquiped = team[i].getWeaponEquiped();
+			
+			if (armorEquiped != null) {
+				
+				brush.drawString(armorEquiped.getShortName(),firstCharBoxX+20+82*i, 48*5+12);
+				
+			} else {
+				brush.drawString("-",firstCharBoxX+20+82*i, 48*5+12);
+			}
+			if (weaponEquiped != null) {
+				
+				brush.drawString(team[i].getWeaponEquiped().getShortName(),firstCharBoxX+20+82*i, 48*5+24+12);
+				System.out.println(team[0].getWeaponEquiped().getShortName());
+				System.out.println(weaponEquiped.getShortName());
+				
+			} else {
+				brush.drawString("-",firstCharBoxX+20+82*i, 48*5+24+12);
+			}
+			
+			
+			
+			Stats stats = team[i].getStats();
+			
+			brush.drawString("ATQ: "+stats.getStrenght(), firstCharBoxX+82*i, 48*6+20);
+			brush.drawString("DEF: "+stats.getDefense(), firstCharBoxX+82*i, 48*6+30);
+			brush.drawString("AGL: "+stats.getAgility(), firstCharBoxX+82*i, 48*6+40);
+			brush.drawString("CRT: "+stats.getCriticalDamage()+"%", firstCharBoxX+82*i, 48*6+50);
+			brush.drawString("MGC: "+stats.getMagic(), firstCharBoxX+82*i, 48*6+60);
+			brush.drawString("MGD: "+stats.getMagicDefense(), firstCharBoxX+82*i, 48*6+70);
+			
 		}
 		
-		for (int i = 0; i < 3; i++) {
-			
-			brush.drawImage(armorIcon, firstCharBoxX-3+82*(i+1), 48*6-24, 16, 16, null);
-			brush.drawImage(weaponIcon, firstCharBoxX-3+82*(i+1), 48*7-24, 16, 16, null);
-			
-			if (teammates[i].getArmorEquiped() != null) {
-				brush.drawString(teammates[i].getArmorEquiped().getName(),firstCharBoxX+20+82*(i+1), 48*6-24+12);
-			} else {
-				brush.drawString("-",firstCharBoxX+20+82*(i+1), 48*6-24+12);
-			}
-			if (teammates[i].getWeaponEquiped() != null) {
-				brush.drawString(teammates[i].getArmorEquiped().getName(),firstCharBoxX+20+82*(i+1), 48*7-24+12);
-			} else {
-				brush.drawString("-",firstCharBoxX+20+82*(i+1), 48*7-24+12);
-			}
-		}
+		
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		

@@ -11,29 +11,46 @@ public class Staff extends Item {
 		
 		switch(type) {
 		case 1:
-			super.setName("Capa Simples");
-			super.setDescription("Capa ideal para iniciantes em treinamento.");
+			super.setName("Bastao Magico");
+			super.setShortName("B.MAGIC.");
+			super.setDescription("Bastao utilizado para treinar magos iniciantes.");
 			this.strength = 1;
+			this.magic = 1;
 			break;
 		case 2:
-			super.setName("teste");
+			super.setName("Cajado avancado");
+			super.setShortName("C.AVANC.");
+			super.setDescription("Cajado comum entre magos experientes.");
 			this.strength = 1;
+			this.magic = 2;
 			break;
 		case 3:
-			super.setName("teste");
+			super.setName("Cajado de Cinzas");
+			super.setShortName("C.CINZ.");
+			super.setDescription("Cajado feito a partir dos restos dos Ents incinerados pelo exercito de Maglorg.");
 			this.strength = 2;
+			this.magic = 3;
 			break;
 		case 4:
-			super.setName("teste");
+			super.setName("Cajado Metalico");
+			super.setShortName("C.METAL.");
+			super.setDescription("Cajado experimental forjado com um pouco de todos os metais conhecidos.");
 			this.strength = 2;
+			this.magic = 4;
 			break;
 		case 5:
-			super.setName("teste");
+			super.setName("Mae Terra");
+			super.setShortName("M.TERR.");
+			super.setDescription("Cajado feito a partir das raizes da arvore mais antiga.");
 			this.strength = 3;
+			this.magic = 5;
 			break;
 		case 6:
-			super.setName("teste");
+			super.setName("Eclydnpyopyetl");
+			super.setShortName("ECLYDN.");
+			super.setDescription("Misterioso cajado feito por uma sociedade esquecida.");
 			this.strength = 3;
+			this.magic = 6;
 			break;
 		}
 		

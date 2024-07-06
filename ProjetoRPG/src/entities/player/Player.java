@@ -46,9 +46,6 @@ public abstract class Player extends Team {
 	
 	private final Color black100Faded = new Color(0,0,0,100);
 	
-	private Item armorEquiped;
-	private Item weaponEquiped;
-	
 	public Player(KeyInput key, GameScreen gs) {
 		super(gs);
 		this.key = key; // Input do teclado
@@ -366,19 +363,6 @@ public abstract class Player extends Team {
 	
 	public Collision getCollision() {
 		return this.collision;
-	}
-
-	public Item getArmorEquiped() {
-		return armorEquiped;
-	}
-	public Item getWeaponEquiped() {
-		return weaponEquiped;
-	}
-	public void setArmorEquiped(Item armorEquiped) {
-		this.armorEquiped = armorEquiped;
-	}
-	public void setWeaponEquiped(Item weaponEquiped) {
-		this.weaponEquiped = weaponEquiped;
 	}
 
 	public QuestList getQuestList() {

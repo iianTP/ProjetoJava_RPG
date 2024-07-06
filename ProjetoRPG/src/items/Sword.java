@@ -11,29 +11,46 @@ public class Sword extends Item {
 		
 		switch(type) {
 		case 1:
-			super.setName("Capa Simples");
-			super.setDescription("Capa ideal para iniciantes em treinamento.");
+			super.setName("Espada Basica");
+			super.setShortName("E.BASIC.");
+			super.setDescription("Espada comum utilizada por cavaleiros.");
 			this.strength = 1;
+			this.agility = 1;
 			break;
 		case 2:
-			super.setName("teste");
+			super.setName("Espada Dupla");
+			super.setShortName("B.DUPLA");
+			super.setDescription("Duas espadas basicas.");
 			this.strength = 2;
+			this.agility = 1;
 			break;
 		case 3:
-			super.setName("teste");
+			super.setName("Honra de Mosqueteiro");
+			super.setShortName("H.MOSQU.");
+			super.setDescription("Espada fina, leve e veloz.");
 			this.strength = 3;
+			this.agility = 2;
 			break;
 		case 4:
-			super.setName("teste");
+			super.setName("Katana");
+			super.setShortName("KATAN.");
+			super.setDescription("Espada rapida bastante afiada.");
 			this.strength = 4;
+			this.agility = 2;
 			break;
 		case 5:
-			super.setName("teste");
+			super.setName("A Uniao");
+			super.setShortName("UNIAO");
+			super.setDescription("Espada forjada pelos 3 maiores ferreiros dos 3 mundos.");
 			this.strength = 5;
+			this.agility = 3;
 			break;
 		case 6:
-			super.setName("teste");
+			super.setName("Espada das Montanhas");
+			super.setShortName("E.MONTA.");
+			super.setDescription("Espada afiada pelos fortes ventos do mundo 3.");
 			this.strength = 6;
+			this.agility = 3;
 			break;
 		}
 		

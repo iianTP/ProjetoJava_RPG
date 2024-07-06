@@ -41,7 +41,7 @@ public abstract class Team extends Entity implements ICombat {
 		}
 	}
 
-	public void equipItem(Item item) {
+	private void equipItem(Item item) {
 
 		if (item instanceof Armor || item instanceof Cloak) {
 
@@ -52,13 +52,13 @@ public abstract class Team extends Entity implements ICombat {
 					e.printStackTrace();
 				}
 			}
-			
+			this.armorEquiped = item;
 			try {
-				this.armorEquiped = item;
 				if (item instanceof Armor) {
 					this.stats.setItemDefense(((Armor) item).getDefense());
 				} else {
-				//	this.stats.setItemDefense(((Cloak) item).getDefense());
+					this.stats.setItemDefense(((Cloak) item).getDefense());
+					this.stats.setItemAgility(((Cloak) item).getAgility());
 				}
 			} catch (InvalidStatsInputException e) {
 				e.printStackTrace();
@@ -67,22 +67,24 @@ public abstract class Team extends Entity implements ICombat {
 		} else if (item instanceof Sword || item instanceof Staff) {
 			if (this.weaponEquiped != null) {
 				try {
-					this.playerInventory.addItem(this.armorEquiped);
+					this.playerInventory.addItem(this.weaponEquiped);
 				} catch (InventoryIsFullException e) {
 					e.printStackTrace();
 				}
 			}
-
-			//try {
-				this.weaponEquiped = item;
-			/*	if (item instanceof Sword) {
-					this.stats.setItemDefense(((Sword) item).getStrength());
+			this.weaponEquiped = item;
+			System.out.println(this.weaponEquiped.getShortName());
+			try {
+				if (item instanceof Sword) {
+					this.stats.setItemStrenght(((Sword) item).getStrength());
+					this.stats.setItemAgility(((Sword) item).getAgility());
 				} else {
-					this.stats.setItemDefense(((Cloak) item).getDefense());
+					this.stats.setItemStrenght(((Staff) item).getStrength());
+					this.stats.setItemMagic(((Staff) item).getMagic());
 				}
 			} catch (InvalidStatsInputException e) {
 				e.printStackTrace();
-			}*/
+			}
 
 		}
 

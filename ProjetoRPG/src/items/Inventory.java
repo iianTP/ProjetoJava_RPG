@@ -22,13 +22,13 @@ public class Inventory extends DynamicArray<Item>{
 		}
 		
 		super.addData(item);
-		System.out.println("added");
-		try {
+		System.out.println("added "+item.getName());
+	/*	try {
 			System.out.println(getItem(0).getName());
 		} catch (IndexOutOfRangeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	
@@ -53,9 +53,10 @@ public class Inventory extends DynamicArray<Item>{
 		if (itemIndex < 0 || itemIndex > 9) {
 			throw new IndexOutOfRangeException();
 		}
+		System.out.println("removed "+this.getData(itemIndex).getName());
 		if (this.getData(itemIndex) != null) {
 			super.removeData(itemIndex);
 		}
-		System.out.println("removed");
+		
 	}
 }

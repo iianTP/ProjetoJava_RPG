@@ -6,6 +6,7 @@ import entities.teammates.Teammate;
 public class Item {
 	
 	private String name;
+	private String shortName;
 	private String description;
 	private String[] restriction;
 	
@@ -69,6 +70,14 @@ public class Item {
 	}
 	public boolean isEquipable() {
 		return this.equipable;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 
 }
