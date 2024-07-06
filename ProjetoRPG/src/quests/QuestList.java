@@ -23,7 +23,7 @@ public class QuestList extends DynamicArray<Quest>{
 	}
 	
 	public void checkKillEnemiesQuests(Enemie enemie, String winner) {
-		if (winner.equals("player")) {
+		if (winner != null && winner.equals("player")) {
 			int i = 0;
 			Quest quest = null;
 			quest = this.getQuest(i);

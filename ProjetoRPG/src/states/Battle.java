@@ -65,7 +65,12 @@ public class Battle {
 			else if (this.battleState.equals("enemie-text")) {
 				
 				this.message = "SEU TURNO";
-				battleState = "choose-move";
+				if (this.enemie.getEffects().getCurrentEffect().equals("none")) {
+					battleState = "choose-move";	
+				} else {
+					this.message = this.enemie.getEffects().getMessage();
+					battleState = "enemie-effect";
+				}
 				
 			}
 			
@@ -74,16 +79,6 @@ public class Battle {
 				if (this.teammates[this.teammateIndex].getStats() != null)
 				this.teammateTurn();
 				
-			}
-			
-			else if (this.battleState.equals("teammate-text")) {
-				teammateIndex++;
-				if (this.teammateIndex == 3) {
-					battleState = "enemie-turn";
-					this.teammateIndex = 0;
-				} else {
-					battleState = "teammate-turn";
-				}
 			}
 			
 			else if (this.battleState.equals("choose-move")) {
@@ -102,6 +97,27 @@ public class Battle {
 					this.chooseItem();
 				} catch (IndexOutOfRangeException e) {
 					e.printStackTrace();
+				}
+			}
+			
+			else if (this.battleState.equals("enemie-effect")) {
+				this.message = "SEU TURNO";
+				battleState = "choose-move";
+			}
+			
+			else if (this.battleState.equals("player-effect")) {
+				this.message = this.player.getEffects().getMessage();
+				this.battleState = "teammate-turn";
+			}
+
+			else if (this.battleState.equals("teammate-effect")) {
+				this.message = this.teammates[this.teammateIndex].getEffects().getMessage();
+				teammateIndex++;
+				if (this.teammateIndex == 3) {
+					battleState = "enemie-turn";
+					this.teammateIndex = 0;
+				} else {
+					battleState = "teammate-turn";
 				}
 			}
 			
@@ -150,7 +166,8 @@ public class Battle {
 			}
 			
 		}
-		battleState = "enemie-text";
+		this.enemie.getEffects().effect();
+		battleState = "enemie-text";	
 		
 	}
 	
@@ -165,7 +182,13 @@ public class Battle {
 			}
 			
 			this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
-			this.battleState = "teammate-turn";
+			
+			if (this.player.getEffects().getCurrentEffect().equals("none")) {
+				this.battleState = "teammate-turn";
+			} else {
+				this.battleState = "player-effect";
+			}
+			
 			
 			break;
 		case 1:
@@ -267,11 +290,17 @@ public class Battle {
 			
 		}
 		
-		teammateIndex++;
-		if (this.teammateIndex == 3) {
-			battleState = "enemie-turn";
-			this.teammateIndex = 0;
+		
+		if (this.teammates[this.teammateIndex].getEffects().getCurrentEffect().equals("none")) {
+			teammateIndex++;
+			if (this.teammateIndex == 3) {
+				battleState = "enemie-turn";
+				this.teammateIndex = 0;
+			}
+		} else {
+			this.battleState = "teammate-effect";
 		}
+		
 		
 	}
 	

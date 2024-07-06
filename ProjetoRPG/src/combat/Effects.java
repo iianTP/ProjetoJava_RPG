@@ -1,11 +1,14 @@
 package combat;
 
 import entities.Stats;
+import exceptions.InvalidStatsInputException;
 
 public class Effects {
 	
-	private String currentEffect = "none";
+	private String currentEffect = "burning";
 	private Stats stats;
+	
+	private String message = "teste";
 	
 	public Effects(Stats stats) {
 		this.stats = stats;
@@ -45,7 +48,11 @@ public class Effects {
 		
 	}
 	private void bleeding() {
-		
+		try {
+			this.stats.damage(1);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String getCurrentEffect() {
@@ -53,5 +60,9 @@ public class Effects {
 	}
 	public void setCurrentEffect(String currentEffect) {
 		this.currentEffect = currentEffect;
+	}
+
+	public String getMessage() {
+		return message;
 	}
 }
