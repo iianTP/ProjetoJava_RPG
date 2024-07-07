@@ -8,13 +8,13 @@ public class EnergyBullet  extends Spell {
 	public EnergyBullet() {
 		super.setSpellName("Disparo de Energia");
 		super.setShortSpellName("D.ENERG.");
-		super.setManaCost(-10);
+		super.setManaCost(-3);
 	}
 
 	@Override
 	public void castSpell(Enemie enemie, Stats stats) {
 		
-		enemie.takeDamage(stats.getMagic());
+		enemie.takeMagicDamage(stats.getMagic());
 		stats.alterMana(super.getManaCost());
 		
 	}

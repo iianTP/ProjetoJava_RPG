@@ -49,6 +49,7 @@ public class UI {
 										{48*9+20+48-15, 48*2+229+48*5+15-24},
 										{48*9+20+48-15, 48*2+229+48*5+15}};
 	private int[][] chooseCharacterButtons;
+	private int[][] spellSlotButtons;
 	
 	
 	private int[][] battleButtons = {{battleButtonInitX-15, battleButtonInitY}, 
@@ -187,12 +188,22 @@ public class UI {
 			KnownSpells spells = player.getSpells();
 			
 			brush.setFont(font.deriveFont(Font.PLAIN, 18F));
-			brush.drawString(spells.getSpell1().getShortSpellName(), battleButtonInitX, battleButtonInitY); // cmdNum = 0
-			brush.drawString(spells.getSpell2().getShortSpellName(), battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
-			brush.drawString(spells.getSpell3().getShortSpellName(), battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
-			brush.drawString(spells.getSpell4().getShortSpellName(), battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
-			brush.drawString(spells.getSpell5().getShortSpellName(), battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
-			brush.setFont(font.deriveFont(Font.PLAIN, 18F));
+			
+			String spellShortName = (spells.getSpell1() != null) ? spells.getSpell1().getShortSpellName():"-";
+			brush.drawString(spellShortName, battleButtonInitX, battleButtonInitY); // cmdNum = 0
+			
+			spellShortName = (spells.getSpell2() != null) ? spells.getSpell2().getShortSpellName():"-";
+			brush.drawString(spellShortName, battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
+			
+			spellShortName = (spells.getSpell3() != null) ? spells.getSpell3().getShortSpellName():"-";
+			brush.drawString(spellShortName, battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
+			
+			spellShortName = (spells.getSpell4() != null) ? spells.getSpell4().getShortSpellName():"-";
+			brush.drawString(spellShortName, battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
+			
+			spellShortName = (spells.getSpell5() != null) ? spells.getSpell5().getShortSpellName():"-";
+			brush.drawString(spellShortName, battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+			
 			brush.drawString("VOLTAR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
 			
 		} else if (battleState.equals("choose-item")) {
@@ -344,6 +355,8 @@ public class UI {
 			
 			chooseCharacter(player, teammates, pMenuState);
 			
+		} else if (pMenuState.equals("choose-spellSlot")) {
+			chooseSpellSlot(player, teammates, pMenuState);
 		}
 	}
 	public void statsMenu(Player player, Teammate[] teammates, String pMenuState) {
@@ -356,19 +369,6 @@ public class UI {
 		int firstCharBoxX = 235;
 		int charBoxSide = 48+24+6;
 		
-		for (int i = 0; i < 4; i++) {
-			brush.setColor(new Color(rainbow[0]/2,rainbow[1]/2,rainbow[2]/2));
-			brush.fillRoundRect(firstCharBoxX+82*i-3, 48*3-3, charBoxSide, charBoxSide,10,10);
-			brush.drawImage(team[i].getIdleSprites()[1], firstCharBoxX+82*i, 48*3, charBoxSide-6, charBoxSide-6, null);
-		
-			brush.setColor(Color.red);
-			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
-			brush.setColor(Color.green);
-			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3*team[i].getStats().getHealth()/team[i].getStats().getMaxHealth());
-			brush.setColor(Color.magenta);
-			brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, 48*2*team[i].getStats().getMana()/team[i].getStats().getMaxMana());
-		}
-		
 		BufferedImage armorIcon = null;
 		BufferedImage weaponIcon = null;
 		try {
@@ -378,10 +378,20 @@ public class UI {
 			e.printStackTrace();
 		}
 		
-		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
-		brush.setColor(Color.white);
-		
 		for (int i = 0; i < 4; i++) {
+			brush.setColor(new Color(rainbow[0]/2,rainbow[1]/2,rainbow[2]/2));
+			brush.fillRoundRect(firstCharBoxX+82*i-3, 48*3-3, charBoxSide, charBoxSide,10,10);
+			brush.drawImage(team[i].getIdleSprites()[1], firstCharBoxX+82*i, 48*3, charBoxSide-6, charBoxSide-6, null);
+		
+			int lifeBarRate = team[i].getStats().getHealth()/team[i].getStats().getMaxHealth();
+			int manaBarRate = team[i].getStats().getMana()/team[i].getStats().getMaxMana();
+			
+			brush.setColor(Color.red);
+			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
+			brush.setColor(Color.green);
+			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3*lifeBarRate);
+			brush.setColor(Color.magenta);
+			brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, 48*2*manaBarRate);
 			
 			brush.drawImage(armorIcon, firstCharBoxX-3+82*i, 48*5, 16, 16, null);
 			brush.drawImage(weaponIcon, firstCharBoxX-3+82*i, 48*5+24, 16, 16, null);
@@ -389,24 +399,19 @@ public class UI {
 			Item armorEquiped = team[i].getArmorEquiped();
 			Item weaponEquiped = team[i].getWeaponEquiped();
 			
+			brush.setFont(font.deriveFont(Font.PLAIN, 10F));
+			brush.setColor(Color.white);
+			
 			if (armorEquiped != null) {
-				
 				brush.drawString(armorEquiped.getShortName(),firstCharBoxX+20+82*i, 48*5+12);
-				
 			} else {
 				brush.drawString("-",firstCharBoxX+20+82*i, 48*5+12);
 			}
 			if (weaponEquiped != null) {
-				
-				brush.drawString(team[i].getWeaponEquiped().getShortName(),firstCharBoxX+20+82*i, 48*5+24+12);
-				System.out.println(team[0].getWeaponEquiped().getShortName());
-				System.out.println(weaponEquiped.getShortName());
-				
+				brush.drawString(weaponEquiped.getShortName(),firstCharBoxX+20+82*i, 48*5+24+12);
 			} else {
 				brush.drawString("-",firstCharBoxX+20+82*i, 48*5+24+12);
 			}
-			
-			
 			
 			Stats stats = team[i].getStats();
 			
@@ -417,20 +422,31 @@ public class UI {
 			brush.drawString("MGC: "+stats.getMagic(), firstCharBoxX+82*i, 48*6+60);
 			brush.drawString("MGD: "+stats.getMagicDefense(), firstCharBoxX+82*i, 48*6+70);
 			
+			KnownSpells spells = team[i].getSpells();
+			
+			String spellShortName = (spells.getSpell1() != null) ? spells.getSpell1().getShortSpellName():"-";
+			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+15);
+			
+			spellShortName = (spells.getSpell2() != null) ? spells.getSpell2().getShortSpellName():"-";
+			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+25);
+			
+			spellShortName = (spells.getSpell3() != null) ? spells.getSpell3().getShortSpellName():"-";
+			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+35);
+			
+			spellShortName = (spells.getSpell4() != null) ? spells.getSpell4().getShortSpellName():"-";
+			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+45);
+			
+			spellShortName = (spells.getSpell5() != null) ? spells.getSpell5().getShortSpellName():"-";
+			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+55);
+			
 		}
 		
-		
+		brush.setColor(Color.magenta);
+		brush.drawString("M: ", firstCharBoxX-24, 48*11+35);
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		
-		if (!pMenuState.equals("choose-character")) {
-			
-			brush.setColor(Color.white);
-			brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
-			brush.setColor(Color.yellow);
-			brush.drawString(">",48*4+35-15, 48*3+40*11);
-			
-		} else {
+		  if (pMenuState.equals("choose-character")){
 			
 			if (this.chooseCharacterButtons == null) {
 				this.chooseCharacterButtons = new int[4][2];
@@ -447,6 +463,36 @@ public class UI {
 			
 			brush.drawString("V",this.chooseCharacterButtons[this.key.getCmdNum()][0],
 		 			 			this.chooseCharacterButtons[this.key.getCmdNum()][1]);
+			
+		} else if (pMenuState.equals("choose-spellSlot")) {
+			
+			if (this.spellSlotButtons == null) {
+				this.spellSlotButtons = new int[5][2];
+				for (int i = 0; i < 5; i++) {
+					this.spellSlotButtons[i][0] = firstCharBoxX+82*this.key.getCmdNum()-9;
+					this.spellSlotButtons[i][1] = 48*11+7+10*(i+1);
+				}
+			}
+			
+			brush.setColor(Color.yellow);
+			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 4) {
+				this.key.correctCmdNum();
+			}
+			
+			brush.drawString(">",this.spellSlotButtons[this.key.getCmdNum()][0],
+		 			 			this.spellSlotButtons[this.key.getCmdNum()][1]);
+			
+		} else {
+			
+			if (this.spellSlotButtons != null) {
+				this.spellSlotButtons = null;
+			}
+			
+			brush.setColor(Color.white);
+			brush.drawString("VOLTAR", 48*4+35, 40*15);
+			brush.setColor(Color.yellow);
+			brush.drawString(">",48*4+35-15, 40*15);
+			
 		}
 		
 	}
@@ -521,6 +567,10 @@ public class UI {
 	
 	public void chooseCharacter(Player player, Teammate[] teammates, String pMenuState) {
 		this.key.setButtonCols(4);
+		statsMenu(player, teammates, pMenuState);
+	}
+	public void chooseSpellSlot(Player player, Teammate[] teammates, String pMenuState) {
+		this.key.setButtonCols(1);
 		statsMenu(player, teammates, pMenuState);
 	}
 	

@@ -9,6 +9,7 @@ import exceptions.InventoryIsFullException;
 import interfaces.ICombat;
 import items.*;
 import main.screen.GameScreen;
+import states.PlayerMenu;
 
 public abstract class Team extends Entity implements ICombat {
 	
@@ -29,16 +30,8 @@ public abstract class Team extends Entity implements ICombat {
 		super(gs);
 	}
 	
-	public void useItem(Item item) {
-		if (item.isEquipable()) {
-			equipItem(item);
-		} else if (item.isUsable()) {
-			System.out.println("isUsable");
-			consumeItem(item);
-		}
-	}
 
-	private void equipItem(Item item) {
+	public void equipItem(Item item) {
 
 		if (item instanceof Armor || item instanceof Cloak) {
 
@@ -87,19 +80,20 @@ public abstract class Team extends Entity implements ICombat {
 
 	}
 	
-	private void consumeItem(Item item) {
-		if (item instanceof Potion || item instanceof Book) {
-			if (item instanceof Potion) {
-				System.out.println("found potion");
-				this.potion = (Potion) item;
-				this.potion.consumePotion(stats);
-				
-				if (this.potion.getType() > 2) {
-					this.potionEffectCounter++;
-				}
-				
-			}
+	public void usePotion(Potion potion) {
+		System.out.println("found potion");
+		this.potion = potion;
+		this.potion.consumePotion(stats);
+		
+		if (this.potion.getType() > 2) {
+			this.potionEffectCounter++;
 		}
+	}
+	
+	public void useBook(Book book, int slot) {
+
+		book.readBook(spells, slot);
+
 	}
 	
 	public void proceedPotionCounter() {

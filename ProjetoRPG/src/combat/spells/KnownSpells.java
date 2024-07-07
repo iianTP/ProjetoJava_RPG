@@ -3,19 +3,16 @@ package combat.spells;
 import entities.Stats;
 import entities.enemies.Enemie;
 import exceptions.InvalidSpellIdException;
-import combat.spells.*;
 
 public class KnownSpells {
 	
-	private Spell spell1 = new BloodSpear();
-	private Spell spell2 = new FireBall();
-	private Spell spell3 = new Curse();
-	private Spell spell4 = new Poison();
-	private Spell spell5 = new Lightning();
+	private Spell spell1 = new EnergyBullet();
+	private Spell spell2;
+	private Spell spell3;
+	private Spell spell4;
+	private Spell spell5;
 	
 	private Stats stats;
-	
-	private int freeSlot = 1;
 	
 	public KnownSpells(Stats stats) {
 		this.stats = stats;
@@ -66,13 +63,6 @@ public class KnownSpells {
 			this.spell5 = spell;
 			break;
 		}
-		if (this.freeSlot <= 5) {
-			this.freeSlot++;
-		}
-	}
-	
-	public int getFreeSlot() {
-		return this.freeSlot;
 	}
 	
 	public Spell getSpell1() {
@@ -90,6 +80,5 @@ public class KnownSpells {
 	public Spell getSpell5() {
 		return this.spell5;
 	}
-	
 
 }

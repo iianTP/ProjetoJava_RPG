@@ -12,7 +12,9 @@ public interface ICombat {
 
 	public <T> void special(T target);
 	
-	public void takeDamage(int damage);
+	public void takeDamage(int damage, int criticalChance);
+	
+	public void takeMagicDamage(int magicDamage);
 	
 	public void setStats();
 	

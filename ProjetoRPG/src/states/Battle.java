@@ -143,12 +143,13 @@ public class Battle {
 		this.enemie.battleMove(this.teammates[1]);
 		this.enemie.battleMove(this.teammates[2]);
 		
-		if (this.player.getStats().getHealth() < playerHpBefore) {
-			
-			int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
-			int teammate1HpDifference = this.teammates[0].getStats().getHealth() - teammate1HpBefore;
-			int teammate2HpDifference = this.teammates[1].getStats().getHealth() - teammate2HpBefore;
-			int teammate3HpDifference = this.teammates[2].getStats().getHealth() - teammate3HpBefore;
+		int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
+		int teammate1HpDifference = this.teammates[0].getStats().getHealth() - teammate1HpBefore;
+		int teammate2HpDifference = this.teammates[1].getStats().getHealth() - teammate2HpBefore;
+		int teammate3HpDifference = this.teammates[2].getStats().getHealth() - teammate3HpBefore;
+		
+		if (playerHpDifference > 0 || teammate1HpDifference > 0 ||
+				teammate2HpDifference > 0 ||teammate3HpDifference > 0 ) {
 			
 			this.message = "SEU OPONENTE ATACOU ";
 				/*	+ "J:("+playerHpDifference+"HP)"
@@ -242,10 +243,12 @@ public class Battle {
 		int itemIndex = this.selectedButton+4*(this.inventoryPage-1);
 		
 		if (itemIndex < 11 && this.selectedButton < 4) {
-			 itemSelected = this.player.getInventory().getItem(itemIndex);
-			 this.player.getInventory().removeItem(itemIndex);
-			 if (itemSelected != null) {
-				this.player.useItem(itemSelected);
+			itemSelected = this.player.getInventory().getItem(itemIndex);
+			this.player.getInventory().removeItem(itemIndex);
+			if (itemSelected != null) {
+				if (itemSelected.isEquipable())
+				this.player.equipItem(itemSelected);
+				
 				this.battleState = "teammate-turn";
 			 }
 		}

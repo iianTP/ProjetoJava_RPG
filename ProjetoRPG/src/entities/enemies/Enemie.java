@@ -41,7 +41,7 @@ public abstract class Enemie implements ICombat {
 	@Override
 	public <T> void attack(T target) throws InvalidTargetException {
 		if (target instanceof Team) {
-			((Team) target).takeDamage(this.stats.getStrenght());
+			((Team) target).takeDamage(this.stats.getStrenght(), this.stats.getCriticalDamage());
 			this.battleRng.increaseAttackChance();
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Team");
@@ -60,21 +60,36 @@ public abstract class Enemie implements ICombat {
 	@Override
 	public void defend() {
 		if (this.stats.getHealth() < this.stats.getMaxHealth()) {
-			try {
+			/*try {
 				this.stats.heal(this.battleRng.rng(this.stats.getDefense(), 0));
 				if (this.stats.getHealth() > this.stats.getMaxHealth()) {
 					this.stats.setHealth(this.stats.getMaxHealth());
 				}
 			} catch (InvalidStatsInputException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 	}
 	
 	@Override
-	public void takeDamage(int damage) {
+	public void takeDamage(int damage, int criticalChance) {
+		int defense = this.stats.getDefense();
+		int critical = (this.battleRng.rng(100, 1) <= criticalChance) ? 2 : 1;
+		int finalDamage = critical*2*damage/defense;
 		try {
-			this.stats.damage(damage);
+			this.stats.damage(finalDamage);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
+		this.battleRng.increaseDefenseChance();
+	}
+	
+	@Override
+	public void takeMagicDamage(int magicDamage) {
+		int magicDefense = this.stats.getMagicDefense();
+		int finalDamage = 2*magicDamage/magicDefense;
+		try {
+			this.stats.damage(finalDamage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}

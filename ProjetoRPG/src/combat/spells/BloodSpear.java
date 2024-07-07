@@ -14,7 +14,8 @@ public class BloodSpear extends Spell {
 	@Override
 	public void castSpell(Enemie enemie, Stats stats) {
 		if (stats.getMana() >= -super.getManaCost()) {
-			enemie.takeDamage(stats.getMagic());
+			
+			enemie.takeMagicDamage(stats.getMagic());
 			stats.alterMana(super.getManaCost());
 			
 			if (enemie.getEffects().getCurrentEffect().equals("none")) {

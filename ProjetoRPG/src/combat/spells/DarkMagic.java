@@ -14,7 +14,7 @@ public class DarkMagic  extends Spell {
 	@Override
 	public void castSpell(Enemie enemie, Stats stats) {
 		
-		enemie.takeDamage(stats.getMagic());
+		enemie.takeMagicDamage(stats.getMagic());
 		stats.alterMana(super.getManaCost());
 		
 	}

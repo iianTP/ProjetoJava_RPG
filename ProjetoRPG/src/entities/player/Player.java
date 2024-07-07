@@ -240,7 +240,7 @@ public abstract class Player extends Team {
 	public <T> void attack(T target) throws InvalidTargetException {
 		Stats stats = super.getStats();
 		if (target instanceof Enemie) {
-			((Enemie) target).takeDamage(stats.getStrenght());
+			((Enemie) target).takeDamage(stats.getStrenght(), stats.getCriticalDamage());
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Enemie");
 		}
@@ -278,10 +278,25 @@ public abstract class Player extends Team {
 	}
 	
 	@Override
-	public void takeDamage(int damage) {
+	public void takeDamage(int damage, int criticalChance) {
 		Stats stats = super.getStats();
+		int defense = stats.getDefense();
+		int critical = (super.rng(100, 1) <= criticalChance) ? 2 : 1;
+		int finalDamage = critical*2*damage/defense;
 		try {
-			stats.damage(damage);
+			stats.damage(finalDamage);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void takeMagicDamage(int magicDamage) {
+		Stats stats = super.getStats();
+		int magicDefense = stats.getMagicDefense();
+		int finalDamage = 2*magicDamage/magicDefense;
+		try {
+			stats.damage(finalDamage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}

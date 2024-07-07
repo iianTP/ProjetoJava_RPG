@@ -21,7 +21,6 @@ public class Potion extends Item {
 		switch(type) {
 		case 1:
 			super.setName("Pocao de cura");
-			super.setDescription("Capa ideal para iniciantes em treinamento.");
 			this.health = 5;
 			break;
 		case 2:
