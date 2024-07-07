@@ -16,7 +16,6 @@ import main.screen.GameScreen;
 public class WarriorNpc extends Teammate {
 	
 	private Stats stats = new Stats();
-	private String name = "GUERREIRO";
 
 	public WarriorNpc(int x, int y, GameScreen gs) {
 		super(gs);
@@ -32,6 +31,7 @@ public class WarriorNpc extends Teammate {
 		
 		super.setWalkSpeed(3);
 		super.setDirection("down");
+		super.setName("GUERREIRO");
 	}
 	
 	@Override
@@ -78,8 +78,5 @@ public class WarriorNpc extends Teammate {
 		
 	}
 
-	public String getName() {
-		return name;
-	}
 
 }

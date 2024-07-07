@@ -189,20 +189,13 @@ public class UI {
 			
 			brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 			
-			String spellShortName = (spells.getSpell1() != null) ? spells.getSpell1().getShortSpellName():"-";
-			brush.drawString(spellShortName, battleButtonInitX, battleButtonInitY); // cmdNum = 0
-			
-			spellShortName = (spells.getSpell2() != null) ? spells.getSpell2().getShortSpellName():"-";
-			brush.drawString(spellShortName, battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
-			
-			spellShortName = (spells.getSpell3() != null) ? spells.getSpell3().getShortSpellName():"-";
-			brush.drawString(spellShortName, battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
-			
-			spellShortName = (spells.getSpell4() != null) ? spells.getSpell4().getShortSpellName():"-";
-			brush.drawString(spellShortName, battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
-			
-			spellShortName = (spells.getSpell5() != null) ? spells.getSpell5().getShortSpellName():"-";
-			brush.drawString(spellShortName, battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+			String spellShortName;
+			for (int i = 0; i < 5; i++) {
+				
+				spellShortName = (spells.getSpell(i+1) != null) ? spells.getSpell(i+1).getShortSpellName():"-";
+				System.out.println(i+" - "+spellShortName);
+				brush.drawString(spellShortName, battleButtonInitX+111*(i%2), battleButtonInitY+48*(i/2)); 
+			}
 			
 			brush.drawString("VOLTAR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
 			
@@ -383,15 +376,15 @@ public class UI {
 			brush.fillRoundRect(firstCharBoxX+82*i-3, 48*3-3, charBoxSide, charBoxSide,10,10);
 			brush.drawImage(team[i].getIdleSprites()[1], firstCharBoxX+82*i, 48*3, charBoxSide-6, charBoxSide-6, null);
 		
-			int lifeBarRate = team[i].getStats().getHealth()/team[i].getStats().getMaxHealth();
-			int manaBarRate = team[i].getStats().getMana()/team[i].getStats().getMaxMana();
+			int lifeBar = 48*3*team[i].getStats().getHealth()/team[i].getStats().getMaxHealth();
+			int manaBar = 48*2*team[i].getStats().getMana()/team[i].getStats().getMaxMana();
 			
 			brush.setColor(Color.red);
 			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3);
 			brush.setColor(Color.green);
-			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, 48*3*lifeBarRate);
+			brush.fillRect(firstCharBoxX+82*i+charBoxSide/2-15, 48*8, 5, lifeBar);
 			brush.setColor(Color.magenta);
-			brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, 48*2*manaBarRate);
+			brush.fillRect(firstCharBoxX+82*i+10+charBoxSide/2-15, 48*8, 5, manaBar);
 			
 			brush.drawImage(armorIcon, firstCharBoxX-3+82*i, 48*5, 16, 16, null);
 			brush.drawImage(weaponIcon, firstCharBoxX-3+82*i, 48*5+24, 16, 16, null);
@@ -424,21 +417,11 @@ public class UI {
 			
 			KnownSpells spells = team[i].getSpells();
 			
-			String spellShortName = (spells.getSpell1() != null) ? spells.getSpell1().getShortSpellName():"-";
-			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+15);
-			
-			spellShortName = (spells.getSpell2() != null) ? spells.getSpell2().getShortSpellName():"-";
-			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+25);
-			
-			spellShortName = (spells.getSpell3() != null) ? spells.getSpell3().getShortSpellName():"-";
-			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+35);
-			
-			spellShortName = (spells.getSpell4() != null) ? spells.getSpell4().getShortSpellName():"-";
-			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+45);
-			
-			spellShortName = (spells.getSpell5() != null) ? spells.getSpell5().getShortSpellName():"-";
-			brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+55);
-			
+			String spellShortName;
+			for (int j = 0; j < 5; j++) {
+				spellShortName = (spells.getSpell(j+1) != null) ? spells.getSpell(j+1).getShortSpellName():"-";
+				brush.drawString(spellShortName, firstCharBoxX+82*i, 48*11+5+10*(j+1)); // cmdNum = 0
+			}
 		}
 		
 		brush.setColor(Color.magenta);

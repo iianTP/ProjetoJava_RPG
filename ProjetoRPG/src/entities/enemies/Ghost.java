@@ -21,8 +21,8 @@ public class Ghost extends Enemie {
 	public void setStats() {
 		
 		try {
-			this.stats.setHealth(20);
-			this.stats.setMaxHealth(20);
+			this.stats.setHealth(200);
+			this.stats.setMaxHealth(200);
 			this.stats.setMana(20);
 			this.stats.setMaxMana(20);
 			

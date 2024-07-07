@@ -16,7 +16,6 @@ import main.screen.GameScreen;
 public class MageNpc extends Teammate {
 	
 	private Stats stats = new Stats();
-	private String name = "MAGO";
 
 	public MageNpc(int x, int y, GameScreen gs) {
 		super(gs);
@@ -30,6 +29,7 @@ public class MageNpc extends Teammate {
 		}
 		super.setWalkSpeed(3);
 		super.setDirection("down");
+		super.setName("MAGO");
 	}
 	
 	@Override
@@ -77,8 +77,5 @@ public class MageNpc extends Teammate {
 		
 	}
 
-	public String getName() {
-		return name;
-	}
 	
 }

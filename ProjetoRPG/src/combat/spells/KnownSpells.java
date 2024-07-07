@@ -65,20 +65,27 @@ public class KnownSpells {
 		}
 	}
 	
-	public Spell getSpell1() {
-		return this.spell1;
+	public Spell getSpell(int id) {
+		Spell spell = null;
+		switch (id) {
+		case 1:
+			spell = this.spell1;
+			break;
+		case 2:
+			spell = this.spell2;
+			break;
+		case 3:
+			spell = this.spell3;
+			break;
+		case 4:
+			spell = this.spell4;
+			break;
+		case 5:
+			spell = this.spell5;
+			break;
+		}
+		return spell;
 	}
-	public Spell getSpell2() {
-		return this.spell2;
-	}
-	public Spell getSpell3() {
-		return this.spell3;
-	}
-	public Spell getSpell4() {
-		return this.spell4;
-	}
-	public Spell getSpell5() {
-		return this.spell5;
-	}
+	
 
 }

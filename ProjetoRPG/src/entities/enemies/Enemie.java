@@ -16,7 +16,7 @@ public abstract class Enemie implements ICombat {
 	
 	private Stats stats;
 	private BufferedImage sprite;
-	private Effects effects = new Effects(this.stats);
+	private Effects effects;
 	
 	private BattleRng battleRng = new BattleRng();
 	
@@ -107,6 +107,7 @@ public abstract class Enemie implements ICombat {
 	}
 	public void setStats(Stats stats) {
 		this.stats = stats;
+		this.effects = new Effects(this.stats);
 	}
 	public BufferedImage getSprite() {
 		return this.sprite;

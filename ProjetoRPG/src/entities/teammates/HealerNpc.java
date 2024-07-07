@@ -16,7 +16,6 @@ import main.screen.GameScreen;
 public class HealerNpc extends Teammate {
 	
 	private Stats stats = new Stats();
-	private String name = "CURANDEIRO";
 
 	public HealerNpc(int x, int y, GameScreen gs) {
 		super(gs);	
@@ -30,6 +29,7 @@ public class HealerNpc extends Teammate {
 		}
 		super.setWalkSpeed(3);
 		super.setDirection("down");
+		super.setName("CURANDEIRO");
 	}
 	
 	@Override
@@ -79,8 +79,4 @@ public class HealerNpc extends Teammate {
 		
 	}
 
-	public String getName() {
-		return name;
-	}
-	
 }

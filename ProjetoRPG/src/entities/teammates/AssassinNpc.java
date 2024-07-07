@@ -14,7 +14,6 @@ import main.screen.GameScreen;
 public class AssassinNpc extends Teammate {
 	
 	private Stats stats = new Stats();
-	private String name = "ASSASSINO";
 	
 	public AssassinNpc(int x, int y, GameScreen gs) {
 		super(gs);
@@ -28,6 +27,7 @@ public class AssassinNpc extends Teammate {
 		};
 		super.setWalkSpeed(3);
 		super.setDirection("down");
+		super.setName("ASSASSINO");
 	}
 	
 	@Override
@@ -72,10 +72,6 @@ public class AssassinNpc extends Teammate {
 	public <T> void special(T target) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	public String getName() {
-		return name;
 	}
 
 }

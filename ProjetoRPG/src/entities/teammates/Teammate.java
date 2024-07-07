@@ -3,34 +3,59 @@ package entities.teammates;
 import combat.BattleRng;
 import entities.Stats;
 import entities.enemies.Enemie;
-import entities.npcs.Npc;
 import exceptions.InvalidStatsInputException;
 import exceptions.InvalidTargetException;
 import interfaces.ICombat;
-import items.Item;
 import main.screen.GameScreen;
+import states.Battle;
 
 public abstract class Teammate extends Team implements ICombat {
 	
 	private BattleRng battleRng = new BattleRng();
+	private String name;
 	
 	public Teammate(GameScreen gs) {
 		super(gs);
 	}
 	
-	public void battleMove(Enemie enemie) {
+	public void battleMove(Enemie enemie, Battle battle) {
 		
-		int randomNumber = this.battleRng.rng(this.battleRng.getFullChance(), 1);
+		String move = this.battleRng.chooseMove();
 		
-		if (randomNumber <= this.battleRng.getAttackChance()) {
+		if (move.equals("attack")) {
+			
+			int enemieHpBefore = enemie.getStats().getHealth();
 			try {
 				this.attack(enemie);
 			} catch (InvalidTargetException e) {
 				e.printStackTrace();
 			}
-		} else {
+			int enemieHpDifference = enemie.getStats().getHealth() - enemieHpBefore;
+			
+			battle.setMessage("O "+this.name+" GOLPEOU O INIMIGO (-"+enemieHpDifference+"HP)");
+			
+		} else if (move.equals("defense")) {
+			
+			int teammateHpBefore = super.getStats().getHealth();
+			
 			this.defend();
+			int teammateHpDifference = super.getStats().getHealth() - teammateHpBefore;
+			
+			battle.setMessage("O "+this.name+" DESCANCOU (+"+teammateHpDifference+"HP)");
+			
+		} else {
+			
+			int spellId = this.battleRng.getRandomSpellId(super.getSpells(), super.getStats().getMana());
+			if (spellId != -1) {
+				try {
+					battle.setMessage("O "+this.name+" USOU "+super.getSpells().getSpell(spellId).getSpellName().toUpperCase());
+					this.magic(enemie, spellId);
+				} catch (InvalidTargetException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+		
 		
 	}
 	
@@ -48,7 +73,7 @@ public abstract class Teammate extends Team implements ICombat {
 	@Override
 	public <T> void magic(T target, int spellId) throws InvalidTargetException {
 		if (target instanceof Enemie) {
-			
+			super.getSpells().getSpell(spellId).castSpell((Enemie)target, super.getStats());
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Enemie");
 		}
@@ -93,6 +118,11 @@ public abstract class Teammate extends Team implements ICombat {
 		}
 	}
 	
-	public abstract String getName();
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getName() {
+		return this.name;
+	}
 
 }
