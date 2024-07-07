@@ -31,6 +31,7 @@ public class BattleRng {
 	}
 	
 	public int getRandomSpellId(KnownSpells spells, int mana) {
+		
 		int[] spellIds= new int[0];
 		for (int i = 1; i < 6; i++) {
 			if (spells.getSpell(i) != null && -1*spells.getSpell(i).getManaCost() <= mana) {

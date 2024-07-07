@@ -1,7 +1,7 @@
 package combat.spells;
 
+import entities.Battler;
 import entities.Stats;
-import entities.enemies.Enemie;
 import exceptions.InvalidStatsInputException;
 
 public class HealthSteal  extends Spell {
@@ -13,7 +13,7 @@ public class HealthSteal  extends Spell {
 	}
 
 	@Override
-	public void castSpell(Enemie enemie, Stats stats) {
+	public void castSpell(Battler enemie, Stats stats) {
 		int enemieHpBefore = enemie.getStats().getHealth(); 
 		enemie.takeMagicDamage(stats.getMagic());
 		if (stats.getHealth() < stats.getMaxHealth()) {

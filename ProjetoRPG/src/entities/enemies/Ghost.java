@@ -4,51 +4,60 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import combat.spells.FireBall;
+import combat.spells.Lightning;
 import entities.Entity;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
+import main.screen.GameScreen;
 
 public class Ghost extends Enemie {
 	
-	private Stats stats = new Stats();
-	
-	public Ghost() {
-		this.setSprite();
+	public Ghost(GameScreen gs) {
+		super(gs);
+		this.setSprites();
 		this.setStats();
-		super.setStats(stats);
+		super.getSpells().learnSpell(new FireBall(), 2);
+		super.getSpells().learnSpell(new FireBall(), 3);
+		super.getSpells().learnSpell(new FireBall(), 4);
+		super.getSpells().learnSpell(new FireBall(), 5);
+		//super.getSpells().learnSpell(new Lightning(), 3);
+		super.setName("FANTASMA");
 	}
 	
 	public void setStats() {
 		
 		try {
-			this.stats.setHealth(200);
-			this.stats.setMaxHealth(200);
-			this.stats.setMana(20);
-			this.stats.setMaxMana(20);
+			Stats stats = new Stats();
+			stats.setHealth(200);
+			stats.setMaxHealth(200);
+			stats.setMana(20);
+			stats.setMaxMana(20);
 			
-			this.stats.setStrenght(3);
-			this.stats.setDefense(5);
-			this.stats.setMagic(2);
-			this.stats.setMagicDefense(1);
+			stats.setStrenght(3);
+			stats.setDefense(5);
+			stats.setMagic(2);
+			stats.setMagicDefense(1);
+			super.setStats(stats);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public void setSprite() {
+	@Override
+	public <T> void special(T target) {
+		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setSprites() {
 		try {
 			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-	}
-
-	@Override
-	public <T> void special(T target) {
-		// TODO Auto-generated method stub
 		
 	}
 

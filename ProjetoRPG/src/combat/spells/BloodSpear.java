@@ -1,7 +1,8 @@
 package combat.spells;
 
+import entities.Battler;
+import entities.Entity;
 import entities.Stats;
-import entities.enemies.Enemie;
 
 public class BloodSpear extends Spell {
 	
@@ -12,7 +13,7 @@ public class BloodSpear extends Spell {
 	}
 
 	@Override
-	public void castSpell(Enemie enemie, Stats stats) {
+	public void castSpell(Battler enemie, Stats stats) {
 		if (stats.getMana() >= -super.getManaCost()) {
 			
 			enemie.takeMagicDamage(stats.getMagic());

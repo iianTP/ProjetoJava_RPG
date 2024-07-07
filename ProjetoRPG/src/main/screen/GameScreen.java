@@ -192,7 +192,7 @@ public class GameScreen extends JPanel implements Runnable {
 		else if (gameState == combat) {
 			
 			if (this.enemie == null) {
-				this.enemie = new Ghost();
+				this.enemie = new Ghost(this);
 				this.battle = new Battle(player, enemie, key, teammates);
 				this.key.setButtonCols(2);
 			}

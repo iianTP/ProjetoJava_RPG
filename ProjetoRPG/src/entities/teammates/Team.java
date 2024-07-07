@@ -1,27 +1,17 @@
 package entities.teammates;
 
-import combat.Effects;
-import combat.spells.KnownSpells;
-import entities.Entity;
-import entities.Stats;
+import entities.Battler;
 import exceptions.InvalidStatsInputException;
 import exceptions.InventoryIsFullException;
-import interfaces.ICombat;
 import items.*;
 import main.screen.GameScreen;
-import states.PlayerMenu;
 
-public abstract class Team extends Entity implements ICombat {
+public abstract class Team extends Battler {
 	
 
 	private Item armorEquiped;
 	private Item weaponEquiped;
 	private Inventory playerInventory;
-	
-	private Stats stats;
-	
-	private Effects effects;
-	private KnownSpells spells;
 	
 	private int potionEffectCounter = 0;
 	private Potion potion;
@@ -45,10 +35,10 @@ public abstract class Team extends Entity implements ICombat {
 			this.armorEquiped = item;
 			try {
 				if (item instanceof Armor) {
-					this.stats.setItemDefense(((Armor) item).getDefense());
+					super.getStats().setItemDefense(((Armor) item).getDefense());
 				} else {
-					this.stats.setItemDefense(((Cloak) item).getDefense());
-					this.stats.setItemAgility(((Cloak) item).getAgility());
+					super.getStats().setItemDefense(((Cloak) item).getDefense());
+					super.getStats().setItemAgility(((Cloak) item).getAgility());
 				}
 			} catch (InvalidStatsInputException e) {
 				e.printStackTrace();
@@ -66,11 +56,11 @@ public abstract class Team extends Entity implements ICombat {
 			System.out.println(this.weaponEquiped.getShortName());
 			try {
 				if (item instanceof Sword) {
-					this.stats.setItemStrenght(((Sword) item).getStrength());
-					this.stats.setItemAgility(((Sword) item).getAgility());
+					super.getStats().setItemStrenght(((Sword) item).getStrength());
+					super.getStats().setItemAgility(((Sword) item).getAgility());
 				} else {
-					this.stats.setItemStrenght(((Staff) item).getStrength());
-					this.stats.setItemMagic(((Staff) item).getMagic());
+					super.getStats().setItemStrenght(((Staff) item).getStrength());
+					super.getStats().setItemMagic(((Staff) item).getMagic());
 				}
 			} catch (InvalidStatsInputException e) {
 				e.printStackTrace();
@@ -83,7 +73,7 @@ public abstract class Team extends Entity implements ICombat {
 	public void usePotion(Potion potion) {
 		System.out.println("found potion");
 		this.potion = potion;
-		this.potion.consumePotion(stats);
+		this.potion.consumePotion(super.getStats());
 		
 		if (this.potion.getType() > 2) {
 			this.potionEffectCounter++;
@@ -91,15 +81,13 @@ public abstract class Team extends Entity implements ICombat {
 	}
 	
 	public void useBook(Book book, int slot) {
-
-		book.readBook(spells, slot);
-
+		book.readBook(super.getSpells(), slot);
 	}
 	
 	public void proceedPotionCounter() {
 		this.potionEffectCounter++;
 		if (this.potionEffectCounter == 6) {
-			this.potion.stopEffect(this.stats);;
+			this.potion.stopEffect(super.getStats());;
 			this.potion = null;
 		}
 	}
@@ -119,23 +107,6 @@ public abstract class Team extends Entity implements ICombat {
 
 	public void setPlayerInventory(Inventory playerInventory) {
 		this.playerInventory = playerInventory;
-	}
-
-	public Stats getStats() {
-		return stats;
-	}
-
-	public void setStats(Stats stats) {
-		this.stats = stats;
-		this.effects = new Effects(this.stats);
-		this.spells = new KnownSpells(this.stats);
-	}
-
-	public KnownSpells getSpells() {
-		return spells;
-	}
-	public Effects getEffects() {
-		return effects;
 	}
 
 }

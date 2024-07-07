@@ -163,7 +163,7 @@ public class UI {
 		brush.drawString("MP: " + teammate3Stats.getMana() +"/"+ teammate3Stats.getMaxMana(), 24, 387+45);
 		
 		battleOptionsBox(player, battle);
-		effect(player.getEffects().getCurrentEffect(),enemie.getEffects().getCurrentEffect());
+		effect(player,teammates,enemie);
 		
 	}
 	
@@ -191,9 +191,7 @@ public class UI {
 			
 			String spellShortName;
 			for (int i = 0; i < 5; i++) {
-				
 				spellShortName = (spells.getSpell(i+1) != null) ? spells.getSpell(i+1).getShortSpellName():"-";
-				System.out.println(i+" - "+spellShortName);
 				brush.drawString(spellShortName, battleButtonInitX+111*(i%2), battleButtonInitY+48*(i/2)); 
 			}
 			
@@ -238,27 +236,44 @@ public class UI {
 		
 	}
 	
-	private void effect(String pEffect,String eEffect) {
+	private void effect(Player player, Teammate[] teammates, Enemie enemie) {
 		
-		BufferedImage playerEffect;
-		BufferedImage enemieEffect;
+		BufferedImage effectIcon;
+		
+		String playerCurrentEffect = player.getEffects().getCurrentEffect();
+		String teammate1CurrentEffect = teammates[0].getEffects().getCurrentEffect();
+		String teammate2CurrentEffect = teammates[1].getEffects().getCurrentEffect();
+		String teammate3CurrentEffect = teammates[2].getEffects().getCurrentEffect();
+		String enemieCurrentEffect = enemie.getEffects().getCurrentEffect();
 		
 		String file;
 		
 		try {
-			
-			if (!pEffect.equals("none")) {
-				file = "/effects/"+pEffect+".png";
-				playerEffect = ImageIO.read(getClass().getResourceAsStream(file));
-				brush.drawImage(playerEffect, 96*3, 128*3-8, 8, 8, null);
+			if (!playerCurrentEffect.equals("none")) {
+				file = "/effects/"+playerCurrentEffect+".png";
+				effectIcon = ImageIO.read(getClass().getResourceAsStream(file));
+				brush.drawImage(effectIcon, 48*6, 128*3-8, 8, 8, null);
 			}
-			
-			if (!eEffect.equals("none")) {
-				file = "/effects/"+eEffect+".png";
-				enemieEffect = ImageIO.read(getClass().getResourceAsStream(file));
-				brush.drawImage(enemieEffect, 104*3, 40*3-16, 16, 16, null);
+			if (!teammate1CurrentEffect.equals("none")) {
+				file = "/effects/"+teammate1CurrentEffect+".png";
+				effectIcon = ImageIO.read(getClass().getResourceAsStream(file));
+				brush.drawImage(effectIcon, 48*4+24, 48*7-8, 8, 8, null);
 			}
-			
+			if (!teammate2CurrentEffect.equals("none")) {
+				file = "/effects/"+teammate2CurrentEffect+".png";
+				effectIcon = ImageIO.read(getClass().getResourceAsStream(file));
+				brush.drawImage(effectIcon, 48*8, 48*8-8, 8, 8, null);
+			}
+			if (!teammate3CurrentEffect.equals("none")) {
+				file = "/effects/"+teammate3CurrentEffect+".png";
+				effectIcon = ImageIO.read(getClass().getResourceAsStream(file));
+				brush.drawImage(effectIcon, 48*10-24, 48*7-8, 8, 8, null);
+			}
+			if (!enemieCurrentEffect.equals("none")) {
+				file = "/effects/"+enemieCurrentEffect+".png";
+				effectIcon = ImageIO.read(getClass().getResourceAsStream(file));
+				brush.drawImage(effectIcon, 104*3, 40*3-16, 16, 16, null);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

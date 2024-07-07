@@ -53,10 +53,10 @@ public abstract class Teammate extends Team implements ICombat {
 				} catch (InvalidTargetException e) {
 					e.printStackTrace();
 				}
+			} else {
+				battle.setMessage("O "+this.name+" TENTOU USAR UM FEITICO, MAS FALHOU");
 			}
 		}
-		
-		
 	}
 	
 	@Override
@@ -87,6 +87,16 @@ public abstract class Teammate extends Team implements ICombat {
 				stats.heal(this.battleRng.rng(stats.getDefense(), 0));
 				if (stats.getHealth() > stats.getMaxHealth()) {
 					stats.setHealth(stats.getMaxHealth());
+				}
+			} catch (InvalidStatsInputException e) {
+				e.printStackTrace();
+			}
+		}
+		if (super.getStats().getMana() < super.getStats().getMaxMana()) {
+			try {
+				super.getStats().alterMana(this.battleRng.rng(super.getStats().getMagicDefense(), 0));
+				if (super.getStats().getMana() > super.getStats().getMaxMana()) {
+					super.getStats().setMana(super.getStats().getMaxMana());
 				}
 			} catch (InvalidStatsInputException e) {
 				e.printStackTrace();

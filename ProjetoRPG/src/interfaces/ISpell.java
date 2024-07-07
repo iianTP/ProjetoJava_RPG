@@ -1,10 +1,11 @@
 package interfaces;
 
+import entities.Battler;
+import entities.Entity;
 import entities.Stats;
-import entities.enemies.Enemie;
 
 public interface ISpell {
 
-	public void castSpell(Enemie enemie, Stats stats);
+	public void castSpell(Battler target, Stats stats);
 	
 }

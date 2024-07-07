@@ -14,10 +14,12 @@ public class Battle {
 	private final Player player;
 	private final Enemie enemie;
 	private final Teammate[] teammates;
+	private final Team[] team;
 	private final KeyInput key;
 	
 	private String battleState = "choose-move";
 	private int teammateIndex = 0;
+	private int teamIndex = 0;
 
 	private String message = "SEU TURNO";
 	
@@ -33,6 +35,7 @@ public class Battle {
 		this.player = player;
 		this.enemie = enemie;
 		this.teammates = teammates;
+		this.team = new Team[] {player, teammates[0], teammates[1], teammates[2]};
 		this.key = key;
 		this.key.resetCmdNum();
 	}
@@ -107,12 +110,14 @@ public class Battle {
 			}
 			
 			else if (this.battleState.equals("player-effect")) {
-				this.message = this.player.getEffects().getMessage();
+				this.message = "VOCE "+this.player.getEffects().getMessage();
 				this.battleState = "teammate-turn";
 			}
 
 			else if (this.battleState.equals("teammate-effect")) {
-				this.message = this.teammates[this.teammateIndex].getEffects().getMessage();
+				this.message = this.teammates[this.teammateIndex].getName() + " "
+						+ this.teammates[this.teammateIndex].getEffects().getMessage();
+				
 				teammateIndex++;
 				if (this.teammateIndex == 3) {
 					battleState = "enemie-turn";
@@ -132,48 +137,19 @@ public class Battle {
 	
 	private void enemieTurn() {
 		
-		int playerHpBefore = this.player.getStats().getHealth();
-		int teammate1HpBefore = this.teammates[0].getStats().getHealth();
-		int teammate2HpBefore = this.teammates[1].getStats().getHealth();
-		int teammate3HpBefore = this.teammates[2].getStats().getHealth();
-		
-		int enemieHpBefore = this.enemie.getStats().getHealth();
-		
 		if (!this.enemie.getEffects().getCurrentEffect().equals("paralyzed")) {
-			this.enemie.battleMove(this.player);
-			this.enemie.battleMove(this.teammates[0]);
-			this.enemie.battleMove(this.teammates[1]);
-			this.enemie.battleMove(this.teammates[2]);
+			this.enemie.battleMove(this.team[this.teamIndex], this);
 		}
 		
-		
-		int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
-		int teammate1HpDifference = this.teammates[0].getStats().getHealth() - teammate1HpBefore;
-		int teammate2HpDifference = this.teammates[1].getStats().getHealth() - teammate2HpBefore;
-		int teammate3HpDifference = this.teammates[2].getStats().getHealth() - teammate3HpBefore;
-		
-		if (playerHpDifference > 0 || teammate1HpDifference > 0 ||
-				teammate2HpDifference > 0 ||teammate3HpDifference > 0 ) {
+		this.teamIndex++;
+		if (this.teamIndex == 4) {
 			
-			this.message = "SEU OPONENTE ATACOU ";
-				/*	+ "J:("+playerHpDifference+"HP)"
-					+ "T1:("+teammate1HpDifference+"HP)"
-					+ "T2:("+teammate2HpDifference+"HP)"
-					+ "T3:("+teammate3HpDifference+"HP)";
-			*/
+			this.enemie.getEffects().effect();
+			battleState = "enemie-text";
+			this.teamIndex = 0;
 		} else {
-			
-			int enemieHpDifference = this.enemie.getStats().getHealth() - enemieHpBefore;
-			if (enemieHpDifference > 0) {
-				this.message = "SEU OPONENTE RECUPEROU VIDA (+"+enemieHpDifference+"HP)";
-			} else {
-				this.message = "SEU OPONENTE NAO FEZ NADA";
-			}
-			
+			battleState = "enemie-turn";
 		}
-		
-		this.enemie.getEffects().effect();
-		battleState = "enemie-text";	
 		
 	}
 	
@@ -189,12 +165,12 @@ public class Battle {
 			
 			this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
 			
+			this.player.getEffects().effect();
 			if (this.player.getEffects().getCurrentEffect().equals("none")) {
 				this.battleState = "teammate-turn";
 			} else {
 				this.battleState = "player-effect";
 			}
-			
 			
 			break;
 		case 1:
@@ -209,7 +185,14 @@ public class Battle {
 			} else {
 				this.message = "VOCE NAO FEZ NADA";
 			}
-			this.battleState = "teammate-turn";
+			
+			this.player.getEffects().effect();
+			if (this.player.getEffects().getCurrentEffect().equals("none")) {
+				this.battleState = "teammate-turn";
+			} else {
+				this.battleState = "player-effect";
+			}
+			
 			break;
 		case 2:
 			this.battleState = "choose-spell";
@@ -238,7 +221,14 @@ public class Battle {
 				try {
 					this.player.magic(this.enemie, this.selectedButton);
 					this.message = "VOCE USOU "+spell.getSpellName().toUpperCase();
-					this.battleState = "teammate-turn";
+					
+					this.player.getEffects().effect();
+					if (this.player.getEffects().getCurrentEffect().equals("none")) {
+						this.battleState = "teammate-turn";
+					} else {
+						this.battleState = "player-effect";
+					}
+					
 				} catch (InvalidTargetException e) {
 					e.printStackTrace();
 				}
@@ -259,7 +249,13 @@ public class Battle {
 				if (itemSelected.isEquipable())
 				this.player.equipItem(itemSelected);
 				
-				this.battleState = "teammate-turn";
+				this.player.getEffects().effect();
+				if (this.player.getEffects().getCurrentEffect().equals("none")) {
+					this.battleState = "teammate-turn";
+				} else {
+					this.battleState = "player-effect";
+				}
+				
 			 }
 		}
 		
@@ -279,6 +275,8 @@ public class Battle {
 	private void teammateTurn() {
 		
 		this.teammates[this.teammateIndex].battleMove(this.enemie, this);
+		
+		this.teammates[this.teammateIndex].getEffects().effect();
 		
 		if (this.teammates[this.teammateIndex].getEffects().getCurrentEffect().equals("none")) {
 			teammateIndex++;

@@ -1,29 +1,28 @@
 package entities.enemies;
 
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 import combat.BattleRng;
-import combat.Effects;
+import entities.Battler;
 import entities.Stats;
-import entities.player.Player;
 import entities.teammates.Team;
 import exceptions.InvalidStatsInputException;
 import exceptions.InvalidTargetException;
-import interfaces.ICombat;
+import main.screen.GameScreen;
+import states.Battle;
 
-public abstract class Enemie implements ICombat {
+public abstract class Enemie extends Battler {
 	
-	private Stats stats;
 	private BufferedImage sprite;
-	private Effects effects;
-	
 	private BattleRng battleRng = new BattleRng();
+	
+	public Enemie(GameScreen gs) {
+		super(gs);
+	}
 	
 	// MÉTODOS DE COMBATE
 	
 	public void battleMove(Team target) {
-		
 		int randomNumber = this.battleRng.rng(this.battleRng.getFullChance(), 1);
 		
 		if (randomNumber <= this.battleRng.getAttackChance()) {
@@ -35,13 +34,48 @@ public abstract class Enemie implements ICombat {
 		} else {
 			this.defend();
 		}
+	}
+	
+	public void battleMove(Team target, Battle battle) {
 		
+		String move = this.battleRng.chooseMove();
+		
+		if (move.equals("attack")) {
+			
+			try {
+				this.attack(target);
+			} catch (InvalidTargetException e) {
+				e.printStackTrace();
+			}
+			
+			battle.setMessage("O "+this.getName()+" ATACOU");
+			
+		} else if (move.equals("defense")) {
+			
+			this.defend();
+			
+			battle.setMessage("O "+this.getName()+" DESCANCOU");
+			
+		} else {
+			
+			int spellId = this.battleRng.getRandomSpellId(super.getSpells(), super.getStats().getMana());
+			if (spellId != -1) {
+				try {
+					battle.setMessage("O "+this.getName()+" USOU "+super.getSpells().getSpell(spellId).getSpellName().toUpperCase());
+					this.magic(target, spellId);
+				} catch (InvalidTargetException e) {
+					e.printStackTrace();
+				}
+			} else {
+				battle.setMessage("O "+this.getName()+" TENTOU USAR UM FEITICO, MAS FALHOU");
+			}
+		}
 	}
 	
 	@Override
 	public <T> void attack(T target) throws InvalidTargetException {
 		if (target instanceof Team) {
-			((Team) target).takeDamage(this.stats.getStrenght(), this.stats.getCriticalDamage());
+			((Team) target).takeDamage(super.getStats().getStrenght(), super.getStats().getCriticalDamage());
 			this.battleRng.increaseAttackChance();
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Team");
@@ -51,7 +85,7 @@ public abstract class Enemie implements ICombat {
 	@Override
 	public <T> void magic(T target, int spellId) throws InvalidTargetException {
 		if (target instanceof Team) {
-			
+			super.getSpells().getSpell(spellId).castSpell((Team)target, super.getStats());
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Team");
 		}
@@ -59,25 +93,37 @@ public abstract class Enemie implements ICombat {
 	
 	@Override
 	public void defend() {
-		if (this.stats.getHealth() < this.stats.getMaxHealth()) {
-			/*try {
-				this.stats.heal(this.battleRng.rng(this.stats.getDefense(), 0));
-				if (this.stats.getHealth() > this.stats.getMaxHealth()) {
-					this.stats.setHealth(this.stats.getMaxHealth());
+		if (super.getStats().getHealth() < super.getStats().getMaxHealth()) {
+			try {
+				
+				super.getStats().heal(this.battleRng.rng(super.getStats().getDefense()/2, 0));
+				
+				if (super.getStats().getHealth() > super.getStats().getMaxHealth()) {
+					super.getStats().setHealth(super.getStats().getMaxHealth());
 				}
 			} catch (InvalidStatsInputException e) {
 				e.printStackTrace();
-			}*/
+			}
+		}
+		if (super.getStats().getMana() < super.getStats().getMaxMana()) {
+			try {
+				super.getStats().alterMana(this.battleRng.rng(super.getStats().getMagicDefense(), 0));
+				if (super.getStats().getMana() > super.getStats().getMaxMana()) {
+					super.getStats().setMana(super.getStats().getMaxMana());
+				}
+			} catch (InvalidStatsInputException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	@Override
 	public void takeDamage(int damage, int criticalChance) {
-		int defense = this.stats.getDefense();
+		int defense = super.getStats().getDefense();
 		int critical = (this.battleRng.rng(100, 1) <= criticalChance) ? 2 : 1;
 		int finalDamage = critical*2*damage/defense;
 		try {
-			this.stats.damage(finalDamage);
+			super.getStats().damage(finalDamage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
@@ -86,10 +132,10 @@ public abstract class Enemie implements ICombat {
 	
 	@Override
 	public void takeMagicDamage(int magicDamage) {
-		int magicDefense = this.stats.getMagicDefense();
+		int magicDefense = super.getStats().getMagicDefense();
 		int finalDamage = 2*magicDamage/magicDefense;
 		try {
-			this.stats.damage(finalDamage);
+			super.getStats().damage(finalDamage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
@@ -103,11 +149,7 @@ public abstract class Enemie implements ICombat {
 	
 	
 	public Stats getStats() {
-		return this.stats;
-	}
-	public void setStats(Stats stats) {
-		this.stats = stats;
-		this.effects = new Effects(this.stats);
+		return super.getStats();
 	}
 	public BufferedImage getSprite() {
 		return this.sprite;
@@ -116,9 +158,5 @@ public abstract class Enemie implements ICombat {
 		this.sprite = sprite;
 	}
 
-	public Effects getEffects() {
-		return effects;
-	}
-	
 
 }

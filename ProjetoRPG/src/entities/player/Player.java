@@ -275,6 +275,16 @@ public abstract class Player extends Team {
 				e.printStackTrace();
 			}
 		}
+		if (super.getStats().getMana() < super.getStats().getMaxMana()) {
+			try {
+				super.getStats().alterMana(super.rng(super.getStats().getMagicDefense(), 0));
+				if (super.getStats().getMana() > super.getStats().getMaxMana()) {
+					super.getStats().setMana(super.getStats().getMaxMana());
+				}
+			} catch (InvalidStatsInputException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override

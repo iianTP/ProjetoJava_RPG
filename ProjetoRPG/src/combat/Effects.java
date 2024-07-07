@@ -20,8 +20,10 @@ public class Effects {
 	}
 	
 	public void effect() {
+		
 		this.defenseBackup = this.stats.getDefense();
 		this.agilityBackup = this.stats.getAgility();
+		
 		if (this.currentEffect.equals("burning")) {
 			burning();
 		} else if (this.currentEffect.equals("paralyzed")) {
@@ -45,6 +47,7 @@ public class Effects {
 				this.stopEffect();
 			}
 		}
+		
 	}
 	
 	private void stopEffect() {

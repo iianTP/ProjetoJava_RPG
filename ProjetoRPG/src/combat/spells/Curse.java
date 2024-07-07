@@ -1,7 +1,7 @@
 package combat.spells;
 
+import entities.Battler;
 import entities.Stats;
-import entities.enemies.Enemie;
 
 public class Curse extends Spell {
 	
@@ -12,7 +12,7 @@ public class Curse extends Spell {
 	}
 
 	@Override
-	public void castSpell(Enemie enemie, Stats stats) {
+	public void castSpell(Battler enemie, Stats stats) {
 		
 		stats.alterMana(super.getManaCost());
 		
