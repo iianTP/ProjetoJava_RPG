@@ -26,6 +26,7 @@ import items.Stock;
 import main.KeyInput;
 
 import states.Battle;
+import states.Dialogue;
 import states.PlayerMenu;
 import states.Shop;
 
@@ -67,7 +68,7 @@ public class UI {
 	
 	private int textCount = 0;
 	private int textTimer = 0;
-	private String textBefore = "";
+	private boolean endedText = false;
 	
 	public UI(KeyInput key) {
 		
@@ -83,6 +84,12 @@ public class UI {
 		
 	}
 	
+	public void resetTextProps() {
+		this.textCount = 0;
+		this.textTimer = 0;
+		this.endedText = false;
+	}
+	
 	// PAUSE
 	public void pauseScreen() {
 		
@@ -92,23 +99,23 @@ public class UI {
 		
 	}
 	
-	// CAIXA DE DIALOGO
-	public void dialogueBox() {
+	// DIALOGO
+	public void dialogue(Dialogue dialogue) {
 		
 		brush.setColor(new Color(0,0,0,200));
 		brush.fillRoundRect(48, 48, 48*13, 48*4, 10, 10);
 		
-	}
-	
-	// DIALOGO
-	public void dialogueText(String dialogue) {
-		
 		brush.setFont(font);
 		brush.setColor(Color.white);
-		brush.drawString(dialogue, 48+24, 48*2);
+		
+		this.displayText(dialogue.getDialogue(), 50, 48+24, 48*2);
+		
+		if (dialogue.isDialogueChanged()) {
+			this.endedText = false;
+			this.textCount = 0;
+		}
 		
 	}
-	
 	
 	
 	// TELA DE COMBATE
@@ -124,6 +131,12 @@ public class UI {
 		brush.setColor(new Color(0,0,0,200));
 		brush.fillRoundRect(0, 0, 720, 720, 10, 10);
 		brush.drawImage(this.battleUI, 0, 0, 720, 720, null);
+		
+		brush.drawImage(player.getIdleSprites()[0], 48*6, 48*8, 48, 48, null);
+		brush.drawImage(teammates[0].getIdleSprites()[0], 48*4+24, 48*7, 48, 48, null);
+		brush.drawImage(teammates[1].getIdleSprites()[0], 48*8, 48*8, 48, 48, null);
+		brush.drawImage(teammates[2].getIdleSprites()[0], 48*10-24, 48*7, 48, 48, null);
+		brush.drawImage(enemie.getSprite(), 104*3, 40*3, 48*2, 48*2, null);
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 15F));
 		
@@ -166,78 +179,90 @@ public class UI {
 		battleOptionsBox(player, battle);
 		effect(player,teammates,enemie);
 		
+		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
+		brush.setColor(Color.white);
+		
+		if (battle.isChangedBattleState()) {
+			this.endedText = false;
+			this.textCount = 0;
+		}
+		
+		displayText("* "+battle.getMessage(), 25, 16*3, 176*3);
+		
 	}
 	
 	private void battleOptionsBox(Player player, Battle battle) {
 		
-		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
+		brush.setFont(this.font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
 		
 		String battleState = battle.getBattleState();
 		
 		if (battleState.equals("choose-move")) {
-			
-			brush.drawString("ATAQUE", battleButtonInitX, battleButtonInitY); // cmdNum = 0
-			brush.drawString("DEFESA", battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
-			brush.drawString("MAGIA", battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
-			brush.drawString("BOLSA", battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
-			brush.drawString("ESPEC.", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
-			brush.drawString("FUGIR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
-
+			battleChooseMove();
 		} else if (battleState.equals("choose-spell")) {
-			
-			KnownSpells spells = player.getSpells();
-			
-			brush.setFont(font.deriveFont(Font.PLAIN, 18F));
-			
-			String spellShortName;
-			for (int i = 0; i < 5; i++) {
-				spellShortName = (spells.getSpell(i+1) != null) ? spells.getSpell(i+1).getShortSpellName():"-";
-				brush.drawString(spellShortName, battleButtonInitX+111*(i%2), battleButtonInitY+48*(i/2)); 
-			}
-			
-			brush.drawString("VOLTAR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
-			
+			battleChooseSpell(player.getSpells());
 		} else if (battleState.equals("choose-item")) {
 		
-			Inventory inventory = player.getInventory();
-			int inventoryPage = battle.getInventoryPage();
-			
-			for (int i = 4*(inventoryPage-1); i < 4*inventoryPage; i++) {
-				
-				Item item;
-				int index = i - 4*(inventoryPage-1);
-				
-				try {
-					
-					if (i < 10) {
-						item = inventory.getItem(i);
-						String itemName = (item != null) ? item.getName(): "-";
-						brush.drawString(itemName, battleButtons[index][0]+15, battleButtons[index][1]);
-					} else {
-						brush.drawString("-", battleButtons[index][0]+15, battleButtons[index][1]);
-					}
-					
-				} catch (IndexOutOfRangeException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			
-			brush.drawString("VOLTAR", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
-			brush.drawString("-->", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
-			
+			battleChooseItem(player.getInventory(), battle.getInventoryPage());
 		}
 		
 		if (battleState.split("-")[0].equals("choose")) {
-			this.displayArrow(battleButtons, 5);
+			this.displayArrow(this.battleButtons, 5);
 		}
 		
-		/*if (!battleState.equals("enemie-turn") && !battleState.equals("enemie-text")) {
-			brush.drawString(">", this.battleButtons[this.key.getCmdNum()][0],
-								  this.battleButtons[this.key.getCmdNum()][1]);
-		}*/
+	}
+	
+	private void battleChooseMove() {
+		brush.drawString("ATAQUE", battleButtonInitX, battleButtonInitY); // cmdNum = 0
+		brush.drawString("DEFESA", battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
+		brush.drawString("MAGIA", battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
+		brush.drawString("BOLSA", battleButtonInitX+111, battleButtonInitY+48);  // cmdNum = 3
+		brush.drawString("ESPEC.", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+		brush.drawString("FUGIR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
+	}
+	
+	private void battleChooseSpell(KnownSpells knownSpells) {
+		KnownSpells spells = knownSpells;
 		
+		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
+		
+		String spellShortName;
+		for (int i = 0; i < 5; i++) {
+			spellShortName = (spells.getSpell(i+1) != null) ? spells.getSpell(i+1).getShortSpellName():"-";
+			brush.drawString(spellShortName, battleButtonInitX+111*(i%2), battleButtonInitY+48*(i/2)); 
+		}
+		
+		brush.drawString("VOLTAR", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
+	}
+	
+	private void battleChooseItem(Inventory playerInventory, int battleInventoryPage) {
+		Inventory inventory = playerInventory;
+		int inventoryPage = battleInventoryPage;
+		
+		for (int i = 4*(inventoryPage-1); i < 4*inventoryPage; i++) {
+			
+			Item item;
+			int index = i - 4*(inventoryPage-1);
+			
+			try {
+				
+				if (i < 10) {
+					item = inventory.getItem(i);
+					String itemName = (item != null) ? item.getName(): "-";
+					brush.drawString(itemName, battleButtons[index][0]+15, battleButtons[index][1]);
+				} else {
+					brush.drawString("-", battleButtons[index][0]+15, battleButtons[index][1]);
+				}
+				
+			} catch (IndexOutOfRangeException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		brush.drawString("VOLTAR", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
+		brush.drawString("-->", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
 		
 	}
 	
@@ -285,13 +310,6 @@ public class UI {
 		
 	}
 	
-	public void battleText(String message) {
-		
-		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
-		brush.setColor(Color.white);
-		this.displayText("* "+message, 27);
-		
-	}
 	//
 	
 	public void rainbowStuff() {
@@ -327,37 +345,36 @@ public class UI {
 							 buttons[this.key.getCmdNum()][1]);
 	}
 	
-	private void displayText(String text, int width) {
-		
-		if (!this.textBefore.equals(text)) {
-			this.textCount = 0;
-		}
-		
-		this.textBefore = text;
+	private void displayText(String text, int width, int startX, int startY) {
 		
 		String[] letters = text.split("");
 		int skipLine = 0;
-		int letter = 0;
+		int letter;
 		
 		for (int i = 0; i < this.textCount; i++) {
 			letter = i;
 			if (i >= width && i < 2*width) {
 				skipLine = 1;
-				letter = i-27;
+				letter = i-width;
 			} else if (i >= 2*width) {
 				skipLine = 2;
-				letter = i-27*2;
+				letter = i-width*2;
 			}
-			brush.drawString(letters[i], 16*3+14*letter, 176*3+24*skipLine);
+			
+			brush.drawString(letters[i], startX+14*letter, startY+24*skipLine);
 		}
 		
-		textTimer++;
-		if (textTimer >= 3) {
-			textCount++;
-			textTimer = 0;
-		}
-		if (textCount >= letters.length) {
+		if (this.endedText) {
 			textCount = letters.length;
+		} else {
+			textTimer++;
+			if (textTimer >= 2) {
+				textCount++;
+				textTimer = 0;
+			}
+			if (textCount >= letters.length) {
+				this.endedText = true;
+			}
 		}
 		
 	}
@@ -570,7 +587,6 @@ public class UI {
 		displayArrow(this.pMenuItemButtons, 2);
 		
 	}
-	
 	public void chooseCharacter(Player player, Teammate[] teammates, String pMenuState) {
 		this.key.setButtonCols(4);
 		statsMenu(player, teammates, pMenuState);

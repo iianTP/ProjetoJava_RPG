@@ -31,6 +31,8 @@ public class Battle {
 	
 	private int inventoryPage = 1;
 	
+	private boolean changedBattleState;
+	
 	public Battle(Player player, Enemie enemie, KeyInput key, Teammate[] teammates) {
 		this.player = player;
 		this.enemie = enemie;
@@ -60,7 +62,11 @@ public class Battle {
 			this.winner = "enemie";
 		} 
 		
+		this.changedBattleState = false;
+		
 		if (this.key.isInteracting()) {
+			
+			this.changedBattleState = true;
 			
 			if (this.battleState.equals("enemie-turn")) {
 				enemieTurn();
@@ -313,5 +319,9 @@ public class Battle {
 
 	public String getWinner() {
 		return winner;
+	}
+
+	public boolean isChangedBattleState() {
+		return changedBattleState;
 	}
 }

@@ -5,19 +5,24 @@ import main.KeyInput;
 public class Dialogue {
 	
 	private KeyInput key;
-	private int dialogueLength;
 	private int dialogueIndex = 0;
 	private boolean dialogueEnded = false;
+	private boolean dialogueChanged;
 	
-	public Dialogue(KeyInput key, int dialogueLength) {
+	private String[] dialogue;
+	
+	public Dialogue(KeyInput key, String[] dialogue) {
 		this.key = key;
-		this.dialogueLength = dialogueLength;
+		this.dialogue = dialogue;
 	}
 	
 	public void dialogue() {
+		this.dialogueChanged = false;
+		
 		if (this.key.isInteracting()) {
-			dialogueIndex++;
-			if (this.dialogueIndex == this.dialogueLength) {
+			this.dialogueChanged = true;
+			this.dialogueIndex++;
+			if (this.dialogueIndex == this.dialogue.length) {
 				this.dialogueEnded = true;
 			}
 		}
@@ -29,6 +34,14 @@ public class Dialogue {
 
 	public boolean isDialogueEnded() {
 		return dialogueEnded;
+	}
+
+	public boolean isDialogueChanged() {
+		return dialogueChanged;
+	}
+
+	public String getDialogue() {
+		return dialogue[this.dialogueIndex];
 	}
 
 }

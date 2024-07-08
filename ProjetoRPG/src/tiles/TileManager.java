@@ -91,7 +91,9 @@ public class TileManager {
 				
 				x = j*48 - wX + 720/2;
 				
-				brush.drawImage(tiles[tileNums[i][j]-1].getTile(), x, y, 48, 48, null);
+				if (x >= -1*48 && x <= 15*48 && y >= -1*48 && y <= 15*48) {
+					brush.drawImage(tiles[tileNums[i][j]-1].getTile(), x, y, 48, 48, null);
+				}
 				
 			}
 		

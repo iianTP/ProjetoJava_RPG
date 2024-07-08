@@ -177,7 +177,7 @@ public class GameScreen extends JPanel implements Runnable {
 		} else if (gameState == talking) {
 			if (this.npcDialogue == null) {
 				this.npcDialogue = this.player.getCollision().getNpcNearby().getDialogue();
-				this.dialogue = new Dialogue(this.key, this.npcDialogue.length);
+				this.dialogue = new Dialogue(this.key, this.npcDialogue);
 			}
 			
 			this.dialogue.dialogue();
@@ -186,6 +186,7 @@ public class GameScreen extends JPanel implements Runnable {
 				this.dialogue = null;
 				this.npcDialogue = null;
 				gameState = playing;
+				this.ui.resetTextProps();
 			}
 		}
 		
@@ -205,6 +206,7 @@ public class GameScreen extends JPanel implements Runnable {
 				this.enemie = null;
 				this.battle = null;
 				this.key.resetCmdNum();
+				this.ui.resetTextProps();
 			}
 			
 		} else if (gameState == inventory) {
@@ -259,21 +261,10 @@ public class GameScreen extends JPanel implements Runnable {
 
 				this.ui.battleScreen(this.player, this.teammates,this.enemie, this.battle);
 				
-				this.ui.battleText(this.battle.getMessage());
-				
-				g2D.drawImage(this.player.getIdleSprites()[0], 48*6, 48*8, 48, 48, null);
-				g2D.drawImage(this.teammates[0].getIdleSprites()[0], 48*4+24, 48*7, 48, 48, null);
-				g2D.drawImage(this.teammates[1].getIdleSprites()[0], 48*8, 48*8, 48, 48, null);
-				g2D.drawImage(this.teammates[2].getIdleSprites()[0], 48*10-24, 48*7, 48, 48, null);
-				
-				g2D.drawImage(this.enemie.getSprite(), 104*3, 40*3, 48*2, 48*2, null);
-				
 			} else {
 				
 				this.tiles.draw(g2D, this.player.getX(), this.player.getY());
-
 				displayEnts(g2D);
-				
 				this.ui.draw(this.player.getX(), this.player.getY());
 				
 			}
@@ -288,8 +279,7 @@ public class GameScreen extends JPanel implements Runnable {
 
 			if (gameState == talking && this.dialogue != null) {
 				
-				this.ui.dialogueBox();
-				this.ui.dialogueText(npcDialogue[this.dialogue.getDialogueIndex()]);
+				this.ui.dialogue(this.dialogue);
 
 			}
 			
