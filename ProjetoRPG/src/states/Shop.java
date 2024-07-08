@@ -2,6 +2,7 @@ package states;
 
 import entities.npcs.Seller;
 import entities.player.Player;
+import exceptions.IndexOutOfRangeException;
 import exceptions.InventoryIsFullException;
 import items.Product;
 import main.KeyInput;
@@ -12,8 +13,8 @@ public class Shop {
 	private Player player;
 	private Seller seller;
 	private int selectedButton;
-	
-	private String shopState = "choose-item";
+	private boolean exitedShop = false;
+	private String shopState = "choose-act";
 
 	public Shop(KeyInput key, Player player, Seller seller) {
 		this.key = key;
@@ -23,19 +24,46 @@ public class Shop {
 	
 	public void shopCommands() {
 		
-		if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 4) {
-			this.key.correctCmdNum();
-		}
-		
 		if (this.key.isInteracting()) {
 			
-			if (this.shopState.equals("choose-item")) {
+			if (this.shopState.equals("choose-act")) {
+				if (this.key.getCmdNum() == 0) {
+					this.shopState = "choose-item";
+				} else if (this.key.getCmdNum() == 1) {
+					this.shopState = "sell-item";
+				} else if (this.key.getCmdNum() == 2) {
+					this.exitedShop = true;
+				}
+				this.key.resetCmdNum();
+			}
+			
+			else if (this.shopState.equals("choose-item")) {
 				
-				this.shopState = "buying";
-				this.selectedButton = this.key.getCmdNum();
+				if (this.key.getCmdNum() == this.seller.getStock().getStockSize()) {
+					this.shopState = "choose-act";
+				} else {
+					this.selectedButton = this.key.getCmdNum();
+					this.shopState = "buying";
+				}
+				
 				this.key.resetCmdNum();
 				
-			} else if (this.shopState.equals("buying")) {
+			}
+			
+			else if (this.shopState.equals("sell-item")) {
+				
+				if (this.key.getCmdNum() == this.player.getInventory().getItemQuantity()) {
+					this.shopState = "choose-act";
+				} else {
+					this.selectedButton = this.key.getCmdNum();
+					this.shopState = "selling";
+				}
+				
+				this.key.resetCmdNum();
+				
+			}
+			
+			else if (this.shopState.equals("buying")) {
 				
 				switch (this.key.getCmdNum()) {
 				case 0: // COMPRAR
@@ -70,6 +98,19 @@ public class Shop {
 					break;
 				}
 				
+			} else if (this.shopState.equals("selling")) {
+				
+				if (this.key.getCmdNum() == 0) {
+					try {
+						this.player.getInventory().removeItem(this.selectedButton);
+						this.player.addGold(10);
+					} catch (IndexOutOfRangeException e) {
+						e.printStackTrace();
+					}
+				}
+				this.shopState = "sell-item";
+				this.key.resetCmdNum();
+				
 			}
 			
 		}
@@ -78,6 +119,10 @@ public class Shop {
 	
 	public String getShopState() {
 		return this.shopState;
+	}
+
+	public boolean isExitedShop() {
+		return exitedShop;
 	}
 	
 }

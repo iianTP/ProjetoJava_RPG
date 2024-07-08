@@ -43,7 +43,7 @@ public class UI {
 	private int battleButtonInitX = 475;
 	private int battleButtonInitY = 550;
 	
-	private int[][] pMenuMainButtons = {{48+20-10, 48*3},{48+20-10, 48*4}};
+	private int[][] pMenuMainButtons = {{48+10, 48*3},{48+10, 48*4}};
 	private int[][] pMenuInventoryButtons = new int[11][2];
 	private int[][] pMenuItemButtons = {{48*9+20+48-15, 48*2+229+48*4+15},
 										{48*9+20+48-15, 48*2+229+48*5+15-24},
@@ -59,7 +59,8 @@ public class UI {
 									 {battleButtonInitX-15+111, battleButtonInitY+48+48}};
 	
 	
-	private int[][] shopButtons;
+	private int[][] shopActButtons = {{48+10, 48*3},{48+10, 48*4},{48+10, 48*5}};
+	private int[][] shopItemsButtons;
 	private int[][] productButtons= {{48*11-15, 48*2+229+48*4+15},
 									{48*11-15, 48*2+229+48*5+15-24}};
 	
@@ -599,29 +600,62 @@ public class UI {
 	//
 	
 	// LOJA
-	public void shopScreen(Stock stock, Shop shop, int gold) {
+	public void shopScreen(Stock stock, Shop shop, Player player) {
 		
-		if (this.shopButtons == null) {
-			shopButtons = new int[5][2];
-			for (int i = 0; i < 5; i++) {
-				shopButtons[i][0] = 48+25-15;
-				shopButtons[i][1] = 48*(3+i);
-			}
-		}
+		this.shopItemsButtons = null;
 		
 		brush.setColor(Color.black);
-		brush.fillRoundRect(48,48*2,48*4,48*11,10,10);
+		brush.fillRoundRect(48,48*2,48*3,48*11,10,10);
 		brush.fillRoundRect(48*10,48*2,48*4,48*11,10,10);
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		brush.setColor(Color.white);
+		
+		brush.drawString("COMPRAR", 48+25, 48*3);
+		brush.drawString("VENDER", 48+25, 48*4);
+		brush.drawString("SAIR", 48+25, 48*5);
+		
+		brush.setColor(Color.yellow);
+		brush.drawString("OURO: "+player.getGold(), 48+25, 48*12);
+		
+		
+		if (shop.getShopState().equals("choose-act")) {
+			displayArrow(this.shopActButtons, 2);
+		} else if (shop.getShopState().equals("choose-item")) {
+			shopChooseItem(stock);
+		} else if (shop.getShopState().equals("sell-item")) {
+			shopChooseItemToSell(player.getInventory());
+		} else if (shop.getShopState().equals("buying")) {
+			shopBuying();
+		} else if (shop.getShopState().equals("selling")) {
+			shopSelling();
+		}
+		
+	}
+	
+	private void shopChooseItem(Stock stock) {
+		
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
+		
+		if (this.shopItemsButtons == null) {
+			shopItemsButtons = new int[stock.getStockSize()+1][2];
+			for (int i = 0; i < stock.getStockSize(); i++) {
+				shopItemsButtons[i][0] = 48*4+20;
+				shopItemsButtons[i][1] = 48*3+40*i;
+			}
+			shopItemsButtons[stock.getStockSize()][0] = 48*4+20;
+			shopItemsButtons[stock.getStockSize()][1] = 48*3+40*11;
+		}
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
 		brush.setColor(Color.white);
-		
 		int index = 0;
 		Item item;
 		try {
 			item = stock.getItem(index);
 			while (item != null) {
-				brush.drawString("-"+item.getName()+" x"+stock.getAmount(index), 48+25, 48*(3+index));
+				brush.drawString("-"+item.getName()+" x"+stock.getAmount(index), 48*4+35, 48*3+40*index);
 				index++;
 				item = stock.getItem(index);
 			}
@@ -630,21 +664,67 @@ public class UI {
 			e.printStackTrace();
 		}
 		
-		if (shop.getShopState().equals("choose-item")) {
-			
-			brush.setFont(font.deriveFont(Font.PLAIN, 16F));
-			displayArrow(this.shopButtons, index-1);
-			
-		} else if (shop.getShopState().equals("buying")) {
-			
-			brush.setFont(font.deriveFont(Font.PLAIN, 16F));
-			brush.drawString("COMPRAR",this.productButtons[0][0]+15,this.productButtons[0][1]);
-			brush.drawString("VOLTAR",this.productButtons[1][0]+15,this.productButtons[1][1]);
-			
-			displayArrow(this.shopButtons, 1);
-			
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		
+		brush.drawString("VOLTAR", shopItemsButtons[stock.getStockSize()][0]+15,
+				   				   shopItemsButtons[stock.getStockSize()][1]);
+		
+		displayArrow(this.shopItemsButtons, stock.getStockSize());
+	}
+	
+	private void shopChooseItemToSell(Inventory inventory) {
+		
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
+		
+		if (this.shopItemsButtons == null) {
+			shopItemsButtons = new int[inventory.getItemQuantity()+1][2];
+			for (int i = 0; i < inventory.getItemQuantity(); i++) {
+				shopItemsButtons[i][0] = 48*4+20;
+				shopItemsButtons[i][1] = 48*3+40*i;
+			}
+			shopItemsButtons[inventory.getItemQuantity()][0] = 48*4+20;
+			shopItemsButtons[inventory.getItemQuantity()][1] = 48*3+40*11;
 		}
 		
+		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
+		brush.setColor(Color.white);
+		Item item;
+		try {
+			for (int i = 0; i < 10; i++) {
+				item = inventory.getItem(i);
+				if (item == null) break;
+				brush.drawString("-"+item.getName(), 48*4+35, 48*3+40*i);
+			}
+			
+		} catch (IndexOutOfRangeException e) {
+			e.printStackTrace();
+		}
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		
+		brush.drawString("VOLTAR", shopItemsButtons[inventory.getItemQuantity()][0]+15,
+								   shopItemsButtons[inventory.getItemQuantity()][1]);
+		
+		displayArrow(this.shopItemsButtons, inventory.getItemQuantity());
+	}
+	
+	private void shopBuying() {
+		brush.setColor(Color.white);
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		brush.drawString("COMPRAR",this.productButtons[0][0]+15,this.productButtons[0][1]);
+		brush.drawString("VOLTAR",this.productButtons[1][0]+15,this.productButtons[1][1]);
+		
+		displayArrow(this.productButtons, 1);
+	}
+	
+	private void shopSelling() {
+		brush.setColor(Color.white);
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		brush.drawString("VENDER",this.productButtons[0][0]+15,this.productButtons[0][1]);
+		brush.drawString("VOLTAR",this.productButtons[1][0]+15,this.productButtons[1][1]);
+		
+		displayArrow(this.productButtons, 1);
 	}
 	
 	//

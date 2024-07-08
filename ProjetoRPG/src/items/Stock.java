@@ -50,5 +50,15 @@ public class Stock extends DynamicArray<Product>{
 	public int getAmount(int index) {
 		return super.getData(index).getAmount();
 	}
+	
+	public int getStockSize() {
+		int count = 0;
+		Product p = getProduct(0);
+		while (p != null) {
+			count++;
+			p = getProduct(count);
+		}
+		return count;
+	}
 
 }

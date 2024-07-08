@@ -229,7 +229,7 @@ public class GameScreen extends JPanel implements Runnable {
 				this.key.setButtonCols(1);
 			}
 			
-			if (this.seller.isOutOfStock()) {
+			if (this.seller.isOutOfStock() || this.shop.isExitedShop()) {
 				this.shop = null;
 				this.seller = null;
 				gameState = playing;
@@ -284,7 +284,7 @@ public class GameScreen extends JPanel implements Runnable {
 			}
 			
 			if (gameState == buying && this.seller != null) {
-				this.ui.shopScreen(seller.getStock(), this.shop, this.player.getGold());
+				this.ui.shopScreen(seller.getStock(), this.shop, this.player);
 			}
 			
 		}

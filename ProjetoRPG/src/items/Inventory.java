@@ -59,4 +59,22 @@ public class Inventory extends DynamicArray<Item>{
 		}
 		
 	}
+	
+	public int getItemQuantity() {
+		
+		int count = 0;
+		Item item;
+		
+		try {
+			item = getItem(0);
+			while (item != null) {
+				count++;
+				item = getItem(count);
+			}
+		} catch (IndexOutOfRangeException e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
 }

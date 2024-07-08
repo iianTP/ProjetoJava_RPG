@@ -53,8 +53,9 @@ public /*abstract*/ class Seller extends Npc{
 			this.stock.addItem(new Armor(1), 99, 10);
 			this.stock.addItem(new Sword(2), 99, 10);
 			this.stock.addItem(new Staff(6), 99, 10);
-			this.stock.addItem(new Staff(5), 99, 10);
 			this.stock.addItem(new Book(2), 99, 1);
+			this.stock.addItem(new Book(3), 99, 1);
+			this.stock.addItem(new Book(1), 99, 1);
 		} catch (ItemAlreadyInStockException e) {
 			e.printStackTrace();
 		} catch (InvalidProductSpecsException e) {
