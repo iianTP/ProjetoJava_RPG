@@ -47,7 +47,6 @@ public class Effects {
 				this.stopEffect();
 			}
 		}
-		//sdf
 	}
 	
 	private void stopEffect() {

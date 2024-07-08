@@ -31,10 +31,9 @@ import states.Shop;
 
 public class UI {
 	
-	private Font font; //= new Font("Arial", Font.PLAIN, 20);
+	private Font font;
 	
 	private BufferedImage battleUI;
-	private BufferedImage[] effects = new BufferedImage[6];
 	
 	private Graphics2D brush;
 	
@@ -51,7 +50,6 @@ public class UI {
 	private int[][] chooseCharacterButtons;
 	private int[][] spellSlotButtons;
 	
-	
 	private int[][] battleButtons = {{battleButtonInitX-15, battleButtonInitY}, 
 									 {battleButtonInitX-15+111, battleButtonInitY},
 									 {battleButtonInitX-15, battleButtonInitY+48}, 
@@ -67,10 +65,13 @@ public class UI {
 	private int[] rainbow = {0,0,255};
 	private int rainbowState = 1;
 	
+	private int textCount = 0;
+	private int textTimer = 0;
+	private String textBefore = "";
+	
 	public UI(KeyInput key) {
 		
 		setBattleUI();
-		setEffects();
 		InputStream is = getClass().getResourceAsStream("/fonts/ARCADEPI.ttf");
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 20F);
@@ -228,10 +229,14 @@ public class UI {
 			
 		}
 		
-		if (!battleState.equals("enemie-turn") && !battleState.equals("enemie-text")) {
+		if (battleState.split("-")[0].equals("choose")) {
+			this.displayArrow(battleButtons, 5);
+		}
+		
+		/*if (!battleState.equals("enemie-turn") && !battleState.equals("enemie-text")) {
 			brush.drawString(">", this.battleButtons[this.key.getCmdNum()][0],
 								  this.battleButtons[this.key.getCmdNum()][1]);
-		}
+		}*/
 		
 		
 	}
@@ -284,7 +289,7 @@ public class UI {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
-		brush.drawString("* "+message, 16*3, 176*3);
+		this.displayText("* "+message, 27);
 		
 	}
 	//
@@ -313,6 +318,50 @@ public class UI {
 		
 	}
 	
+	private void displayArrow(int[][] buttons, int maxIndex) {
+		brush.setColor(Color.yellow);
+		if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > maxIndex) {
+			this.key.correctCmdNum();
+		}
+		brush.drawString(">",buttons[this.key.getCmdNum()][0],
+							 buttons[this.key.getCmdNum()][1]);
+	}
+	
+	private void displayText(String text, int width) {
+		
+		if (!this.textBefore.equals(text)) {
+			this.textCount = 0;
+		}
+		
+		this.textBefore = text;
+		
+		String[] letters = text.split("");
+		int skipLine = 0;
+		int letter = 0;
+		
+		for (int i = 0; i < this.textCount; i++) {
+			letter = i;
+			if (i >= width && i < 2*width) {
+				skipLine = 1;
+				letter = i-27;
+			} else if (i >= 2*width) {
+				skipLine = 2;
+				letter = i-27*2;
+			}
+			brush.drawString(letters[i], 16*3+14*letter, 176*3+24*skipLine);
+		}
+		
+		textTimer++;
+		if (textTimer >= 3) {
+			textCount++;
+			textTimer = 0;
+		}
+		if (textCount >= letters.length) {
+			textCount = letters.length;
+		}
+		
+	}
+	
 	// MENU DO PLAYER
 	public void playerMenu(PlayerMenu pMenu, Player player, Teammate[] teammates) {
 		
@@ -332,38 +381,21 @@ public class UI {
 		Inventory inventory = player.getInventory();
 		
 		if (pMenuState.equals("main")) {
-			
-			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 1) {
-				this.key.correctCmdNum();
-			}
-			
-			brush.drawString(">",this.pMenuMainButtons[this.key.getCmdNum()][0],
-								 this.pMenuMainButtons[this.key.getCmdNum()][1]);
-			
-			
+			displayArrow(this.pMenuMainButtons, 1);
 		} 
-		
 		else if (pMenuState.equals("stats")) {
-			
 			statsMenu(player, teammates, pMenuState);
-			
 		}
-		
 		else if (pMenuState.equals("inventory")) {
-			
 			inventoryMenu(itemSelected, inventory);
-			
 			if (itemSelected != null) {
-				
 				selectedItem(itemSelected, inventory);
-	
 			}
-				
-		} else if (pMenuState.equals("choose-character")) {
-			
+		}
+		else if (pMenuState.equals("choose-character")) {
 			chooseCharacter(player, teammates, pMenuState);
-			
-		} else if (pMenuState.equals("choose-spellSlot")) {
+		}
+		else if (pMenuState.equals("choose-spellSlot")) {
 			chooseSpellSlot(player, teammates, pMenuState);
 		}
 	}
@@ -387,6 +419,7 @@ public class UI {
 		}
 		
 		for (int i = 0; i < 4; i++) {
+			
 			brush.setColor(new Color(rainbow[0]/2,rainbow[1]/2,rainbow[2]/2));
 			brush.fillRoundRect(firstCharBoxX+82*i-3, 48*3-3, charBoxSide, charBoxSide,10,10);
 			brush.drawImage(team[i].getIdleSprites()[1], firstCharBoxX+82*i, 48*3, charBoxSide-6, charBoxSide-6, null);
@@ -454,13 +487,7 @@ public class UI {
 				}
 			}
 			
-			brush.setColor(Color.yellow);
-			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 3) {
-				this.key.correctCmdNum();
-			}
-			
-			brush.drawString("V",this.chooseCharacterButtons[this.key.getCmdNum()][0],
-		 			 			this.chooseCharacterButtons[this.key.getCmdNum()][1]);
+			displayArrow(this.chooseCharacterButtons, 3);
 			
 		} else if (pMenuState.equals("choose-spellSlot")) {
 			
@@ -472,13 +499,7 @@ public class UI {
 				}
 			}
 			
-			brush.setColor(Color.yellow);
-			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 4) {
-				this.key.correctCmdNum();
-			}
-			
-			brush.drawString(">",this.spellSlotButtons[this.key.getCmdNum()][0],
-		 			 			this.spellSlotButtons[this.key.getCmdNum()][1]);
+			displayArrow(this.spellSlotButtons, 4);
 			
 		} else {
 			
@@ -524,16 +545,8 @@ public class UI {
 		this.pMenuInventoryButtons[10][1] = 48*3+40*11;
 		brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
 		
-		if(itemSelected == null) {
-			
-			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 10) {
-				this.key.correctCmdNum();
-			}
-			
-			brush.setColor(Color.yellow);
-			brush.drawString(">",this.pMenuInventoryButtons[this.key.getCmdNum()][0],
-					 			 this.pMenuInventoryButtons[this.key.getCmdNum()][1]);
-			
+		if (itemSelected == null) {
+			displayArrow(this.pMenuInventoryButtons, 10);
 		}
 		
 	}
@@ -554,12 +567,7 @@ public class UI {
 		
 		brush.drawString("VOLTAR", 48*9+20+48, 48*2+229+48*5+15);
 		
-		if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 2) {
-			this.key.correctCmdNum();
-		}
-		
-		brush.drawString(">",this.pMenuItemButtons[this.key.getCmdNum()][0],
-	 			 			this.pMenuItemButtons[this.key.getCmdNum()][1]);
+		displayArrow(this.pMenuItemButtons, 2);
 		
 	}
 	
@@ -592,7 +600,6 @@ public class UI {
 		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
 		brush.setColor(Color.white);
 		
-		
 		int index = 0;
 		Item item;
 		try {
@@ -609,14 +616,8 @@ public class UI {
 		
 		if (shop.getShopState().equals("choose-item")) {
 			
-			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > index-1) {
-				this.key.correctCmdNum();
-			}
-			
 			brush.setFont(font.deriveFont(Font.PLAIN, 16F));
-			brush.setColor(Color.yellow);
-			brush.drawString(">", this.shopButtons[this.key.getCmdNum()][0],
-					  			this.shopButtons[this.key.getCmdNum()][1]);
+			displayArrow(this.shopButtons, index-1);
 			
 		} else if (shop.getShopState().equals("buying")) {
 			
@@ -624,17 +625,9 @@ public class UI {
 			brush.drawString("COMPRAR",this.productButtons[0][0]+15,this.productButtons[0][1]);
 			brush.drawString("VOLTAR",this.productButtons[1][0]+15,this.productButtons[1][1]);
 			
-			if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 1) {
-				this.key.correctCmdNum();
-			}
-			
-			brush.setColor(Color.yellow);
-			brush.drawString(">", this.productButtons[this.key.getCmdNum()][0],
-					  			this.productButtons[this.key.getCmdNum()][1]);
+			displayArrow(this.shopButtons, 1);
 			
 		}
-		
-		
 		
 	}
 	
@@ -662,19 +655,6 @@ public class UI {
 	
 	public void setBrush(Graphics2D brush) {
 		this.brush = brush;
-	}
-
-	public void setEffects() {
-		try {
-			this.effects[0] = ImageIO.read(getClass().getResourceAsStream("/effects/burning.png"));
-			this.effects[1] = ImageIO.read(getClass().getResourceAsStream("/effects/paralyzed.png"));
-			this.effects[2] = ImageIO.read(getClass().getResourceAsStream("/effects/poisoned.png"));
-			this.effects[3] = ImageIO.read(getClass().getResourceAsStream("/effects/hypnotized.png"));
-			this.effects[4] = ImageIO.read(getClass().getResourceAsStream("/effects/bleeding.png"));
-			this.effects[5] = ImageIO.read(getClass().getResourceAsStream("/effects/cursed.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 
