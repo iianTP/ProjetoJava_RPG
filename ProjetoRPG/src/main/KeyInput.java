@@ -74,13 +74,7 @@ public class KeyInput implements KeyListener {
 			
 		} else if (gs.getGameState() == 4) {
 			
-			if (key == KeyEvent.VK_Z) {
-				try {
-					gs.setGameState(1);
-				} catch (InvalidGameStateIndex e1) {
-					e1.printStackTrace();
-				}
-			} else if (key == KeyEvent.VK_E) {
+			if (key == KeyEvent.VK_E) {
 				this.interaction = true;
 			}
 			

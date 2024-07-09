@@ -24,7 +24,8 @@ import items.Item;
 import items.Stock;
 
 import main.KeyInput;
-
+import quests.Quest;
+import quests.QuestList;
 import states.Battle;
 import states.Dialogue;
 import states.PlayerMenu;
@@ -43,7 +44,7 @@ public class UI {
 	private int battleButtonInitX = 475;
 	private int battleButtonInitY = 550;
 	
-	private int[][] pMenuMainButtons = {{48+10, 48*3},{48+10, 48*4}};
+	private int[][] pMenuMainButtons = {{48+10, 48*3},{48+10, 48*4},{48+10, 48*5},{48+10, 48*6}};
 	private int[][] pMenuInventoryButtons = new int[11][2];
 	private int[][] pMenuItemButtons = {{48*9+20+48-15, 48*2+229+48*4+15},
 										{48*9+20+48-15, 48*2+229+48*5+15-24},
@@ -390,6 +391,8 @@ public class UI {
 		brush.setColor(Color.white);
 		brush.drawString("STATS", 48+25, 48*3);
 		brush.drawString("BOLSA", 48+25, 48*4);
+		brush.drawString("MISSOES", 48+25, 48*5);
+		brush.drawString("SAIR", 48+25, 48*6);
 		brush.drawString("NIVEL: "+player.getLevel(), 48+25, 48*11);
 		brush.setColor(Color.yellow);
 		brush.drawString("OURO: "+player.getGold(), 48+25, 48*12);
@@ -399,7 +402,7 @@ public class UI {
 		Inventory inventory = player.getInventory();
 		
 		if (pMenuState.equals("main")) {
-			displayArrow(this.pMenuMainButtons, 1);
+			displayArrow(this.pMenuMainButtons, 3);
 		} 
 		else if (pMenuState.equals("stats")) {
 			statsMenu(player, teammates, pMenuState);
@@ -415,6 +418,9 @@ public class UI {
 		}
 		else if (pMenuState.equals("choose-spellSlot")) {
 			chooseSpellSlot(player, teammates, pMenuState);
+		}
+		else if (pMenuState.equals("quests")) {
+			this.questMenu(player.getQuestList());
 		}
 	}
 	public void statsMenu(Player player, Teammate[] teammates, String pMenuState) {
@@ -533,7 +539,7 @@ public class UI {
 		}
 		
 	}
-	public void inventoryMenu(Item itemSelected, Inventory inventory) {
+	private void inventoryMenu(Item itemSelected, Inventory inventory) {
 		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
@@ -568,7 +574,34 @@ public class UI {
 		}
 		
 	}
-	public void selectedItem(Item itemSelected, Inventory inventory) {
+	
+	private void questMenu(QuestList quests) {
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48*4+10,48*2,48*10,48*11,10,10);
+
+		int index = 0;
+		Quest quest = quests.getQuest(index);
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 14F));
+		while (quest != null) {
+			brush.setColor(Color.white);
+			brush.drawString("TIPO: "+quest.getType(), 48*4+35, 48*3+100*index);
+			brush.drawString("DESCRICAO: "+quest.getDescription(), 48*4+35, 48*3+20+100*index);
+			brush.drawString("RECOMPENSA: "+quest.getReward().getRewardString(), 48*4+35, 48*3+40+100*index);
+			if (quest.isDone()) {
+				brush.setColor(Color.green);
+				brush.drawString("FEITO", 48*4+35, 48*3+60+100*index);
+			} else {
+				brush.setColor(Color.yellow);
+				brush.drawString("EM ANDAMENTO", 48*4+35, 48*3+60+100*index);
+			}
+			index++;
+			quest = quests.getQuest(index);
+		}
+		
+	}
+	
+	private void selectedItem(Item itemSelected, Inventory inventory) {
 		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*9+20, 48*2+229,219, 48*11-229, 10,10);
@@ -588,11 +621,11 @@ public class UI {
 		displayArrow(this.pMenuItemButtons, 2);
 		
 	}
-	public void chooseCharacter(Player player, Teammate[] teammates, String pMenuState) {
+	private void chooseCharacter(Player player, Teammate[] teammates, String pMenuState) {
 		this.key.setButtonCols(4);
 		statsMenu(player, teammates, pMenuState);
 	}
-	public void chooseSpellSlot(Player player, Teammate[] teammates, String pMenuState) {
+	private void chooseSpellSlot(Player player, Teammate[] teammates, String pMenuState) {
 		this.key.setButtonCols(1);
 		statsMenu(player, teammates, pMenuState);
 	}
@@ -606,7 +639,6 @@ public class UI {
 		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48,48*2,48*3,48*11,10,10);
-		brush.fillRoundRect(48*10,48*2,48*4,48*11,10,10);
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		brush.setColor(Color.white);
@@ -622,21 +654,18 @@ public class UI {
 		if (shop.getShopState().equals("choose-act")) {
 			displayArrow(this.shopActButtons, 2);
 		} else if (shop.getShopState().equals("choose-item")) {
-			shopChooseItem(stock);
+			shopChooseItem(stock, shop.getSelectedButton());
 		} else if (shop.getShopState().equals("sell-item")) {
-			shopChooseItemToSell(player.getInventory());
-		} else if (shop.getShopState().equals("buying")) {
-			shopBuying();
-		} else if (shop.getShopState().equals("selling")) {
-			shopSelling();
+			shopChooseItemToSell(player.getInventory(), shop.getSelectedButton());
 		}
 		
 	}
 	
-	private void shopChooseItem(Stock stock) {
+	private void shopChooseItem(Stock stock, int selectedButton) {
 		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
+		brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
 		
 		if (this.shopItemsButtons == null) {
 			shopItemsButtons = new int[stock.getStockSize()+1][2];
@@ -669,10 +698,15 @@ public class UI {
 		brush.drawString("VOLTAR", shopItemsButtons[stock.getStockSize()][0]+15,
 				   				   shopItemsButtons[stock.getStockSize()][1]);
 		
-		displayArrow(this.shopItemsButtons, stock.getStockSize());
+		if (selectedButton > -1) {
+			this.shopBuying();
+		} else {
+			displayArrow(this.shopItemsButtons, stock.getStockSize());
+		}
+		
 	}
 	
-	private void shopChooseItemToSell(Inventory inventory) {
+	private void shopChooseItemToSell(Inventory inventory, int selectedButton) {
 		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
@@ -706,10 +740,18 @@ public class UI {
 		brush.drawString("VOLTAR", shopItemsButtons[inventory.getItemQuantity()][0]+15,
 								   shopItemsButtons[inventory.getItemQuantity()][1]);
 		
-		displayArrow(this.shopItemsButtons, inventory.getItemQuantity());
+		
+		if (selectedButton > -1) {
+			this.shopSelling();
+		} else {
+			displayArrow(this.shopItemsButtons, inventory.getItemQuantity());
+		}
+		
 	}
 	
 	private void shopBuying() {
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48*9+20, 48*2+229,219, 48*11-229, 10,10);
 		brush.setColor(Color.white);
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		brush.drawString("COMPRAR",this.productButtons[0][0]+15,this.productButtons[0][1]);
@@ -719,6 +761,8 @@ public class UI {
 	}
 	
 	private void shopSelling() {
+		brush.setColor(Color.black);
+		brush.fillRoundRect(48*9+20, 48*2+229,219, 48*11-229, 10,10);
 		brush.setColor(Color.white);
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		brush.drawString("VENDER",this.productButtons[0][0]+15,this.productButtons[0][1]);

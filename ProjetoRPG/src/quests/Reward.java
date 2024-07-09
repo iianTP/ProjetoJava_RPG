@@ -4,14 +4,25 @@ import items.Item;
 
 public class Reward {
 	
-	private Item[] items;
+	private Item item;
 	private int gold;
 	
-	public Item[] getItems() {
-		return this.items;
+	public String getRewardString() {
+		String reward = "";
+		if (this.item != null) {
+			reward += "// "+this.item.getName()+" // ";
+		}
+		if (this.gold > 0) {
+			reward += this.gold+"G //";
+		}
+		return reward;
 	}
-	public void setItems(Item[] items) {
-		this.items = items;
+	
+	public Item getItem() {
+		return this.item;
+	}
+	public void setItem(Item item) {
+		this.item = item;
 	}
 	public int getGold() {
 		return this.gold;

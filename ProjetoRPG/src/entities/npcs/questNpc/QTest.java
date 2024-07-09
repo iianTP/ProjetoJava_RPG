@@ -36,7 +36,7 @@ public class QTest extends QuestNpc {
 		
 		Reward reward = new Reward();
 		reward.setGold(1);
-		reward.setItems(new Item[] {new Armor(1)});
+		reward.setItem(new Armor(1));
 		super.setQuest(new KillEnemieQuest(new Ghost(super.getGs()), 2, "MAIN", reward, this));
 		
 	}

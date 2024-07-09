@@ -21,6 +21,8 @@ public class PlayerMenu {
 	private int itemSelectedIndex = -1;
 	private int characterSelected;
 	
+	private boolean closedMenu = false;
+	
 	public PlayerMenu(KeyInput key, Player player, Teammate[] teammates) {
 		this.key = key;
 		this.player = player;
@@ -38,6 +40,10 @@ public class PlayerMenu {
 					this.state = "stats";
 				} else if (this.key.getCmdNum() == 1) {
 					this.state = "inventory";
+				} else if (this.key.getCmdNum() == 2) {
+					this.state = "quests";
+				}else if (this.key.getCmdNum() == 3) {
+					this.closedMenu = true;
 				}
 				this.key.resetCmdNum();
 				
@@ -62,6 +68,9 @@ public class PlayerMenu {
 				}
 			} else if (this.state.equals("choose-spellSlot")) {
 				chooseSpellSlot();
+			}else if (this.state.equals("quests")) {
+				this.state = "main";
+				this.key.resetCmdNum();
 			}
 			
 		}
@@ -153,6 +162,10 @@ public class PlayerMenu {
 	}
 	public int getItemSelectedIndex() {
 		return this.itemSelectedIndex;
+	}
+
+	public boolean isClosedMenu() {
+		return closedMenu;
 	}
 
 }

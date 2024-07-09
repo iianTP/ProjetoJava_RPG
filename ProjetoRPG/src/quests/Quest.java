@@ -42,12 +42,10 @@ public abstract class Quest {
 	}
 
 	public void redeemReward(Player player) throws InventoryIsFullException {
-		if (reward.getItems() != null) {
-			Item[] items = reward.getItems();
-			for (int i = 0; i < items.length; i++) {
-				if (!player.getInventory().isFull()) {
-					player.getInventory().addItem(items[i]);
-				}
+		if (reward.getItem() != null) {
+			Item items = reward.getItem();
+			if (!player.getInventory().isFull()) {
+				player.getInventory().addItem(items);
 			}
 		}
 		player.addGold(reward.getGold());
@@ -56,5 +54,7 @@ public abstract class Quest {
 	public QuestNpc getRequester() {
 		return requester;
 	}
-
+	public Reward getReward() {
+		return reward;
+	}
 }

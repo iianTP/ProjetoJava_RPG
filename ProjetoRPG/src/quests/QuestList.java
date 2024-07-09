@@ -12,7 +12,7 @@ public class QuestList extends DynamicArray<Quest>{
 		System.out.println(quest.getType());
 	}
 	
-	private Quest getQuest(int index) {
+	public Quest getQuest(int index) {
 		return super.getData(index);
 	}
 	
@@ -23,13 +23,17 @@ public class QuestList extends DynamicArray<Quest>{
 	}
 	
 	public void checkKillEnemiesQuests(Enemie enemie, String winner) {
+		System.out.println("a");
 		if (winner != null && winner.equals("player")) {
+			System.out.println("checking");
 			int i = 0;
 			Quest quest = null;
 			quest = this.getQuest(i);
 			while (quest != null) {
 				if (quest instanceof KillEnemieQuest) {
+					
 					((KillEnemieQuest) quest).checkGoal(enemie);
+					System.out.println(quest.isDone());
 					if (quest.isDone()) {
 						System.out.println("done");
 						break;

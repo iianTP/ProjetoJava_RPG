@@ -12,7 +12,8 @@ public class Shop {
 	private KeyInput key;
 	private Player player;
 	private Seller seller;
-	private int selectedButton;
+	private int selectedButton = -1;
+
 	private boolean exitedShop = false;
 	private String shopState = "choose-act";
 
@@ -39,82 +40,80 @@ public class Shop {
 			
 			else if (this.shopState.equals("choose-item")) {
 				
-				if (this.key.getCmdNum() == this.seller.getStock().getStockSize()) {
-					this.shopState = "choose-act";
+				if (this.selectedButton > -1) {
+					this.buying();
 				} else {
-					this.selectedButton = this.key.getCmdNum();
-					this.shopState = "buying";
+					if (this.key.getCmdNum() == this.seller.getStock().getStockSize()) {
+						this.shopState = "choose-act";
+					} else {
+						this.selectedButton = this.key.getCmdNum();
+					}
+					
+					this.key.resetCmdNum();
 				}
 				
-				this.key.resetCmdNum();
 				
 			}
 			
 			else if (this.shopState.equals("sell-item")) {
 				
-				if (this.key.getCmdNum() == this.player.getInventory().getItemQuantity()) {
-					this.shopState = "choose-act";
+				if (this.selectedButton > -1) {
+					this.selling();
 				} else {
-					this.selectedButton = this.key.getCmdNum();
-					this.shopState = "selling";
-				}
-				
-				this.key.resetCmdNum();
-				
-			}
-			
-			else if (this.shopState.equals("buying")) {
-				
-				switch (this.key.getCmdNum()) {
-				case 0: // COMPRAR
-					
-					Product product = seller.getStock().getProduct(this.selectedButton);
-					System.out.println(product.getItem().getName());
-					
-					if (this.player.getGold() >= product.getPrice() &&
-						!this.player.getInventory().isFull()) {
-						
-						try {
-							this.player.getInventory().addItem(product.getItem());
-						} catch (InventoryIsFullException e) {
-							e.printStackTrace();
-						}
-						
-						this.player.reduceGold(product.getPrice());
-						product.reduceAmount();
-						
-						if (product.getAmount() <= 0) {
-							this.seller.getStock().removeItem(this.selectedButton);
-						}
-						
-						this.shopState = "choose-item";
-						this.key.resetCmdNum();
+					if (this.key.getCmdNum() == this.player.getInventory().getItemQuantity()) {
+						this.shopState = "choose-act";
+					} else {
+						this.selectedButton = this.key.getCmdNum();
 					}
 					
-					break;
-				case 1: // VOLTAR
-					this.shopState = "choose-item";
 					this.key.resetCmdNum();
-					break;
 				}
-				
-			} else if (this.shopState.equals("selling")) {
-				
-				if (this.key.getCmdNum() == 0) {
-					try {
-						this.player.getInventory().removeItem(this.selectedButton);
-						this.player.addGold(10);
-					} catch (IndexOutOfRangeException e) {
-						e.printStackTrace();
-					}
-				}
-				this.shopState = "sell-item";
-				this.key.resetCmdNum();
 				
 			}
 			
 		}
 		
+	}
+	
+	private void buying() {
+		if (this.key.getCmdNum() == 0) {
+			Product product = seller.getStock().getProduct(this.selectedButton);
+			System.out.println(product.getItem().getName());
+			
+			if (this.player.getGold() >= product.getPrice() &&
+				!this.player.getInventory().isFull()) {
+				
+				try {
+					this.player.getInventory().addItem(product.getItem());
+				} catch (InventoryIsFullException e) {
+					e.printStackTrace();
+				}
+				
+				this.player.reduceGold(product.getPrice());
+				product.reduceAmount();
+				
+				if (product.getAmount() <= 0) {
+					this.seller.getStock().removeItem(this.selectedButton);
+				}
+			}
+		}
+		this.selectedButton = -1;
+		this.key.resetCmdNum();
+	}
+	
+	private void selling() {
+		if (this.key.getCmdNum() == 0) {
+			try {
+				this.player.getInventory().removeItem(this.selectedButton);
+				this.player.addGold(10);
+			} catch (IndexOutOfRangeException e) {
+				e.printStackTrace();
+			}
+		} else {
+			
+		}
+		this.selectedButton = -1;
+		this.key.resetCmdNum();
 	}
 	
 	public String getShopState() {
@@ -123,6 +122,10 @@ public class Shop {
 
 	public boolean isExitedShop() {
 		return exitedShop;
+	}
+	
+	public int getSelectedButton() {
+		return selectedButton;
 	}
 	
 }

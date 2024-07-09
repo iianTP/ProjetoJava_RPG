@@ -218,6 +218,11 @@ public class GameScreen extends JPanel implements Runnable {
 			this.key.setButtonCols(1);
 			this.playerMenu.playerMenu();
 			
+			if (this.playerMenu.isClosedMenu()) {
+				this.playerMenu = null;
+				this.gameState = this.playing;
+			}
+			
 		} else if (gameState == buying) {
 			
 			if (this.shop == null) {
