@@ -12,9 +12,9 @@ public class KeyInput implements KeyListener {
 	private boolean interaction;
 	
 	private int cmdNum = 0;
-	private int cmdNumBackup;
 	
 	private int buttonCols;
+	private int maxCmdNum;
 	
 	private GameScreen gs;
 	
@@ -30,7 +30,15 @@ public class KeyInput implements KeyListener {
 		
 		int key = e.getKeyCode();
 		
-		if (gs.getGameState() == 1) {
+		if (gs.getGameState() == 0) {
+			
+			if (key == KeyEvent.VK_E) {
+				this.interaction = true;
+			}
+			
+			this.commandNum(key);
+			
+		} else if (gs.getGameState() == 1) {
 			
 			try {
 				
@@ -78,7 +86,7 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			}
 			
-			this.commandNum(key, this.buttonCols);
+			this.commandNum(key);
 			
 		} else if (gs.getGameState() == 5) {
 
@@ -86,7 +94,7 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			}
 			
-			this.commandNum(key, this.buttonCols);
+			this.commandNum(key);
 			
 		} else if (gs.getGameState() == 6) {
 			
@@ -101,7 +109,7 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			}
 			
-			this.commandNum(key, this.buttonCols);
+			this.commandNum(key);
 		}
 		
 		
@@ -160,33 +168,39 @@ public class KeyInput implements KeyListener {
 	public void resetCmdNum() {
 		this.cmdNum = 0;
 	}
-	public void correctCmdNum() {
-		this.cmdNum = this.cmdNumBackup;
-	}
 	
-	public void commandNum(int key, int cols) {
+	public void commandNum(int key) {
 		
-		this.cmdNumBackup = cmdNum;
+		int cmdNumBackup = this.cmdNum;
 		
 		if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-			this.cmdNum -= cols;
+			this.cmdNum -= this.buttonCols;
 		} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-			this.cmdNum += cols;
+			this.cmdNum += this.buttonCols;
 		} else if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-			if (cols > 1 && this.cmdNum % cols != 0) {
+			if (this.buttonCols > 1 && this.cmdNum % this.buttonCols != 0) {
 				this.cmdNum--;
 			}
 		} else if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-			if (cols > 1 && (this.cmdNum+1) % cols != 0) {
+			if (this.buttonCols > 1 && (this.cmdNum+1) % this.buttonCols != 0) {
 				this.cmdNum++;
 			}
 		}
 		
+		if (this.cmdNum < 0) {
+			this.cmdNum = cmdNumBackup;
+		} else if (this.cmdNum > this.maxCmdNum) {
+			this.cmdNum = cmdNumBackup;
+		}
 		
 	}
 
 	public void setButtonCols(int buttonCols) {
 		this.buttonCols = buttonCols;
+	}
+
+	public void setMaxCmdNum(int maxCmdNum) {
+		this.maxCmdNum = maxCmdNum;
 	}
 	
 }

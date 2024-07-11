@@ -11,10 +11,8 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import combat.spells.KnownSpells;
-import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
-import entities.npcs.Npc;
 import entities.player.Player;
 import entities.teammates.Team;
 import entities.teammates.Teammate;
@@ -28,6 +26,7 @@ import quests.Quest;
 import quests.QuestList;
 import states.Battle;
 import states.Dialogue;
+import states.MainMenu;
 import states.PlayerMenu;
 import states.Shop;
 
@@ -118,6 +117,96 @@ public class UI {
 		}
 		
 	}
+	
+	int [][] mainMenuButtons = {{48*2+24-15, 48*11},{48*2+24-15, 48*11+24},{48*2+24-15, 48*12}};
+	
+	int [][] chooseClassButtons = {{48*8-20, 48*6+3},{48*8-20, 48*8+8},{48*8-20, 48*10+13},{48*8-20, 48*12+18}};
+	
+	
+	
+	// TELA INICIAL
+	public void mainScreen(MainMenu mainMenu) {
+		
+		this.rainbowStuff();
+		for (int i = 200; i > 0; i--) {
+			brush.setFont(font.deriveFont(Font.PLAIN, 140F));
+			brush.setColor(new Color(rainbow[0]/i,rainbow[1]/i,rainbow[2]/i));
+			brush.drawString("TITULO",48*1+3*i, (int) (48*4+5*i*Math.sqrt(i)/20));
+			
+			brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+			brush.drawString("NOVO JOGO",48*2+24+3*i, (int) (48*11+5*i*Math.sqrt(i)/20));
+			brush.drawString("CARREGAR",48*2+24+3*i, (int) (48*11+24+5*i*Math.sqrt(i)/20));
+			brush.drawString("SAIR",48*2+24+3*i, (int) (48*12+5*i*Math.sqrt(i)/20));
+		}
+		
+		brush.setColor(Color.white);
+		brush.setFont(font.deriveFont(Font.PLAIN, 140F));
+		brush.drawString("TITULO",48*1, 48*4);
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		brush.drawString("NOVO JOGO",48*2+24, 48*11);
+		brush.drawString("CARREGAR",48*2+24, 48*11+24);
+		brush.drawString("SAIR",48*2+24, 48*12);
+		
+		
+		
+		if (mainMenu.getState().equals("main")) {
+			this.displayArrow(mainMenuButtons, 2);
+		}
+		else if (mainMenu.getState().equals("choose-class")) {
+			classOptions();
+		}
+	}
+	
+	private void classOptions() {
+		
+		int charBoxSide = 48*2;
+		BufferedImage mage = null;
+		BufferedImage warrior = null;
+		BufferedImage healer = null;
+		BufferedImage assassin = null;
+		try {
+			mage = ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleDown.png"));
+			warrior= ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleDown.png"));
+			healer= ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleDown.png"));
+			assassin= ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (int i = 200; i > 0; i--) {
+			brush.setColor(new Color(rainbow[0]/(i*2),rainbow[1]/(i*2),rainbow[2]/(i*2)));
+			brush.fillRoundRect(48*8+3*i, (int) (48*5+5*i*Math.sqrt(i)/20), charBoxSide, charBoxSide,10,10);
+			brush.fillRoundRect(48*8+3*i, (int) (48*5+charBoxSide+5+5*i*Math.sqrt(i)/20), charBoxSide, charBoxSide,10,10);
+			brush.fillRoundRect(48*8+3*i, (int) (48*5+2*(charBoxSide+5)+5*i*Math.sqrt(i)/20), charBoxSide, charBoxSide,10,10);
+			brush.fillRoundRect(48*8+3*i, (int) (48*5+3*(charBoxSide+5)+5*i*Math.sqrt(i)/20), charBoxSide, charBoxSide,10,10);
+		
+			brush.drawString("MAGO",48*10+24+3*i, (int) (48*6+5*i*Math.sqrt(i)/20));
+			brush.drawString("GUERREIRO",48*10+24+3*i, (int) (48*5+24+charBoxSide+5+24+5*i*Math.sqrt(i)/20));
+			brush.drawString("CURANDEIRO",48*10+24+3*i, (int) (48*5+24+2*(charBoxSide+5)+24+5*i*Math.sqrt(i)/20));
+			brush.drawString("ASSASSINO",48*10+24+3*i, (int) (48*5+24+3*(charBoxSide+5)+24+5*i*Math.sqrt(i)/20));
+		}
+		
+		brush.setColor(Color.white);
+		brush.drawString("MAGO",48*10+24, 48*6);
+		brush.drawString("GUERREIRO",48*10+24, 48*5+24+charBoxSide+5+24);
+		brush.drawString("CURANDEIRO",48*10+24, 48*5+24+2*(charBoxSide+5)+24);
+		brush.drawString("ASSASSINO",48*10+24, 48*5+24+3*(charBoxSide+5)+24);
+		
+		
+		brush.drawImage(mage, 48*8+12, 48*5+12, 48+24, 48+24, null);
+		brush.drawImage(warrior,48*8+12, 48*5+charBoxSide+5+12, 48+24, 48+24, null);
+		brush.drawImage(healer, 48*8+12, 48*5+2*(charBoxSide+5)+12, 48+24, 48+24, null);
+		brush.drawImage(assassin, 48*8+12, 48*5+3*(charBoxSide+5)+12, 48+24, 48+24, null);
+		
+		
+		
+		this.displayArrow(this.chooseClassButtons, 3);
+		
+	}
+	
+	//
 	
 	
 	// TELA DE COMBATE
@@ -357,9 +446,6 @@ public class UI {
 	
 	private void displayArrow(int[][] buttons, int maxIndex) {
 		brush.setColor(Color.yellow);
-		if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > maxIndex) {
-			this.key.correctCmdNum();
-		}
 		brush.drawString(">",buttons[this.key.getCmdNum()][0],
 							 buttons[this.key.getCmdNum()][1]);
 	}

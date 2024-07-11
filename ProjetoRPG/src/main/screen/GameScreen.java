@@ -56,7 +56,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private final int combat = 5;
 	private final int buying = 6;
 
-	private int gameState = playing;
+	private int gameState = 0;
 	
 	private String[] npcDialogue;
 	
@@ -64,11 +64,12 @@ public class GameScreen extends JPanel implements Runnable {
 	private Battle battle;
 	private PlayerMenu playerMenu; //= new PlayerMenu(this.key, this.player, this.teammates);
 	private Shop shop;
+	private MainMenu mainMenu;
 
 	public GameScreen() {
 
 		this.setPreferredSize(new Dimension(this.screenSide, this.screenSide));
-		this.setBackground(Color.gray);
+		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(key);
 		this.setFocusable(true);
@@ -80,54 +81,54 @@ public class GameScreen extends JPanel implements Runnable {
 	//inicialização do game loop
 	public void startThread() {
 		
-		setPlayerClass();
-		
-		setNpcs();
-		
-		this.player.setNpcs(npcs);
-		
 		this.gameThread = new Thread(this);
 		this.gameThread.start();
 
 	}
 	//
 	
+	public void startGame(String choosenClass) {
+		this.setPlayerClass(choosenClass);
+		this.setNpcs();
+		this.player.setNpcs(npcs);
+	}
+	
 	// Identificação da classe escolhida pelo Player
-	private void setPlayerClass(){
+	private void setPlayerClass(String choosenClass){
 		
-		String playerClass = "healer";
+		String playerClass = choosenClass;
 
 		if (playerClass.equals("mage")) {
 			
 			this.player = new Mage(key, this);
 			
-			teammates[0] = new AssassinNpc(this.player.getX()-24, this.player.getY()-48, this);
-			teammates[1] = new HealerNpc(this.player.getX()-24, this.player.getY()-48-24, this);
-			teammates[2] = new WarriorNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
+			this.teammates[0] = new AssassinNpc(this.player.getX()-24, this.player.getY()-48, this);
+			this.teammates[1] = new HealerNpc(this.player.getX()-24, this.player.getY()-48-24, this);
+			this.teammates[2] = new WarriorNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
 			
 		} else if (playerClass.equals("warrior")) {
 
 			this.player = new Warrior(key, this);
 			
-			teammates[0] = new AssassinNpc(this.player.getX()-24, this.player.getY()-48, this);
-			teammates[1] = new HealerNpc(this.player.getX()-24, this.player.getY()-48-24, this);
-			teammates[2] = new MageNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
+			this.teammates[0] = new AssassinNpc(this.player.getX()-24, this.player.getY()-48, this);
+			this.teammates[1] = new HealerNpc(this.player.getX()-24, this.player.getY()-48-24, this);
+			this.teammates[2] = new MageNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
 
 		} else if (playerClass.equals("healer")) {
 
 			this.player = new Healer(key, this);
 			
-			teammates[0] = new AssassinNpc(this.player.getX()-24, this.player.getY()-48, this);
-			teammates[1] = new MageNpc(this.player.getX()-24, this.player.getY()-48-24, this);
-			teammates[2] = new WarriorNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
+			this.teammates[0] = new AssassinNpc(this.player.getX()-24, this.player.getY()-48, this);
+			this.teammates[1] = new MageNpc(this.player.getX()-24, this.player.getY()-48-24, this);
+			this.teammates[2] = new WarriorNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
 
 		} else if (playerClass.equals("assassin")) {
 
 			this.player = new Assassin(key, this);
 			
-			teammates[0] = new MageNpc(this.player.getX()-24, this.player.getY()-48, this);
-			teammates[1] = new HealerNpc(this.player.getX()-24, this.player.getY()-48-24, this);
-			teammates[2] = new WarriorNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
+			this.teammates[0] = new MageNpc(this.player.getX()-24, this.player.getY()-48, this);
+			this.teammates[1] = new HealerNpc(this.player.getX()-24, this.player.getY()-48-24, this);
+			this.teammates[2] = new WarriorNpc(this.player.getX()-24, this.player.getY()-48-24-24, this);
 
 		}
 		
@@ -144,7 +145,7 @@ public class GameScreen extends JPanel implements Runnable {
 	public void run() {
 
 		// GAME LOOP
-		while (gameThread != null) {
+		while (this.gameThread != null) {
 
 			this.startNanoTime = System.nanoTime();
 
@@ -174,7 +175,17 @@ public class GameScreen extends JPanel implements Runnable {
 				//this.allNpcs[i].update(this.player, this.allNpcs);
 			}
 			
-		} else if (gameState == talking) {
+		}
+		
+		else if (gameState == menu) {
+			if (this.mainMenu == null) {
+				this.mainMenu = new MainMenu(this.key,this);
+			}
+			this.mainMenu.mainMenu();
+			this.key.setButtonCols(1);
+		}
+		
+		else if (gameState == talking) {
 			if (this.npcDialogue == null) {
 				this.npcDialogue = this.player.getCollision().getNpcNearby().getDialogue();
 				this.dialogue = new Dialogue(this.key, this.npcDialogue);
@@ -258,15 +269,19 @@ public class GameScreen extends JPanel implements Runnable {
 		
 		this.ui.setBrush(g2D);
 		
-		this.theVoid.draw(g2D);
-
+		if (gameState == menu) {
+			this.ui.mainScreen(this.mainMenu);
+		}
+		
 		if (this.player != null && this.npcs != null) {
 			
+			this.theVoid.draw(g2D);
+			
 			if (gameState == combat && this.enemie != null) {
-
 				this.ui.battleScreen(this.player, this.teammates,this.enemie, this.battle);
-				
-			} else {
+			} 
+			
+			if (gameState != combat && gameState != menu) {
 				
 				this.tiles.draw(g2D, this.player.getX(), this.player.getY());
 				displayEnts(g2D);
@@ -283,9 +298,7 @@ public class GameScreen extends JPanel implements Runnable {
 			}
 
 			if (gameState == talking && this.dialogue != null) {
-				
 				this.ui.dialogue(this.dialogue);
-
 			}
 			
 			if (gameState == buying && this.seller != null) {

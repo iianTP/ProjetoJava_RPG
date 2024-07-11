@@ -21,17 +21,37 @@ public class Shop {
 		this.key = key;
 		this.player = player;
 		this.seller = seller;
+
 	}
 	
 	public void shopCommands() {
 		
+		if (this.shopState.equals("choose-act")) {
+			this.key.setMaxCmdNum(2);
+		}
+		
+		else if (this.shopState.equals("choose-item")) {
+			this.key.setMaxCmdNum((this.selectedButton > -1)? 1 : this.seller.getStock().getStockSize());
+		}
+		
+		else if (this.shopState.equals("sell-item")) {
+			this.key.setMaxCmdNum((this.selectedButton > -1)? 1 : this.player.getInventory().getItemQuantity());
+		}
+		
 		if (this.key.isInteracting()) {
 			
 			if (this.shopState.equals("choose-act")) {
+				
 				if (this.key.getCmdNum() == 0) {
+					
 					this.shopState = "choose-item";
+					this.key.setMaxCmdNum(this.seller.getStock().getStockSize());
+					
 				} else if (this.key.getCmdNum() == 1) {
+					
 					this.shopState = "sell-item";
+					this.key.setMaxCmdNum(this.player.getInventory().getItemQuantity());
+					
 				} else if (this.key.getCmdNum() == 2) {
 					this.exitedShop = true;
 				}

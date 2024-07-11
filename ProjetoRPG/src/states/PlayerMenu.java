@@ -32,6 +32,18 @@ public class PlayerMenu {
 	
 	public void playerMenu() {
 		
+		if (this.state.equals("main")) {
+			this.key.setMaxCmdNum(3);
+		} else if (this.state.equals("inventory")) {
+			this.key.setMaxCmdNum(10);
+		} else if (this.state.equals("choose-character")) {
+			this.key.setMaxCmdNum(3);
+		} else if (this.state.equals("choose-spellSlot")) {
+			this.key.setMaxCmdNum(3);
+		} else if (this.state.equals("quests")) {
+			this.key.setMaxCmdNum(0);
+		}
+		
 		if (this.key.isInteracting()) {
 			
 			if (this.state.equals("main")) {

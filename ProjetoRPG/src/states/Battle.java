@@ -39,15 +39,12 @@ public class Battle {
 		this.teammates = teammates;
 		this.team = new Team[] {player, teammates[0], teammates[1], teammates[2]};
 		this.key = key;
+		this.key.setMaxCmdNum(5);
 		this.key.resetCmdNum();
 	}
 	
 	public void combat() {
 		
-		if (this.key.getCmdNum() < 0 || this.key.getCmdNum() > 5) {
-			this.key.correctCmdNum();
-		}
-
 		this.selectedButton = this.key.getCmdNum();
 		
 		if (this.enemie.getStats().getHealth() <= 0) {
