@@ -10,6 +10,7 @@ import entities.npcs.Npc;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
+import states.Battle;
 
 public class Warrior extends Player {
 	
@@ -63,8 +64,15 @@ public class Warrior extends Player {
 	}
 
 	@Override
-	public <T> void special(T target) {
-		// TODO Auto-generated method stub
+	public <T> void special(T target, Battle battle) {
+		
+		if (target instanceof Enemie) {
+			int damage = 2*super.getStats().getStrength();
+			((Enemie)target).takeDamage(damage);
+			
+			battle.setMessage("VOCE ATACOU O OPONENTE COM TODA SUA FORCA E VELOCIDADE (-"+damage+"HP)");
+			super.getStats().resetOverdrive();
+		}
 		
 	}
 

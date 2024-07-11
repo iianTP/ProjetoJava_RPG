@@ -12,6 +12,7 @@ import exceptions.InvalidCoordinateException;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
+import states.Battle;
 
 public class WarriorNpc extends Teammate {
 	
@@ -73,9 +74,14 @@ public class WarriorNpc extends Teammate {
 
 	}
 
-	public <T> void special(T target) {
-		// TODO Auto-generated method stub
-		
+	public <T> void special(T target, Battle battle) {
+		if (target instanceof Enemie) {
+			int damage = 2*super.getStats().getStrength();
+			((Enemie)target).takeDamage(damage);
+			
+			battle.setMessage("O GUERREIRO ATACOU O OPONENTE COM TODA FORCA E VELOCIDADE (-"+damage+"HP)");
+			super.getStats().resetOverdrive();
+		}
 	}
 
 

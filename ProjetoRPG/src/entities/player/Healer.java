@@ -7,9 +7,11 @@ import javax.imageio.ImageIO;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
+import entities.teammates.Team;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
+import states.Battle;
 
 public class Healer extends Player{
 	
@@ -62,8 +64,21 @@ public class Healer extends Player{
 	}
 
 	@Override
-	public <T> void special(T target) {
-		// TODO Auto-generated method stub
+	public <T> void special(T target, Battle battle) {
+		
+		if (target instanceof Team[]) {
+			for (int i = 0; i < 4; i++) {
+				if (!(((Team[])target)[i] instanceof Healer)) {
+					try {
+						((Team[])target)[i].getStats().heal(10);
+					} catch (InvalidStatsInputException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			battle.setMessage("VOCE CUROU SEUS ALIADOS (+10HP)");
+			super.getStats().resetOverdrive();
+		}
 		
 	}
 	

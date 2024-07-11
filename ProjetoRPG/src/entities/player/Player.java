@@ -24,6 +24,7 @@ import interfaces.ICombat;
 import main.KeyInput;
 import main.screen.GameScreen;
 import quests.QuestList;
+import states.Battle;
 
 public abstract class Player extends Team {
 	
@@ -237,21 +238,32 @@ public abstract class Player extends Team {
 	// MÉTODOS DE COMBATE
 	
 	@Override
-	public <T> void attack(T target) throws InvalidTargetException {
+	public <T> void attack(T target, Battle battle) throws InvalidTargetException {
 		Stats stats = super.getStats();
+		
 		if (target instanceof Enemie) {
-			((Enemie) target).takeDamage(stats.getStrenght(), stats.getCriticalDamage());
+			int criticalChance = stats.getCriticalDamage();
+			int strength = stats.getStrength();
+			int enemieDefense = ((Enemie)target).getStats().getDefense();
+			int critical = (super.rng(100, 1) <= criticalChance) ? 2 : 1;
+			int finalDamage = critical*2*strength/enemieDefense;
+			
+			((Enemie) target).takeDamage(finalDamage);
+			
+			stats.increaseOverdrive();
+			
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Enemie");
 		}
 	}
 
 	@Override
-	public <T> void magic(T target, int spellId) throws InvalidTargetException {
+	public <T> void magic(T target, int spellId, Battle battle) throws InvalidTargetException {
 		KnownSpells spells = super.getSpells();
 		if (target instanceof Enemie) {
 			try {
 				spells.castSpell(spellId, (Enemie) target);
+				super.getStats().increaseOverdrive();
 			} catch (InvalidSpellIdException e) {
 				e.printStackTrace();
 			}
@@ -261,7 +273,7 @@ public abstract class Player extends Team {
 	}
 
 	@Override
-	public void defend() {
+	public void defend(Battle battle) {
 		
 		Stats stats = super.getStats();
 		
@@ -288,13 +300,10 @@ public abstract class Player extends Team {
 	}
 	
 	@Override
-	public void takeDamage(int damage, int criticalChance) {
+	public void takeDamage(int damage) {
 		Stats stats = super.getStats();
-		int defense = stats.getDefense();
-		int critical = (super.rng(100, 1) <= criticalChance) ? 2 : 1;
-		int finalDamage = critical*2*damage/defense;
 		try {
-			stats.damage(finalDamage);
+			stats.damage(damage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}

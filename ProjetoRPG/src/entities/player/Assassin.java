@@ -11,6 +11,7 @@ import entities.npcs.Npc;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
+import states.Battle;
 
 public class Assassin extends Player {
 	
@@ -61,8 +62,16 @@ public class Assassin extends Player {
 	}
 
 	@Override
-	public <T> void special(T target) {
-		// TODO Auto-generated method stub
+	public <T> void special(T target, Battle battle) {
+
+		if (target instanceof Enemie) {
+		
+			((Enemie) target).getEffects().setCurrentEffect("bleeding");
+			super.getStats().setSpecialAgility(5);
+			battle.setMessage("VOCE DEIXOU O OPONENTE SANGRANDO E AUMENTOU TEMPORARIAMENTE SUA AGILIDADE (+5AGL)");
+			super.getStats().resetOverdrive();
+		}
+		
 		
 	}
 

@@ -164,12 +164,12 @@ public class Battle {
 		switch (this.selectedButton) {
 		case 0:
 			try {
-				this.player.attack(this.enemie);
+				this.player.attack(this.enemie, this);
 			} catch (InvalidTargetException e) {
 				e.printStackTrace();
 			}
 			
-			this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrenght()+"HP)";
+			this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrength()+"HP)";
 			
 			this.player.getEffects().effect();
 			if (this.player.getEffects().getCurrentEffect().equals("none")) {
@@ -182,7 +182,7 @@ public class Battle {
 		case 1:
 			int playerHpBefore = this.player.getStats().getHealth();
 			
-			this.player.defend();
+			this.player.defend(this);
 			
 			int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
 			
@@ -207,7 +207,17 @@ public class Battle {
 			this.battleState = "choose-item";
 			break;
 		case 4:
-			this.battleState = "choose-special";
+			if (this.player.getStats().getOverdrive() == 100) {
+				this.player.special(this.team, this);
+				
+				this.player.getEffects().effect();
+				if (this.player.getEffects().getCurrentEffect().equals("none")) {
+					this.battleState = "teammate-turn";
+				} else {
+					this.battleState = "player-effect";
+				}
+				
+			}
 			break;
 		case 5:
 			this.battleEnded = true;
@@ -225,7 +235,7 @@ public class Battle {
 			Spell spell = this.player.getSpells().getSpell(this.selectedButton+1);
 			if (spell != null) {
 				try {
-					this.player.magic(this.enemie, this.selectedButton);
+					this.player.magic(this.enemie, this.selectedButton, null);
 					this.message = "VOCE USOU "+spell.getSpellName().toUpperCase();
 					
 					this.player.getEffects().effect();

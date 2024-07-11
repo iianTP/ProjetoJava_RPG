@@ -107,7 +107,12 @@ public class Effects {
 		return this.currentEffect;
 	}
 	public void setCurrentEffect(String currentEffect) {
+		
+		if (!this.currentEffect.equals("none")) {
+			return;
+		}
 		this.currentEffect = currentEffect;
+		
 	}
 
 	public String getMessage() {

@@ -4,7 +4,7 @@ import exceptions.InvalidStatsInputException;
 
 public class Stats {
 	
-	private int strenght;
+	private int strength;
 	private int defense;
 	private int agility;
 	private int criticalDamage;
@@ -16,6 +16,8 @@ public class Stats {
 	private int health;
 	private int maxHealth;
 	
+	private int overdrive = 100;
+	
 	private int itemStrenght;
 	private int itemDefense;
 	private int itemAgility;
@@ -24,6 +26,14 @@ public class Stats {
 	private int potionStrenght;
 	private int potionAgility;
 	private int potionMagic;
+	
+	private int specialMagicDefense;
+	private int specialStrength;
+	private int specialAgility;
+	
+	private int specialMagicDefenseCounter;
+	private int specialStrengthCounter;
+	private int specialAgilityCounter;
 	
 	public void damage(int damage) throws InvalidStatsInputException {
 		if (damage < 0) {
@@ -37,7 +47,9 @@ public class Stats {
 			throw new InvalidStatsInputException("valor cura: "+heal+" < 0");
 		}
 		this.health += heal;
-		System.out.println("heal");
+		if (this.health > this.maxHealth) {
+			this.health = this.maxHealth;
+		}
 	}
 	
 	public void alterMana(int mana) {
@@ -54,7 +66,7 @@ public class Stats {
 		if (strenght < 0) {
 			throw new InvalidStatsInputException("valor força: "+strenght+" < 0");
 		}
-		this.strenght = strenght;
+		this.strength = strenght;
 	}
 	public void setDefense(int defense) throws InvalidStatsInputException {
 		if (defense < 0) {
@@ -113,14 +125,14 @@ public class Stats {
 	//
 	
 	// GET
-	public int getStrenght() {
-		return this.strenght+this.itemStrenght+this.potionStrenght;
+	public int getStrength() {
+		return this.strength+this.itemStrenght+this.potionStrenght+this.specialStrength;
 	}
 	public int getDefense() {
 		return this.defense+this.itemDefense;
 	}
 	public int getAgility() {
-		return agility+this.itemAgility+this.potionAgility;
+		return agility+this.itemAgility+this.potionAgility+this.specialAgility;
 	}
 	public int getCriticalDamage() {
 		return criticalDamage;
@@ -135,7 +147,7 @@ public class Stats {
 		return this.magic+this.itemMagic+this.potionMagic;
 	}
 	public int getMagicDefense() {
-		return this.magicDefense+this.itemMagicDefense;
+		return this.magicDefense+this.itemMagicDefense+this.specialMagicDefense;
 	}
 	public int getHealth() {
 		return this.health;
@@ -188,5 +200,29 @@ public class Stats {
 	public void setPotionMagic(int potionMagic) {
 		this.potionMagic = potionMagic;
 	}
+	
+	public void setSpecialMagicDefense(int specialMagicDefense) {
+		this.specialMagicDefense = specialMagicDefense;
+	}
+	public void setSpecialStrength(int specialStrength) {
+		this.specialStrength = specialStrength;
+	}
+	public void setSpecialAgility(int specialAgility) {
+		this.specialAgility = specialAgility;
+	}
+
+	public int getOverdrive() {
+		return overdrive;
+	}
+	public void resetOverdrive() {
+		this.overdrive = 0;
+	}
+	public void increaseOverdrive() {
+		if (this.overdrive<100) {
+			this.overdrive += 10;
+			System.out.println(this.overdrive);
+		}
+	}
+
 	
 }

@@ -27,12 +27,12 @@ public abstract class Enemie extends Battler {
 		
 		if (randomNumber <= this.battleRng.getAttackChance()) {
 			try {
-				this.attack(target);
+				this.attack(target, null);
 			} catch (InvalidTargetException e) {
 				e.printStackTrace();
 			}
 		} else {
-			this.defend();
+			this.defend(null);
 		}
 	}
 	
@@ -43,7 +43,7 @@ public abstract class Enemie extends Battler {
 		if (move.equals("attack")) {
 			
 			try {
-				this.attack(target);
+				this.attack(target, battle);
 			} catch (InvalidTargetException e) {
 				e.printStackTrace();
 			}
@@ -52,7 +52,7 @@ public abstract class Enemie extends Battler {
 			
 		} else if (move.equals("defense")) {
 			
-			this.defend();
+			this.defend(battle);
 			
 			battle.setMessage("O "+this.getName()+" DESCANCOU");
 			
@@ -62,7 +62,7 @@ public abstract class Enemie extends Battler {
 			if (spellId != -1) {
 				try {
 					battle.setMessage("O "+this.getName()+" USOU "+super.getSpells().getSpell(spellId).getSpellName().toUpperCase());
-					this.magic(target, spellId);
+					this.magic(target, spellId, battle);
 				} catch (InvalidTargetException e) {
 					e.printStackTrace();
 				}
@@ -73,9 +73,9 @@ public abstract class Enemie extends Battler {
 	}
 	
 	@Override
-	public <T> void attack(T target) throws InvalidTargetException {
+	public <T> void attack(T target, Battle battle) throws InvalidTargetException {
 		if (target instanceof Team) {
-			((Team) target).takeDamage(super.getStats().getStrenght(), super.getStats().getCriticalDamage());
+			((Team) target).takeDamage(super.getStats().getStrength());
 			this.battleRng.increaseAttackChance();
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Team");
@@ -83,7 +83,7 @@ public abstract class Enemie extends Battler {
 	}
 
 	@Override
-	public <T> void magic(T target, int spellId) throws InvalidTargetException {
+	public <T> void magic(T target, int spellId, Battle battle) throws InvalidTargetException {
 		if (target instanceof Team) {
 			super.getSpells().getSpell(spellId).castSpell((Team)target, super.getStats());
 		} else {
@@ -92,7 +92,7 @@ public abstract class Enemie extends Battler {
 	}
 	
 	@Override
-	public void defend() {
+	public void defend(Battle battle) {
 		if (super.getStats().getHealth() < super.getStats().getMaxHealth()) {
 			try {
 				
@@ -118,12 +118,14 @@ public abstract class Enemie extends Battler {
 	}
 	
 	@Override
-	public void takeDamage(int damage, int criticalChance) {
-		int defense = super.getStats().getDefense();
-		int critical = (this.battleRng.rng(100, 1) <= criticalChance) ? 2 : 1;
-		int finalDamage = critical*2*damage/defense;
+	public <T> void special(T target, Battle battle) {
+		
+	}
+	
+	@Override
+	public void takeDamage(int damage) {
 		try {
-			super.getStats().damage(finalDamage);
+			super.getStats().damage(damage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}

@@ -7,11 +7,13 @@ import javax.imageio.ImageIO;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
+import entities.player.Healer;
 import entities.player.Player;
 import exceptions.InvalidCoordinateException;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
+import states.Battle;
 
 public class HealerNpc extends Teammate {
 	
@@ -74,9 +76,20 @@ public class HealerNpc extends Teammate {
 
 
 	@Override
-	public <T> void special(T target) {
-		// TODO Auto-generated method stub
-		
+	public <T> void special(T target, Battle battle) {
+		if (target instanceof Team[]) {
+			for (int i = 0; i < 4; i++) {
+				if (!(((Team[])target)[i] instanceof Healer)) {
+					try {
+						((Team[])target)[i].getStats().heal(10);
+					} catch (InvalidStatsInputException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			battle.setMessage("O CURANDEIRO CUROU OS ALIADOS (+10HP)");
+			super.getStats().resetOverdrive();
+		}
 	}
 
 }

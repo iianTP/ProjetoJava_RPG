@@ -142,19 +142,33 @@ public class UI {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 15F));
 		
+		brush.setColor(Color.white);
+		brush.drawString("VOCE: ", 24, 240-15);
+		brush.drawString(teammates[0].getName()+": ", 24, 282);
+		brush.drawString(teammates[1].getName()+": ", 24, 324+15);
+		brush.drawString(teammates[2].getName()+": ", 24, 366+30);
+		
+		// BARRA DE ESPECIAL
+		brush.setColor(Color.gray);
+		brush.fillRect(48*6, 48*9+15, 48, 5);
+		brush.fillRect(48*4+24, 48*8+15, 48, 5);
+		brush.fillRect(48*8, 48*9+15, 48, 5);
+		brush.fillRect(48*10-24, 48*8+15, 48, 5);
+		
+		brush.setColor(Color.yellow);
+		brush.fillRect(48*6+1, 48*9+15+1, (48-2)*playerStats.getOverdrive()/100, 3);
+		brush.fillRect(48*4+24+1, 48*8+15+1, (48-2)*teammate1Stats.getOverdrive()/100, 3);
+		brush.fillRect(48*8+1, 48*9+15+1,(48-2)*teammate2Stats.getOverdrive()/100, 3);
+		brush.fillRect(48*10-24+1, 48*8+15+1, (48-2)*teammate3Stats.getOverdrive()/100, 3);
+		//
+		
+		// BARRA DE VIDA
 		brush.setColor(Color.red);
 		brush.fillRect(64, 233, 96, 5);
 		brush.fillRect(64, 275+15, 96, 5);
 		brush.fillRect(64, 317+30, 96, 5);
 		brush.fillRect(64, 359+45, 96, 5);
 		brush.fillRect(568, 41, 96, 5);
-		
-		
-		brush.setColor(Color.white);
-		brush.drawString("VOCE: ", 24, 240-15);
-		brush.drawString(teammates[0].getName()+": ", 24, 282);
-		brush.drawString(teammates[1].getName()+": ", 24, 324+15);
-		brush.drawString(teammates[2].getName()+": ", 24, 366+30);
 		
 		brush.setColor(Color.green);
 		brush.drawString("HP: ", 24, 240);
@@ -171,12 +185,15 @@ public class UI {
 		
 		brush.drawString("HP: ", 528, 48);
 		brush.fillRect(568, 41, 96*enemieStats.getHealth()/enemieStats.getMaxHealth(), 5);
+		//
 		
+		// BARRA DE MANA
 		brush.setColor(Color.magenta);
 		brush.drawString("MP: " + playerStats.getMana() +"/"+ playerStats.getMaxMana(), 24, 261);
 		brush.drawString("MP: " + teammate1Stats.getMana() +"/"+ teammate1Stats.getMaxMana(), 24, 303+15);
 		brush.drawString("MP: " + teammate2Stats.getMana() +"/"+ teammate2Stats.getMaxMana(), 24, 345+30);
 		brush.drawString("MP: " + teammate3Stats.getMana() +"/"+ teammate3Stats.getMaxMana(), 24, 387+45);
+		//
 		
 		battleOptionsBox(player, battle);
 		effect(player,teammates,enemie);
@@ -480,7 +497,7 @@ public class UI {
 			
 			Stats stats = team[i].getStats();
 			
-			brush.drawString("ATQ: "+stats.getStrenght(), firstCharBoxX+82*i, 48*6+20);
+			brush.drawString("ATQ: "+stats.getStrength(), firstCharBoxX+82*i, 48*6+20);
 			brush.drawString("DEF: "+stats.getDefense(), firstCharBoxX+82*i, 48*6+30);
 			brush.drawString("AGL: "+stats.getAgility(), firstCharBoxX+82*i, 48*6+40);
 			brush.drawString("CRT: "+stats.getCriticalDamage()+"%", firstCharBoxX+82*i, 48*6+50);

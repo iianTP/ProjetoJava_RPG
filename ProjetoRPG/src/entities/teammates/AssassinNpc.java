@@ -5,11 +5,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import entities.Stats;
+import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.player.Player;
 import exceptions.InvalidCoordinateException;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
+import states.Battle;
 
 public class AssassinNpc extends Teammate {
 	
@@ -69,8 +71,14 @@ public class AssassinNpc extends Teammate {
 
 
 	@Override
-	public <T> void special(T target) {
-		// TODO Auto-generated method stub
+	public <T> void special(T target, Battle battle) {
+		if (target instanceof Enemie) {
+			
+			((Enemie) target).getEffects().setCurrentEffect("bleeding");
+			super.getStats().setSpecialAgility(5);
+			battle.setMessage("O ASSASSINO DEIXOU O OPONENTE SANGRANDO E AUMENTOU TEMPORARIAMENTE SUA AGILIDADE (+5AGL)");
+			super.getStats().resetOverdrive();
+		}
 		
 	}
 

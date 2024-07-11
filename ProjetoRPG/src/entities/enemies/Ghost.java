@@ -46,12 +46,6 @@ public class Ghost extends Enemie {
 	}
 	
 	@Override
-	public <T> void special(T target) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void setSprites() {
 		try {
 			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")));

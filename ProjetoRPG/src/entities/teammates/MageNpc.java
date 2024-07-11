@@ -4,14 +4,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entities.Battler;
 import entities.Stats;
 import entities.enemies.Enemie;
-import entities.npcs.Npc;
-import entities.player.Player;
 import exceptions.InvalidCoordinateException;
 import exceptions.InvalidStatsInputException;
-import main.KeyInput;
 import main.screen.GameScreen;
+import states.Battle;
 
 public class MageNpc extends Teammate {
 	
@@ -72,9 +71,27 @@ public class MageNpc extends Teammate {
 
 	}
 
-	public <T> void special(T target) {
-		// TODO Auto-generated method stub
-		
+	public <T> void special(T target, Battle battle) {
+		if (target instanceof Battler[]) {
+			
+			Battler[] battlers = (Battler[]) target;
+			
+			for (int i = 0; i < 5; i++) {
+				
+				if (battlers[i] instanceof Enemie) {
+					
+					((Enemie) battlers[i]).getEffects().setCurrentEffect("hypnotized");
+					
+				} else if ( !(battlers[i] instanceof MageNpc) ) {
+					
+					((Team) battlers[i]).getStats().setSpecialMagicDefense(5);
+					
+				}
+				
+			}
+			battle.setMessage("O MAGO DEIXOU O OPONENTE HIPNOTIZADO E AUMENTOU TEMPORARIAMENTE A DEFESA MAGICA DO TIME (+5MGD)");
+			super.getStats().resetOverdrive();
+		}
 	}
 
 	

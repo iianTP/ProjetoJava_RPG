@@ -26,7 +26,7 @@ public abstract class Teammate extends Team implements ICombat {
 			
 			int enemieHpBefore = enemie.getStats().getHealth();
 			try {
-				this.attack(enemie);
+				this.attack(enemie, null);
 			} catch (InvalidTargetException e) {
 				e.printStackTrace();
 			}
@@ -38,7 +38,7 @@ public abstract class Teammate extends Team implements ICombat {
 			
 			int teammateHpBefore = super.getStats().getHealth();
 			
-			this.defend();
+			this.defend(null);
 			int teammateHpDifference = super.getStats().getHealth() - teammateHpBefore;
 			
 			battle.setMessage("O "+this.name+" DESCANCOU (+"+teammateHpDifference+"HP)");
@@ -49,7 +49,7 @@ public abstract class Teammate extends Team implements ICombat {
 			if (spellId != -1) {
 				try {
 					battle.setMessage("O "+this.name+" USOU "+super.getSpells().getSpell(spellId).getSpellName().toUpperCase());
-					this.magic(enemie, spellId);
+					this.magic(enemie, spellId, null);
 				} catch (InvalidTargetException e) {
 					e.printStackTrace();
 				}
@@ -60,10 +60,10 @@ public abstract class Teammate extends Team implements ICombat {
 	}
 	
 	@Override
-	public <T> void attack(T target) throws InvalidTargetException {
+	public <T> void attack(T target, Battle battle) throws InvalidTargetException {
 		Stats stats = super.getStats();
 		if (target instanceof Enemie) {
-			((Enemie) target).takeDamage(stats.getStrenght(), stats.getCriticalDamage());
+			((Enemie) target).takeDamage(stats.getStrength());
 			this.battleRng.increaseAttackChance();
 		} else {
 			throw new InvalidTargetException("alvo não é do tipo Enemie");
@@ -71,7 +71,7 @@ public abstract class Teammate extends Team implements ICombat {
 	}
 
 	@Override
-	public <T> void magic(T target, int spellId) throws InvalidTargetException {
+	public <T> void magic(T target, int spellId, Battle battle) throws InvalidTargetException {
 		if (target instanceof Enemie) {
 			super.getSpells().getSpell(spellId).castSpell((Enemie)target, super.getStats());
 		} else {
@@ -80,7 +80,7 @@ public abstract class Teammate extends Team implements ICombat {
 	}
 	
 	@Override
-	public void defend() {
+	public void defend(Battle battle) {
 		Stats stats = super.getStats();		
 		if (stats.getHealth() < stats.getMaxHealth()) {
 			try {
@@ -105,13 +105,10 @@ public abstract class Teammate extends Team implements ICombat {
 	}
 	
 	@Override
-	public void takeDamage(int damage, int criticalChance) {
+	public void takeDamage(int damage) {
 		Stats stats = super.getStats();
-		int defense = this.getStats().getDefense();
-		int critical = (this.battleRng.rng(100, 1) <= criticalChance) ? 2 : 1;
-		int finalDamage = critical*2*damage/defense;
 		try {
-			stats.damage(finalDamage);
+			stats.damage(damage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
