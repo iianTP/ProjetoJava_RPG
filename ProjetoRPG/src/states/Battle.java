@@ -6,7 +6,10 @@ import entities.player.Player;
 import entities.teammates.*;
 import exceptions.InvalidTargetException;
 import exceptions.IndexOutOfRangeException;
+import exceptions.InvalidStatsInputException;
+import items.Book;
 import items.Item;
+import items.Potion;
 import main.KeyInput;
 
 public class Battle {
@@ -33,17 +36,37 @@ public class Battle {
 	
 	private boolean changedBattleState;
 	
+	private Item itemSelected;
+	public Item getItemSelected() {
+		return itemSelected;
+	}
+
+	private Team selectedCharacter;
+	
 	public Battle(Player player, Enemie enemie, KeyInput key, Teammate[] teammates) {
 		this.player = player;
 		this.enemie = enemie;
 		this.teammates = teammates;
 		this.team = new Team[] {player, teammates[0], teammates[1], teammates[2]};
 		this.key = key;
-		this.key.setMaxCmdNum(5);
 		this.key.resetCmdNum();
 	}
 	
 	public void combat() {
+		
+		try {
+			this.teammates[1].getStats().setHealth(0);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
+		
+		if (this.itemSelected != null && this.battleState.equals("choose-item")) {
+			this.key.setButtonCols(4);
+			this.key.setMaxCmdNum(3);
+		} else {
+			this.key.setButtonCols(2);
+			this.key.setMaxCmdNum(5);
+		}
 		
 		this.selectedButton = this.key.getCmdNum();
 		
@@ -58,6 +81,22 @@ public class Battle {
 			this.battleState = "ended";
 			this.winner = "enemie";
 		} 
+		
+		if (this.teammates[this.teammateIndex].getStats().getHealth() <= 0) {
+			this.teammateIndex++;
+			if (this.teammateIndex == 3) {
+				this.teammateIndex = 0;
+				this.battleState = "enemie-turn";
+			}
+		}
+		
+		if (this.team[this.teamIndex].getStats().getHealth() <= 0) {
+			this.teamIndex++;
+			if (this.teammateIndex == 4) {
+				this.teammateIndex = 0;
+				this.battleState = "choose-move";
+			}
+		}
 		
 		this.changedBattleState = false;
 		
@@ -100,11 +139,22 @@ public class Battle {
 			}
 			
 			else if (this.battleState.equals("choose-item")) {
-				try {
-					this.chooseItem();
-				} catch (IndexOutOfRangeException e) {
-					e.printStackTrace();
+				
+				if (itemSelected != null) {
+					this.key.setMaxCmdNum(3);
+					this.chooseCharacter();
+				} else {
+					try {
+						this.chooseItem();
+					} catch (IndexOutOfRangeException e) {
+						e.printStackTrace();
+					}
 				}
+				
+			}
+			
+			else if (this.battleState.equals("choose-spellSlot")) {
+				this.chooseSpellSlot();
 			}
 			
 			else if (this.battleState.equals("enemie-effect")) {
@@ -140,13 +190,13 @@ public class Battle {
 	
 	private void enemieTurn() {
 		
-		if (!this.enemie.getEffects().getCurrentEffect().equals("paralyzed")) {
+		if (!this.enemie.getEffects().getCurrentEffect().equals("paralyzed") && 
+				this.team[this.teamIndex].getStats().getHealth() >= 0) {
 			this.enemie.battleMove(this.team[this.teamIndex], this);
 		}
 		
 		this.teamIndex++;
 		if (this.teamIndex == 4) {
-			
 			this.enemie.getEffects().effect();
 			battleState = "enemie-text";
 			this.teamIndex = 0;
@@ -252,24 +302,11 @@ public class Battle {
 	
 	private void chooseItem() throws IndexOutOfRangeException {
 		
-		Item itemSelected;
 		int itemIndex = this.selectedButton+4*(this.inventoryPage-1);
 		
 		if (itemIndex < 11 && this.selectedButton < 4) {
-			itemSelected = this.player.getInventory().getItem(itemIndex);
+			this.itemSelected = this.player.getInventory().getItem(itemIndex);
 			this.player.getInventory().removeItem(itemIndex);
-			if (itemSelected != null) {
-				if (itemSelected.isEquipable())
-				this.player.equipItem(itemSelected);
-				
-				this.player.getEffects().effect();
-				if (this.player.getEffects().getCurrentEffect().equals("none")) {
-					this.battleState = "teammate-turn";
-				} else {
-					this.battleState = "player-effect";
-				}
-				
-			 }
 		}
 		
 		else if (this.selectedButton == 4) {
@@ -281,6 +318,85 @@ public class Battle {
 			if (this.inventoryPage > 3) {
 				this.inventoryPage = 1;
 			}
+		}
+		
+	}
+	
+	private void chooseCharacter() {
+		
+		selectedCharacter = null;
+		
+		switch (this.key.getCmdNum()) {
+		case 0:
+			selectedCharacter = teammates[0];
+			break;
+		case 1:
+			selectedCharacter = this.player;
+			break;
+		case 2:
+			selectedCharacter = teammates[1];
+			break;
+		case 3:
+			selectedCharacter = teammates[2];
+			break;
+		}
+		
+		if (itemSelected.isEquipable()) {
+			
+			if (this.itemSelected.checkRestriction(this.selectedCharacter)) {
+				this.selectedCharacter.equipItem(itemSelected);
+				
+				this.message = this.selectedCharacter.getName()+" EQUIPOU "+this.itemSelected.getName();
+				this.itemSelected = null;
+				
+				this.player.getEffects().effect();
+				if (this.player.getEffects().getCurrentEffect().equals("none")) {
+					this.battleState = "teammate-turn";
+				} else {
+					this.battleState = "player-effect";
+				}
+				
+			}
+			
+		} else if (itemSelected.isUsable()) {
+			if (this.itemSelected instanceof Potion) {
+				
+				selectedCharacter.usePotion((Potion)this.itemSelected);
+				
+				this.message = this.selectedCharacter.getName()+" USOU "+this.itemSelected.getName();
+				this.itemSelected = null;
+				
+				this.player.getEffects().effect();
+				if (this.player.getEffects().getCurrentEffect().equals("none")) {
+					this.battleState = "teammate-turn";
+				} else {
+					this.battleState = "player-effect";
+				}
+				
+			} else if (this.itemSelected instanceof Book) {
+				this.battleState = "choose-spellSlot";
+			}
+		}
+		
+	}
+	
+	private void chooseSpellSlot() {
+		
+		if (this.key.getCmdNum() == 5) {
+			this.battleState = "choose-item";
+		} else {
+			this.selectedCharacter.useBook((Book)this.itemSelected,this.key.getCmdNum()+1);
+			
+			this.message = this.selectedCharacter.getName()+" APRENDEU "+this.itemSelected.getName();
+			this.itemSelected = null;
+			
+			this.player.getEffects().effect();
+			if (this.player.getEffects().getCurrentEffect().equals("none")) {
+				this.battleState = "teammate-turn";
+			} else {
+				this.battleState = "player-effect";
+			}
+			
 		}
 		
 	}

@@ -48,7 +48,7 @@ public abstract class Enemie extends Battler {
 				e.printStackTrace();
 			}
 			
-			battle.setMessage("O "+this.getName()+" ATACOU");
+			battle.setMessage("O "+this.getName()+" ATACOU "+target.getName());
 			
 		} else if (move.equals("defense")) {
 			
@@ -61,7 +61,8 @@ public abstract class Enemie extends Battler {
 			int spellId = this.battleRng.getRandomSpellId(super.getSpells(), super.getStats().getMana());
 			if (spellId != -1) {
 				try {
-					battle.setMessage("O "+this.getName()+" USOU "+super.getSpells().getSpell(spellId).getSpellName().toUpperCase());
+					battle.setMessage("O "+this.getName()+" USOU "
+							+super.getSpells().getSpell(spellId).getSpellName().toUpperCase()+" EM "+target.getName());
 					this.magic(target, spellId, battle);
 				} catch (InvalidTargetException e) {
 					e.printStackTrace();

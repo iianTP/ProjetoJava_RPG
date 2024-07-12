@@ -29,12 +29,12 @@ public class Ghost extends Enemie {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(20);
-			stats.setMaxHealth(20);
+			stats.setHealth(200);
+			stats.setMaxHealth(200);
 			stats.setMana(20);
 			stats.setMaxMana(20);
 			
-			stats.setStrenght(3);
+			stats.setStrenght(10);
 			stats.setDefense(5);
 			stats.setMagic(2);
 			stats.setMagicDefense(1);

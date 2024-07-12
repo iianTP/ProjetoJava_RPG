@@ -54,7 +54,11 @@ public class Armor extends Item {
 			break;
 		}
 		
-		
+	}
+	
+	@Override
+	public String getProperties() {
+		return "DEF: +"+this.defense+" AGL: "+this.agility;
 	}
 
 	public int getDefense() {

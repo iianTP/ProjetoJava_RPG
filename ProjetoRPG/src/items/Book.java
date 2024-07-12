@@ -14,46 +14,51 @@ public class Book extends Item {
 		
 		switch(type) {
 		case 1:
-			super.setName("Aprenda Disparo de Energia");
+			super.setName("Disparo de Energia");
 			this.spell = new EnergyBullet();
 			break;
 		case 2:
-			super.setName("Aprenda Bola de Fogo");
+			super.setName("Bola de Fogo");
 			this.spell = new FireBall();
 			break;
 		case 3:
-			super.setName("Aprenda Hipnose");
+			super.setName("Hipnose");
 			this.spell = new Hypnosis();
 			break;
 		case 4:
-			super.setName("Aprenda Maldicao");
+			super.setName("Maldicao");
 			this.spell = new Curse();
 			break;
 		case 5:
-			super.setName("Aprenda Roubo de Vida");
+			super.setName("Roubo de Vida");
 			this.spell = new HealthSteal();
 			break;
 		case 6:
-			super.setName("Aprenda Veneno");
+			super.setName("Veneno");
 			this.spell = new Poison();
 			break;
 		case 7:
-			super.setName("Aprenda Laminas de Vento");
+			super.setName("Laminas de Vento");
 			this.spell = new WindBlades();
 			break;
 		case 8:
-			super.setName("Aprenda Relampago");
+			super.setName("Relampago");
 			this.spell = new Lightning();
 			break;
 		case 9:
-			super.setName("Aprenda Lanca de Sangue");
+			super.setName("Lanca de Sangue");
 			this.spell = new BloodSpear();
 			break;
 		case 10:
-			super.setName("Aprenda Magia Sombria");
+			super.setName("Magia Sombria");
 			this.spell = new DarkMagic();
 			break;
 		}
+	}
+	
+	@Override
+	public String getProperties() {
+		return "APRENDA "+spell.getShortSpellName().toUpperCase();
 	}
 	
 	public void readBook(KnownSpells spells, int slot) {

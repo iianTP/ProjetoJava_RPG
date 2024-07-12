@@ -55,6 +55,11 @@ public class Sword extends Item {
 		}
 		
 	}
+	
+	@Override
+	public String getProperties() {
+		return "ATQ: +"+this.strength+" AGL: +"+this.agility;
+	}
 
 	public int getStrength() {
 		return strength;

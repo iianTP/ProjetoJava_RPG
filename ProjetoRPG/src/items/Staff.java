@@ -55,6 +55,12 @@ public class Staff extends Item {
 		}
 		
 	}
+	
+	@Override
+	public String getProperties() {
+		return "ATQ: +"+this.strength+" MGC: +"+this.magic;
+	}
+
 
 	public int getStrength() {
 		return strength;

@@ -132,7 +132,6 @@ public class PlayerMenu {
 	private void chooseCharacter() throws IndexOutOfRangeException {
 		
 		this.characterSelected = this.key.getCmdNum();
-		
 
 		if (this.itemSelected.isEquipable()) {
 			if (this.itemSelected.checkRestriction(team[characterSelected])) {

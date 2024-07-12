@@ -54,6 +54,11 @@ public class Cloak extends Item {
 			break;
 		}
 	}
+	
+	@Override
+	public String getProperties() {
+		return "MGD: +"+this.magicDefense+" AGL: +"+this.agility;
+	}
 
 	public int getDefense() {
 		return magicDefense;

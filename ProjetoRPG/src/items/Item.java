@@ -1,6 +1,6 @@
 package items;
 
-import entities.Entity;
+import entities.teammates.Team;
 import entities.teammates.Teammate;
 
 public class Item {
@@ -14,7 +14,7 @@ public class Item {
 	private boolean equipable = false;
 	
 	
-	public boolean checkRestriction(Entity entity) {
+	public boolean checkRestriction(Team entity) {
 		
 		if (this.restriction == null) {
 			return true;
@@ -54,6 +54,9 @@ public class Item {
 	}
 	
 	// GET
+	public String getProperties() {
+		return null;
+	}
 	public String getName() {
 		return this.name;
 	}

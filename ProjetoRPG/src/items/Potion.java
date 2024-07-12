@@ -13,6 +13,8 @@ public class Potion extends Item {
 	private int health;
 	private int mana;
 	
+	private String properties = null;
+	
 	public Potion(int type) {
 		super.setConsumable();
 		
@@ -22,22 +24,27 @@ public class Potion extends Item {
 		case 1:
 			super.setName("Pocao de cura");
 			this.health = 5;
+			this.properties = "HP: +5";
 			break;
 		case 2:
 			super.setName("Pocao de mana");
 			this.mana = 2;
+			this.properties = "MANA: +2";
 			break;
 		case 3:
 			super.setName("Pocao de forca");
 			this.strength = 3;
+			this.properties = "ATQ: +3";
 			break;
 		case 4:
 			super.setName("Pocao de agilidade");
 			this.agility = 4;
+			this.properties = "AGL: +4";
 			break;
 		case 5:
 			super.setName("Pocao de magia");
 			this.magic = 4;
+			this.properties = "MGC: +4";
 			break;
 		}
 	}
@@ -83,6 +90,11 @@ public class Potion extends Item {
 			break;
 		}
 		
+	}
+	
+	@Override
+	public String getProperties() {
+		return this.properties;
 	}
 	
 	public int getType() {

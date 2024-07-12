@@ -171,7 +171,6 @@ public class UI {
 			healer= ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleDown.png"));
 			assassin= ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -207,7 +206,7 @@ public class UI {
 	}
 	
 	//
-	
+	private int[][] chooseCharacterBattleButtons = {{48*5, 48*7-15},{48*6+24, 48*8-15},{48*8+24, 48*8-15},{48*10, 48*7-15}};
 	
 	// TELA DE COMBATE
 	public void battleScreen(Player player, Teammate[] teammates, Enemie enemie, Battle battle) {
@@ -308,17 +307,18 @@ public class UI {
 		
 		if (battleState.equals("choose-move")) {
 			battleChooseMove();
-		} else if (battleState.equals("choose-spell")) {
-			battleChooseSpell(player.getSpells());
-		} else if (battleState.equals("choose-item")) {
-		
-			battleChooseItem(player.getInventory(), battle.getInventoryPage());
-		}
-		
-		if (battleState.split("-")[0].equals("choose")) {
 			this.displayArrow(this.battleButtons, 5);
+		} else if (battleState.equals("choose-spell") || battleState.equals("choose-spellSlot")) {
+			battleChooseSpell(player.getSpells());
+			this.displayArrow(this.battleButtons, 5);
+		} else if (battleState.equals("choose-item")) {
+			battleChooseItem(player.getInventory(), battle.getInventoryPage());
+			if (battle.getItemSelected() == null) {
+				this.displayArrow(this.battleButtons, 5);
+			} else {
+				this.displayArrow(this.chooseCharacterBattleButtons, 3);
+			}
 		}
-		
 	}
 	
 	private void battleChooseMove() {
@@ -368,6 +368,7 @@ public class UI {
 			}
 			
 		}
+		
 		
 		brush.drawString("VOLTAR", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
 		brush.drawString("-->", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5
@@ -650,6 +651,8 @@ public class UI {
 		
 		brush.setColor(Color.white);
 		
+		brush.fillRoundRect(48*9+20+48,48*2+24,219-48*2,219-48*2,10,10);
+		
 		for(int i = 0; i < 10; i++) {
 			
 			if (this.pMenuInventoryButtons[i][0] == 0 && this.pMenuInventoryButtons[i][1] == 0 ) {
@@ -668,12 +671,26 @@ public class UI {
 			
 		}
 		
+		
+		
 		this.pMenuInventoryButtons[10][0] = 48*4+35-15;
 		this.pMenuInventoryButtons[10][1] = 48*3+40*11;
 		brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
 		
 		if (itemSelected == null) {
 			displayArrow(this.pMenuInventoryButtons, 10);
+			if (this.key.getCmdNum() < 10) {
+				try {
+					Item item = inventory.getItem(this.key.getCmdNum());
+					if (item != null) {
+						brush.drawString(item.getProperties(), 48*9+48,48+219);
+					}
+				} catch (IndexOutOfRangeException e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			brush.drawString(itemSelected.getProperties(), 48*9+48,48+219);
 		}
 		
 	}
