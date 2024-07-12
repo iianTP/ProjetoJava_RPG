@@ -71,7 +71,9 @@ public class UI {
 	private int textTimer = 0;
 	private boolean endedText = false;
 	
-	public UI(KeyInput key) {
+	TextAnimation ta;
+	
+	public UI(KeyInput key, TextAnimation ta) {
 		
 		setBattleUI();
 		InputStream is = getClass().getResourceAsStream("/fonts/ARCADEPI.ttf");
@@ -82,13 +84,8 @@ public class UI {
 		}
 		
 		this.key = key;
+		this.ta = ta;
 		
-	}
-	
-	public void resetTextProps() {
-		this.textCount = 0;
-		this.textTimer = 0;
-		this.endedText = false;
 	}
 	
 	// PAUSE
@@ -100,6 +97,7 @@ public class UI {
 		
 	}
 	
+	
 	// DIALOGO
 	public void dialogue(Dialogue dialogue) {
 		
@@ -109,12 +107,7 @@ public class UI {
 		brush.setFont(font);
 		brush.setColor(Color.white);
 		
-		this.displayText(dialogue.getDialogue(), 50, 48+24, 48*2);
-		
-		if (dialogue.isDialogueChanged()) {
-			this.endedText = false;
-			this.textCount = 0;
-		}
+		this.ta.displayText(dialogue.getDialogue(), 50, 48+24, 48*2, brush);
 		
 	}
 	
@@ -182,9 +175,9 @@ public class UI {
 			brush.fillRoundRect(48*8+3*i, (int) (48*5+3*(charBoxSide+5)+5*i*Math.sqrt(i)/20), charBoxSide, charBoxSide,10,10);
 		
 			brush.drawString("MAGO",48*10+24+3*i, (int) (48*6+5*i*Math.sqrt(i)/20));
-			brush.drawString("GUERREIRO",48*10+24+3*i, (int) (48*5+24+charBoxSide+5+24+5*i*Math.sqrt(i)/20));
-			brush.drawString("CURANDEIRO",48*10+24+3*i, (int) (48*5+24+2*(charBoxSide+5)+24+5*i*Math.sqrt(i)/20));
-			brush.drawString("ASSASSINO",48*10+24+3*i, (int) (48*5+24+3*(charBoxSide+5)+24+5*i*Math.sqrt(i)/20));
+			brush.drawString("GUERREIRO",48*10+24+3*i, (int) (48*6+charBoxSide+5+5*i*Math.sqrt(i)/20));
+			brush.drawString("CURANDEIRO",48*10+24+3*i, (int) (48*6+2*(charBoxSide+5)+5*i*Math.sqrt(i)/20));
+			brush.drawString("ASSASSINO",48*10+24+3*i, (int) (48*6+3*(charBoxSide+5)+5*i*Math.sqrt(i)/20));
 		}
 		
 		brush.setColor(Color.white);
@@ -294,7 +287,7 @@ public class UI {
 			this.textCount = 0;
 		}
 		
-		displayText("* "+battle.getMessage(), 25, 16*3, 176*3);
+		this.ta.displayText("* "+battle.getMessage(), 25, 16*3, 176*3, brush);
 		
 	}
 	
@@ -449,40 +442,6 @@ public class UI {
 		brush.setColor(Color.yellow);
 		brush.drawString(">",buttons[this.key.getCmdNum()][0],
 							 buttons[this.key.getCmdNum()][1]);
-	}
-	
-	private void displayText(String text, int width, int startX, int startY) {
-		
-		String[] letters = text.split("");
-		int skipLine = 0;
-		int letter;
-		
-		for (int i = 0; i < this.textCount; i++) {
-			letter = i;
-			if (i >= width && i < 2*width) {
-				skipLine = 1;
-				letter = i-width;
-			} else if (i >= 2*width) {
-				skipLine = 2;
-				letter = i-width*2;
-			}
-			
-			brush.drawString(letters[i], startX+14*letter, startY+24*skipLine);
-		}
-		
-		if (this.endedText) {
-			textCount = letters.length;
-		} else {
-			textTimer++;
-			if (textTimer >= 2) {
-				textCount++;
-				textTimer = 0;
-			}
-			if (textCount >= letters.length) {
-				this.endedText = true;
-			}
-		}
-		
 	}
 	
 	// MENU DO PLAYER

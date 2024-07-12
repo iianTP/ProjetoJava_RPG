@@ -65,6 +65,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private PlayerMenu playerMenu; //= new PlayerMenu(this.key, this.player, this.teammates);
 	private Shop shop;
 	private MainMenu mainMenu;
+	private TextAnimation ta = new TextAnimation();
 
 	public GameScreen() {
 
@@ -74,7 +75,7 @@ public class GameScreen extends JPanel implements Runnable {
 		this.addKeyListener(key);
 		this.setFocusable(true);
 		
-		this.ui = new UI(this.key);
+		this.ui = new UI(this.key, this.ta);
 		
 	}
 
@@ -191,13 +192,14 @@ public class GameScreen extends JPanel implements Runnable {
 				this.dialogue = new Dialogue(this.key, this.npcDialogue);
 			}
 			
+			this.ta.checkStateChange(this.dialogue.isDialogueChanged(), -1);
 			this.dialogue.dialogue();
 			
 			if (this.dialogue.isDialogueEnded()) {
+				this.ta.resetTextAnimation();
 				this.dialogue = null;
 				this.npcDialogue = null;
 				gameState = playing;
-				this.ui.resetTextProps();
 			}
 		}
 		
@@ -209,15 +211,16 @@ public class GameScreen extends JPanel implements Runnable {
 				this.key.setButtonCols(2);
 			}
 			
+			this.ta.checkStateChange(this.battle.isChangedBattleState(), this.key.getCmdNum());
 			this.battle.combat();
 			
 			if (battle.isBattleEnded()) {
+				this.ta.resetTextAnimation();
 				gameState = playing;
 				this.player.getQuestList().checkKillEnemiesQuests(enemie, this.battle.getWinner());
 				this.enemie = null;
 				this.battle = null;
 				this.key.resetCmdNum();
-				this.ui.resetTextProps();
 			}
 			
 		} else if (gameState == inventory) {
