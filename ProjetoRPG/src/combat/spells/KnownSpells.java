@@ -1,8 +1,10 @@
 package combat.spells;
 
+import entities.Battler;
 import entities.Stats;
 import entities.enemies.Enemie;
 import exceptions.InvalidSpellIdException;
+import states.Battle;
 
 public class KnownSpells {
 	
@@ -18,25 +20,26 @@ public class KnownSpells {
 		this.stats = stats;
 	}
 	
-	public void castSpell(int spellId, Enemie target) throws InvalidSpellIdException {
+	public void castSpell(int spellId, Battler target, Battle battle) throws InvalidSpellIdException {
 		if (spellId < 0 || spellId > 4) {
 			throw new InvalidSpellIdException("ID do feitiço "+spellId+" inválido");
 		}
 		switch(spellId) {
 		case 0:
-			if (spell1 != null) spell1.castSpell(target, this.stats);
+			System.out.println("first");
+			if (spell1 != null) spell1.castSpell(target, this.stats, battle);
 			break;
 		case 1:
-			if (spell2 != null) spell2.castSpell(target, this.stats);
+			if (spell2 != null) spell2.castSpell(target, this.stats, battle);
 			break;
 		case 2:
-			if (spell3 != null) spell3.castSpell(target, this.stats);
+			if (spell3 != null) spell3.castSpell(target, this.stats, battle);
 			break;
 		case 3:
-			if (spell4 != null) spell4.castSpell(target, this.stats);
+			if (spell4 != null) spell4.castSpell(target, this.stats, battle);
 			break;
 		case 4:
-			if (spell5 != null) spell5.castSpell(target, this.stats);
+			if (spell5 != null) spell5.castSpell(target, this.stats, battle);
 			break;
 		}
 		

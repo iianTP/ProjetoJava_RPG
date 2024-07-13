@@ -2,6 +2,7 @@ package combat.spells;
 
 import entities.Battler;
 import entities.Stats;
+import states.Battle;
 
 public class FireBall  extends Spell {
 	
@@ -12,13 +13,18 @@ public class FireBall  extends Spell {
 	}
 
 	@Override
-	public void castSpell(Battler enemie, Stats stats) {
+	public void castSpell(Battler target, Stats stats, Battle battle) {
 		
-		enemie.takeMagicDamage(stats.getMagic());
+		int spellDamage = stats.getMagic();
+		int finalDamage = 2*spellDamage/target.getStats().getMagicDefense();
+		
+		battle.setMessage(battle.getMessage()+" (-"+finalDamage+"HP)");
+		
+		target.takeMagicDamage(finalDamage);
 		stats.alterMana(super.getManaCost());
 		
-		if (enemie.getEffects().getCurrentEffect().equals("none")) {
-			enemie.getEffects().setCurrentEffect("burning");
+		if (target.getEffects().getCurrentEffect().equals("none")) {
+			target.getEffects().setCurrentEffect("burning");
 		}
 		
 	}

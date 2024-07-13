@@ -3,11 +3,13 @@ package entities.player;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import combat.Effects;
 import combat.spells.KnownSpells;
+import combat.spells.Spell;
 import items.*;
-
+import entities.Battler;
 import entities.Collision;
 import entities.Entity;
 import entities.Stats;
@@ -65,6 +67,7 @@ public abstract class Player extends Team {
 		super.setDirection("down"); // Direção do player
 		
 		super.setPlayerInventory(this.inventory);
+		super.setName("VOCE");
 		
 	}
 	
@@ -183,7 +186,6 @@ public abstract class Player extends Team {
 				super.setX(super.getX() + 24);
 				super.setY(super.getY() + 24);
 			} catch (InvalidCoordinateException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -237,89 +239,6 @@ public abstract class Player extends Team {
 	
 	// MÉTODOS DE COMBATE
 	
-	@Override
-	public <T> void attack(T target, Battle battle) throws InvalidTargetException {
-		Stats stats = super.getStats();
-		
-		if (target instanceof Enemie) {
-			int criticalChance = stats.getCriticalDamage();
-			int strength = stats.getStrength();
-			int enemieDefense = ((Enemie)target).getStats().getDefense();
-			int critical = (super.rng(100, 1) <= criticalChance) ? 2 : 1;
-			int finalDamage = critical*2*strength/enemieDefense;
-			
-			((Enemie) target).takeDamage(finalDamage);
-			
-			stats.increaseOverdrive();
-			
-		} else {
-			throw new InvalidTargetException("alvo não é do tipo Enemie");
-		}
-	}
-
-	@Override
-	public <T> void magic(T target, int spellId, Battle battle) throws InvalidTargetException {
-		KnownSpells spells = super.getSpells();
-		if (target instanceof Enemie) {
-			try {
-				spells.castSpell(spellId, (Enemie) target);
-				super.getStats().increaseOverdrive();
-			} catch (InvalidSpellIdException e) {
-				e.printStackTrace();
-			}
-		} else {
-			throw new InvalidTargetException("alvo não é do tipo Enemie");
-		}
-	}
-
-	@Override
-	public void defend(Battle battle) {
-		
-		Stats stats = super.getStats();
-		
-		if (stats.getHealth() < getStats().getMaxHealth()) {
-			try {
-				stats.heal(super.rng(stats.getDefense(), 0));
-				if (stats.getHealth() > stats.getMaxHealth()) {
-					stats.setHealth(stats.getMaxHealth());
-				}
-			} catch (InvalidStatsInputException e) {
-				e.printStackTrace();
-			}
-		}
-		if (super.getStats().getMana() < super.getStats().getMaxMana()) {
-			try {
-				super.getStats().alterMana(super.rng(super.getStats().getMagicDefense(), 0));
-				if (super.getStats().getMana() > super.getStats().getMaxMana()) {
-					super.getStats().setMana(super.getStats().getMaxMana());
-				}
-			} catch (InvalidStatsInputException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	@Override
-	public void takeDamage(int damage) {
-		Stats stats = super.getStats();
-		try {
-			stats.damage(damage);
-		} catch (InvalidStatsInputException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void takeMagicDamage(int magicDamage) {
-		Stats stats = super.getStats();
-		int magicDefense = stats.getMagicDefense();
-		int finalDamage = 2*magicDamage/magicDefense;
-		try {
-			stats.damage(finalDamage);
-		} catch (InvalidStatsInputException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	//
 

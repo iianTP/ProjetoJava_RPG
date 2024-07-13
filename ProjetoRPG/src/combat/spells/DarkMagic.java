@@ -2,6 +2,7 @@ package combat.spells;
 
 import entities.Battler;
 import entities.Stats;
+import states.Battle;
 
 public class DarkMagic  extends Spell {
 	
@@ -12,7 +13,7 @@ public class DarkMagic  extends Spell {
 	}
 
 	@Override
-	public void castSpell(Battler enemie, Stats stats) {
+	public void castSpell(Battler enemie, Stats stats, Battle battle) {
 		
 		enemie.takeMagicDamage(stats.getMagic());
 		stats.alterMana(super.getManaCost());

@@ -1,10 +1,18 @@
 package entities.teammates;
 
+import java.util.Random;
+
+import combat.spells.Spell;
 import entities.Battler;
+import entities.Stats;
+import entities.enemies.Enemie;
+import exceptions.InvalidSpellIdException;
 import exceptions.InvalidStatsInputException;
+import exceptions.InvalidTargetException;
 import exceptions.InventoryIsFullException;
 import items.*;
 import main.screen.GameScreen;
+import states.Battle;
 
 public abstract class Team extends Battler {
 	
@@ -20,6 +28,23 @@ public abstract class Team extends Battler {
 		super(gs);
 	}
 	
+	@Override
+	public <T extends Battler> void attack(T target, Battle battle) throws InvalidTargetException {
+		if (target instanceof Enemie) {
+			super.attack(target, battle);
+		} else {
+			throw new InvalidTargetException("alvo não é do tipo Enemie");
+		}
+	}
+	
+	@Override
+	public <T extends Battler> void magic(T target, int spellId, Battle battle) throws InvalidTargetException {
+		if (target instanceof Enemie) {
+			super.magic(target, spellId, battle);
+		} else {
+			throw new InvalidTargetException("alvo não é do tipo Enemie");
+		}
+	}
 
 	public void equipItem(Item item) {
 

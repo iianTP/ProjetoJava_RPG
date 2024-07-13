@@ -24,22 +24,23 @@ public class TextAnimation {
 				brush.drawString(letters[i], startX+14*letterPosition, startY+24*skipLine);
 			}
 		} else {
-			for (int i = 0; i < this.count; i++) {
-				letterPosition = i-(i/width)*width;
-				this.skipLine = i/width;
-				brush.drawString(letters[i], startX+14*letterPosition, startY+24*skipLine);
-			}
 			
-			this.timer++;
-			if (this.timer > 2) {
-				this.timer=0;
-				this.count++;
-			}
 			if (this.count >= letters.length) {
 				timer = 0;
 				count = 0;
 				this.textEnded = true;
 			}
+			for (int i = 0; i < this.count; i++) {
+				letterPosition = i-(i/width)*width;
+				this.skipLine = i/width;
+				brush.drawString(letters[i], startX+14*letterPosition, startY+24*skipLine);
+			}
+			this.timer++;
+			if (this.timer > 2) {
+				this.timer=0;
+				this.count++;
+			}
+			
 		}
 		
 	}

@@ -52,24 +52,7 @@ public class Battle {
 		this.key.resetCmdNum();
 	}
 	
-	public void combat() {
-		
-		try {
-			this.teammates[1].getStats().setHealth(0);
-		} catch (InvalidStatsInputException e) {
-			e.printStackTrace();
-		}
-		
-		if (this.itemSelected != null && this.battleState.equals("choose-item")) {
-			this.key.setButtonCols(4);
-			this.key.setMaxCmdNum(3);
-		} else {
-			this.key.setButtonCols(2);
-			this.key.setMaxCmdNum(5);
-		}
-		
-		this.selectedButton = this.key.getCmdNum();
-		
+	private void checkDeadBattlers() {
 		if (this.enemie.getStats().getHealth() <= 0) {
 			this.message = "SEU OPONENTE FOI DERROTADO";
 			this.battleState = "ended";
@@ -97,6 +80,34 @@ public class Battle {
 				this.battleState = "choose-move";
 			}
 		}
+	}
+	
+	private void setBattleButtonsConfig() {
+		if (this.itemSelected != null && this.battleState.equals("choose-item")) {
+			this.key.setButtonCols(4);
+			this.key.setMaxCmdNum(3);
+		} else {
+			this.key.setButtonCols(2);
+			this.key.setMaxCmdNum(5);
+		}
+	}
+	
+	public void combat() {
+		
+		try {
+			this.teammates[1].getStats().setHealth(0);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
+		
+		this.setBattleButtonsConfig();
+		
+		this.setItemText();
+		this.setSpellText();
+		
+		this.selectedButton = this.key.getCmdNum();
+		
+		this.checkDeadBattlers();
 		
 		this.changedBattleState = false;
 		
@@ -216,8 +227,6 @@ public class Battle {
 				e.printStackTrace();
 			}
 			
-			this.message = "VOCE GOLPEOU SEU OPONENTE (-"+this.player.getStats().getStrength()+"HP)";
-			
 			this.player.getEffects().effect();
 			if (this.player.getEffects().getCurrentEffect().equals("none")) {
 				this.battleState = "teammate-turn";
@@ -227,17 +236,8 @@ public class Battle {
 			
 			break;
 		case 1:
-			int playerHpBefore = this.player.getStats().getHealth();
 			
 			this.player.defend(this);
-			
-			int playerHpDifference = this.player.getStats().getHealth() - playerHpBefore;
-			
-			if (playerHpDifference > 0) {
-				this.message = "VOCE RECUPEROU VIDA (+"+playerHpDifference+"HP)";
-			} else {
-				this.message = "VOCE NAO FEZ NADA";
-			}
 			
 			this.player.getEffects().effect();
 			if (this.player.getEffects().getCurrentEffect().equals("none")) {
@@ -279,22 +279,18 @@ public class Battle {
 		if (this.selectedButton == 5) {
 			this.battleState = "choose-move";
 		} else {
-			Spell spell = this.player.getSpells().getSpell(this.selectedButton+1);
-			if (spell != null) {
-				try {
-					this.player.magic(this.enemie, this.selectedButton, null);
-					this.message = "VOCE USOU "+spell.getSpellName().toUpperCase();
-					
-					this.player.getEffects().effect();
-					if (this.player.getEffects().getCurrentEffect().equals("none")) {
-						this.battleState = "teammate-turn";
-					} else {
-						this.battleState = "player-effect";
-					}
-					
-				} catch (InvalidTargetException e) {
-					e.printStackTrace();
+			try {
+				this.player.magic(this.enemie, this.selectedButton, this);
+				
+				this.player.getEffects().effect();
+				if (this.player.getEffects().getCurrentEffect().equals("none")) {
+					this.battleState = "teammate-turn";
+				} else {
+					this.battleState = "player-effect";
 				}
+				
+			} catch (InvalidTargetException e) {
+				e.printStackTrace();
 			}
 		}
 		
@@ -326,7 +322,7 @@ public class Battle {
 		
 		selectedCharacter = null;
 		
-		switch (this.key.getCmdNum()) {
+		switch (this.selectedButton) {
 		case 0:
 			selectedCharacter = teammates[0];
 			break;
@@ -355,7 +351,6 @@ public class Battle {
 				} else {
 					this.battleState = "player-effect";
 				}
-				
 			}
 			
 		} else if (itemSelected.isUsable()) {
@@ -385,7 +380,7 @@ public class Battle {
 		if (this.key.getCmdNum() == 5) {
 			this.battleState = "choose-item";
 		} else {
-			this.selectedCharacter.useBook((Book)this.itemSelected,this.key.getCmdNum()+1);
+			this.selectedCharacter.useBook((Book)this.itemSelected,this.selectedButton+1);
 			
 			this.message = this.selectedCharacter.getName()+" APRENDEU "+this.itemSelected.getName();
 			this.itemSelected = null;
@@ -418,6 +413,30 @@ public class Battle {
 		}
 		
 		
+	}
+	
+	private void setItemText() {
+		if (this.battleState.equals("choose-item") && this.itemSelected == null) {
+			int index = this.selectedButton + 4*(this.inventoryPage-1);
+			try {
+				if (index < 10) {
+					Item item = this.player.getInventory().getItem(index);
+					this.message = (item != null) ? item.getName()+": "+item.getDescription():"-";
+				}
+			} catch (IndexOutOfRangeException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void setSpellText() {
+		if (this.battleState.equals("choose-spell")) {
+			int index = this.selectedButton+1;
+			if (index < 5) {
+				Spell spell = this.player.getSpells().getSpell(index);
+				this.message = (spell != null) ? spell.getSpellName()+": description":"-";
+			}
+		}
 	}
 	
 	public String getBattleState() {

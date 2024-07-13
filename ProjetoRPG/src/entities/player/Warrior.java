@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entities.Battler;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;

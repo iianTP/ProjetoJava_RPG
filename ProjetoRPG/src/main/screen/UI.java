@@ -350,7 +350,7 @@ public class UI {
 				
 				if (i < 10) {
 					item = inventory.getItem(i);
-					String itemName = (item != null) ? item.getName(): "-";
+					String itemName = (item != null) ? item.getShortName(): "-";
 					brush.drawString(itemName, battleButtons[index][0]+15, battleButtons[index][1]);
 				} else {
 					brush.drawString("-", battleButtons[index][0]+15, battleButtons[index][1]);
@@ -361,7 +361,6 @@ public class UI {
 			}
 			
 		}
-		
 		
 		brush.drawString("VOLTAR", battleButtonInitX, battleButtonInitY+48+48); // cmdNum = 4
 		brush.drawString("-->", battleButtonInitX+111, battleButtonInitY+48+48);  // cmdNum = 5

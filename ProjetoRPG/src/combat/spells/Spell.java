@@ -6,6 +6,7 @@ public abstract class Spell implements ISpell {
 	
 	private String spellName;
 	private String shortSpellName;
+	private String description;
 	private int manaCost;
 	
 	public String getSpellName() {
@@ -26,6 +27,11 @@ public abstract class Spell implements ISpell {
 	public void setManaCost(int manaCost) {
 		this.manaCost = manaCost;
 	}
-	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }

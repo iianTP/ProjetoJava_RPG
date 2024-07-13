@@ -141,6 +141,11 @@ public class PlayerMenu {
 		} else if (this.itemSelected.isUsable()) {
 			if (this.itemSelected instanceof Potion) {
 				team[characterSelected].usePotion((Potion)this.itemSelected);
+				try {
+					this.player.getInventory().removeItem(this.itemSelectedIndex);
+				} catch (IndexOutOfRangeException e) {
+					e.printStackTrace();
+				}
 			} else if (this.itemSelected instanceof Book) {
 				this.state = "choose-spellSlot";
 				return;
@@ -156,7 +161,11 @@ public class PlayerMenu {
 	private void chooseSpellSlot() {
 		
 		this.team[this.characterSelected].useBook((Book)this.itemSelected,this.key.getCmdNum()+1);
-		
+		try {
+			this.player.getInventory().removeItem(this.itemSelectedIndex);
+		} catch (IndexOutOfRangeException e) {
+			e.printStackTrace();
+		}
 		this.itemSelected = null;
 		this.itemSelectedIndex = -1;
 		this.state = "stats";

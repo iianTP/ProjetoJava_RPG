@@ -272,7 +272,7 @@ public class GameScreen extends JPanel implements Runnable {
 		
 		this.ui.setBrush(g2D);
 		
-		if (gameState == menu) {
+		if (gameState == menu && this.mainMenu != null) {
 			this.ui.mainScreen(this.mainMenu);
 		}
 		
@@ -304,7 +304,7 @@ public class GameScreen extends JPanel implements Runnable {
 				this.ui.dialogue(this.dialogue);
 			}
 			
-			if (gameState == buying && this.seller != null) {
+			if (gameState == buying && this.seller != null && this.shop != null) {
 				this.ui.shopScreen(seller.getStock(), this.shop, this.player);
 			}
 			
