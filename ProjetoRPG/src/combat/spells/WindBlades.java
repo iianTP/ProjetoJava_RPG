@@ -22,8 +22,6 @@ public class WindBlades  extends Spell {
 		int spellDamage = stats.getMagic()+this.random.nextInt(5);
 		int finalDamage = 2*spellDamage/target.getStats().getMagicDefense();
 		
-		battle.setMessage(battle.getMessage()+" (-"+finalDamage+"HP)");
-		
 		target.takeMagicDamage(finalDamage);
 		stats.alterMana(super.getManaCost());
 		

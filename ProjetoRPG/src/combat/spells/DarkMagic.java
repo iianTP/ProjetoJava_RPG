@@ -6,6 +6,8 @@ import states.Battle;
 
 public class DarkMagic  extends Spell {
 	
+	private int damage = 1;
+	
 	public DarkMagic() {
 		super.setSpellName("Magia Sombria");
 		super.setShortSpellName("M.SOMBR.");
@@ -13,12 +15,15 @@ public class DarkMagic  extends Spell {
 	}
 
 	@Override
-	public void castSpell(Battler enemie, Stats stats, Battle battle) {
+	public void castSpell(Battler target, Stats stats, Battle battle) {
 		
-		enemie.takeMagicDamage(stats.getMagic());
+		target.takeMagicDamage(this.damage);
+		this.damage *= 2;
 		stats.alterMana(super.getManaCost());
 		
 	}
 
-	
+	public void resetDamage() {
+		this.damage = 0;
+	}
 }

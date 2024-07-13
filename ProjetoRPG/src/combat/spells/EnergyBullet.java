@@ -13,9 +13,12 @@ public class EnergyBullet  extends Spell {
 	}
 
 	@Override
-	public void castSpell(Battler enemie, Stats stats, Battle battle) {
+	public void castSpell(Battler target, Stats stats, Battle battle) {
 		
-		enemie.takeMagicDamage(stats.getMagic());
+		int spellDamage = stats.getMagic();
+		int finalDamage = 2*spellDamage/target.getStats().getMagicDefense();
+		
+		target.takeMagicDamage(finalDamage);
 		stats.alterMana(super.getManaCost());
 		
 	}

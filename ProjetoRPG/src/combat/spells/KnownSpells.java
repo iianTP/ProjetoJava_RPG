@@ -90,5 +90,14 @@ public class KnownSpells {
 		return spell;
 	}
 	
+	public void resetDarkMagic() {
+		for (int i = 1; i < 6; i++) {
+			Spell spell = this.getSpell(i);
+			if (spell instanceof DarkMagic) {
+				((DarkMagic) spell).resetDamage();
+			}
+		}
+	}
+	
 
 }

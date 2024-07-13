@@ -218,6 +218,7 @@ public class GameScreen extends JPanel implements Runnable {
 				this.ta.resetTextAnimation();
 				gameState = playing;
 				this.player.getQuestList().checkKillEnemiesQuests(enemie, this.battle.getWinner());
+				this.player.getSpells().resetDarkMagic();
 				this.enemie = null;
 				this.battle = null;
 				this.key.resetCmdNum();

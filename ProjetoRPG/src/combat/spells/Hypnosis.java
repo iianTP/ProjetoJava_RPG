@@ -13,11 +13,13 @@ public class Hypnosis  extends Spell {
 	}
 
 	@Override
-	public void castSpell(Battler enemie, Stats stats, Battle battle) {
+	public void castSpell(Battler target, Stats stats, Battle battle) {
+		
 		stats.alterMana(super.getManaCost());
-		if (enemie.getEffects().getCurrentEffect().equals("none")) {
-			enemie.getEffects().setCurrentEffect("hypnotized");
+		if (target.getEffects().getCurrentEffect().equals("none")) {
+			target.getEffects().setCurrentEffect("hypnotized");
 		}
+		
 	}
 
 	

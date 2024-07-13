@@ -18,8 +18,6 @@ public class FireBall  extends Spell {
 		int spellDamage = stats.getMagic();
 		int finalDamage = 2*spellDamage/target.getStats().getMagicDefense();
 		
-		battle.setMessage(battle.getMessage()+" (-"+finalDamage+"HP)");
-		
 		target.takeMagicDamage(finalDamage);
 		stats.alterMana(super.getManaCost());
 		
