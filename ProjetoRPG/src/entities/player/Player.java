@@ -58,6 +58,8 @@ public abstract class Player extends Team {
 		try {
 			super.setX(550+2160/2);
 			super.setY(2160/2);
+			super.setX(32*48);
+			super.setY(32*48);
 		} catch (InvalidCoordinateException e) {
 			e.printStackTrace();
 		}

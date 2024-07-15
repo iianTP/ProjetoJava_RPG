@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -15,7 +16,7 @@ public class TileManager {
 	
 	private Tile[] tiles;
 	
-	private int[][] tileNums = new int[65][65];
+	private int[][] tileNums/* = new int[65][65]*/;
 	
 	private String currentMap = "world2";
 	
@@ -72,26 +73,40 @@ public class TileManager {
 		InputStream file = getClass().getResourceAsStream("/maps/"+this.currentMap+".txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(file));
 		String ln;
-		
 		try {
-			for(int i = 0; i < 65; i++) {
+			
+			ln = reader.readLine();
+			int i = 0;
+			this.tileNums = new int[1][ln.split(",").length];
+			//for(int i = 0; i < 65; i++) {
+			while (ln != null) {
 				
-				ln = reader.readLine();
 				
-				for(int j = 0; j < 65; j++) {
-										
+				for(int j = 0; j < ln.split(",").length; j++) {
+					
 					tileNums[i][j] = Integer.parseInt(ln.split(",")[j]);
 					
-					/*if (tile(i*48,j*48).checkCollision()) {
+					
+					
+				/*	if (tileNums[i][j]>0&&tiles[tileNums[i][j]-1].checkCollision()) {
 						System.out.print("X");
 					} else {
 						System.out.print(" ");
 					}*/
 				
 				}
-				//System.out.println("");
 				
+				
+				this.tileNums = Arrays.copyOf(this.tileNums, this.tileNums.length+1);
+				i++;
+				this.tileNums[i]=new int[ln.split(",").length];
+				ln = reader.readLine();
+				System.out.println("");
 			}
+				
+				
+			//}
+			
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -109,17 +124,17 @@ public class TileManager {
 		
 		int x, y;
 		
-		for(int i = 0; i < 65; i++) {
+		for(int i = 0; i < this.tileNums.length; i++) {
 			
 			y = i*48 - wY + 720/2;
 			
-			for(int j = 0; j < 65; j++) {
+			for(int j = 0; j < this.tileNums[i].length; j++) {
 				
 				x = j*48 - wX + 720/2;
 				
 				
 				
-				if (x >= -1*48 && x <= 15*48 && y >= -1*48 && y <= 15*48) {
+				if (x >= -1*48 && x <= 15*48 && y >= -1*48 && y <= 15*48 && tileNums[i][j] > 0) {
 					
 					brush.drawImage(tile(i*48,j*48).getTile(), x, y, 48, 48, null);
 					brush.setColor(Color.red);
