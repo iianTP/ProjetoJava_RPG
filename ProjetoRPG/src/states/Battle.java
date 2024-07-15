@@ -233,6 +233,7 @@ public class Battle {
 			} else {
 				this.battleState = "player-effect";
 			}
+			this.player.getStats().overdriveCountdown();
 			
 			break;
 		case 1:
@@ -245,7 +246,7 @@ public class Battle {
 			} else {
 				this.battleState = "player-effect";
 			}
-			
+			this.player.getStats().overdriveCountdown();
 			break;
 		case 2:
 			this.battleState = "choose-spell";
@@ -255,6 +256,9 @@ public class Battle {
 			break;
 		case 4:
 			if (this.player.getStats().getOverdrive() == 100) {
+				
+				this.player.getStats().overdriveCountdown();
+				
 				this.player.special(this.team, this);
 				
 				this.player.getEffects().effect();
@@ -288,6 +292,7 @@ public class Battle {
 				} else {
 					this.battleState = "player-effect";
 				}
+				this.player.getStats().overdriveCountdown();
 				
 			} catch (InvalidTargetException e) {
 				e.printStackTrace();
@@ -351,6 +356,7 @@ public class Battle {
 				} else {
 					this.battleState = "player-effect";
 				}
+				this.player.getStats().overdriveCountdown();
 			}
 			
 		} else if (itemSelected.isUsable()) {
@@ -367,6 +373,7 @@ public class Battle {
 				} else {
 					this.battleState = "player-effect";
 				}
+				this.player.getStats().overdriveCountdown();
 				
 			} else if (this.itemSelected instanceof Book) {
 				this.battleState = "choose-spellSlot";
@@ -391,7 +398,7 @@ public class Battle {
 			} else {
 				this.battleState = "player-effect";
 			}
-			
+			this.player.getStats().overdriveCountdown();
 		}
 		
 	}
@@ -411,7 +418,7 @@ public class Battle {
 		} else {
 			this.battleState = "teammate-effect";
 		}
-		
+		this.player.getStats().overdriveCountdown();
 		
 	}
 	

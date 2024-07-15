@@ -35,6 +35,8 @@ public class Stats {
 	private int specialStrengthCounter;
 	private int specialAgilityCounter;
 	
+	
+	
 	public void damage(int damage) throws InvalidStatsInputException {
 		if (damage < 0) {
 			throw new InvalidStatsInputException("valor dano: "+damage+" < 0");
@@ -203,12 +205,36 @@ public class Stats {
 	
 	public void setSpecialMagicDefense(int specialMagicDefense) {
 		this.specialMagicDefense = specialMagicDefense;
+		this.specialMagicDefenseCounter = 0;
 	}
 	public void setSpecialStrength(int specialStrength) {
 		this.specialStrength = specialStrength;
+		this.specialStrengthCounter = 0;
 	}
 	public void setSpecialAgility(int specialAgility) {
 		this.specialAgility = specialAgility;
+		this.specialAgilityCounter = 0;
+	}
+	
+	public void overdriveCountdown() {
+		if (this.specialMagicDefense > 0) {
+			this.specialMagicDefenseCounter++;
+			if (this.specialMagicDefenseCounter >= 5) {
+				this.specialMagicDefense = 0;
+			}
+		}
+		if (this.specialStrength > 0) {
+			this.specialStrengthCounter++;
+			if (this.specialStrengthCounter >= 5) {
+				this.specialStrength = 0;
+			}
+		}
+		if (this.specialAgility > 0) {
+			this.specialAgilityCounter++;
+			if (this.specialAgilityCounter >= 5) {
+				this.specialAgility = 0;
+			}
+		}
 	}
 
 	public int getOverdrive() {
@@ -220,7 +246,6 @@ public class Stats {
 	public void increaseOverdrive() {
 		if (this.overdrive<100) {
 			this.overdrive += 10;
-			System.out.println(this.overdrive);
 		}
 	}
 
