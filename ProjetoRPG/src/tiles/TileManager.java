@@ -1,5 +1,6 @@
 package tiles;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import java.io.BufferedReader;
@@ -25,6 +26,12 @@ public class TileManager {
 
 	}
 	
+	public void setCurrentMap(String map) {
+		this.currentMap = map;
+		this.setTiles();
+		this.loadTiles();
+	}
+	
 	public void setTiles() {
 		
 		File[] fileList = new File("./res/"+this.currentMap).listFiles();
@@ -39,8 +46,7 @@ public class TileManager {
 				String collision = fileList[i].getName().split("_")[1].split("-")[1];
 				
 				this.tiles[tileId-1] = new Tile();
-				this.tiles[tileId-1].setTile(ImageIO.read(getClass().getResourceAsStream("/"+this.currentMap+"/world2_"+tileId+"-"+collision+"_.png")));
-				//this.tiles[tileId-1].setTile(ImageIO.read(getClass().getResourceAsStream("/"+this.currentMap+"/"+fileList[i].getName())));
+				this.tiles[tileId-1].setTile(ImageIO.read(getClass().getResourceAsStream("/"+this.currentMap+"/"+fileList[i].getName())));
 				this.tiles[tileId-1].setCollision((collision.equals("t")) ? true : false);
 	
 				this.tiles[tileId-1].setName(fileList[i].getName());
@@ -63,7 +69,7 @@ public class TileManager {
 	
 	public void loadTiles() {
 		
-		InputStream file = getClass().getResourceAsStream("/maps/world2.txt");
+		InputStream file = getClass().getResourceAsStream("/maps/"+this.currentMap+".txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(file));
 		String ln;
 		
@@ -76,14 +82,14 @@ public class TileManager {
 										
 					tileNums[i][j] = Integer.parseInt(ln.split(",")[j]);
 					
-					if (tile(i*48,j*48).checkCollision()) {
+					/*if (tile(i*48,j*48).checkCollision()) {
 						System.out.print("X");
 					} else {
 						System.out.print(" ");
-					}
+					}*/
 				
 				}
-				System.out.println("");
+				//System.out.println("");
 				
 			}
 		} catch (Exception e) {
@@ -95,8 +101,6 @@ public class TileManager {
 	
 	public Tile tile(int x, int y){
 
-		//System.out.println(tileNums[x/48][y/48]);
-		
 		return tiles[tileNums[x/48][y/48]-1];
 		
 	}
@@ -113,18 +117,16 @@ public class TileManager {
 				
 				x = j*48 - wX + 720/2;
 				
-		//		tile(x,y);
 				
-			//	tiles[tileNums[i][j]-1]
 				
 				if (x >= -1*48 && x <= 15*48 && y >= -1*48 && y <= 15*48) {
 					
-					//if (tile(i*48,j*48).checkCollision()) {
-						brush.drawImage(/*tiles[tileNums[i][j]-1]*/tile(i*48,j*48).getTile(), x, y, 48, 48, null);
-					//}
-					
-					
-					//brush.drawImage(/*tiles[tileNums[i][j]-1]*/tile(i*48,j*48).getTile(), x, y, 48, 48, null);
+					brush.drawImage(tile(i*48,j*48).getTile(), x, y, 48, 48, null);
+					brush.setColor(Color.red);
+					brush.drawRect(x, y, 48, 48);
+					brush.drawString("X: "+j, x+10, y+10);
+					brush.drawString("Y: "+i, x+10, y+20);
+						
 				}
 				
 			}

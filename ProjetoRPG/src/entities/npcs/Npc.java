@@ -13,7 +13,6 @@ import quests.Quest;
 public abstract class Npc extends Entity {
 	
 	private String[] dialogue;
-	private Quest[] quests;
 	private Collision collision = new Collision();
 	
 	private String location;
