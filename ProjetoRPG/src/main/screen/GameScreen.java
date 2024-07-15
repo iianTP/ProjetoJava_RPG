@@ -20,8 +20,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
+import java.io.File;
 import java.util.Arrays;
+import java.util.Random;
 
 public class GameScreen extends JPanel implements Runnable {
 
@@ -46,7 +47,6 @@ public class GameScreen extends JPanel implements Runnable {
 	private Teammate[] teammates = new Teammate[3];
 	private Enemie enemie;
 	private Seller seller;
-	//private Entity[] team = new Entity[3];
 	
 	private final int menu = 0;
 	private final int playing = 1;
@@ -92,6 +92,7 @@ public class GameScreen extends JPanel implements Runnable {
 		this.setPlayerClass(choosenClass);
 		this.setNpcs();
 		this.player.setNpcs(npcs);
+		this.player.getCollision().setTiles(tiles);
 	}
 	
 	// Identificação da classe escolhida pelo Player
@@ -171,6 +172,7 @@ public class GameScreen extends JPanel implements Runnable {
 			}
 			
 			this.player.update();
+			startBattle();
 			
 			for (int i = 0; i < npcs.length; i++) {
 				//this.allNpcs[i].update(this.player, this.allNpcs);
@@ -262,6 +264,20 @@ public class GameScreen extends JPanel implements Runnable {
 
 	}
 	//
+	
+	private Random r = new Random();
+	
+	private void startBattle() {
+		
+		File[] fileList = new File("./src/entities/enemies").listFiles();
+		
+		if (!this.key.notWalking() && this.r.nextInt(100) == 0) {
+			
+			System.out.println(fileList[this.r.nextInt(fileList.length)].getName());
+			
+		}
+		
+	}
 
 	
 	//exibição gráfica do jogo

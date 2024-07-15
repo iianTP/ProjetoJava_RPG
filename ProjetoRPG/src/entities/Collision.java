@@ -2,13 +2,19 @@ package entities;
 
 import entities.npcs.Npc;
 import entities.player.Player;
+import tiles.Tile;
 import tiles.TileManager;
 
 public class Collision {
 	
-	private TileManager tiles = new TileManager();
+	private TileManager tiles;
 
 	private Npc npcNearby;
+	
+	public void setTiles(TileManager tiles) {
+		this.tiles = tiles;
+	}
+	
 	
 	public void checkTile(Entity entity) {
 		
@@ -25,36 +31,46 @@ public class Collision {
 			
 			if (entity.getDirection().equals("up")) {
 				
-				if (this.tiles.tile(hitboxLeft, hitboxTop - speed).checkCollision() ||
-					this.tiles.tile(hitboxRight, hitboxTop - speed).checkCollision()) {
-					entity.setCollision(true);
+			if (this.tiles.tile( hitboxTop - speed,hitboxLeft).checkCollision() ||
+				this.tiles.tile(hitboxTop - speed,hitboxRight).checkCollision()) {
+				entity.setCollision(true);
+					
+					
+	
+				//	System.out.println(this.tiles.tile(hitboxLeft, hitboxTop - speed).getName());
+				//	System.out.println(this.tiles.tile(hitboxRight, hitboxTop - speed).getName());
 				} else {
 					entity.setCollision(false);
 				}
 				
 			} else if (entity.getDirection().equals("down")) {
 				
-				if (this.tiles.tile(hitboxLeft, hitboxBottom + speed).checkCollision() ||
-					this.tiles.tile(hitboxRight, hitboxBottom + speed).checkCollision()) {
+				if (this.tiles.tile(hitboxBottom + speed,hitboxLeft).checkCollision() ||
+					this.tiles.tile(hitboxBottom + speed,hitboxRight).checkCollision()) {
+					
 					entity.setCollision(true);
+				//	System.out.println(this.tiles.tile(hitboxLeft, hitboxBottom + speed).getName());
+					
 				} else {
 					entity.setCollision(false);
 				}
 				
 			} else if (entity.getDirection().equals("left")) {
 				
-				if (this.tiles.tile(hitboxLeft - speed, hitboxTop).checkCollision() ||
-					this.tiles.tile(hitboxLeft - speed, hitboxBottom).checkCollision()) {
+				if (this.tiles.tile( hitboxTop, hitboxLeft - speed).checkCollision() ||
+					this.tiles.tile( hitboxBottom, hitboxLeft - speed).checkCollision()) {
 					entity.setCollision(true);
+				//	System.out.println(this.tiles.tile(hitboxLeft - speed, hitboxTop).getName());
 				} else {
 					entity.setCollision(false);
 				}
 				
 			} else if (entity.getDirection().equals("right")) {
 				
-				if (this.tiles.tile(hitboxRight + speed, hitboxTop).checkCollision() ||
-					this.tiles.tile(hitboxRight + speed, hitboxBottom).checkCollision()) {
+				if (this.tiles.tile( hitboxTop,hitboxRight + speed).checkCollision() ||
+					this.tiles.tile( hitboxBottom, hitboxRight + speed).checkCollision()) {
 					entity.setCollision(true);
+					//System.out.println(this.tiles.tile(hitboxRight + speed, hitboxTop).getName());
 				} else {
 					entity.setCollision(false);
 				}

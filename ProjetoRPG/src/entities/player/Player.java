@@ -56,7 +56,7 @@ public abstract class Player extends Team {
 		
 		// Coordenadas iniciais do player (centro da tela)
 		try {
-			super.setX(2160/2);
+			super.setX(550+2160/2);
 			super.setY(2160/2);
 		} catch (InvalidCoordinateException e) {
 			e.printStackTrace();
@@ -179,6 +179,7 @@ public abstract class Player extends Team {
 			try {
 				super.setX(super.getX() - 24);
 				super.setY(super.getY() - 24);
+				
 				this.collision.checkTile(this);
 				if (npcs != null) {
 					this.collision.checkNpc(this, npcs);
