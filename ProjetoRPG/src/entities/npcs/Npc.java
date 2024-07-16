@@ -27,9 +27,9 @@ public abstract class Npc extends Entity {
 		super(gs);
 	}
 	
-	public void interaction() {};
+//	public void interaction() {};
 	public void interaction(Player player) {};
-	public abstract void action(Player player, Npc[] npcs);
+	public void action(Player player, Npc[] npcs) {};
 	
 	public void update(Player player, Npc[] npcs) {
 		action(player, npcs);
@@ -40,13 +40,14 @@ public abstract class Npc extends Entity {
 		this.screenX = super.getX() - player.getX() + super.getGs().getScreenSide()/2;
 		setScreenY(super.getY() - player.getY() + super.getGs().getScreenSide()/2);
 		
-		// SOMBRA
-		brush.setColor(new Color(0,0,0,100));
-		brush.drawRect(this.screenX, this.screenY, 48, 48);
-		brush.fillOval(this.screenX, this.screenY+40, 48, 15);
-		//
-		
 		if (player.getLocation().equals(super.getLocation())) {
+		
+			// SOMBRA
+			brush.setColor(new Color(0,0,0,100));
+			brush.drawRect(this.screenX, this.screenY, 48, 48);
+			brush.fillOval(this.screenX, this.screenY+40, 48, 15);
+			//
+			
 			brush.drawImage(sprite, this.screenX, this.screenY, super.getGs().getTileSide(), super.getGs().getTileSide(), null);
 		}
 
@@ -82,6 +83,10 @@ public abstract class Npc extends Entity {
 	@Override
 	public int[][] getHitbox() {
 		return this.hitbox;
+	}
+	
+	public void setHitbox(int[][] hitbox) {
+		this.hitbox = hitbox;
 	}
 
 	public int getScreenX() {

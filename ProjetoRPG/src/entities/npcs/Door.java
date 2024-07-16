@@ -37,8 +37,10 @@ public class Door extends Npc {
 	}
 	
 	@Override
-	public void interaction() {
+	public void interaction(Player player) {
 		super.getGs().changeMap(this.map,this.destinyX,this.destinyY);
+		player.setDirection("down");
+		player.setLocation(this.map);
 	}
 
 	@Override

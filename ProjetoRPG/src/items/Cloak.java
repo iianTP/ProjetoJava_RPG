@@ -6,7 +6,7 @@ public class Cloak extends Item {
 	private int agility;
 	
 	public Cloak(int type) {
-		super.isEquipable();
+		super.setEquipable();
 		super.setRestriction(new String[] {"mage", "healer"});
 		
 		switch(type) {

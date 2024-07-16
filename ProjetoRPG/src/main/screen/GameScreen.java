@@ -138,7 +138,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private void setNpcs() {
 		
-		this.npcs = new Npc[9];
+		this.npcs = new Npc[15];
 		
 		this.npcs[0] = new LobbySeller(32*48,32*48,this);
 		
@@ -151,6 +151,14 @@ public class GameScreen extends JPanel implements Runnable {
 		this.npcs[6] = new Door(this, 24+32*48, 24+45*48, "world2", 26*48, 21*48, "lobby");
 		this.npcs[7] = new Door(this, 24+48*48, 24+42*48, "world3", 38*48, 21*48, "lobby");
 		this.npcs[8] = new Door(this, 24+32*48, 24+32*48, "world4", 51*48, 29*48, "lobby");
+		
+		this.npcs[9] = new Castle(this, "world1","castle1", 22*48, 11*48);
+		this.npcs[10] = new Castle(this, "world2","castle2", 32*48, 12*48);
+		this.npcs[11] = new Castle(this, "world3","castle3", 19*48, 18*48);
+		
+		this.npcs[12] = new Boss1Npc(this);
+		this.npcs[13] = new Boss2Npc(this);
+		this.npcs[14] = new Boss3Npc(this);
 		
 	}
 
@@ -183,7 +191,7 @@ public class GameScreen extends JPanel implements Runnable {
 			}
 			
 			this.player.update();
-			startBattle();
+			searchBattle();
 			
 			for (int i = 0; i < npcs.length; i++) {
 				//this.allNpcs[i].update(this.player, this.allNpcs);
@@ -221,8 +229,10 @@ public class GameScreen extends JPanel implements Runnable {
 			if (this.enemie == null) {
 				this.enemie = new Ghost(this);
 				this.battle = new Battle(player, enemie, key, teammates);
-				this.key.setButtonCols(2);
 			}
+			
+			
+			this.key.setButtonCols(2);
 			
 			this.ta.checkStateChange(this.battle.isChangedBattleState(), this.key.getCmdNum());
 			this.battle.combat();
@@ -234,6 +244,7 @@ public class GameScreen extends JPanel implements Runnable {
 				this.player.getQuestList().checkKillEnemiesQuests(enemie, this.battle.getWinner());
 				
 				this.player.getSpells().resetDarkMagic();
+				this.vanishBoss();
 				this.enemie = null;
 				this.battle = null;
 				this.key.resetCmdNum();
@@ -280,7 +291,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private Random r = new Random();
 	
-	private void startBattle() {
+	private void searchBattle() {
 		
 		File[] fileList = new File("./src/entities/enemies").listFiles();
 		
@@ -288,6 +299,44 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			System.out.println(fileList[this.r.nextInt(fileList.length)].getName());
 			
+		}
+		
+	}
+	
+	public void startBattle(Enemie enemie) {
+		this.enemie = enemie;
+		this.gameState = this.combat;
+		this.battle = new Battle(player, this.enemie, key, teammates);
+	}
+	
+	private void vanishBoss() {
+		
+		if (this.enemie instanceof Boss1) {
+			for (int i = 0; i < npcs.length; i++) {
+				if (this.npcs[i] instanceof Boss1Npc) {
+					((Boss1Npc) this.npcs[i]).vanish();
+					break;
+				}
+			}
+			return;
+		}
+		if (this.enemie instanceof Boss2) {
+			for (int i = 0; i < npcs.length; i++) {
+				if (this.npcs[i] instanceof Boss2Npc) {
+					((Boss2Npc) this.npcs[i]).vanish();
+					break;
+				}
+			}
+			return;
+		}
+		if (this.enemie instanceof Boss3) {
+			for (int i = 0; i < npcs.length; i++) {
+				if (this.npcs[i] instanceof Boss3Npc) {
+					((Boss3Npc) this.npcs[i]).vanish();
+					break;
+				}
+			}
+			return;
 		}
 		
 	}
@@ -310,7 +359,7 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			this.theVoid.draw(g2D);
 			
-			if (gameState == combat && this.enemie != null) {
+			if (gameState == combat && this.enemie != null && this.battle != null) {
 				this.ui.battleScreen(this.player, this.teammates,this.enemie, this.battle);
 			} 
 			
@@ -403,8 +452,8 @@ public class GameScreen extends JPanel implements Runnable {
 	public void changeMap(String map, int x, int y) {
 		this.tiles.setCurrentMap(map);
 		this.player.setLocation(map);
-		this.player.setDirection("down");
-		try {
+		
+ 		try {
 			this.player.setX(x);
 			this.player.setY(y);
 		} catch (InvalidCoordinateException e) {

@@ -20,9 +20,9 @@ public class LobbySeller extends Seller {
 	
 	private boolean requestedQuest = false;
 	
-	private Quest mainQuest1 = new KillEnemieQuest(new Ghost(super.getGs()), 1,"main", new Reward(), this);
-	private Quest mainQuest2 = new KillEnemieQuest(new Ghost(super.getGs()), 1,"main", new Reward(), this);
-	private Quest mainQuest3 = new KillEnemieQuest(new Ghost(super.getGs()), 1,"main", new Reward(), this);
+	private Quest mainQuest1 = new KillEnemieQuest(new Boss1(super.getGs()), 1,"main", new Reward(), this);
+	private Quest mainQuest2 = new KillEnemieQuest(new Boss2(super.getGs()), 1,"main", new Reward(), this);
+	private Quest mainQuest3 = new KillEnemieQuest(new Boss3(super.getGs()), 1,"main", new Reward(), this);
 
 	public LobbySeller(int x, int y, GameScreen gs) {
 		super(gs);
@@ -83,7 +83,13 @@ public class LobbySeller extends Seller {
 				this.mainQuest1 = this.mainQuest2;
 				this.mainQuest2 = this.mainQuest3;
 				this.mainQuest3 = null;
-				requestQuest(player);
+				if (this.mainQuest1 != null) {
+					requestQuest(player);
+				} else {
+					System.out.println("GAME OVER");
+				}
+				
+				
 			} else {
 				
 				try {
@@ -95,7 +101,7 @@ public class LobbySeller extends Seller {
 			}
 			
 		} else {
-			//end game
+			System.out.println("GAME OVER");
 		}
 		
 	

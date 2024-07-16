@@ -213,7 +213,7 @@ public abstract class Player extends Team {
 		}
 		
 		if (super.isColliding()) {
-			this.collision.getNpcNearby().interaction();
+			//this.collision.getNpcNearby().interaction();
 			this.collision.getNpcNearby().interaction(this);
 		}
 		
