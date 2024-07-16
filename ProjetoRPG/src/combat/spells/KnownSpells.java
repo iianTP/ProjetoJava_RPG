@@ -9,7 +9,7 @@ import states.Battle;
 public class KnownSpells {
 	
 	private Spell spell1 = new EnergyBullet();
-	private Spell spell2;
+	private Spell spell2 = new Lightning();
 	private Spell spell3;
 	private Spell spell4;
 	private Spell spell5;

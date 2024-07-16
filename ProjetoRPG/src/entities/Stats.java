@@ -16,16 +16,20 @@ public class Stats {
 	private int health;
 	private int maxHealth;
 	
-	private int overdrive = 100;
+	private int overdrive = 0;
 	
 	private int itemStrenght;
 	private int itemDefense;
 	private int itemAgility;
 	private int itemMagicDefense;
 	
-	private int potionStrenght;
+	private int potionStrength;
 	private int potionAgility;
 	private int potionMagic;
+	
+	private int potionStrengthCounter;
+	private int potionAgilityCounter;
+	private int potionMagicCounter;
 	
 	private int specialMagicDefense;
 	private int specialStrength;
@@ -128,7 +132,7 @@ public class Stats {
 	
 	// GET
 	public int getStrength() {
-		return this.strength+this.itemStrenght+this.potionStrenght+this.specialStrength;
+		return this.strength+this.itemStrenght+this.potionStrength+this.specialStrength;
 	}
 	public int getDefense() {
 		return this.defense+this.itemDefense;
@@ -192,7 +196,7 @@ public class Stats {
 	}
 
 	public void setPotionStrenght(int potionStrenght) {
-		this.potionStrenght = potionStrenght;
+		this.potionStrength = potionStrenght;
 	}
 
 	public void setPotionAgility(int potionAgility) {
@@ -233,6 +237,27 @@ public class Stats {
 			this.specialAgilityCounter++;
 			if (this.specialAgilityCounter >= 5) {
 				this.specialAgility = 0;
+			}
+		}
+	}
+	
+	public void potionCountdown() {
+		if (this.potionMagic > 0) {
+			this.potionMagicCounter++;
+			if (this.potionMagicCounter >= 3) {
+				this.potionMagic = 0;
+			}
+		}
+		if (this.potionStrength > 0) {
+			this.potionStrengthCounter++;
+			if (this.potionStrengthCounter >= 3) {
+				this.potionStrength = 0;
+			}
+		}
+		if (this.potionAgility > 0) {
+			this.potionAgilityCounter++;
+			if (this.potionAgilityCounter >= 3) {
+				this.potionAgility = 0;
 			}
 		}
 	}

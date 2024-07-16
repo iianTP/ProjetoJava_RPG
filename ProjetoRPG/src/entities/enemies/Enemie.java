@@ -12,14 +12,18 @@ import states.Battle;
 
 public abstract class Enemie extends Battler {
 	
-	public BattleRng getBattleRng() {
-		return battleRng;
-	}
 	private BufferedImage sprite;
 	private BattleRng battleRng = new BattleRng();
 	
+	private int experience;
+	private int gold;
+	
 	public Enemie(GameScreen gs) {
 		super(gs);
+	}
+	
+	public BattleRng getBattleRng() {
+		return battleRng;
 	}
 	
 	// MÉTODOS DE COMBATE
@@ -87,6 +91,14 @@ public abstract class Enemie extends Battler {
 	}
 	public void setSprite(BufferedImage sprite) {
 		this.sprite = sprite;
+	}
+
+	public int getExperience() {
+		return experience;
+	}
+
+	public void setExperience(int experience) {
+		this.experience = experience;
 	}
 
 

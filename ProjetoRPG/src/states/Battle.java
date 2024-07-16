@@ -53,6 +53,7 @@ public class Battle {
 	}
 	
 	private void checkDeadBattlers() {
+		
 		if (this.enemie.getStats().getHealth() <= 0) {
 			this.message = "SEU OPONENTE FOI DERROTADO";
 			this.battleState = "ended";
@@ -75,11 +76,12 @@ public class Battle {
 		
 		if (this.team[this.teamIndex].getStats().getHealth() <= 0) {
 			this.teamIndex++;
-			if (this.teammateIndex == 4) {
-				this.teammateIndex = 0;
+			if (this.teamIndex == 4) {
+				this.teamIndex = 0;
 				this.battleState = "choose-move";
 			}
 		}
+		
 	}
 	
 	private void setBattleButtonsConfig() {
@@ -91,6 +93,33 @@ public class Battle {
 			this.key.setMaxCmdNum(5);
 		}
 	}
+	
+	private void checkParalyzedBattlers() {
+		
+		String pCurrentEffect = this.player.getEffects().getCurrentEffect();
+		String eCurrentEffect = this.enemie.getEffects().getCurrentEffect();
+		String tCurrentEffect = this.teammates[this.teammateIndex].getEffects().getCurrentEffect();
+		
+		if (this.battleState.equals("choose-move") && pCurrentEffect.equals("paralyzed")) {
+			
+			this.player.getEffects().effect();
+			this.battleState = "player-effect";
+			
+		} else if (this.battleState.equals("enemie-turn") && eCurrentEffect.equals("paralyzed")) {
+			
+			this.enemie.getEffects().effect();
+			battleState = "enemie-text";
+			
+		} else if (this.battleState.equals("teammate-turn") && tCurrentEffect.equals("paralyzed")) {
+			
+			this.teammates[this.teammateIndex].getEffects().effect();
+			this.battleState = "teammate-effect";
+			
+		}
+		
+	}
+	
+	
 	
 	public void combat() {
 		
@@ -108,6 +137,7 @@ public class Battle {
 		this.selectedButton = this.key.getCmdNum();
 		
 		this.checkDeadBattlers();
+		checkParalyzedBattlers();
 		
 		this.changedBattleState = false;
 		
@@ -123,7 +153,9 @@ public class Battle {
 				
 				this.message = "SEU TURNO";
 				if (this.enemie.getEffects().getCurrentEffect().equals("none")) {
-					battleState = "choose-move";	
+			
+					battleState = "choose-move";
+					
 				} else {
 					this.message = "O OPONENTE "+this.enemie.getEffects().getMessage();
 					battleState = "enemie-effect";
@@ -194,15 +226,16 @@ public class Battle {
 			else if (this.battleState.equals("ended")) {
 				this.battleEnded = true;
 			}
-				
+			
 		}
+		
 			
 	}
 	
 	private void enemieTurn() {
 		
 		if (!this.enemie.getEffects().getCurrentEffect().equals("paralyzed") && 
-				this.team[this.teamIndex].getStats().getHealth() >= 0) {
+				this.team[this.teamIndex].getStats().getHealth() > 0) {
 			this.enemie.battleMove(this.team[this.teamIndex], this);
 		}
 		

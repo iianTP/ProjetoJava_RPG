@@ -16,9 +16,9 @@ public class TileManager {
 	
 	private Tile[] tiles;
 	
-	private int[][] tileNums/* = new int[65][65]*/;
+	private int[][] tileNums;
 	
-	private String currentMap = "world2";
+	private String currentMap = "lobby";
 	
 	public TileManager() {
 		
@@ -78,35 +78,18 @@ public class TileManager {
 			ln = reader.readLine();
 			int i = 0;
 			this.tileNums = new int[1][ln.split(",").length];
-			//for(int i = 0; i < 65; i++) {
 			while (ln != null) {
 				
-				
 				for(int j = 0; j < ln.split(",").length; j++) {
-					
 					tileNums[i][j] = Integer.parseInt(ln.split(",")[j]);
-					
-					
-					
-				/*	if (tileNums[i][j]>0&&tiles[tileNums[i][j]-1].checkCollision()) {
-						System.out.print("X");
-					} else {
-						System.out.print(" ");
-					}*/
-				
 				}
-				
 				
 				this.tileNums = Arrays.copyOf(this.tileNums, this.tileNums.length+1);
 				i++;
 				this.tileNums[i]=new int[ln.split(",").length];
+				
 				ln = reader.readLine();
-				System.out.println("");
 			}
-				
-				
-			//}
-			
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
@@ -132,15 +115,13 @@ public class TileManager {
 				
 				x = j*48 - wX + 720/2;
 				
-				
-				
 				if (x >= -1*48 && x <= 15*48 && y >= -1*48 && y <= 15*48 && tileNums[i][j] > 0) {
 					
 					brush.drawImage(tile(i*48,j*48).getTile(), x, y, 48, 48, null);
 					brush.setColor(Color.red);
 					brush.drawRect(x, y, 48, 48);
-					brush.drawString("X: "+j, x+10, y+10);
-					brush.drawString("Y: "+i, x+10, y+20);
+					brush.drawString("X: "+j, x+10, y+15);
+					brush.drawString("Y: "+i, x+10, y+25);
 						
 				}
 				

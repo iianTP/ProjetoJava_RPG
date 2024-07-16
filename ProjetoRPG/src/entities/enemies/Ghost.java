@@ -17,11 +17,14 @@ public class Ghost extends Enemie {
 		super(gs);
 		this.setSprites();
 		this.setStats();
-		super.getSpells().learnSpell(new FireBall(), 2);
+	/*	super.getSpells().learnSpell(new FireBall(), 2);
 		super.getSpells().learnSpell(new FireBall(), 3);
 		super.getSpells().learnSpell(new FireBall(), 4);
-		super.getSpells().learnSpell(new FireBall(), 5);
-		//super.getSpells().learnSpell(new Lightning(), 3);
+		super.getSpells().learnSpell(new FireBall(), 5);*/
+		super.getSpells().learnSpell(new Lightning(), 2);
+		super.getSpells().learnSpell(new Lightning(), 3);
+		super.getSpells().learnSpell(new Lightning(), 4);
+		super.getSpells().learnSpell(new Lightning(), 5);
 		super.setName("FANTASMA");
 	}
 	
@@ -29,8 +32,8 @@ public class Ghost extends Enemie {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(20);
-			stats.setMaxHealth(20);
+			stats.setHealth(200);
+			stats.setMaxHealth(200);
 			stats.setMana(20);
 			stats.setMaxMana(20);
 			

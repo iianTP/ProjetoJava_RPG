@@ -28,64 +28,68 @@ public abstract class Battler extends Entity implements ICombat {
 	
 	@Override
 	public <T extends Battler> void attack(T target, Battle battle) throws InvalidTargetException {
-		Stats stats = this.getStats();
+		if (!this.effects.getCurrentEffect().equals("paralyzed")) {
+			Stats stats = this.getStats();
 			
-		int criticalChance = stats.getCriticalDamage();
-		int strength = stats.getStrength();
-		int targetDefense = target.getStats().getDefense();
-		int targetAgility = target.getStats().getAgility();
-		int critical = (super.rng(100, 1) <= criticalChance) ? 2 : 1;
-		int finalDamage = critical*2*strength/targetDefense;
-		
-		int dodge = super.rng(20, 1);
-		
-		if (dodge <= targetAgility && dodge > 0) {
-			battle.setMessage(this.name+" TENTOU ATACAR "+target.getName()+" MAS ERROU");
-		} else {
+			int criticalChance = stats.getCriticalDamage();
+			int strength = stats.getStrength();
+			int targetDefense = target.getStats().getDefense();
+			int targetAgility = target.getStats().getAgility();
+			int critical = (super.rng(100, 1) <= criticalChance) ? 2 : 1;
+			int finalDamage = critical*2*strength/targetDefense;
 			
-			target.takeDamage(finalDamage);
-			stats.increaseOverdrive();
-			battle.setMessage(this.name+" ATACOU O OPONENTE (-"+finalDamage+"HP)");
-			if (this instanceof Teammate) {
-				((Teammate) this).getBattleRng().increaseAttackChance();
-			} else if (this instanceof Enemie) {
-				((Enemie) this).getBattleRng().increaseAttackChance();
-			}
+			int dodge = super.rng(20, 1);
 			
-		}
-	}
-	
-	@Override
-	public <T extends Battler> void magic(T target, int spellId, Battle battle) throws InvalidTargetException {
-		try {
-			Spell spell = this.getSpells().getSpell(spellId+1);
-			String msg = this.name+" USOU "
-					+spell.getSpellName().toUpperCase()
-					+" EM "+target.getName();
-			
-			int dodge = new Random().nextInt(20)+1;
-			
-			if (dodge <= target.getStats().getAgility() && dodge > 0) {
-				battle.setMessage(msg+" MAS ERROU");
-				this.getStats().alterMana(spell.getManaCost());
+			if (dodge <= targetAgility && dodge > 0) {
+				battle.setMessage(this.name+" TENTOU ATACAR "+target.getName()+" MAS ERROU");
 			} else {
-				int hpBefore = target.getStats().getHealth();
 				
-				this.getSpells().castSpell(spellId, target, battle);
-				this.getStats().increaseOverdrive();
-				
-				int difference = hpBefore-target.getStats().getHealth();
-				battle.setMessage(msg+" (-"+difference+"HP)");
-				
+				target.takeDamage(finalDamage);
+				stats.increaseOverdrive();
+				battle.setMessage(this.name+" ATACOU O OPONENTE (-"+finalDamage+"HP)");
 				if (this instanceof Teammate) {
 					((Teammate) this).getBattleRng().increaseAttackChance();
 				} else if (this instanceof Enemie) {
 					((Enemie) this).getBattleRng().increaseAttackChance();
 				}
+				
 			}
-			
-		} catch (InvalidSpellIdException e) {
-			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public <T extends Battler> void magic(T target, int spellId, Battle battle) throws InvalidTargetException {
+		if (!this.effects.getCurrentEffect().equals("paralyzed")) {
+			try {
+				Spell spell = this.getSpells().getSpell(spellId+1);
+				String msg = this.name+" USOU "
+						+spell.getSpellName().toUpperCase()
+						+" EM "+target.getName();
+				
+				int dodge = new Random().nextInt(20)+1;
+				
+				if (dodge <= target.getStats().getAgility() && dodge > 0) {
+					battle.setMessage(msg+" MAS ERROU");
+					this.getStats().alterMana(spell.getManaCost());
+				} else {
+					int hpBefore = target.getStats().getHealth();
+					
+					this.getSpells().castSpell(spellId, target, battle);
+					this.getStats().increaseOverdrive();
+					
+					int difference = hpBefore-target.getStats().getHealth();
+					battle.setMessage(msg+" (-"+difference+"HP)");
+					
+					if (this instanceof Teammate) {
+						((Teammate) this).getBattleRng().increaseAttackChance();
+					} else if (this instanceof Enemie) {
+						((Enemie) this).getBattleRng().increaseAttackChance();
+					}
+				}
+				
+			} catch (InvalidSpellIdException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

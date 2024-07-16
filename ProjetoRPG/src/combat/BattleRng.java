@@ -9,7 +9,7 @@ public class BattleRng {
 	
 	private int attackChance = 10;
 	private int defenseChance = 5;
-	private int magicChance = 5;
+	private int magicChance = 100;
 	
 	private final Random random = new Random();
 	
