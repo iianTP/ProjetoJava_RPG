@@ -39,8 +39,6 @@ public class Stats {
 	private int specialStrengthCounter;
 	private int specialAgilityCounter;
 	
-	
-	
 	public void damage(int damage) throws InvalidStatsInputException {
 		if (damage < 0) {
 			throw new InvalidStatsInputException("valor dano: "+damage+" < 0");
@@ -65,6 +63,15 @@ public class Stats {
 	public void buffStats() {
 		this.maxHealth += 5;
 		this.maxMana += 5;
+		
+		this.strength++;
+		this.defense++;
+		this.agility++;
+		this.criticalDamage++;
+		this.magic++;
+		this.itemMagic++;
+		this.magicDefense++;
+		
 	}
 	
 	// SET

@@ -35,6 +35,8 @@ public abstract class Entity implements IEntitySetup {
 	
 	private final Random rng = new Random();
 	
+	private String location;
+	
 	public Entity(GameScreen gs) {
 		this.gs = gs;
 	}
@@ -147,6 +149,14 @@ public abstract class Entity implements IEntitySetup {
 
 	public GameScreen getGs() {
 		return gs;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 }

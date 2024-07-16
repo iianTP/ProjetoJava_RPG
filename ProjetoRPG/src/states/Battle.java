@@ -55,7 +55,7 @@ public class Battle {
 	private void checkDeadBattlers() {
 		
 		if (this.enemie.getStats().getHealth() <= 0) {
-			this.message = "SEU OPONENTE FOI DERROTADO";
+			this.message = "SEU OPONENTE FOI DERROTADO (+"+this.enemie.getGold()+"G +"+this.enemie.getExperience()+"XP)";
 			this.battleState = "ended";
 			this.winner = "player";
 		} 
@@ -82,6 +82,11 @@ public class Battle {
 			}
 		}
 		
+	}
+	
+	private void getLoot() {
+		this.player.addExperience(this.enemie.getExperience());
+		this.player.addGold(this.enemie.getGold());
 	}
 	
 	private void setBattleButtonsConfig() {
@@ -119,15 +124,7 @@ public class Battle {
 		
 	}
 	
-	
-	
 	public void combat() {
-		
-		try {
-			this.teammates[1].getStats().setHealth(0);
-		} catch (InvalidStatsInputException e) {
-			e.printStackTrace();
-		}
 		
 		this.setBattleButtonsConfig();
 		
@@ -137,7 +134,8 @@ public class Battle {
 		this.selectedButton = this.key.getCmdNum();
 		
 		this.checkDeadBattlers();
-		checkParalyzedBattlers();
+		
+		this.checkParalyzedBattlers();
 		
 		this.changedBattleState = false;
 		
@@ -216,15 +214,21 @@ public class Battle {
 				
 				teammateIndex++;
 				if (this.teammateIndex == 3) {
-					battleState = "enemie-turn";
+					this.battleState = "enemie-turn";
 					this.teammateIndex = 0;
 				} else {
-					battleState = "teammate-turn";
+					this.battleState = "teammate-turn";
 				}
 			}
 			
 			else if (this.battleState.equals("ended")) {
 				this.battleEnded = true;
+				if (this.winner.equals("player")) {
+					this.getLoot();
+					while (this.player.getExperience() >= this.player.getMaxExperience()) {
+						this.levelUp();
+					}
+				}
 			}
 			
 		}
@@ -232,21 +236,14 @@ public class Battle {
 			
 	}
 	
-	private void enemieTurn() {
+	public void levelUp() {
 		
-		if (!this.enemie.getEffects().getCurrentEffect().equals("paralyzed") && 
-				this.team[this.teamIndex].getStats().getHealth() > 0) {
-			this.enemie.battleMove(this.team[this.teamIndex], this);
-		}
+		this.player.levelUp();
 		
-		this.teamIndex++;
-		if (this.teamIndex == 4) {
-			this.enemie.getEffects().effect();
-			battleState = "enemie-text";
-			this.teamIndex = 0;
-		} else {
-			battleState = "enemie-turn";
-		}
+		this.player.getStats().buffStats();
+		this.teammates[0].getStats().buffStats();
+		this.teammates[1].getStats().buffStats();
+		this.teammates[2].getStats().buffStats();
 		
 	}
 	
@@ -317,16 +314,18 @@ public class Battle {
 			this.battleState = "choose-move";
 		} else {
 			try {
-				this.player.magic(this.enemie, this.selectedButton, this);
-				
-				this.player.getEffects().effect();
-				if (this.player.getEffects().getCurrentEffect().equals("none")) {
-					this.battleState = "teammate-turn";
-				} else {
-					this.battleState = "player-effect";
+				Spell spell = this.player.getSpells().getSpell(this.selectedButton+1);
+				if (spell != null && this.player.getStats().getMana() >= -1*spell.getManaCost()) {
+					this.player.magic(this.enemie, this.selectedButton, this);
+					
+					this.player.getEffects().effect();
+					if (this.player.getEffects().getCurrentEffect().equals("none")) {
+						this.battleState = "teammate-turn";
+					} else {
+						this.battleState = "player-effect";
+					}
+					this.player.getStats().overdriveCountdown();
 				}
-				this.player.getStats().overdriveCountdown();
-				
 			} catch (InvalidTargetException e) {
 				e.printStackTrace();
 			}
@@ -432,6 +431,24 @@ public class Battle {
 				this.battleState = "player-effect";
 			}
 			this.player.getStats().overdriveCountdown();
+		}
+		
+	}
+	
+	private void enemieTurn() {
+		
+		if (!this.enemie.getEffects().getCurrentEffect().equals("paralyzed") && 
+				this.team[this.teamIndex].getStats().getHealth() > 0) {
+			this.enemie.battleMove(this.team[this.teamIndex], this);
+		}
+		
+		this.teamIndex++;
+		if (this.teamIndex == 4) {
+			this.enemie.getEffects().effect();
+			battleState = "enemie-text";
+			this.teamIndex = 0;
+		} else {
+			battleState = "enemie-turn";
 		}
 		
 	}

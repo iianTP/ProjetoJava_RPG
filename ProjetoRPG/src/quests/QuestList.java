@@ -25,7 +25,6 @@ public class QuestList extends DynamicArray<Quest>{
 	public void checkKillEnemiesQuests(Enemie enemie, String winner) {
 		System.out.println("a");
 		if (winner != null && winner.equals("player")) {
-			System.out.println("checking");
 			int i = 0;
 			Quest quest = null;
 			quest = this.getQuest(i);
@@ -33,9 +32,7 @@ public class QuestList extends DynamicArray<Quest>{
 				if (quest instanceof KillEnemieQuest) {
 					
 					((KillEnemieQuest) quest).checkGoal(enemie);
-					System.out.println(quest.isDone());
 					if (quest.isDone()) {
-						System.out.println("done");
 						break;
 					}
 				}
@@ -53,7 +50,6 @@ public class QuestList extends DynamicArray<Quest>{
 			if (quest instanceof GetItemQuest) {
 				((GetItemQuest) quest).checkGoal(item);
 				if (quest.isDone()) {
-					System.out.println("done");
 					break;
 				}
 			}

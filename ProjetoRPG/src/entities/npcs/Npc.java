@@ -15,8 +15,6 @@ public abstract class Npc extends Entity {
 	private String[] dialogue;
 	private Collision collision = new Collision();
 	
-	private String location;
-	
 	private int screenX;
 	private int screenY;
 	private int[][] hitbox = {{12, 30}, {33, 45}};
@@ -36,7 +34,7 @@ public abstract class Npc extends Entity {
 		action(player, npcs);
 	}
 	
-	public void draw(Graphics2D brush, int wX, int wY) {
+	public void draw(Graphics2D brush, Player player) {
 		
 		BufferedImage sprite = null;
 		
@@ -50,8 +48,8 @@ public abstract class Npc extends Entity {
 			sprite = super.getIdleSprites()[3];
 		}
 
-		this.screenX = super.getX() - wX + super.getGs().getScreenSide()/2;
-		setScreenY(super.getY() - wY + super.getGs().getScreenSide()/2);
+		this.screenX = super.getX() - player.getX() + super.getGs().getScreenSide()/2;
+		setScreenY(super.getY() - player.getY() + super.getGs().getScreenSide()/2);
 		
 		// SOMBRA
 		brush.setColor(new Color(0,0,0,100));
@@ -77,14 +75,6 @@ public abstract class Npc extends Entity {
 		
 	}
 
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-	
 	public int getFrameCounter() {
 		return frameCounter;
 	}

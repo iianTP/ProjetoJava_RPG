@@ -1,12 +1,7 @@
 package entities.teammates;
 
-import java.util.Random;
-
-import combat.spells.Spell;
 import entities.Battler;
-import entities.Stats;
 import entities.enemies.Enemie;
-import exceptions.InvalidSpellIdException;
 import exceptions.InvalidStatsInputException;
 import exceptions.InvalidTargetException;
 import exceptions.InventoryIsFullException;

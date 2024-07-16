@@ -67,10 +67,6 @@ public class UI {
 	private int[] rainbow = {0,0,255};
 	private int rainbowState = 1;
 	
-	private int textCount = 0;
-	private int textTimer = 0;
-	private boolean endedText = false;
-	
 	TextAnimation ta;
 	
 	public UI(KeyInput key, TextAnimation ta) {
@@ -282,11 +278,6 @@ public class UI {
 		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
 		
-		if (battle.isChangedBattleState()) {
-			this.endedText = false;
-			this.textCount = 0;
-		}
-		
 		this.ta.displayText("* "+battle.getMessage(), 25, 16*3, 176*3, brush);
 		
 	}
@@ -456,6 +447,7 @@ public class UI {
 		brush.drawString("MISSOES", 48+25, 48*5);
 		brush.drawString("SAIR", 48+25, 48*6);
 		brush.drawString("NIVEL: "+player.getLevel(), 48+25, 48*11);
+		brush.drawString("XP: "+player.getExperience()+"/"+player.getMaxExperience(), 48+25, 48*11+24);
 		brush.setColor(Color.yellow);
 		brush.drawString("OURO: "+player.getGold(), 48+25, 48*12);
 		
@@ -628,8 +620,6 @@ public class UI {
 			}
 			
 		}
-		
-		
 		
 		this.pMenuInventoryButtons[10][0] = 48*4+35-15;
 		this.pMenuInventoryButtons[10][1] = 48*3+40*11;

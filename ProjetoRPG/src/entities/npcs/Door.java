@@ -1,5 +1,7 @@
 package entities.npcs;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -13,18 +15,20 @@ public class Door extends Npc {
 	private int destinyX;
 	private int destinyY;
 	private String map;
+	
+	private BufferedImage sprite;
 
-	public Door(GameScreen gs, int destinyX,int destinyY, String map) {
+	public Door(GameScreen gs, int destinyX, int destinyY, String map, int x, int y, String location) {
 		super(gs);
 		this.destinyX = destinyX;
 		this.destinyY = destinyY;
 		this.map = map;
 		
-		super.setDirection("down");
+		super.setLocation(location);
 		
 		try {
-			super.setX(32*48);
-			super.setY(32*48);
+			super.setX(x);
+			super.setY(y);
 		} catch (InvalidCoordinateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,23 +43,32 @@ public class Door extends Npc {
 
 	@Override
 	public void setSprites() {
+		String imagePath = "/doors/"+this.map+"_door.png";
 		try {
-			super.setIdleSprites(
-					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleUp.png")),
-					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleDown.png")),
-					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleLeft.png")),
-					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleRight.png"))
-			);
+			this.sprite = ImageIO.read(getClass().getResourceAsStream(imagePath));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override
 	public void action(Player player, Npc[] npcs) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void draw(Graphics2D brush, Player player) {
+		
+		int x = super.getX() - player.getX() + super.getGs().getScreenSide()/2;
+		int y = super.getY() - player.getY() - 48 + super.getGs().getScreenSide()/2;
+		
+		setScreenY(y + 48);
+		
+		if (player.getLocation().equals(super.getLocation())) {
+			brush.drawImage(this.sprite, x, y, super.getGs().getTileSide(), super.getGs().getTileSide()*2, null);
+		}
 		
 	}
 

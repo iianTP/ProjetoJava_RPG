@@ -15,7 +15,6 @@ public class Collision {
 		this.tiles = tiles;
 	}
 	
-	
 	public void checkTile(Entity entity) {
 		
 		if (entity.getHitbox() != null) {
@@ -30,15 +29,10 @@ public class Collision {
 			int hitboxRight = x + entity.getHitbox()[1][0];
 			
 			if (entity.getDirection().equals("up")) {
-				
-			if (this.tiles.tile( hitboxTop - speed,hitboxLeft).checkCollision() ||
-				this.tiles.tile(hitboxTop - speed,hitboxRight).checkCollision()) {
-				entity.setCollision(true);
 					
-					
-	
-				//	System.out.println(this.tiles.tile(hitboxLeft, hitboxTop - speed).getName());
-				//	System.out.println(this.tiles.tile(hitboxRight, hitboxTop - speed).getName());
+				if (this.tiles.tile( hitboxTop - speed,hitboxLeft).checkCollision() ||
+					this.tiles.tile(hitboxTop - speed,hitboxRight).checkCollision()) {
+					entity.setCollision(true);
 				} else {
 					entity.setCollision(false);
 				}
@@ -49,7 +43,6 @@ public class Collision {
 					this.tiles.tile(hitboxBottom + speed,hitboxRight).checkCollision()) {
 					
 					entity.setCollision(true);
-				//	System.out.println(this.tiles.tile(hitboxLeft, hitboxBottom + speed).getName());
 					
 				} else {
 					entity.setCollision(false);
@@ -60,7 +53,6 @@ public class Collision {
 				if (this.tiles.tile( hitboxTop, hitboxLeft - speed).checkCollision() ||
 					this.tiles.tile( hitboxBottom, hitboxLeft - speed).checkCollision()) {
 					entity.setCollision(true);
-				//	System.out.println(this.tiles.tile(hitboxLeft - speed, hitboxTop).getName());
 				} else {
 					entity.setCollision(false);
 				}
@@ -70,7 +62,6 @@ public class Collision {
 				if (this.tiles.tile( hitboxTop,hitboxRight + speed).checkCollision() ||
 					this.tiles.tile( hitboxBottom, hitboxRight + speed).checkCollision()) {
 					entity.setCollision(true);
-					//System.out.println(this.tiles.tile(hitboxRight + speed, hitboxTop).getName());
 				} else {
 					entity.setCollision(false);
 				}
@@ -99,7 +90,7 @@ public class Collision {
 			
 			for (int i = 0; i < npcs.length; i++) {
 				
-				if(entity == npcs[i]) {
+				if(entity == npcs[i] || !entity.getLocation().equals(npcs[i].getLocation())) {
 					continue;
 				}
 

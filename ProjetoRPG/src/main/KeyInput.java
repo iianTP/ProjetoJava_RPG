@@ -61,6 +61,17 @@ public class KeyInput implements KeyListener {
 				gs.setGameState(5);
 			}
 			
+			if (key == KeyEvent.VK_1) {
+				gs.changeMap("world1", 32*48, 32*48);
+			}
+			else if (key == KeyEvent.VK_2) {
+				gs.changeMap("world2", 32*48, 32*48);		
+			}
+			else if (key == KeyEvent.VK_3) {
+				gs.changeMap("world3", 32*48, 32*48);
+			}
+			
+			
 			} catch (InvalidGameStateIndex e1) {
 				e1.printStackTrace();
 			}

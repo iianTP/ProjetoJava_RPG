@@ -26,14 +26,18 @@ public class Ghost extends Enemie {
 		super.getSpells().learnSpell(new Lightning(), 4);
 		super.getSpells().learnSpell(new Lightning(), 5);
 		super.setName("FANTASMA");
+		
+		super.setExperience(10);
+		super.setGold(15);
+		
 	}
 	
 	public void setStats() {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(200);
-			stats.setMaxHealth(200);
+			stats.setHealth(10);
+			stats.setMaxHealth(10);
 			stats.setMana(20);
 			stats.setMaxMana(20);
 			

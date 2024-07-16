@@ -56,10 +56,8 @@ public abstract class Player extends Team {
 		
 		// Coordenadas iniciais do player (centro da tela)
 		try {
-			super.setX(550+2160/2);
-			super.setY(2160/2);
-			super.setX(32*48);
-			super.setY(32*48);
+			super.setX(32*48+24);
+			super.setY(41*48+24);
 		} catch (InvalidCoordinateException e) {
 			e.printStackTrace();
 		}
@@ -70,6 +68,7 @@ public abstract class Player extends Team {
 		
 		super.setPlayerInventory(this.inventory);
 		super.setName("VOCE");
+		super.setLocation("lobby");
 		
 	}
 	
@@ -80,10 +79,6 @@ public abstract class Player extends Team {
 		
 		if (this.key.isInteracting()) {
 			interact();
-		}
-		
-		while (this.experience >= this.maxExperience) {
-			levelUp();
 		}
 		
 		super.addSpriteCount();
@@ -183,9 +178,11 @@ public abstract class Player extends Team {
 				super.setY(super.getY() - 24);
 				
 				this.collision.checkTile(this);
+				
 				if (npcs != null) {
 					this.collision.checkNpc(this, npcs);
 				}
+				
 				super.setX(super.getX() + 24);
 				super.setY(super.getY() + 24);
 			} catch (InvalidCoordinateException e) {
@@ -238,12 +235,16 @@ public abstract class Player extends Team {
 	}
 	
 	
-	
-	
-	// MÉTODOS DE COMBATE
-	
-	
-	//
+	public void levelUp() {
+		
+		this.level += 1;
+		this.experience -= this.maxExperience;
+		if (this.experience < 0) {
+			this.experience = 0;
+		}
+		this.maxExperience += 5;
+		
+	}
 
 	public boolean checkHitbox(int npcX, int npcY) {
 
@@ -268,16 +269,6 @@ public abstract class Player extends Team {
 	}
 	public void reduceGold(int gold) {
 		this.gold -= gold;
-	}
-	
-	public void levelUp() {
-		
-		this.level += 1;
-		this.experience = 0;
-		this.maxExperience += 5;
-		
-		//super.buffStats();
-		
 	}
 	
 	public int getExperience() {
@@ -325,6 +316,4 @@ public abstract class Player extends Team {
 		return questList;
 	}
 
-	
-	
 }

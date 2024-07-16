@@ -53,7 +53,6 @@ public class TextAnimation {
 			this.arrowPosition = cmdNum;
 			System.out.println(count);
 			this.textEnded = false;
-			
 		}
 		
 	}
