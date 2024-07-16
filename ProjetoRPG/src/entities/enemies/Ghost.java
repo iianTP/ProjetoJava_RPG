@@ -4,9 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.FireBall;
 import combat.spells.Lightning;
-import entities.Entity;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;

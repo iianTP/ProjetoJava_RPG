@@ -5,8 +5,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import entities.Stats;
-import entities.enemies.Enemie;
-import entities.npcs.Npc;
 import entities.teammates.Team;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
@@ -34,6 +32,17 @@ public class Healer extends Player{
 					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleLeft.png")),
 					ImageIO.read(getClass().getResourceAsStream("/healer/HealerIdleRight.png"))
 			);
+			super.setWalkSprites(
+					ImageIO.read(getClass().getResourceAsStream("/healer/HealerWalkUp1.png")),
+					ImageIO.read(getClass().getResourceAsStream("/healer/HealerWalkUp2.png")),
+					ImageIO.read(getClass().getResourceAsStream("/healer/HealerWalkDown1.png")),
+					ImageIO.read(getClass().getResourceAsStream("/healer/HealerWalkDown2.png")),
+					ImageIO.read(getClass().getResourceAsStream("/healer/HealerWalkLeft1.png")),
+					ImageIO.read(getClass().getResourceAsStream("/healer/HealerWalkLeft2.png")),
+					ImageIO.read(getClass().getResourceAsStream("/healer/HealerWalkRight1.png")),
+					ImageIO.read(getClass().getResourceAsStream("/healer/HealerWalkRight2.png"))
+			);
+					
 			
 		} catch (IOException e) {
 			e.printStackTrace();

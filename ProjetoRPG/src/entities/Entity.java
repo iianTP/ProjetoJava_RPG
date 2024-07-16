@@ -4,11 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-
 import exceptions.InvalidCoordinateException;
 import interfaces.IEntitySetup;
-import items.Item;
 import main.screen.GameScreen;
 
 public abstract class Entity implements IEntitySetup {
@@ -75,16 +72,19 @@ public abstract class Entity implements IEntitySetup {
 		this.idleRight = idleRight;
 		
 	}
-	public void setWalkSprites() throws IOException {
+	public void setWalkSprites(BufferedImage up1, BufferedImage up2,
+			  				   BufferedImage down1,BufferedImage down2,
+			  				   BufferedImage left1,BufferedImage left2,
+			  				   BufferedImage right1,BufferedImage right2) throws IOException {
 		
-		this.up1 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkUp1.png"));
-		this.up2 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkUp2.png"));
-		this.down1 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkDown1.png"));
-		this.down2 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkDown2.png"));
-		this.left1 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkLeft1.png"));
-		this.left2 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkLeft2.png"));
-		this.right1 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkRight1.png"));
-		this.right2 = ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkRight2.png"));
+		this.up1 = up1;
+		this.up2 = up2;
+		this.down1 = down1;
+		this.down2 = down2;
+		this.left1 = left1;
+		this.left2 = left2;
+		this.right1 = right1;
+		this.right2 = right2;
 		
 	}
 	public void setCollision(boolean collision) {

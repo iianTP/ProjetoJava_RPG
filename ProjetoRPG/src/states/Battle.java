@@ -6,7 +6,6 @@ import entities.player.Player;
 import entities.teammates.*;
 import exceptions.InvalidTargetException;
 import exceptions.IndexOutOfRangeException;
-import exceptions.InvalidStatsInputException;
 import items.Book;
 import items.Item;
 import items.Potion;

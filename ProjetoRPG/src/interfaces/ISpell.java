@@ -1,7 +1,6 @@
 package interfaces;
 
 import entities.Battler;
-import entities.Entity;
 import entities.Stats;
 import states.Battle;
 

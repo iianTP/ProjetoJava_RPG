@@ -3,30 +3,15 @@ package entities.player;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
-import combat.Effects;
-import combat.spells.KnownSpells;
-import combat.spells.Spell;
 import items.*;
-import entities.Battler;
 import entities.Collision;
-import entities.Entity;
-import entities.Stats;
-import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.teammates.Team;
-import entities.teammates.Teammate;
 import exceptions.InvalidCoordinateException;
-import exceptions.InvalidSpellIdException;
-import exceptions.InvalidStatsInputException;
-import exceptions.InvalidTargetException;
-import exceptions.InventoryIsFullException;
-import interfaces.ICombat;
 import main.KeyInput;
 import main.screen.GameScreen;
 import quests.QuestList;
-import states.Battle;
 
 public abstract class Player extends Team {
 	

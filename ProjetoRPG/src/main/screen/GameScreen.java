@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 
 import entities.enemies.*;
 import entities.npcs.*;
-import entities.npcs.questNpc.QTest;
 import entities.player.*;
 import entities.teammates.*;
 import exceptions.InvalidCoordinateException;
@@ -139,21 +138,19 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private void setNpcs() {
 		
-		this.npcs = new Npc[11];
+		this.npcs = new Npc[9];
 		
-		this.npcs[0] = new Test(1333, 1386, this);
-		this.npcs[1] = new Seller(1224, 1234, this);
-		this.npcs[2] = new QTest(900,900,this);
+		this.npcs[0] = new LobbySeller(32*48,32*48,this);
 		
-		this.npcs[3] = new Door(this, 24+11*48, 24+28*48, "lobby", 41*48,49*48, "world1");
-		this.npcs[4] = new Door(this, 24+26*48, 24+22*48, "lobby", 32*48,44*48, "world2");
-		this.npcs[5] = new Door(this, 24+38*48, 24+22*48, "lobby", 48*48,41*48, "world3");
-		this.npcs[6] = new Door(this, 24+51*48, 24+30*48, "lobby", 32*48,31*48, "world4");
+		this.npcs[1] = new Door(this, 24+11*48, 24+28*48, "lobby", 41*48,49*48, "world1");
+		this.npcs[2] = new Door(this, 24+26*48, 24+22*48, "lobby", 32*48,44*48, "world2");
+		this.npcs[3] = new Door(this, 24+38*48, 24+22*48, "lobby", 48*48,41*48, "world3");
+		this.npcs[4] = new Door(this, 24+51*48, 24+30*48, "lobby", 32*48,31*48, "world4");
 		
-		this.npcs[7] = new Door(this, 24+41*48, 24+50*48, "world1", 11*48, 27*48, "lobby");
-		this.npcs[8] = new Door(this, 24+32*48, 24+45*48, "world2", 26*48, 21*48, "lobby");
-		this.npcs[9] = new Door(this, 24+48*48, 24+42*48, "world3", 38*48, 21*48, "lobby");
-		this.npcs[10] = new Door(this, 24+32*48, 24+32*48, "world4", 51*48, 29*48, "lobby");
+		this.npcs[5] = new Door(this, 24+41*48, 24+50*48, "world1", 11*48, 27*48, "lobby");
+		this.npcs[6] = new Door(this, 24+32*48, 24+45*48, "world2", 26*48, 21*48, "lobby");
+		this.npcs[7] = new Door(this, 24+48*48, 24+42*48, "world3", 38*48, 21*48, "lobby");
+		this.npcs[8] = new Door(this, 24+32*48, 24+32*48, "world4", 51*48, 29*48, "lobby");
 		
 	}
 

@@ -4,11 +4,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entities.Battler;
-import entities.Entity;
 import entities.Stats;
 import entities.enemies.Enemie;
-import entities.npcs.Npc;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
@@ -35,6 +32,18 @@ public class Assassin extends Player {
 				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleLeft.png")),
 				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleRight.png"))
 			);
+				
+			super.setWalkSprites(
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinWalkUp1.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinWalkUp2.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinWalkDown1.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinWalkDown2.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinWalkLeft1.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinWalkLeft2.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinWalkRight1.png")),
+				ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinWalkRight2.png"))
+			);
+				
 			
 		} catch (IOException e) {
 			e.printStackTrace();

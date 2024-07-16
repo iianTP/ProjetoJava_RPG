@@ -1,6 +1,6 @@
 package quests;
 
-import entities.npcs.questNpc.QuestNpc;
+import entities.npcs.Npc;
 import entities.player.Player;
 import exceptions.InventoryIsFullException;
 import items.Item;
@@ -10,13 +10,15 @@ public abstract class Quest {
 	private String type;
 	private String description;
 	
-	private QuestNpc requester;
+	private Npc requester;
 	
 	private Reward reward;
 	
 	private boolean done = false;
 	
-	public Quest(String type, Reward reward, QuestNpc requester) {
+	private int id = -1;
+	
+	public Quest(String type, Reward reward, Npc requester) {
 		this.type = type;
 		this.reward = reward;
 		this.requester = requester;
@@ -51,10 +53,18 @@ public abstract class Quest {
 		player.addGold(reward.getGold());
 	}
 
-	public QuestNpc getRequester() {
+	public Npc getRequester() {
 		return requester;
 	}
 	public Reward getReward() {
 		return reward;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

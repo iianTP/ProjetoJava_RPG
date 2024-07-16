@@ -8,7 +8,6 @@ import entities.Collision;
 import entities.Entity;
 import entities.player.Player;
 import main.screen.GameScreen;
-import quests.Quest;
 
 public abstract class Npc extends Entity {
 	
@@ -21,6 +20,8 @@ public abstract class Npc extends Entity {
 	private int frameCounter = 0;
 	
 	private boolean walking = false;
+	
+	private BufferedImage sprite;
 	
 	public Npc(GameScreen gs) {
 		super(gs);
@@ -36,18 +37,6 @@ public abstract class Npc extends Entity {
 	
 	public void draw(Graphics2D brush, Player player) {
 		
-		BufferedImage sprite = null;
-		
-		if (super.getDirection().equals("up")) {
-			sprite = super.getIdleSprites()[0];
-		} else if (super.getDirection().equals("down")) {
-			sprite = super.getIdleSprites()[1];
-		} else if (super.getDirection().equals("left")) {
-			sprite = super.getIdleSprites()[2];
-		} else if (super.getDirection().equals("right")) {
-			sprite = super.getIdleSprites()[3];
-		}
-
 		this.screenX = super.getX() - player.getX() + super.getGs().getScreenSide()/2;
 		setScreenY(super.getY() - player.getY() + super.getGs().getScreenSide()/2);
 		
@@ -57,7 +46,9 @@ public abstract class Npc extends Entity {
 		brush.fillOval(this.screenX, this.screenY+40, 48, 15);
 		//
 		
-		brush.drawImage(sprite, this.screenX, this.screenY, super.getGs().getTileSide(), super.getGs().getTileSide(), null);
+		if (player.getLocation().equals(super.getLocation())) {
+			brush.drawImage(sprite, this.screenX, this.screenY, super.getGs().getTileSide(), super.getGs().getTileSide(), null);
+		}
 
 	}
 	
@@ -123,6 +114,14 @@ public abstract class Npc extends Entity {
 
 	public void setDialogue(String[] dialogue) {
 		this.dialogue = dialogue;
+	}
+
+	public BufferedImage getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(BufferedImage sprite) {
+		this.sprite = sprite;
 	}
 	
 }

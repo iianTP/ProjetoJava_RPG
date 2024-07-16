@@ -2,7 +2,6 @@ package combat.spells;
 
 import entities.Battler;
 import entities.Stats;
-import entities.enemies.Enemie;
 import exceptions.InvalidSpellIdException;
 import states.Battle;
 

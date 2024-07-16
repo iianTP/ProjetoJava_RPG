@@ -2,7 +2,6 @@ package entities;
 
 import entities.npcs.Npc;
 import entities.player.Player;
-import tiles.Tile;
 import tiles.TileManager;
 
 public class Collision {

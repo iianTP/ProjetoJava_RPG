@@ -1,7 +1,7 @@
 package quests;
 
 import entities.enemies.Enemie;
-import entities.npcs.questNpc.QuestNpc;
+import entities.npcs.Npc;
 
 public class KillEnemieQuest extends Quest {
 
@@ -9,7 +9,7 @@ public class KillEnemieQuest extends Quest {
 	private int quantity;
 	private int killed = 0;
 	
-	public KillEnemieQuest(Enemie enemie, int quantity, String type, Reward reward, QuestNpc requester) {
+	public KillEnemieQuest(Enemie enemie, int quantity, String type, Reward reward, Npc requester) {
 		super(type, reward, requester);
 		this.enemie = enemie;
 		this.quantity = quantity;

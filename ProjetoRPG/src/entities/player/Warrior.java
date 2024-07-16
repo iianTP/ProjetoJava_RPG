@@ -4,10 +4,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entities.Battler;
 import entities.Stats;
 import entities.enemies.Enemie;
-import entities.npcs.Npc;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
@@ -33,6 +31,16 @@ public class Warrior extends Player {
 					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleDown.png")),
 					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleLeft.png")),
 					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorIdleRight.png"))
+			);
+			super.setWalkSprites(
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorWalkUp1.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorWalkUp2.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorWalkDown1.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorWalkDown2.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorWalkLeft1.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorWalkLeft2.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorWalkRight1.png")),
+					ImageIO.read(getClass().getResourceAsStream("/warrior/WarriorWalkRight2.png"))
 			);
 			
 		} catch (IOException e) {

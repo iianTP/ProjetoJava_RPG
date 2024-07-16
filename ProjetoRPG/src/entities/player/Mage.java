@@ -7,8 +7,6 @@ import javax.imageio.ImageIO;
 import entities.Battler;
 import entities.Stats;
 import entities.enemies.Enemie;
-import entities.npcs.Npc;
-import entities.teammates.MageNpc;
 import entities.teammates.Team;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
@@ -37,7 +35,16 @@ public class Mage extends Player {
 				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"))
 			);
 			
-			super.setWalkSprites();
+			super.setWalkSprites(
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkUp1.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkUp2.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkDown1.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkDown2.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkLeft1.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkLeft2.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkRight1.png")),
+				ImageIO.read(getClass().getResourceAsStream("/mage/MageWalkRight2.png"))
+			);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

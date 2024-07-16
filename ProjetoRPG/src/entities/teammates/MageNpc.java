@@ -43,7 +43,7 @@ public class MageNpc extends Teammate {
 				ImageIO.read(getClass().getResourceAsStream("/mage/MageIdleRight.png"))
 			);
 			
-			super.setWalkSprites();
+			//super.setWalkSprites();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

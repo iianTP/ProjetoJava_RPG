@@ -6,8 +6,6 @@ import javax.imageio.ImageIO;
 
 import entities.Stats;
 import entities.enemies.Enemie;
-import entities.npcs.Npc;
-import entities.player.Player;
 import exceptions.InvalidCoordinateException;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;

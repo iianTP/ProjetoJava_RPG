@@ -2,10 +2,7 @@ package entities.teammates;
 
 
 import combat.BattleRng;
-import entities.Battler;
-import entities.Stats;
 import entities.enemies.Enemie;
-import exceptions.InvalidStatsInputException;
 import exceptions.InvalidTargetException;
 import interfaces.ICombat;
 import main.screen.GameScreen;
