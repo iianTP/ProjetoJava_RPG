@@ -46,9 +46,10 @@ public class Castle extends Npc {
 	
 	@Override
 	public void interaction(Player player) {
-		super.getGs().changeMap(this.castle, 7*48+24, 43*48+24);
-		player.setDirection("up");
-		player.setLocation(this.castle);
+		if (player.getDirection().equals("up")) {
+			super.getGs().changeMap(this.castle, 7*48+24, 43*48+24);
+			player.setLocation(this.castle);
+		}
 	}
 
 	@Override

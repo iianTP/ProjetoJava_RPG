@@ -26,6 +26,7 @@ import quests.Quest;
 import quests.QuestList;
 import states.Battle;
 import states.Dialogue;
+import states.Intro;
 import states.MainMenu;
 import states.PlayerMenu;
 import states.Shop;
@@ -74,13 +75,32 @@ public class UI {
 		setBattleUI();
 		InputStream is = getClass().getResourceAsStream("/fonts/ARCADEPI.ttf");
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 20F);
+			this.font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.PLAIN, 20F);
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
 		
 		this.key = key;
 		this.ta = ta;
+		
+	}
+	
+	public void intro(Intro intro) {
+		
+		String text;
+		
+		brush.setFont(font);
+		brush.setColor(Color.white);
+		
+		if (intro.isFirstText() && this.ta.getCount() == 25) {
+			System.out.println("a");
+			intro.changeFirstText();
+		}
+		
+		text = intro.getCurrentText();
+		
+		this.ta.displayText(text, 28, 16, 3*48, 4*48, brush);
+		
 		
 	}
 	
@@ -103,7 +123,7 @@ public class UI {
 		brush.setFont(font);
 		brush.setColor(Color.white);
 		
-		this.ta.displayText(dialogue.getDialogue(), 50, 48+24, 48*2, brush);
+		this.ta.displayText(dialogue.getDialogue(), 50, 14, 48+24, 48*2, brush);
 		
 	}
 	
@@ -278,7 +298,7 @@ public class UI {
 		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
 		
-		this.ta.displayText("* "+battle.getMessage(), 25, 16*3, 176*3, brush);
+		this.ta.displayText("* "+battle.getMessage(), 25, 14, 16*3, 176*3, brush);
 		
 	}
 	

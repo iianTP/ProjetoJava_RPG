@@ -27,7 +27,6 @@ public abstract class Npc extends Entity {
 		super(gs);
 	}
 	
-//	public void interaction() {};
 	public void interaction(Player player) {};
 	public void action(Player player, Npc[] npcs) {};
 	
@@ -44,7 +43,6 @@ public abstract class Npc extends Entity {
 		
 			// SOMBRA
 			brush.setColor(new Color(0,0,0,100));
-			brush.drawRect(this.screenX, this.screenY, 48, 48);
 			brush.fillOval(this.screenX, this.screenY+40, 48, 15);
 			//
 			

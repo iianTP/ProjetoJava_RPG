@@ -38,9 +38,11 @@ public class Door extends Npc {
 	
 	@Override
 	public void interaction(Player player) {
-		super.getGs().changeMap(this.map,this.destinyX,this.destinyY);
-		player.setDirection("down");
-		player.setLocation(this.map);
+		if (player.getDirection().equals("up")) {
+			super.getGs().changeMap(this.map,this.destinyX,this.destinyY);
+			player.setDirection("down");
+			player.setLocation(this.map);
+		}
 	}
 
 	@Override
@@ -54,12 +56,6 @@ public class Door extends Npc {
 		}
 	}
 
-	@Override
-	public void action(Player player, Npc[] npcs) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	@Override
 	public void draw(Graphics2D brush, Player player) {
 		

@@ -62,7 +62,7 @@ public class MainMenu {
 		
 		gs.startGame(playerClass);
 		try {
-			gs.setGameState(1);
+			gs.setGameState(7);
 		} catch (InvalidGameStateIndex e) {
 			e.printStackTrace();
 		}

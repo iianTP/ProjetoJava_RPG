@@ -13,15 +13,15 @@ public class TextAnimation {
 	
 	private boolean textEnded = false;
 	
-	public void displayText(String text, int width, int startX, int startY, Graphics2D brush) {
+	public void displayText(String text, int width, int letterSpacement, int startX, int startY, Graphics2D brush) {
 		
 		String[] letters = text.split("");
 		
 		if (this.textEnded) {
 			for (int i = 0; i < letters.length; i++) {
-				letterPosition = i-(i/width)*width;
+				this.letterPosition = i - (i /width)*width;
 				this.skipLine = i/width;
-				brush.drawString(letters[i], startX+14*letterPosition, startY+24*skipLine);
+				brush.drawString(letters[i], startX+letterSpacement*letterPosition, startY+24*skipLine);
 			}
 		} else {
 			
@@ -31,9 +31,9 @@ public class TextAnimation {
 				this.textEnded = true;
 			}
 			for (int i = 0; i < this.count; i++) {
-				letterPosition = i-(i/width)*width;
+				this.letterPosition = i - (i /width)*width;
 				this.skipLine = i/width;
-				brush.drawString(letters[i], startX+14*letterPosition, startY+24*skipLine);
+				brush.drawString(letters[i], startX+letterSpacement*letterPosition, startY+24*skipLine);
 			}
 			this.timer++;
 			if (this.timer > 2) {
@@ -62,6 +62,10 @@ public class TextAnimation {
 		count = 0;
 		this.arrowPosition = -1;
 		this.textEnded = false;
+	}
+	
+	public int getCount() {
+		return this.count;
 	}
 	
 }

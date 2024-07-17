@@ -4,6 +4,9 @@ import javax.swing.JPanel;
 
 import entities.enemies.*;
 import entities.npcs.*;
+import entities.npcs.bosses.Boss1Npc;
+import entities.npcs.bosses.Boss2Npc;
+import entities.npcs.bosses.Boss3Npc;
 import entities.player.*;
 import entities.teammates.*;
 import exceptions.InvalidCoordinateException;
@@ -54,6 +57,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private final int inventory = 4;
 	private final int combat = 5;
 	private final int buying = 6;
+	private final int introduction = 7;
 
 	private int gameState = 0;
 	
@@ -64,6 +68,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private PlayerMenu playerMenu; //= new PlayerMenu(this.key, this.player, this.teammates);
 	private Shop shop;
 	private MainMenu mainMenu;
+	private Intro intro;
 	private TextAnimation ta = new TextAnimation();
 
 	public GameScreen() {
@@ -205,6 +210,25 @@ public class GameScreen extends JPanel implements Runnable {
 			}
 			this.mainMenu.mainMenu();
 			this.key.setButtonCols(1);
+		}
+		
+		else if (this.gameState == this.introduction) {
+			
+			if (this.intro == null) {
+				this.intro = new Intro(this.key);
+			}
+			
+			this.ta.checkStateChange(this.intro.isChangedState(), -1);
+			this.intro.intro();
+			
+			//System.out.println(this.intro.getCurrentText());
+			
+			if (this.intro.isIntroEnded()) {
+				this.ta.resetTextAnimation();
+				this.intro = null;
+				this.gameState = playing;
+			}
+			
 		}
 		
 		else if (gameState == talking) {
@@ -355,7 +379,11 @@ public class GameScreen extends JPanel implements Runnable {
 			this.ui.mainScreen(this.mainMenu);
 		}
 		
-		if (this.player != null && this.npcs != null) {
+		if (this.gameState == this.introduction && this.intro != null) {
+			this.ui.intro(intro);
+		}
+		
+		if (this.player != null && this.npcs != null && this.gameState != introduction) {
 			
 			this.theVoid.draw(g2D);
 			
@@ -473,7 +501,7 @@ public class GameScreen extends JPanel implements Runnable {
 		return this.gameState;
 	}
 	public void setGameState(int gameState) throws InvalidGameStateIndex {
-		if (gameState < 0 || gameState > 6) {
+		if (gameState < 0 || gameState > 7) {
 			throw new InvalidGameStateIndex("estado de jogo "+gameState+" inválido");
 		}
 		this.gameState = gameState;

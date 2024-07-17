@@ -121,6 +121,12 @@ public class KeyInput implements KeyListener {
 			}
 			
 			this.commandNum(key);
+		} else if (gs.getGameState() == 7) {
+
+			if (key == KeyEvent.VK_E) {
+				this.interaction = true;
+			}
+			
 		}
 		
 		
