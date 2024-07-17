@@ -150,12 +150,12 @@ public class GameScreen extends JPanel implements Runnable {
 		this.npcs[1] = new Door(this, 24+11*48, 24+28*48, "lobby", 41*48,49*48, "world1");
 		this.npcs[2] = new Door(this, 24+26*48, 24+22*48, "lobby", 32*48,44*48, "world2");
 		this.npcs[3] = new Door(this, 24+38*48, 24+22*48, "lobby", 48*48,41*48, "world3");
-		this.npcs[4] = new Door(this, 24+51*48, 24+30*48, "lobby", 32*48,31*48, "world4");
+		this.npcs[4] = new Door(this, 24+51*48, 24+30*48, "lobby", 17*48,80*48, "world4");
 		
 		this.npcs[5] = new Door(this, 24+41*48, 24+50*48, "world1", 11*48, 27*48, "lobby");
 		this.npcs[6] = new Door(this, 24+32*48, 24+45*48, "world2", 26*48, 21*48, "lobby");
 		this.npcs[7] = new Door(this, 24+48*48, 24+42*48, "world3", 38*48, 21*48, "lobby");
-		this.npcs[8] = new Door(this, 24+32*48, 24+32*48, "world4", 51*48, 29*48, "lobby");
+		this.npcs[8] = new Door(this, 24+17*48, 24+81*48, "world4", 51*48, 29*48, "lobby");
 		
 		this.npcs[9] = new Castle(this, "world1","castle1", 22*48, 11*48);
 		this.npcs[10] = new Castle(this, "world2","castle2", 32*48, 12*48);

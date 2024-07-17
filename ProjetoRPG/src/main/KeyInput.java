@@ -70,6 +70,9 @@ public class KeyInput implements KeyListener {
 			else if (key == KeyEvent.VK_3) {
 				gs.changeMap("world3", 32*48, 32*48);
 			}
+			else if (key == KeyEvent.VK_4) {
+				gs.changeMap("world4", 17*48+24, 24+81*48);
+			}
 			
 			
 			} catch (InvalidGameStateIndex e1) {

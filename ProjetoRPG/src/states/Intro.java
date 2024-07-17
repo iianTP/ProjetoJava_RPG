@@ -12,12 +12,13 @@ public class Intro {
 			"O ACORDO CONSISTIA NO       ISOLAMENTO TOTAL DE CADA MUNDO PARA QUE ELES NUNCA MAIS ENTRASSEM EM CONTATO",
 			"ESTE ISOLAMENTO PERSISTE ATEENTAO",
 			"...",
-			"...?",
+			".....",
+			".......?",
 			"?#$x* aANos   ddEpOIs...",
 			"FRAGMENTOS MISTERIOSOS      SURGIRAM EM CADA UM DOS 3   MUNDOS",
 			"ESTE EVENTO DETERMINOU ENTAOO DIA DA GRANDE REUNIAO",
 			"OS MUNDOS ENTAO ESTAVAM EM  HARMONIA NOVAMENTE",
-			".      .      ."
+			".      .      .      .      ."
 	};
 	
 	private int textIndex = 0;
