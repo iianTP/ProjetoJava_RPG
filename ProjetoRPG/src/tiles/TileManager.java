@@ -119,9 +119,9 @@ public class TileManager {
 					
 					brush.drawImage(tile(i*48,j*48).getTile(), x, y, 48, 48, null);
 					brush.setColor(Color.red);
-					brush.drawRect(x, y, 48, 48);
+				/*	brush.drawRect(x, y, 48, 48);
 					brush.drawString("X: "+j, x+10, y+15);
-					brush.drawString("Y: "+i, x+10, y+25);
+					brush.drawString("Y: "+i, x+10, y+25);*/
 						
 				}
 				

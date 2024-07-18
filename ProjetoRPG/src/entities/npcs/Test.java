@@ -23,8 +23,8 @@ public class Test extends Npc {
 		super.setDirection("down");
 
 		try {
-			super.setX(x);
-			super.setY(y);
+			super.setX(34*48);
+			super.setY(32*48);
 		} catch (InvalidCoordinateException e) {
 			e.printStackTrace();
 		}
@@ -33,6 +33,7 @@ public class Test extends Npc {
 		setSprites();
 		
 		super.setDialogue(new String[] {"gdsgdsd", "sdgshsrhse"});
+		super.setLocation("lobby");
 		
 	}
 	

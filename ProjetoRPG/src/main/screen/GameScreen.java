@@ -143,7 +143,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private void setNpcs() {
 		
-		this.npcs = new Npc[15];
+		this.npcs = new Npc[21];
 		
 		this.npcs[0] = new LobbySeller(32*48,32*48,this);
 		
@@ -155,7 +155,7 @@ public class GameScreen extends JPanel implements Runnable {
 		this.npcs[5] = new Door(this, 24+41*48, 24+50*48, "world1", 11*48, 27*48, "lobby");
 		this.npcs[6] = new Door(this, 24+32*48, 24+45*48, "world2", 26*48, 21*48, "lobby");
 		this.npcs[7] = new Door(this, 24+48*48, 24+42*48, "world3", 38*48, 21*48, "lobby");
-		this.npcs[8] = new Door(this, 24+17*48, 24+81*48, "world4", 51*48, 29*48, "lobby");
+		this.npcs[8] = new Door(this, 24+17*48, 24+81*48, "world4", 51*48, 29*48, "");
 		
 		this.npcs[9] = new Castle(this, "world1","castle1", 22*48, 11*48);
 		this.npcs[10] = new Castle(this, "world2","castle2", 32*48, 12*48);
@@ -164,6 +164,15 @@ public class GameScreen extends JPanel implements Runnable {
 		this.npcs[12] = new Boss1Npc(this);
 		this.npcs[13] = new Boss2Npc(this);
 		this.npcs[14] = new Boss3Npc(this);
+		
+		this.npcs[15] = new House(this, 41*48, 18*48, "world1");
+		this.npcs[16] = new House(this, 37*48, 19*48, "world1");
+		
+		this.npcs[17] = new House(this, 22*48, 30*48, "world2");
+		this.npcs[18] = new House(this, 42*48, 30*48, "world2");
+		
+		this.npcs[19] = new House(this, 36*48, 27*48, "world3");
+		this.npcs[20] = new House(this, 40*48, 18*48, "world3");
 		
 	}
 
@@ -480,6 +489,12 @@ public class GameScreen extends JPanel implements Runnable {
 	public void changeMap(String map, int x, int y) {
 		this.tiles.setCurrentMap(map);
 		this.player.setLocation(map);
+		
+		if (map.equals("lobby") && this.r.nextInt(0,10) == 0) {
+			this.npcs[8].setLocation("lobby");
+		} else {
+			this.npcs[8].setLocation("");
+		}
 		
  		try {
 			this.player.setX(x);

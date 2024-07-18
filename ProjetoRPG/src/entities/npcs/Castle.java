@@ -41,7 +41,6 @@ public class Castle extends Npc {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	@Override

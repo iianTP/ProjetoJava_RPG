@@ -123,7 +123,7 @@ public class UI {
 		brush.setFont(font);
 		brush.setColor(Color.white);
 		
-		this.ta.displayText(dialogue.getDialogue(), 50, 14, 48+24, 48*2, brush);
+		this.ta.displayText(dialogue.getDialogue(), 40, 14, 48+24, 48*2, brush);
 		
 	}
 	
