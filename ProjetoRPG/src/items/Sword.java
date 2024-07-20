@@ -1,5 +1,9 @@
 package items;
 
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class Sword extends Item {
 	
 	private int strength;
@@ -8,6 +12,12 @@ public class Sword extends Item {
 	public Sword(int type) {
 		super.setEquipable();
 		super.setRestriction(new String[] {"warrior"});
+		
+		try {
+			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/items/sword_"+(type-1)+".png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		switch(type) {
 		case 1:

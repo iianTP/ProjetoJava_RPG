@@ -23,13 +23,8 @@ public class Castle extends Npc {
 		super.setLocation(map);
 		super.setHitbox(new int[][] {{-48, 0},{48*2,48}});
 		
-		try {
-			super.setX(x);
-			super.setY(y);
-		} catch (InvalidCoordinateException e) {
-			e.printStackTrace();
-		}
-		
+		super.setX(x);
+		super.setY(y);
 	}
 
 	@Override

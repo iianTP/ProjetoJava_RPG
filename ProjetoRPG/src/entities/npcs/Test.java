@@ -15,19 +15,13 @@ import main.screen.GameScreen;
 
 public class Test extends Npc {
 	
-	private Random random = new Random();
-	 
 	public Test(int x, int y, GameScreen gs) {
 		super(gs);
 		
 		super.setDirection("down");
 
-		try {
-			super.setX(34*48);
-			super.setY(32*48);
-		} catch (InvalidCoordinateException e) {
-			e.printStackTrace();
-		}
+		super.setX(34*48);
+		super.setY(32*48);
 		
 		super.setWalkSpeed(1);
 		setSprites();
@@ -86,11 +80,7 @@ public class Test extends Npc {
 	@Override
 	public void interaction(Player player) {
 		System.out.println("foi");
-		try {
-			super.getGs().setGameState(3);
-		} catch (InvalidGameStateIndex e) {
-			e.printStackTrace();
-		}
+		super.getGs().setDialogueState();
 		
 		if (!player.getInventory().isFull()) {
 			try {

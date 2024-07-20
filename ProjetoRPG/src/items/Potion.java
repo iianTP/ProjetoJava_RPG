@@ -1,5 +1,9 @@
 package items;
 
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 
@@ -19,6 +23,12 @@ public class Potion extends Item {
 		super.setConsumable();
 		
 		this.type = type;
+		
+		try {
+			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/items/potion_"+(type-1)+".png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		switch(type) {
 		case 1:

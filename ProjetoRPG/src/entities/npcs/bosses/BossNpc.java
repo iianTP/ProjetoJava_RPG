@@ -16,12 +16,8 @@ public abstract class BossNpc extends Npc {
 	public BossNpc(GameScreen gs) {
 		super(gs);
 		
-		try {
-			super.setX(7*48);
-			super.setY(3*48);
-		} catch (InvalidCoordinateException e) {
-			e.printStackTrace();
-		}
+		super.setX(7*48);
+		super.setY(3*48);
 		
 	}
 	

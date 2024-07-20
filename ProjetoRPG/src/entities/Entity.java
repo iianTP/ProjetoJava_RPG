@@ -43,15 +43,23 @@ public abstract class Entity implements IEntitySetup {
 	}
 	
 	// SET
-	public void setX(int x) throws InvalidCoordinateException {
+	public void setX(int x) {
 		if (x < 0) {
-			throw new InvalidCoordinateException("coordenada x < 0");
+			try {
+				throw new InvalidCoordinateException("coordenada x < 0");
+			} catch (InvalidCoordinateException e) {
+				e.printStackTrace();
+			}
 		}
 		this.x = x;
 	}
-	public void setY(int y) throws InvalidCoordinateException {
+	public void setY(int y) {
 		if (y < 0) {
-			throw new InvalidCoordinateException("coordenada y < 0");
+			try {
+				throw new InvalidCoordinateException("coordenada y < 0");
+			} catch (InvalidCoordinateException e) {
+				e.printStackTrace();
+			}
 		}
 		this.y = y;
 	}

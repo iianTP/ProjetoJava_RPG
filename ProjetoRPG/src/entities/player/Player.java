@@ -40,13 +40,9 @@ public abstract class Player extends Team {
 		this.inventory = new Inventory(this.key);
 		
 		// Coordenadas iniciais do player (centro da tela)
-		try {
-			super.setX(32*48+24);
-			super.setY(41*48+24);
-		} catch (InvalidCoordinateException e) {
-			e.printStackTrace();
-		}
-		
+	
+		super.setX(32*48+24);
+		super.setY(41*48+24);
 		
 		super.setWalkSpeed(10); // Velocidade do player
 		super.setDirection("down"); // Direção do player
@@ -158,21 +154,18 @@ public abstract class Player extends Team {
 			
 			super.setCollision(false);
 			
-			try {
-				super.setX(super.getX() - 24);
-				super.setY(super.getY() - 24);
-				
-				this.collision.checkTile(this);
-				
-				if (npcs != null) {
-					this.collision.checkNpc(this, npcs);
-				}
-				
-				super.setX(super.getX() + 24);
-				super.setY(super.getY() + 24);
-			} catch (InvalidCoordinateException e) {
-				e.printStackTrace();
+			
+			super.setX(super.getX() - 24);
+			super.setY(super.getY() - 24);
+			
+			this.collision.checkTile(this);
+			
+			if (npcs != null) {
+				this.collision.checkNpc(this, npcs);
 			}
+			
+			super.setX(super.getX() + 24);
+			super.setY(super.getY() + 24);
 			
 			
 			
@@ -199,19 +192,16 @@ public abstract class Player extends Team {
 		
 		super.setCollision(false);
 		
-		try {
-			super.setX(super.getX() - 24);
-			super.setY(super.getY() - 24);
-			
-			this.collision.checkNpc(this, npcs);
-			
-			super.setX(super.getX() + 24);
-			super.setY(super.getY() + 24);
-			
-		} catch (InvalidCoordinateException e) {
-			e.printStackTrace();
-		}
+
+		super.setX(super.getX() - 24);
+		super.setY(super.getY() - 24);
 		
+		this.collision.checkNpc(this, npcs);
+		
+		super.setX(super.getX() + 24);
+		super.setY(super.getY() + 24);
+			
+
 		if (super.isColliding()) {
 			//this.collision.getNpcNearby().interaction();
 			this.collision.getNpcNearby().interaction(this);

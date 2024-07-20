@@ -19,12 +19,10 @@ public class HealerNpc extends Teammate {
 		super(gs);	
 		this.setStats();
 		this.setSprites();
-		try {
-			super.setX(x);
-			super.setY(y);
-		} catch (InvalidCoordinateException e) {
-			e.printStackTrace();
-		}
+		
+		super.setX(x);
+		super.setY(y);
+			
 		super.setWalkSpeed(3);
 		super.setDirection("down");
 		super.setName("CURANDEIRO");

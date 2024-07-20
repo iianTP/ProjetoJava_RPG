@@ -19,7 +19,7 @@ public class Boss1Npc extends BossNpc {
 	@Override
 	public void setSprites() {
 		try {
-			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")));
+			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/bosses/boss1.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

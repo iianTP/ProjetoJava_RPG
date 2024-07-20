@@ -81,12 +81,8 @@ public class LobbySeller extends Seller {
 		
 		super.setDirection("down");
 
-		try {
-			super.setX(x);
-			super.setY(y);
-		} catch (InvalidCoordinateException e) {
-			e.printStackTrace();
-		}
+		super.setX(x);
+		super.setY(y);
 		
 		setSprites();
 		
@@ -118,11 +114,7 @@ public class LobbySeller extends Seller {
 	}
 	
 	private void dialogue() {
-		try {
-			super.getGs().setGameState(3);
-		} catch (InvalidGameStateIndex e) {
-			e.printStackTrace();
-		}
+		super.getGs().setDialogueState();
 	}
 	
 	private void requestQuest(Player player) {
@@ -130,11 +122,7 @@ public class LobbySeller extends Seller {
 	}
 	
 	private void openShop() {
-		try {
-			super.getGs().setGameState(6);
-		} catch (InvalidGameStateIndex e) {
-			e.printStackTrace();
-		}
+		super.getGs().setShopState();
 	}
 	
 	@Override

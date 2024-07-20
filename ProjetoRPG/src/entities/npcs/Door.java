@@ -25,14 +25,10 @@ public class Door extends Npc {
 		this.map = map;
 		
 		super.setLocation(location);
-		
-		try {
-			super.setX(x);
-			super.setY(y);
-		} catch (InvalidCoordinateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		super.setX(x);
+		super.setY(y);
+
 		setSprites();
 	}
 	

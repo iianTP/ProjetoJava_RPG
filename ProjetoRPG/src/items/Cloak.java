@@ -1,5 +1,9 @@
 package items;
 
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class Cloak extends Item {
 	
 	private int magicDefense;
@@ -8,6 +12,12 @@ public class Cloak extends Item {
 	public Cloak(int type) {
 		super.setEquipable();
 		super.setRestriction(new String[] {"mage", "healer"});
+		
+		try {
+			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/items/cloak_"+(type-1)+".png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		switch(type) {
 		case 1:

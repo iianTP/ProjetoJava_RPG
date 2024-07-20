@@ -29,8 +29,8 @@ public class Collision {
 			
 			if (entity.getDirection().equals("up")) {
 					
-				if (this.tiles.tile( hitboxTop - speed,hitboxLeft).checkCollision() ||
-					this.tiles.tile(hitboxTop - speed,hitboxRight).checkCollision()) {
+				if (this.tiles.tile(hitboxTop - speed, hitboxLeft).checkCollision() ||
+					this.tiles.tile(hitboxTop - speed, hitboxRight).checkCollision()) {
 					entity.setCollision(true);
 				} else {
 					entity.setCollision(false);
@@ -38,19 +38,17 @@ public class Collision {
 				
 			} else if (entity.getDirection().equals("down")) {
 				
-				if (this.tiles.tile(hitboxBottom + speed,hitboxLeft).checkCollision() ||
-					this.tiles.tile(hitboxBottom + speed,hitboxRight).checkCollision()) {
-					
+				if (this.tiles.tile(hitboxBottom + speed, hitboxLeft).checkCollision() ||
+					this.tiles.tile(hitboxBottom + speed, hitboxRight).checkCollision()) {
 					entity.setCollision(true);
-					
 				} else {
 					entity.setCollision(false);
 				}
 				
 			} else if (entity.getDirection().equals("left")) {
 				
-				if (this.tiles.tile( hitboxTop, hitboxLeft - speed).checkCollision() ||
-					this.tiles.tile( hitboxBottom, hitboxLeft - speed).checkCollision()) {
+				if (this.tiles.tile(hitboxTop, hitboxLeft - speed).checkCollision() ||
+					this.tiles.tile(hitboxBottom, hitboxLeft - speed).checkCollision()) {
 					entity.setCollision(true);
 				} else {
 					entity.setCollision(false);
@@ -58,8 +56,8 @@ public class Collision {
 				
 			} else if (entity.getDirection().equals("right")) {
 				
-				if (this.tiles.tile( hitboxTop,hitboxRight + speed).checkCollision() ||
-					this.tiles.tile( hitboxBottom, hitboxRight + speed).checkCollision()) {
+				if (this.tiles.tile(hitboxTop, hitboxRight + speed).checkCollision() ||
+					this.tiles.tile(hitboxBottom, hitboxRight + speed).checkCollision()) {
 					entity.setCollision(true);
 				} else {
 					entity.setCollision(false);

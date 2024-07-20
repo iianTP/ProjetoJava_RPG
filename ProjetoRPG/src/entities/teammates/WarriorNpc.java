@@ -20,12 +20,8 @@ public class WarriorNpc extends Teammate {
 		this.setSprites();
 		this.setStats();
 		
-		try {
-			super.setX(x);
-			super.setY(y);
-		} catch (InvalidCoordinateException e) {
-			e.printStackTrace();
-		}
+		super.setX(x);
+		super.setY(y);
 		
 		super.setWalkSpeed(3);
 		super.setDirection("down");

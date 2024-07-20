@@ -621,8 +621,6 @@ public class UI {
 		
 		brush.setColor(Color.white);
 		
-		brush.fillRoundRect(48*9+20+48,48*2+24,219-48*2,219-48*2,10,10);
-		
 		for(int i = 0; i < 10; i++) {
 			
 			if (this.pMenuInventoryButtons[i][0] == 0 && this.pMenuInventoryButtons[i][1] == 0 ) {
@@ -646,19 +644,16 @@ public class UI {
 		brush.drawString("VOLTAR", 48*4+35, 48*3+40*11);
 		
 		if (itemSelected == null) {
+			
 			displayArrow(this.pMenuInventoryButtons, 10);
+			
 			if (this.key.getCmdNum() < 10) {
 				try {
-					Item item = inventory.getItem(this.key.getCmdNum());
-					if (item != null) {
-						brush.drawString(item.getProperties(), 48*9+48,48+219);
-					}
+					displayItemProps(inventory.getItem(this.key.getCmdNum()));
 				} catch (IndexOutOfRangeException e) {
 					e.printStackTrace();
 				}
 			}
-		} else {
-			brush.drawString(itemSelected.getProperties(), 48*9+48,48+219);
 		}
 		
 	}
@@ -695,7 +690,17 @@ public class UI {
 		brush.fillRoundRect(48*9+20, 48*2+229,219, 48*11-229, 10,10);
 		
 		
+		brush.setColor(Color.yellow);
+		
+		brush.drawString(itemSelected.getProperties(), 48*9+48,48+219);
+						
+		brush.setColor(new Color(255,255,255,100));
+		brush.fillRect(48*9+20+48-5,48*2-5+24,229-48*2,229-48*2);
+		brush.drawImage(itemSelected.getSprite(),48*9+20+48,48*2+24,219-48*2,219-48*2,null);
+		
 		brush.setColor(Color.white);
+		
+		this.ta.displayText(itemSelected.getDescription(), 12, 14, 48*9+40, 48*2+229+40, brush);
 		
 		if (itemSelected.isUsable()) {
 			brush.drawString("USAR", 48*9+20+48, 48*2+229+48*4+15);
@@ -749,6 +754,22 @@ public class UI {
 		
 	}
 	
+	
+	private void displayItemProps(Item item) {
+		
+		if (item != null) {
+			brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+			brush.setColor(Color.yellow);
+			brush.drawString(item.getProperties(), 48*9+48,48+219);
+			
+			brush.setColor(new Color(255,255,255,100));
+			brush.fillRect(48*9+20+48-5,48*2-5+24,229-48*2,229-48*2);
+			brush.drawImage(item.getSprite(),48*9+20+48,48*2+24,219-48*2,219-48*2,null);
+			
+		}
+	}
+	
+	
 	private void shopChooseItem(Stock stock, int selectedButton) {
 		
 		brush.setColor(Color.black);
@@ -781,8 +802,14 @@ public class UI {
 			e.printStackTrace();
 		}
 		
-		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		try {
+			displayItemProps(stock.getItem(this.key.getCmdNum()));
+		} catch (IndexOutOfRangeException e) {
+			e.printStackTrace();
+		}
 		
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		brush.setColor(Color.white);
 		brush.drawString("VOLTAR", shopItemsButtons[stock.getStockSize()][0]+15,
 				   				   shopItemsButtons[stock.getStockSize()][1]);
 		
@@ -798,6 +825,7 @@ public class UI {
 		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
+		//brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
 		
 		if (this.shopItemsButtons == null) {
 			shopItemsButtons = new int[inventory.getItemQuantity()+1][2];
@@ -811,6 +839,7 @@ public class UI {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
 		brush.setColor(Color.white);
+		
 		Item item;
 		try {
 			for (int i = 0; i < 10; i++) {
@@ -819,12 +848,18 @@ public class UI {
 				brush.drawString("-"+item.getName(), 48*4+35, 48*3+40*i);
 			}
 			
+			if (this.key.getCmdNum() < 10 && selectedButton == -1) {
+				brush.setColor(Color.black);
+				brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
+				displayItemProps(inventory.getItem(this.key.getCmdNum()));
+			}
+			
 		} catch (IndexOutOfRangeException e) {
 			e.printStackTrace();
 		}
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
-		
+		brush.setColor(Color.white);
 		brush.drawString("VOLTAR", shopItemsButtons[inventory.getItemQuantity()][0]+15,
 								   shopItemsButtons[inventory.getItemQuantity()][1]);
 		

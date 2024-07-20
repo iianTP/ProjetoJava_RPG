@@ -40,9 +40,6 @@ public class KeyInput implements KeyListener {
 			
 		} else if (gs.getGameState() == 1) {
 			
-			try {
-				
-			
 			if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
 				this.up = true;
 			} else if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
@@ -54,11 +51,11 @@ public class KeyInput implements KeyListener {
 			} else if (key == KeyEvent.VK_E) {
 				this.interaction = true;
 			} else if (key == KeyEvent.VK_P) {
-				gs.setGameState(2);
+				gs.setPauseState();
 			} else if (key == KeyEvent.VK_Z) {
-				gs.setGameState(4);
+				gs.setInventoryState();
 			} else if (key == KeyEvent.VK_B) {
-				gs.setGameState(5);
+				gs.setCombatState();
 			}
 			
 			if (key == KeyEvent.VK_1) {
@@ -74,18 +71,10 @@ public class KeyInput implements KeyListener {
 				gs.changeMap("world4", 17*48+24, 24+81*48);
 			}
 			
-			
-			} catch (InvalidGameStateIndex e1) {
-				e1.printStackTrace();
-			}
 		} else if (gs.getGameState() == 2) {
 			
 			if (key == KeyEvent.VK_P) {
-				try {
-					gs.setGameState(1);
-				} catch (InvalidGameStateIndex e1) {
-					e1.printStackTrace();
-				}
+				gs.setPlayingState();
 			}
 			
 		} else if (gs.getGameState() == 3) {
@@ -113,12 +102,8 @@ public class KeyInput implements KeyListener {
 		} else if (gs.getGameState() == 6) {
 			
 			if (key == KeyEvent.VK_Z) {
-				try {
-					gs.setGameState(1);
-					this.resetCmdNum();
-				} catch (InvalidGameStateIndex e1) {
-					e1.printStackTrace();
-				}
+				gs.setPlayingState();
+				this.resetCmdNum();
 			} else if (key == KeyEvent.VK_E) {
 				this.interaction = true;
 			}

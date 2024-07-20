@@ -23,6 +23,8 @@ public class PlayerMenu {
 	
 	private boolean closedMenu = false;
 	
+	private boolean stateChanged;
+	
 	public PlayerMenu(KeyInput key, Player player, Teammate[] teammates) {
 		this.key = key;
 		this.player = player;
@@ -34,17 +36,25 @@ public class PlayerMenu {
 		
 		if (this.state.equals("main")) {
 			this.key.setMaxCmdNum(3);
+			this.key.setButtonCols(1);
 		} else if (this.state.equals("inventory")) {
 			this.key.setMaxCmdNum(10);
+			this.key.setButtonCols(1);
 		} else if (this.state.equals("choose-character")) {
 			this.key.setMaxCmdNum(3);
+			this.key.setButtonCols(4);
 		} else if (this.state.equals("choose-spellSlot")) {
 			this.key.setMaxCmdNum(3);
+			this.key.setButtonCols(1);
 		} else if (this.state.equals("quests")) {
 			this.key.setMaxCmdNum(0);
 		}
 		
+		this.stateChanged = false;
+		
 		if (this.key.isInteracting()) {
+			
+			this.stateChanged = true;
 			
 			if (this.state.equals("main")) {
 				
@@ -137,24 +147,33 @@ public class PlayerMenu {
 			if (this.itemSelected.checkRestriction(team[characterSelected])) {
 				this.player.getInventory().removeItem(this.itemSelectedIndex);
 				team[characterSelected].equipItem(this.itemSelected);
+				
+				this.itemSelected = null;
+				this.itemSelectedIndex = -1;
+				this.state = "stats";
+				
 			}
 		} else if (this.itemSelected.isUsable()) {
 			if (this.itemSelected instanceof Potion) {
+				
 				team[characterSelected].usePotion((Potion)this.itemSelected);
 				try {
 					this.player.getInventory().removeItem(this.itemSelectedIndex);
 				} catch (IndexOutOfRangeException e) {
 					e.printStackTrace();
 				}
+				
+				this.itemSelected = null;
+				this.itemSelectedIndex = -1;
+				this.state = "stats";
+				
 			} else if (this.itemSelected instanceof Book) {
 				this.state = "choose-spellSlot";
 				return;
 			}
 		}
 		
-		this.itemSelected = null;
-		this.itemSelectedIndex = -1;
-		this.state = "stats";
+		
 		
 	}
 	
@@ -186,6 +205,10 @@ public class PlayerMenu {
 
 	public boolean isClosedMenu() {
 		return closedMenu;
+	}
+
+	public boolean isStateChanged() {
+		return stateChanged;
 	}
 
 }

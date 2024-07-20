@@ -53,7 +53,7 @@ public class Boss2 extends Enemie {
 	@Override
 	public void setSprites() {
 		try {
-			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")));
+			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/bosses/boss2.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

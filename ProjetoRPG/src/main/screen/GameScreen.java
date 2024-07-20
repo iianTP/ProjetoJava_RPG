@@ -58,6 +58,7 @@ public class GameScreen extends JPanel implements Runnable {
 	private final int combat = 5;
 	private final int buying = 6;
 	private final int introduction = 7;
+	private final int ending = 8;
 
 	private int gameState = 0;
 	
@@ -65,11 +66,14 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private Dialogue dialogue;
 	private Battle battle;
-	private PlayerMenu playerMenu; //= new PlayerMenu(this.key, this.player, this.teammates);
+	private PlayerMenu playerMenu;
 	private Shop shop;
 	private MainMenu mainMenu;
 	private Intro intro;
+	
 	private TextAnimation ta = new TextAnimation();
+	
+	private Random random = new Random();
 
 	public GameScreen() {
 
@@ -198,7 +202,7 @@ public class GameScreen extends JPanel implements Runnable {
 	//atualização das entidades
 	private void update() {
 
-		if (gameState == playing) {
+		if (this.gameState == this.playing) {
 			
 			if (this.enemie != null) {
 				this.enemie = null;
@@ -207,13 +211,13 @@ public class GameScreen extends JPanel implements Runnable {
 			this.player.update();
 			searchBattle();
 			
-			for (int i = 0; i < npcs.length; i++) {
+			for (int i = 0; i < this.npcs.length; i++) {
 				//this.allNpcs[i].update(this.player, this.allNpcs);
 			}
 			
 		}
 		
-		else if (gameState == menu) {
+		else if (this.gameState == this.menu) {
 			if (this.mainMenu == null) {
 				this.mainMenu = new MainMenu(this.key,this);
 			}
@@ -229,8 +233,6 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			this.ta.checkStateChange(this.intro.isChangedState(), -1);
 			this.intro.intro();
-			
-			//System.out.println(this.intro.getCurrentText());
 			
 			if (this.intro.isIntroEnded()) {
 				this.ta.resetTextAnimation();
@@ -261,20 +263,18 @@ public class GameScreen extends JPanel implements Runnable {
 			
 			if (this.enemie == null) {
 				this.enemie = new Ghost(this);
-				this.battle = new Battle(player, enemie, key, teammates);
+				this.battle = new Battle(this.player, this.enemie, this.key, this.teammates);
+				this.key.setButtonCols(2);
 			}
-			
-			
-			this.key.setButtonCols(2);
 			
 			this.ta.checkStateChange(this.battle.isChangedBattleState(), this.key.getCmdNum());
 			this.battle.combat();
 			
 			if (battle.isBattleEnded()) {
 				this.ta.resetTextAnimation();
-				gameState = playing;
+				this.gameState =this. playing;
 				
-				this.player.getQuestList().checkKillEnemiesQuests(enemie, this.battle.getWinner());
+				this.player.getQuestList().checkKillEnemiesQuests(this.enemie, this.battle.getWinner());
 				
 				this.player.getSpells().resetDarkMagic();
 				this.vanishBoss();
@@ -283,13 +283,14 @@ public class GameScreen extends JPanel implements Runnable {
 				this.key.resetCmdNum();
 			}
 			
-		} else if (gameState == inventory) {
+		} else if (this.gameState == this.inventory) {
 			
 			if (this.playerMenu == null) {
-				playerMenu = new PlayerMenu(this.key, this.player, this.teammates);
+				this.playerMenu = new PlayerMenu(this.key, this.player, this.teammates);
+				this.key.setButtonCols(1);
 			}
 			
-			this.key.setButtonCols(1);
+			this.ta.checkStateChange(this.playerMenu.isStateChanged(), -1);
 			this.playerMenu.playerMenu();
 			
 			if (this.playerMenu.isClosedMenu()) {
@@ -297,7 +298,7 @@ public class GameScreen extends JPanel implements Runnable {
 				this.gameState = this.playing;
 			}
 			
-		} else if (gameState == buying) {
+		} else if (this.gameState == this.buying) {
 			
 			if (this.shop == null) {
 				
@@ -316,21 +317,20 @@ public class GameScreen extends JPanel implements Runnable {
 				this.shop.shopCommands();
 			}
 			
-			
 		}
 
 	}
 	//
 	
-	private Random r = new Random();
+
 	
 	private void searchBattle() {
 		
 		File[] fileList = new File("./src/entities/enemies").listFiles();
 		
-		if (!this.key.notWalking() && this.r.nextInt(100) == 0) {
+		if (!this.key.notWalking() && this.random.nextInt(100) == 0) {
 			
-			System.out.println(fileList[this.r.nextInt(fileList.length)].getName());
+			System.out.println(fileList[this.random.nextInt(fileList.length)].getName());
 			
 		}
 		
@@ -490,18 +490,14 @@ public class GameScreen extends JPanel implements Runnable {
 		this.tiles.setCurrentMap(map);
 		this.player.setLocation(map);
 		
-		if (map.equals("lobby") && this.r.nextInt(0,10) == 0) {
+		if (map.equals("lobby") && this.random.nextInt(0,10) == 0) {
 			this.npcs[8].setLocation("lobby");
 		} else {
 			this.npcs[8].setLocation("");
 		}
 		
- 		try {
-			this.player.setX(x);
-			this.player.setY(y);
-		} catch (InvalidCoordinateException e) {
-			e.printStackTrace();
-		}
+		this.player.setX(x);
+		this.player.setY(y);
 
 	}
 	
@@ -515,11 +511,27 @@ public class GameScreen extends JPanel implements Runnable {
 	public int getGameState() {
 		return this.gameState;
 	}
-	public void setGameState(int gameState) throws InvalidGameStateIndex {
-		if (gameState < 0 || gameState > 7) {
-			throw new InvalidGameStateIndex("estado de jogo "+gameState+" inválido");
-		}
-		this.gameState = gameState;
+	
+	public void setIntroState() {
+		this.gameState = this.introduction;
+	}
+	public void setPlayingState() {
+		this.gameState = this.playing;
+	}
+	public void setInventoryState() {
+		this.gameState = this.inventory;
+	}
+	public void setCombatState() {
+		this.gameState = this.combat;
+	}
+	public void setShopState() {
+		this.gameState = this.buying;
+	}
+	public void setPauseState() {
+		this.gameState = this.pause;
+	}
+	public void setDialogueState() {
+		this.gameState = this.talking;
 	}
 
 	public void setNpcDialogue(String[] npcDialogue) {

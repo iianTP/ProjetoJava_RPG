@@ -1,5 +1,9 @@
 package items;
 
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import combat.spells.*;
 
 public class Book extends Item {
@@ -11,6 +15,12 @@ public class Book extends Item {
 		super.setConsumable();
 		
 		this.type = type;
+		
+		try {
+			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/items/book_0"+(type-1)+".png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		switch(type) {
 		case 1:

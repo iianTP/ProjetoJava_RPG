@@ -17,14 +17,8 @@ public class House extends Npc {
 		super.setLocation(location);
 		super.setDialogue(new String[] {"(Uma casa, nao e sua)"});
 		
-		try {
-			super.setX(x);
-			super.setY(y);
-		} catch (InvalidCoordinateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		super.setX(x);
+		super.setY(y);
 		
 		setHitbox();
 		this.setSprites();
@@ -32,11 +26,7 @@ public class House extends Npc {
 	
 	@Override
 	public void interaction(Player player) {
-		try {
-			super.getGs().setGameState(3);
-		} catch (InvalidGameStateIndex e) {
-			e.printStackTrace();
-		}
+		super.getGs().setDialogueState();
 	}
 	
 	private void setHitbox() {

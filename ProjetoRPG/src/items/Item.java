@@ -1,5 +1,7 @@
 package items;
 
+import java.awt.image.BufferedImage;
+
 import entities.teammates.Team;
 import entities.teammates.Teammate;
 
@@ -10,9 +12,10 @@ public class Item {
 	private String description;
 	private String[] restriction;
 	
+	private BufferedImage sprite;
+	
 	private boolean consumable = false;
 	private boolean equipable = false;
-	
 	
 	public boolean checkRestriction(Team entity) {
 		
@@ -81,6 +84,14 @@ public class Item {
 
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
+	}
+
+	public BufferedImage getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(BufferedImage sprite) {
+		this.sprite = sprite;
 	}
 
 }
