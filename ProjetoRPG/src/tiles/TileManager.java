@@ -118,10 +118,10 @@ public class TileManager {
 				if (x >= -1*48 && x <= 15*48 && y >= -1*48 && y <= 15*48 && tileNums[i][j] > 0) {
 					
 					brush.drawImage(tile(i*48,j*48).getTile(), x, y, 48, 48, null);
-					brush.setColor(Color.red);
+				/*	brush.setColor(Color.red);
 					brush.drawRect(x, y, 48, 48);
 					brush.drawString("X: "+j, x+10, y+15);
-					brush.drawString("Y: "+i, x+10, y+25);
+					brush.drawString("Y: "+i, x+10, y+25);*/
 						
 				}
 				

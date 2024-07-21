@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import combat.spells.HealthSteal;
 import combat.spells.Lightning;
+import combat.spells.WindBlades;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
@@ -15,15 +17,10 @@ public class Boss3 extends Enemie{
 		super(gs);
 		this.setSprites();
 		this.setStats();
-	/*	super.getSpells().learnSpell(new FireBall(), 2);
-		super.getSpells().learnSpell(new FireBall(), 3);
-		super.getSpells().learnSpell(new FireBall(), 4);
-		super.getSpells().learnSpell(new FireBall(), 5);*/
-		super.getSpells().learnSpell(new Lightning(), 2);
-		super.getSpells().learnSpell(new Lightning(), 3);
+		super.getSpells().learnSpell(new HealthSteal(), 2);
+		super.getSpells().learnSpell(new WindBlades(), 3);
 		super.getSpells().learnSpell(new Lightning(), 4);
-		super.getSpells().learnSpell(new Lightning(), 5);
-		super.setName("FANTASMA");
+		super.setName("Am-Terra");
 		
 		super.setExperience(10);
 		super.setGold(15);
@@ -34,15 +31,16 @@ public class Boss3 extends Enemie{
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(10);
-			stats.setMaxHealth(10);
-			stats.setMana(20);
-			stats.setMaxMana(20);
+			stats.setHealth(125);
+			stats.setMaxHealth(125);
+			stats.setMana(50);
+			stats.setMaxMana(50);
 			
 			stats.setStrenght(10);
-			stats.setDefense(5);
-			stats.setMagic(2);
-			stats.setMagicDefense(1);
+			stats.setDefense(3);
+			stats.setMagic(3);
+			stats.setMagicDefense(4);
+			stats.setAgility(4);
 			super.setStats(stats);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();

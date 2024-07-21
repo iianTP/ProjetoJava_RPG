@@ -4,13 +4,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import entities.enemies.*;
+import entities.enemies.Boss1;
 import entities.enemies.Boss2;
 import entities.enemies.Boss3;
 import entities.player.Player;
-import exceptions.IndexOutOfRangeException;
-import exceptions.InvalidCoordinateException;
-import exceptions.InvalidGameStateIndex;
 import items.*;
 import main.screen.GameScreen;
 import quests.KillEnemieQuest;

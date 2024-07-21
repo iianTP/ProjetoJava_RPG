@@ -2,14 +2,9 @@ package entities.npcs;
 
 import java.io.IOException;
 
-import java.util.Random;
-
 import javax.imageio.ImageIO;
 
 import entities.player.Player;
-import exceptions.InvalidCoordinateException;
-import exceptions.InvalidGameStateIndex;
-import exceptions.InventoryIsFullException;
 import items.Armor;
 import main.screen.GameScreen;
 

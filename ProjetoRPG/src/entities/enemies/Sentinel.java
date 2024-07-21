@@ -28,12 +28,12 @@ public class Sentinel extends Enemie {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(100);
-			stats.setMaxHealth(100);
+			stats.setHealth(40);
+			stats.setMaxHealth(40);
 			stats.setMana(20);
 			stats.setMaxMana(20);
 			
-			stats.setStrenght(13);
+			stats.setStrenght(7);
 			stats.setDefense(3);
 			stats.setMagic(1);
 			stats.setMagicDefense(3);

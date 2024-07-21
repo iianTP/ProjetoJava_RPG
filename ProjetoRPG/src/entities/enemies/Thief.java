@@ -31,8 +31,8 @@ public class Thief extends Enemie {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(100);
-			stats.setMaxHealth(100);
+			stats.setHealth(30);
+			stats.setMaxHealth(30);
 			stats.setMana(35);
 			stats.setMaxMana(35);
 			

@@ -11,6 +11,7 @@ import entities.npcs.questNpcs.*;
 import entities.npcs.sellers.*;
 import entities.player.*;
 import entities.teammates.*;
+import exceptions.InvalidStatsInputException;
 import states.*;
 
 import main.KeyInput;
@@ -57,6 +58,7 @@ public class GameScreen extends JPanel {
 	private final int buying = 6;
 	private final int introduction = 7;
 	private final int theEnd = 8;
+	private final int dead = 9;
 
 	private int gameState = 0;
 	
@@ -73,6 +75,9 @@ public class GameScreen extends JPanel {
 	private TextAnimation ta = new TextAnimation();
 	
 	private Random random = new Random();
+	
+	private int battleCooldown = 300;
+	private int deadTimer = 0;
 
 	public GameScreen() {
 
@@ -87,6 +92,8 @@ public class GameScreen extends JPanel {
 	}
 
 	public void startGame(String choosenClass) {
+		this.mainMenu = null;
+		this.ta.resetTextAnimation();
 		this.tiles = new TileManager();
 		this.setPlayerClass(choosenClass);
 		this.player.getCollision().setTiles(this.tiles);
@@ -236,7 +243,7 @@ public class GameScreen extends JPanel {
 			}
 			
 			for (int i = 0; i < this.npcs.length; i++) {
-				this.npcs[i].update(this.player, this.npcs);
+				this.npcs[i].action();
 			}
 			
 			this.player.update();
@@ -325,8 +332,11 @@ public class GameScreen extends JPanel {
 			if (battle.isEnded()) {
 				this.ta.resetTextAnimation();
 				this.gameState =this. playing;
-				
 				this.player.getQuestList().checkKillEnemiesQuests(this.enemie, this.battle.getWinner());
+				
+				if (this.battle.getWinner().equals("enemie")) {
+					this.gameState = this.dead;
+				}
 				
 				this.player.getSpells().resetDarkMagic();
 				this.vanishBoss();
@@ -335,7 +345,21 @@ public class GameScreen extends JPanel {
 				this.key.resetCmdNum();
 			}
 			
-		} else if (this.gameState == this.inventory) {
+		} else if (this.gameState == this.dead) {
+
+			this.deadTimer++;
+			if (this.deadTimer == 300) {
+				this.deadTimer = 0;
+				this.ta.resetTextAnimation();
+				this.ending = null;
+				this.player = null;
+				this.npcs = null;
+				this.gameState = this.menu;
+			}
+			
+		}
+		
+		else if (this.gameState == this.inventory) {
 			
 			if (this.playerMenu == null) {
 				this.playerMenu = new PlayerMenu(this.key, this.player, this.teammates);
@@ -374,15 +398,41 @@ public class GameScreen extends JPanel {
 	}
 	//
 	
-
-	
 	private void searchBattle() {
 		
-		File[] fileList = new File("./src/entities/enemies").listFiles();
+		if (this.battleCooldown > 0) {
+			this.battleCooldown--;
+		}
 		
-		if (!this.key.notWalking() && this.random.nextInt(100) == 0) {
+		if (this.battleCooldown == 0 && !this.key.notWalking() && this.random.nextInt(150) == 0) {
 			
-			System.out.println(fileList[this.random.nextInt(fileList.length)].getName());
+			this.battleCooldown = 300;
+			
+			if (this.player.getLocation().equals("castle1")) {
+				
+				if (this.random.nextInt(2) == 0) {
+					this.startBattle(new Sentinel(this));
+				} else {
+					this.startBattle(new Thief(this));
+				}
+				
+			} else if (this.player.getLocation().equals("castle2")) {
+				
+				if (this.random.nextInt(2) == 0) {
+					this.startBattle(new Slime(this));
+				} else {
+					this.startBattle(new Hedron(this));
+				}
+				
+			} else if (this.player.getLocation().equals("castle3")) {
+				
+				this.startBattle(new Wizard(this));
+				
+			} else if (this.player.getLocation().equals("world4")) {
+				
+				this.startBattle(new Ghost(this));
+				
+			}
 			
 		}
 		
@@ -445,7 +495,13 @@ public class GameScreen extends JPanel {
 			this.ui.ending(this.ending);
 		}
 		
-		if (this.player != null && this.npcs != null && this.gameState != this.introduction && this.gameState != this.theEnd) {
+		if (this.gameState == this.dead) {
+			this.ui.deadScreen();
+		}
+		
+		if (this.player != null && this.npcs != null &&
+			this.gameState != this.introduction &&
+			this.gameState != this.theEnd && this.gameState != this.dead) {
 			
 			this.theVoid.draw(g2D);
 			

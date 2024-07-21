@@ -11,7 +11,7 @@ public class Sword extends Item {
 	
 	public Sword(int type) {
 		super.setEquipable();
-		super.setRestriction(new String[] {"warrior"});
+		super.setRestriction(new String[] {"warrior","assassin"});
 		
 		try {
 			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/items/sword_"+(type-1)+".png")));

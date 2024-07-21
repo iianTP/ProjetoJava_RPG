@@ -46,7 +46,7 @@ public abstract class Battler extends Entity implements ICombat {
 				
 				target.takeDamage(finalDamage);
 				stats.increaseOverdrive();
-				battle.setMessage(this.name+" ATACOU O OPONENTE (-"+finalDamage+"HP)");
+				battle.setMessage(this.name+" ATACOU "+target.getName()+" (-"+finalDamage+"HP)");
 				if (this instanceof Teammate) {
 					((Teammate) this).getBattleRng().increaseAttackChance();
 				} else if (this instanceof Enemie) {

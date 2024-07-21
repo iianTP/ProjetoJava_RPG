@@ -3,7 +3,6 @@ package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import exceptions.InvalidGameStateIndex;
 import main.screen.GameScreen;
 
 public class KeyInput implements KeyListener {

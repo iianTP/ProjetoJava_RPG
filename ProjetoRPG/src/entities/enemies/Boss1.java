@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import combat.spells.BloodSpear;
 import combat.spells.FireBall;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
@@ -16,10 +17,8 @@ public class Boss1 extends Enemie {
 		this.setSprites();
 		this.setStats();
 		super.getSpells().learnSpell(new FireBall(), 2);
-		super.getSpells().learnSpell(new FireBall(), 3);
-		super.getSpells().learnSpell(new FireBall(), 4);
-		super.getSpells().learnSpell(new FireBall(), 5);
-		super.setName("FANTASMA");
+		super.getSpells().learnSpell(new BloodSpear(), 3);
+		super.setName("MAGLORG");
 		
 		super.setExperience(10);
 		super.setGold(15);
@@ -30,15 +29,16 @@ public class Boss1 extends Enemie {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(10);
-			stats.setMaxHealth(10);
-			stats.setMana(20);
-			stats.setMaxMana(20);
+			stats.setHealth(75);
+			stats.setMaxHealth(75);
+			stats.setMana(30);
+			stats.setMaxMana(30);
 			
 			stats.setStrenght(10);
 			stats.setDefense(5);
 			stats.setMagic(2);
 			stats.setMagicDefense(1);
+			stats.setAgility(2);
 			super.setStats(stats);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();

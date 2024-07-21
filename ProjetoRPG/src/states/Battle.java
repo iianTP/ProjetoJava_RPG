@@ -299,8 +299,14 @@ public class Battle extends State {
 			}
 			break;
 		case 5:
-			super.setEnded(true);
-			this.key.resetCmdNum();
+			if (this.player.rng(5, 1) == 1) {
+				super.setEnded(true);
+				this.key.resetCmdNum();
+			} else {
+				this.message = "VOCE NAO CONSEGUIU FUGIR";
+				this.battleState = "teammate-turn";
+			}
+			
 			break;
 		}
 		

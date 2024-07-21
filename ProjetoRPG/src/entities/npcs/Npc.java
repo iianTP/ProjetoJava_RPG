@@ -31,10 +31,6 @@ public abstract class Npc extends Entity implements INpc {
 	@Override
 	public void action() {};
 	
-	public void update(Player player, Npc[] npcs) {
-		action();
-	}
-	
 	public void draw(Graphics2D brush, Player player) {
 		
 		this.screenX = super.getX() - player.getX() + super.getGs().getScreenSide()/2;

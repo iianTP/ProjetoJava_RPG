@@ -1,6 +1,5 @@
 package states;
 
-import exceptions.InvalidGameStateIndex;
 import main.KeyInput;
 import main.screen.GameScreen;
 

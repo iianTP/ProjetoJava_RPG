@@ -27,8 +27,8 @@ public class Slime extends Enemie {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(150);
-			stats.setMaxHealth(150);
+			stats.setHealth(60);
+			stats.setMaxHealth(60);
 			stats.setMana(15);
 			stats.setMaxMana(15);
 			

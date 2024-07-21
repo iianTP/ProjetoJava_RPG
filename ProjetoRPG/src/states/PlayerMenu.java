@@ -148,7 +148,10 @@ public class PlayerMenu extends State {
 				this.itemSelectedIndex = -1;
 				this.state = "stats";
 				
-			}
+			} /*else {
+				this.player.getInventory().addItem(this.itemSelected);
+				this.state = "inventory";
+			}*/
 		} else if (this.itemSelected.isUsable()) {
 			if (this.itemSelected instanceof Potion) {
 				

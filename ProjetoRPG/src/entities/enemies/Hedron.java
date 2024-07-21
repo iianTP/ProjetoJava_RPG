@@ -29,8 +29,8 @@ public class Hedron extends Enemie {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(100);
-			stats.setMaxHealth(100);
+			stats.setHealth(70);
+			stats.setMaxHealth(70);
 			stats.setMana(30);
 			stats.setMaxMana(30);
 			

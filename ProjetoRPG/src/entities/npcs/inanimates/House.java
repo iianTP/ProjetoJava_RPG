@@ -7,8 +7,6 @@ import javax.imageio.ImageIO;
 
 import entities.npcs.Npc;
 import entities.player.Player;
-import exceptions.InvalidCoordinateException;
-import exceptions.InvalidGameStateIndex;
 import main.screen.GameScreen;
 
 public class House extends Npc {

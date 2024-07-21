@@ -73,7 +73,7 @@ public class Effects {
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
-		this.message = "ESTA QUEIMANDO (-1HP)";
+		this.message = "ESTA QUEIMANDO (-3HP)";
 	}
 	private void paralyzed() {
 		this.message = "ESTA PARALIZADO";
@@ -84,7 +84,7 @@ public class Effects {
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
-		this.message = "ESTA ENVENENADO (-2HP)";
+		this.message = "ESTA ENVENENADO (-3HP)";
 	}
 	private void cursed() {
 		try {
@@ -109,7 +109,7 @@ public class Effects {
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
-		this.message = "ESTA SANGRANDO";
+		this.message = "ESTA SANGRANDO (-"+this.bleedingDamage+"HP)";
 	}
 	
 	public String getCurrentEffect() {

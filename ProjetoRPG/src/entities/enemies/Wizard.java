@@ -31,8 +31,8 @@ public class Wizard extends Enemie {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(100);
-			stats.setMaxHealth(100);
+			stats.setHealth(80);
+			stats.setMaxHealth(80);
 			stats.setMana(60);
 			stats.setMaxMana(60);
 			

@@ -46,6 +46,9 @@ public class UI {
 	private int battleButtonInitX = 475;
 	private int battleButtonInitY = 550;
 	
+	private int [][] mainMenuButtons = {{48*2+24-15, 48*11},{48*2+24-15, 48*11+24},{48*2+24-15, 48*12}};
+	private int [][] chooseClassButtons = {{48*8-20, 48*6+3},{48*8-20, 48*8+8},{48*8-20, 48*10+13},{48*8-20, 48*12+18}};
+	
 	private int[][] pMenuMainButtons = {{48+10, 48*3},{48+10, 48*4},{48+10, 48*5},{48+10, 48*6}};
 	private int[][] pMenuInventoryButtons = new int[11][2];
 	private int[][] pMenuItemButtons = {{48*9+20+48-15, 48*2+229+48*4+15},
@@ -54,6 +57,7 @@ public class UI {
 	private int[][] chooseCharacterButtons;
 	private int[][] spellSlotButtons;
 	
+	private int[][] chooseCharacterBattleButtons = {{48*5, 48*7-15},{48*6+24, 48*8-15},{48*8+24, 48*8-15},{48*10, 48*7-15}};
 	private int[][] battleButtons = {{battleButtonInitX-15, battleButtonInitY}, 
 									 {battleButtonInitX-15+111, battleButtonInitY},
 									 {battleButtonInitX-15, battleButtonInitY+48}, 
@@ -117,6 +121,12 @@ public class UI {
 		
 	}
 	
+	public void deadScreen() {
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		brush.setColor(Color.red);
+		this.ta.displayText("voce morreu", 28, 16, 3*48, 4*48, brush);
+	}
+	
 	// PAUSE
 	public void pauseScreen() {
 		
@@ -140,44 +150,33 @@ public class UI {
 		
 	}
 	
-	int [][] mainMenuButtons = {{48*2+24-15, 48*11},{48*2+24-15, 48*11+24},{48*2+24-15, 48*12}};
-	
-	int [][] chooseClassButtons = {{48*8-20, 48*6+3},{48*8-20, 48*8+8},{48*8-20, 48*10+13},{48*8-20, 48*12+18}};
-	
-	
-	
 	// TELA INICIAL
 	public void mainScreen(MainMenu mainMenu) {
-		
 		this.rainbowStuff();
-		for (int i = 200; i > 0; i--) {
-			brush.setFont(font.deriveFont(Font.PLAIN, 140F));
-			brush.setColor(new Color(rainbow[0]/i,rainbow[1]/i,rainbow[2]/i));
-			brush.drawString("TITULO",48*1+3*i, (int) (48*4+5*i*Math.sqrt(i)/20));
-			
-			brush.setFont(font.deriveFont(Font.PLAIN, 16F));
-			brush.drawString("NOVO JOGO",48*2+24+3*i, (int) (48*11+5*i*Math.sqrt(i)/20));
-			brush.drawString("CARREGAR",48*2+24+3*i, (int) (48*11+24+5*i*Math.sqrt(i)/20));
-			brush.drawString("SAIR",48*2+24+3*i, (int) (48*12+5*i*Math.sqrt(i)/20));
-		}
 		
-		brush.setColor(Color.white);
 		brush.setFont(font.deriveFont(Font.PLAIN, 140F));
-		brush.drawString("TITULO",48*1, 48*4);
+		this.mainMenuEffect("TITULO", 48*1, 48*4);
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
-		brush.drawString("NOVO JOGO",48*2+24, 48*11);
-		brush.drawString("CARREGAR",48*2+24, 48*11+24);
-		brush.drawString("SAIR",48*2+24, 48*12);
-		
-		
+		this.mainMenuEffect("NOVO JOGO", 48*2+24, 48*11);
+		this.mainMenuEffect("CARREGAR",48*2+24, 48*11+24);
+		this.mainMenuEffect("SAIR", 48*2+24, 48*12);
 		
 		if (mainMenu.getState().equals("main")) {
 			this.displayArrow(mainMenuButtons, 2);
 		}
 		else if (mainMenu.getState().equals("choose-class")) {
-			classOptions();
+			this.classOptions();
 		}
+	}
+	
+	private void mainMenuEffect(String text, int x, int y) {
+		for (int i = 200; i > 0; i--) {
+			brush.setColor(new Color(rainbow[0]/i,rainbow[1]/i,rainbow[2]/i));
+			brush.drawString(text,x+3*i, (int) (y+5*i*Math.sqrt(i)/20));
+		}
+		brush.setColor(Color.white);
+		brush.drawString(text, x, y);
 	}
 	
 	private void classOptions() {
@@ -202,33 +201,24 @@ public class UI {
 			brush.fillRoundRect(48*8+3*i, (int) (48*5+charBoxSide+5+5*i*Math.sqrt(i)/20), charBoxSide, charBoxSide,10,10);
 			brush.fillRoundRect(48*8+3*i, (int) (48*5+2*(charBoxSide+5)+5*i*Math.sqrt(i)/20), charBoxSide, charBoxSide,10,10);
 			brush.fillRoundRect(48*8+3*i, (int) (48*5+3*(charBoxSide+5)+5*i*Math.sqrt(i)/20), charBoxSide, charBoxSide,10,10);
-		
-			brush.drawString("MAGO",48*10+24+3*i, (int) (48*6+5*i*Math.sqrt(i)/20));
-			brush.drawString("GUERREIRO",48*10+24+3*i, (int) (48*6+charBoxSide+5+5*i*Math.sqrt(i)/20));
-			brush.drawString("CURANDEIRO",48*10+24+3*i, (int) (48*6+2*(charBoxSide+5)+5*i*Math.sqrt(i)/20));
-			brush.drawString("ASSASSINO",48*10+24+3*i, (int) (48*6+3*(charBoxSide+5)+5*i*Math.sqrt(i)/20));
 		}
 		
 		brush.setColor(Color.white);
-		brush.drawString("MAGO",48*10+24, 48*6);
-		brush.drawString("GUERREIRO",48*10+24, 48*5+24+charBoxSide+5+24);
-		brush.drawString("CURANDEIRO",48*10+24, 48*5+24+2*(charBoxSide+5)+24);
-		brush.drawString("ASSASSINO",48*10+24, 48*5+24+3*(charBoxSide+5)+24);
-		
+		this.mainMenuEffect("MAGO", 48*10+24, 48*6);
+		this.mainMenuEffect("GUERREIRO",48*10+24, 48*5+24+charBoxSide+5+24);
+		this.mainMenuEffect("CURANDEIRO",48*10+24, 48*5+24+2*(charBoxSide+5)+24);
+		this.mainMenuEffect("ASSASSINO", 48*10+24, 48*5+24+3*(charBoxSide+5)+24);
 		
 		brush.drawImage(mage, 48*8+12, 48*5+12, 48+24, 48+24, null);
 		brush.drawImage(warrior,48*8+12, 48*5+charBoxSide+5+12, 48+24, 48+24, null);
 		brush.drawImage(healer, 48*8+12, 48*5+2*(charBoxSide+5)+12, 48+24, 48+24, null);
 		brush.drawImage(assassin, 48*8+12, 48*5+3*(charBoxSide+5)+12, 48+24, 48+24, null);
 		
-		
-		
 		this.displayArrow(this.chooseClassButtons, 3);
 		
 	}
 	
 	//
-	private int[][] chooseCharacterBattleButtons = {{48*5, 48*7-15},{48*6+24, 48*8-15},{48*8+24, 48*8-15},{48*10, 48*7-15}};
 	
 	// TELA DE COMBATE
 	public void battleScreen(Player player, Teammate[] teammates, Enemie enemie, Battle battle) {
