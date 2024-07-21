@@ -9,9 +9,13 @@ public class BattleRng {
 	
 	private int attackChance = 10;
 	private int defenseChance = 5;
-	private int magicChance = 100;
+	private int magicChance = 10;
 	
-	private final Random random = new Random();
+	private final Random random;
+	
+	public BattleRng(Random random) {
+		this.random = random;
+	}
 	
 	public int rng(int range, int minNum) {
 		return this.random.nextInt(range) + minNum;

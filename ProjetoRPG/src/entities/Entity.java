@@ -167,4 +167,8 @@ public abstract class Entity implements IEntitySetup {
 		this.location = location;
 	}
 	
+	public Random getRng() {
+		return rng;
+	}
+	
 }

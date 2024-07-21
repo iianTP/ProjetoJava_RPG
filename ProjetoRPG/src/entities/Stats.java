@@ -67,7 +67,7 @@ public class Stats {
 		this.strength++;
 		this.defense++;
 		this.agility++;
-		this.criticalDamage++;
+		this.criticalDamage += 5;
 		this.magic++;
 		this.itemMagic++;
 		this.magicDefense++;
@@ -178,8 +178,8 @@ public class Stats {
 	}
 
 	public void setItemDefense(int itemDefense) throws InvalidStatsInputException {
-		if (itemDefense < 0) {
-			throw new InvalidStatsInputException("valor itemDefense: "+itemDefense+" < 0");
+		if (itemDefense <= 0) {
+			throw new InvalidStatsInputException("valor itemDefense: "+itemDefense+" <= 0");
 		}
 		this.itemDefense = itemDefense;
 	}
@@ -196,8 +196,8 @@ public class Stats {
 	}
 
 	public void setItemMagicDefense(int itemMagicDefense) throws InvalidStatsInputException {
-		if (itemMagicDefense < 0) {
-			throw new InvalidStatsInputException("valor itemMagicDefense: "+itemMagicDefense+" < 0");
+		if (itemMagicDefense <= 0) {
+			throw new InvalidStatsInputException("valor itemMagicDefense: "+itemMagicDefense+" <= 0");
 		}
 		this.itemMagicDefense = itemMagicDefense;
 	}

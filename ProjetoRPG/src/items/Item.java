@@ -5,12 +5,16 @@ import java.awt.image.BufferedImage;
 import entities.teammates.Team;
 import entities.teammates.Teammate;
 
-public class Item {
+public abstract class Item {
 	
 	private String name;
 	private String shortName;
 	private String description;
 	private String[] restriction;
+	
+	private int sellPrice;
+	
+	private int type;
 	
 	private BufferedImage sprite;
 	
@@ -92,6 +96,22 @@ public class Item {
 
 	public void setSprite(BufferedImage sprite) {
 		this.sprite = sprite;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public int getSellPrice() {
+		return sellPrice;
+	}
+
+	public void setSellPrice(int sellPrice) {
+		this.sellPrice = sellPrice;
 	}
 
 }

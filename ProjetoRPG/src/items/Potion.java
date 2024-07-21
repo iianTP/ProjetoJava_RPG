@@ -9,8 +9,6 @@ import exceptions.InvalidStatsInputException;
 
 public class Potion extends Item {
 	
-	private int type;
-	
 	private int strength;
 	private int agility;
 	private int magic;
@@ -22,7 +20,7 @@ public class Potion extends Item {
 	public Potion(int type) {
 		super.setConsumable();
 		
-		this.type = type;
+		super.setType(type);
 		
 		try {
 			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/items/potion_"+(type-1)+".png")));
@@ -35,33 +33,38 @@ public class Potion extends Item {
 			super.setName("Pocao de cura");
 			this.health = 5;
 			this.properties = "HP: +5";
+			super.setSellPrice(10);
 			break;
 		case 2:
 			super.setName("Pocao de mana");
 			this.mana = 2;
 			this.properties = "MANA: +2";
+			super.setSellPrice(10);
 			break;
 		case 3:
 			super.setName("Pocao de forca");
 			this.strength = 3;
 			this.properties = "ATQ: +3";
+			super.setSellPrice(10);
 			break;
 		case 4:
 			super.setName("Pocao de agilidade");
 			this.agility = 4;
 			this.properties = "AGL: +4";
+			super.setSellPrice(10);
 			break;
 		case 5:
 			super.setName("Pocao de magia");
 			this.magic = 4;
 			this.properties = "MGC: +4";
+			super.setSellPrice(10);
 			break;
 		}
 	}
 	
 	public void consumePotion(Stats stats) {
 		
-		switch (this.type) {
+		switch (super.getType()) {
 		case 1:
 			try {
 				stats.heal(this.health);
@@ -88,7 +91,7 @@ public class Potion extends Item {
 	
 	public void stopEffect(Stats stats) {
 		
-		switch (this.type) {
+		switch (super.getType()) {
 		case 3:
 			stats.setPotionStrenght(0);
 			break;
@@ -107,8 +110,6 @@ public class Potion extends Item {
 		return this.properties;
 	}
 	
-	public int getType() {
-		return type;
-	}
+
 	
 }

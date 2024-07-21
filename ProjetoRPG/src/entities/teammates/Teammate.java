@@ -10,7 +10,7 @@ import states.Battle;
 
 public abstract class Teammate extends Team implements ICombat {
 	
-	private BattleRng battleRng = new BattleRng();
+	private BattleRng battleRng = new BattleRng(super.getRng());
 	
 	public Teammate(GameScreen gs) {
 		super(gs);

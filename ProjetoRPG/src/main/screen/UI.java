@@ -19,6 +19,7 @@ import entities.teammates.Teammate;
 import exceptions.IndexOutOfRangeException;
 import items.Inventory;
 import items.Item;
+import items.Product;
 import items.Stock;
 
 import main.KeyInput;
@@ -26,6 +27,7 @@ import quests.Quest;
 import quests.QuestList;
 import states.Battle;
 import states.Dialogue;
+import states.Ending;
 import states.Intro;
 import states.MainMenu;
 import states.PlayerMenu;
@@ -101,6 +103,17 @@ public class UI {
 		
 		this.ta.displayText(text, 28, 16, 3*48, 4*48, brush);
 		
+		
+	}
+	
+	public void ending(Ending ending) {
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		this.ta.displayText(ending.getText(), 28, 16, 3*48, 4*48, brush);
+		
+		if (ending.getEndingIndex() != -1) {
+			brush.drawImage(ending.getCurrentPanel(), 4*48+24, 5*48+24, 6*48, 4*48, null);
+		}
 		
 	}
 	
@@ -689,7 +702,6 @@ public class UI {
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*9+20, 48*2+229,219, 48*11-229, 10,10);
 		
-		
 		brush.setColor(Color.yellow);
 		
 		brush.drawString(itemSelected.getProperties(), 48*9+48,48+219);
@@ -772,6 +784,12 @@ public class UI {
 	
 	private void shopChooseItem(Stock stock, int selectedButton) {
 		
+		int index = 0;
+		int price;
+		int amount;
+		Product product;
+		Item item;
+		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
 		brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
@@ -788,24 +806,16 @@ public class UI {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
 		brush.setColor(Color.white);
-		int index = 0;
-		Item item;
-		try {
-			item = stock.getItem(index);
-			while (item != null) {
-				brush.drawString("-"+item.getName()+" x"+stock.getAmount(index), 48*4+35, 48*3+40*index);
-				index++;
-				item = stock.getItem(index);
-			}
-		} catch (IndexOutOfRangeException e) {
-			System.out.println(index);
-			e.printStackTrace();
-		}
 		
-		try {
-			displayItemProps(stock.getItem(this.key.getCmdNum()));
-		} catch (IndexOutOfRangeException e) {
-			e.printStackTrace();
+		product = stock.getProduct(index);
+		
+		while (product != null) {
+			item = product.getItem();
+			price = product.getPrice();
+			amount = product.getAmount();
+			brush.drawString("-"+item.getName()+" x"+amount+" "+price+"G", 48*4+35, 48*3+40*index);
+			index++;
+			product = stock.getProduct(index);
 		}
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
@@ -814,8 +824,9 @@ public class UI {
 				   				   shopItemsButtons[stock.getStockSize()][1]);
 		
 		if (selectedButton > -1) {
-			this.shopBuying();
+			this.shopBuying(stock.getItem(selectedButton));
 		} else {
+			displayItemProps(stock.getItem(this.key.getCmdNum()));
 			displayArrow(this.shopItemsButtons, stock.getStockSize());
 		}
 		
@@ -823,8 +834,11 @@ public class UI {
 	
 	private void shopChooseItemToSell(Inventory inventory, int selectedButton) {
 		
+		Item item;
+		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
+		brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
 		
 		if (this.shopItemsButtons == null) {
 			shopItemsButtons = new int[inventory.getItemQuantity()+1][2];
@@ -839,39 +853,41 @@ public class UI {
 		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
 		brush.setColor(Color.white);
 		
-		Item item;
+		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+		brush.setColor(Color.white);
+		brush.drawString("VOLTAR", shopItemsButtons[inventory.getItemQuantity()][0]+15,
+								   shopItemsButtons[inventory.getItemQuantity()][1]);
+		
+		brush.setFont(font.deriveFont(Font.PLAIN, 10F));
 		try {
+			
 			for (int i = 0; i < 10; i++) {
 				item = inventory.getItem(i);
 				if (item == null) break;
-				brush.drawString("-"+item.getName(), 48*4+35, 48*3+40*i);
+				brush.drawString("-"+item.getName()+" "+item.getSellPrice()+"G", 48*4+35, 48*3+40*i);
 			}
-			
-			if (this.key.getCmdNum() < 10 && selectedButton == -1) {
-				brush.setColor(Color.black);
-				brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
-				displayItemProps(inventory.getItem(this.key.getCmdNum()));
+		
+			if (selectedButton > -1) {
+				this.shopSelling(inventory.getItem(selectedButton));
+			} else {
+				
+				if (this.key.getCmdNum() < 10) {
+					displayItemProps(inventory.getItem(this.key.getCmdNum()));
+				}
+				
+				brush.setFont(font.deriveFont(Font.PLAIN, 16F));
+				displayArrow(this.shopItemsButtons, inventory.getItemQuantity());
 			}
 			
 		} catch (IndexOutOfRangeException e) {
 			e.printStackTrace();
 		}
 		
-		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
-		brush.setColor(Color.white);
-		brush.drawString("VOLTAR", shopItemsButtons[inventory.getItemQuantity()][0]+15,
-								   shopItemsButtons[inventory.getItemQuantity()][1]);
-		
-		
-		if (selectedButton > -1) {
-			this.shopSelling();
-		} else {
-			displayArrow(this.shopItemsButtons, inventory.getItemQuantity());
-		}
 		
 	}
 	
-	private void shopBuying() {
+	private void shopBuying(Item item) {
+		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*9+20, 48*2+229,219, 48*11-229, 10,10);
 		brush.setColor(Color.white);
@@ -879,10 +895,11 @@ public class UI {
 		brush.drawString("COMPRAR",this.productButtons[0][0]+15,this.productButtons[0][1]);
 		brush.drawString("VOLTAR",this.productButtons[1][0]+15,this.productButtons[1][1]);
 		
+		displayItemProps(item);
 		displayArrow(this.productButtons, 1);
 	}
 	
-	private void shopSelling() {
+	private void shopSelling(Item item) {
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*9+20, 48*2+229,219, 48*11-229, 10,10);
 		brush.setColor(Color.white);
@@ -890,6 +907,7 @@ public class UI {
 		brush.drawString("VENDER",this.productButtons[0][0]+15,this.productButtons[0][1]);
 		brush.drawString("VOLTAR",this.productButtons[1][0]+15,this.productButtons[1][1]);
 		
+		displayItemProps(item);
 		displayArrow(this.productButtons, 1);
 	}
 	

@@ -1,6 +1,7 @@
 package combat;
 
 import entities.Stats;
+import exceptions.InvalidEffectException;
 import exceptions.InvalidStatsInputException;
 
 public class Effects {
@@ -14,6 +15,8 @@ public class Effects {
 	private int agilityBackup;
 	
 	private int effectCounter = 0;
+	
+	private int bleedingDamage = 1;
 	
 	public Effects(Stats stats) {
 		this.stats = stats;
@@ -37,7 +40,11 @@ public class Effects {
 		} else if (this.currentEffect.equals("bleeding")) {
 			bleeding();
 		} else if (!this.currentEffect.equals("none")) {
-			// exception
+			try {
+				throw new InvalidEffectException(this.currentEffect);
+			} catch (InvalidEffectException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		if (!this.currentEffect.equals("none")) {
@@ -53,6 +60,7 @@ public class Effects {
 		try {
 			this.stats.setDefense(this.defenseBackup);
 			this.stats.setAgility(this.agilityBackup);
+			this.bleedingDamage = 1;
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
@@ -61,7 +69,7 @@ public class Effects {
 	
 	private void burning() {
 		try {
-			this.stats.damage(1);
+			this.stats.damage(3);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +80,7 @@ public class Effects {
 	}
 	private void poisoned() {
 		try {
-			this.stats.damage(2);
+			this.stats.damage(5);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}
@@ -96,7 +104,8 @@ public class Effects {
 	}
 	private void bleeding() {
 		try {
-			this.stats.damage(1);
+			this.stats.damage(bleedingDamage);
+			this.bleedingDamage += 5;
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}

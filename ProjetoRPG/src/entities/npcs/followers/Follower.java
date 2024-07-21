@@ -1,9 +1,10 @@
-package entities.npcs;
+package entities.npcs.followers;
 
+import entities.npcs.Npc;
 import entities.player.Player;
 import main.screen.GameScreen;
 
-public abstract class Followers extends Npc {
+public abstract class Follower extends Npc {
 	
 	public int getState() {
 		return state;
@@ -12,7 +13,7 @@ public abstract class Followers extends Npc {
 	private String[][] dialogue;
 	private int state = 0;
 
-	public Followers(GameScreen gs) {
+	public Follower(GameScreen gs) {
 		super(gs);
 	}
 	

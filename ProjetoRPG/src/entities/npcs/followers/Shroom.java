@@ -1,4 +1,4 @@
-package entities.npcs;
+package entities.npcs.followers;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import entities.player.Player;
 import main.screen.GameScreen;
 
-public class Shroom extends Followers {
+public class Shroom extends Follower {
 	
 	private String[][] dialogue = {
 			{

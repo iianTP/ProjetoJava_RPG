@@ -19,11 +19,14 @@ public class Armor extends Item {
 			e.printStackTrace();
 		}
 		
+		super.setType(type);
+		
 		switch(type) {
 		case 1:
 			super.setName("Armadura Simples");
 			super.setShortName("A.SIMPL.");
 			super.setDescription("Armadura ideal para iniciantes em treinamento.");
+			super.setSellPrice(5);
 			this.defense = 1;
 			this.agility = 0;
 			break;
@@ -31,6 +34,7 @@ public class Armor extends Item {
 			super.setName("Armadura Basica");
 			super.setShortName("A.BASIC.");
 			super.setDescription("Armadura mais comum nos campos de batalha.");
+			super.setSellPrice(10);
 			this.defense = 2;
 			this.agility = -1;
 			break;
@@ -38,6 +42,7 @@ public class Armor extends Item {
 			super.setName("Armadura Pesada");
 			super.setShortName("A,PESAD.");
 			super.setDescription("Armadura para os mais experientes em combate.");
+			super.setSellPrice(15);
 			this.defense = 3;
 			this.agility = -2;
 			break;
@@ -45,6 +50,7 @@ public class Armor extends Item {
 			super.setName("MK-1096");
 			super.setShortName("M.1096");
 			super.setDescription("Prototipo de armadura desenvolvido por cientistas do mundo 2.");
+			super.setSellPrice(20);
 			this.defense = 4;
 			this.agility = -2;
 			break;
@@ -52,6 +58,7 @@ public class Armor extends Item {
 			super.setName("Bencao de Platina");
 			super.setShortName("B.PLATI.");
 			super.setDescription("Armadura considerada abencoada por lutadores dos 3 mundos.");
+			super.setSellPrice(25);
 			this.defense = 5;
 			this.agility = -2;
 			break;
@@ -59,6 +66,7 @@ public class Armor extends Item {
 			super.setName("Gloria de Maglorg");
 			super.setShortName("G.MAGLO.");
 			super.setDescription("Armadura utilizada pelos mais renomados guerreiros de Maglorg.");
+			super.setSellPrice(30);
 			this.defense = 6;
 			this.agility = -3;
 			break;

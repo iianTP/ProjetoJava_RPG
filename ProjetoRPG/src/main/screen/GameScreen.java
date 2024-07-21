@@ -4,23 +4,13 @@ import javax.swing.JPanel;
 
 import entities.enemies.*;
 import entities.npcs.*;
-import entities.npcs.bosses.Boss1Npc;
-import entities.npcs.bosses.Boss2Npc;
-import entities.npcs.bosses.Boss3Npc;
-import entities.npcs.inanimates.Castle;
-import entities.npcs.inanimates.CastleGate;
-import entities.npcs.inanimates.Door;
-import entities.npcs.inanimates.House;
-import entities.npcs.questNpcs.Blob;
-import entities.npcs.questNpcs.FirePerson;
-import entities.npcs.sellers.BookSeller;
-import entities.npcs.sellers.LobbySeller;
-import entities.npcs.sellers.PotionSeller;
-import entities.npcs.sellers.Seller;
+import entities.npcs.bosses.*;
+import entities.npcs.followers.*;
+import entities.npcs.inanimates.*;
+import entities.npcs.questNpcs.*;
+import entities.npcs.sellers.*;
 import entities.player.*;
 import entities.teammates.*;
-import exceptions.InvalidCoordinateException;
-import exceptions.InvalidGameStateIndex;
 import states.*;
 
 import main.KeyInput;
@@ -46,7 +36,7 @@ public class GameScreen extends JPanel {
 	
 	private final KeyInput key = new KeyInput(this);
 	
-	private TileManager tiles = new TileManager();
+	private TileManager tiles;
 	
 	private UI ui;
 	
@@ -66,7 +56,7 @@ public class GameScreen extends JPanel {
 	private final int combat = 5;
 	private final int buying = 6;
 	private final int introduction = 7;
-	private final int ending = 8;
+	private final int theEnd = 8;
 
 	private int gameState = 0;
 	
@@ -78,6 +68,7 @@ public class GameScreen extends JPanel {
 	private Shop shop;
 	private MainMenu mainMenu;
 	private Intro intro;
+	private Ending ending;
 	
 	private TextAnimation ta = new TextAnimation();
 	
@@ -96,6 +87,7 @@ public class GameScreen extends JPanel {
 	}
 
 	public void startGame(String choosenClass) {
+		this.tiles = new TileManager();
 		this.setPlayerClass(choosenClass);
 		this.player.getCollision().setTiles(this.tiles);
 		this.setNpcs();
@@ -146,7 +138,7 @@ public class GameScreen extends JPanel {
 	
 	private void setNpcs() {
 		
-		this.npcs = new Npc[37];
+		this.npcs = new Npc[43];
 		
 		this.npcs[0] = new LobbySeller(32*48,32*48,this);
 		
@@ -203,6 +195,17 @@ public class GameScreen extends JPanel {
 		
 		this.npcs[36] = new Block(this);
 		
+		this.npcs[37] = new EntSeller(this);
+		
+		this.npcs[38] = new Bush(this);
+		
+		this.npcs[39] = new Shroom(this);
+		
+		this.npcs[40] = new Dancer(this);
+		
+		this.npcs[41] = new CultMember(this,5*48,4*48);
+		this.npcs[42] = new CultMember(this,9*48,4*48);
+		
 	}
 
 	public void runGameLoop() {
@@ -255,13 +258,32 @@ public class GameScreen extends JPanel {
 				this.intro = new Intro(this.key);
 			}
 			
-			this.ta.checkStateChange(this.intro.isChangedState(), -1);
+			this.ta.checkStateChange(this.intro.isStateChanged(), -1);
 			this.intro.intro();
 			
-			if (this.intro.isIntroEnded()) {
+			if (this.intro.isEnded()) {
 				this.ta.resetTextAnimation();
 				this.intro = null;
 				this.gameState = playing;
+			}
+			
+		}
+		
+		else if (this.gameState == this.theEnd) {
+			
+			if (this.ending == null) {
+				this.ending = new Ending(this.key);
+			}
+			
+			this.ta.checkStateChange(this.ending.isStateChanged(), -1);
+			this.ending.ending();
+			
+			if (this.ending.isEnded()) {
+				this.ta.resetTextAnimation();
+				this.ending = null;
+				this.player = null;
+				this.npcs = null;
+				this.gameState = this.menu;
 			}
 			
 		}
@@ -272,14 +294,20 @@ public class GameScreen extends JPanel {
 				this.dialogue = new Dialogue(this.key, this.npcDialogue);
 			}
 			
-			this.ta.checkStateChange(this.dialogue.isDialogueChanged(), -1);
+			this.ta.checkStateChange(this.dialogue.isStateChanged(), -1);
 			this.dialogue.dialogue();
 			
-			if (this.dialogue.isDialogueEnded()) {
+			if (this.dialogue.isEnded()) {
 				this.ta.resetTextAnimation();
 				this.dialogue = null;
 				this.npcDialogue = null;
-				gameState = playing;
+				
+				if (this.player.getGameStage() == 5) {
+					this.gameState = this.theEnd;
+				} else {
+					this.gameState = this.playing;
+				}
+				
 			}
 		}
 		
@@ -291,10 +319,10 @@ public class GameScreen extends JPanel {
 				this.key.setButtonCols(2);
 			}
 			
-			this.ta.checkStateChange(this.battle.isChangedBattleState(), this.key.getCmdNum());
+			this.ta.checkStateChange(this.battle.isStateChanged(), this.key.getCmdNum());
 			this.battle.combat();
 			
-			if (battle.isBattleEnded()) {
+			if (battle.isEnded()) {
 				this.ta.resetTextAnimation();
 				this.gameState =this. playing;
 				
@@ -317,7 +345,7 @@ public class GameScreen extends JPanel {
 			this.ta.checkStateChange(this.playerMenu.isStateChanged(), -1);
 			this.playerMenu.playerMenu();
 			
-			if (this.playerMenu.isClosedMenu()) {
+			if (this.playerMenu.isEnded()) {
 				this.playerMenu = null;
 				this.gameState = this.playing;
 			}
@@ -333,7 +361,7 @@ public class GameScreen extends JPanel {
 				this.key.setButtonCols(1);
 			}
 			
-			if (this.seller.isOutOfStock() || this.shop.isExitedShop()) {
+			if (this.seller.isOutOfStock() || this.shop.isEnded()) {
 				this.shop = null;
 				this.seller = null;
 				gameState = playing;
@@ -413,7 +441,11 @@ public class GameScreen extends JPanel {
 			this.ui.intro(intro);
 		}
 		
-		if (this.player != null && this.npcs != null && this.gameState != introduction) {
+		if (this.gameState == this.theEnd && this.ending != null) {
+			this.ui.ending(this.ending);
+		}
+		
+		if (this.player != null && this.npcs != null && this.gameState != this.introduction && this.gameState != this.theEnd) {
 			
 			this.theVoid.draw(g2D);
 			
@@ -515,6 +547,12 @@ public class GameScreen extends JPanel {
 			this.npcs[8].setLocation("lobby");
 		} else {
 			this.npcs[8].setLocation("");
+		}
+		
+		if (!map.equals("lobby") && !map.equals("world4") && this.random.nextInt(0,5) == 0) {
+			((EntSeller) this.npcs[37]).appear(map);
+		} else {
+			this.npcs[37].setLocation("");
 		}
 		
 		this.player.setX(x);

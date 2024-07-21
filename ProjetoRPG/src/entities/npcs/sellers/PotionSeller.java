@@ -17,11 +17,11 @@ public class PotionSeller extends Seller {
 	public PotionSeller(GameScreen gs) {
 		super(gs);
 		
-		super.addProduct(new Potion(1), 10, 5);
-		super.addProduct(new Potion(2), 10, 5);
-		super.addProduct(new Potion(3), 10, 5);
-		super.addProduct(new Potion(4), 10, 5);
-		super.addProduct(new Potion(5), 10, 5);
+		super.addProduct(new Potion(1), 10, 15);
+		super.addProduct(new Potion(2), 10, 15);
+		super.addProduct(new Potion(3), 10, 15);
+		super.addProduct(new Potion(4), 10, 15);
+		super.addProduct(new Potion(5), 10, 15);
 		
 		super.setX(41*48);
 		super.setY(19*48-24);

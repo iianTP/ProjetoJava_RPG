@@ -7,9 +7,10 @@ import java.awt.image.BufferedImage;
 import entities.Collision;
 import entities.Entity;
 import entities.player.Player;
+import interfaces.INpc;
 import main.screen.GameScreen;
 
-public abstract class Npc extends Entity {
+public abstract class Npc extends Entity implements INpc {
 	
 	private String[] dialogue;
 	private Collision collision = new Collision();
@@ -27,7 +28,7 @@ public abstract class Npc extends Entity {
 		super(gs);
 	}
 	
-	public abstract void interaction(Player player);
+	@Override
 	public void action() {};
 	
 	public void update(Player player, Npc[] npcs) {

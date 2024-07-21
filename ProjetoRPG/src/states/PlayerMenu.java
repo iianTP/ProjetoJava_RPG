@@ -9,7 +9,7 @@ import items.Item;
 import items.Potion;
 import main.KeyInput;
 
-public class PlayerMenu {
+public class PlayerMenu extends State {
 	
 	private String state = "main";
 	private KeyInput key;
@@ -20,10 +20,6 @@ public class PlayerMenu {
 	private Item itemSelected;
 	private int itemSelectedIndex = -1;
 	private int characterSelected;
-	
-	private boolean closedMenu = false;
-	
-	private boolean stateChanged;
 	
 	public PlayerMenu(KeyInput key, Player player, Teammate[] teammates) {
 		this.key = key;
@@ -50,11 +46,11 @@ public class PlayerMenu {
 			this.key.setMaxCmdNum(0);
 		}
 		
-		this.stateChanged = false;
+		super.setStateChanged(false);
 		
 		if (this.key.isInteracting()) {
 			
-			this.stateChanged = true;
+			super.setStateChanged(true);
 			
 			if (this.state.equals("main")) {
 				
@@ -65,7 +61,7 @@ public class PlayerMenu {
 				} else if (this.key.getCmdNum() == 2) {
 					this.state = "quests";
 				}else if (this.key.getCmdNum() == 3) {
-					this.closedMenu = true;
+					super.setEnded(true);
 				}
 				this.key.resetCmdNum();
 				
@@ -201,14 +197,6 @@ public class PlayerMenu {
 	}
 	public int getItemSelectedIndex() {
 		return this.itemSelectedIndex;
-	}
-
-	public boolean isClosedMenu() {
-		return closedMenu;
-	}
-
-	public boolean isStateChanged() {
-		return stateChanged;
 	}
 
 }

@@ -21,6 +21,8 @@ public abstract class QuestNpc extends Npc {
 	
 	public void checkQuest(Player player) {
 		
+		int itemId = 0;
+		
 		if (player.getQuestList().isFullOfQuests()) {
 			super.setDialogue(this.dialogue[2]);
 			return;
@@ -40,12 +42,22 @@ public abstract class QuestNpc extends Npc {
 				}
 				if (item == null) break;
 				player.getQuestList().checkGetItemsQuests(item);
+				
+				if (this.quest.isDone()) {
+					itemId = i;
+				}
+				
 			}
 		}
 		
 		if (this.quest.isDone() && !this.rewarded) {
 			this.quest.redeemReward(player);
 			player.getQuestList().removeQuest(this.quest.getId());
+			try {
+				player.getInventory().removeItem(itemId);
+			} catch (IndexOutOfRangeException e) {
+				e.printStackTrace();
+			}
 			super.setDialogue(this.dialogue[1]);
 			this.rewarded = true;
 		}

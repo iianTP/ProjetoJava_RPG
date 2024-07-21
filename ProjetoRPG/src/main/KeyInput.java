@@ -77,7 +77,7 @@ public class KeyInput implements KeyListener {
 				gs.setPlayingState();
 			}
 			
-		} else if (gs.getGameState() == 3) {
+		} else if (gs.getGameState() == 3 || gs.getGameState() == 7) {
 			
 			if (key == KeyEvent.VK_E) {
 				this.interaction = true;
@@ -109,14 +109,7 @@ public class KeyInput implements KeyListener {
 			}
 			
 			this.commandNum(key);
-		} else if (gs.getGameState() == 7) {
-
-			if (key == KeyEvent.VK_E) {
-				this.interaction = true;
-			}
-			
 		}
-		
 		
 	}
 

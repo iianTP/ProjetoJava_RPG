@@ -2,7 +2,7 @@ package states;
 
 import main.KeyInput;
 
-public class Intro {
+public class Intro extends State {
 	
 	private String[] texts = {
 			"NO INICIO, HAVIAM 4 MUNDOS  QUE VIVIAM EM HARMONIA",
@@ -34,24 +34,18 @@ public class Intro {
 	
 	private KeyInput key;
 	
-	private boolean changedState;
-	
-	private boolean introEnded = false;
-
 	public Intro(KeyInput key) {
 		this.key = key;
 	}
 	
 	public void intro() {
 		
-		this.changedState = false;
-		
+		super.setStateChanged(false);
 		if (this.key.isInteracting()) {
-			
-			this.changedState = true;
+			super.setStateChanged(true);
 			this.textIndex++;
 			if (this.textIndex >= this.texts.length) {
-				this.introEnded = true;
+				super.setEnded(true);
 			}
 		}
 		
@@ -69,11 +63,4 @@ public class Intro {
 		this.texts[0] = "NO INICIO, HAVIAM 3 MUNDOS  QUE VIVIAM EM HARMONIA";
 	}
 
-	public boolean isChangedState() {
-		return changedState;
-	}
-
-	public boolean isIntroEnded() {
-		return introEnded;
-	}
 }

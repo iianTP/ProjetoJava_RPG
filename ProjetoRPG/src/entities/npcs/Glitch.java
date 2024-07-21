@@ -16,7 +16,7 @@ public class Glitch extends Npc {
 		super(gs);
 		super.setX(45*48);
 		super.setY(33*48);
-		super.setWalkSpeed(3);
+		super.setWalkSpeed(5);
 		super.setLocation("world2");
 		this.setSprites();
 		

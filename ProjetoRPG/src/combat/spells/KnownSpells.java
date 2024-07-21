@@ -8,7 +8,7 @@ import states.Battle;
 public class KnownSpells {
 	
 	private Spell spell1 = new EnergyBullet();
-	private Spell spell2 = new Lightning();
+	private Spell spell2;
 	private Spell spell3;
 	private Spell spell4;
 	private Spell spell5;
@@ -46,7 +46,11 @@ public class KnownSpells {
 	
 	public void learnSpell(Spell spell, int slot) {
 		if (slot < 1 || slot > 5) {
-			
+			try {
+				throw new InvalidSpellIdException("ID de espaço de feitiço "+slot+" inválido");
+			} catch (InvalidSpellIdException e) {
+				e.printStackTrace();
+			}
 		}
 		switch(slot) {
 		case 1:

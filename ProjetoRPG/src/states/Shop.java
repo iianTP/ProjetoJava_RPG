@@ -7,14 +7,13 @@ import exceptions.InventoryIsFullException;
 import items.Product;
 import main.KeyInput;
 
-public class Shop {
+public class Shop extends State {
 	
 	private KeyInput key;
 	private Player player;
 	private Seller seller;
 	private int selectedButton = -1;
 
-	private boolean exitedShop = false;
 	private String shopState = "choose-act";
 
 	public Shop(KeyInput key, Player player, Seller seller) {
@@ -53,7 +52,7 @@ public class Shop {
 					this.key.setMaxCmdNum(this.player.getInventory().getItemQuantity());
 					
 				} else if (this.key.getCmdNum() == 2) {
-					this.exitedShop = true;
+					super.setEnded(true);
 				}
 				this.key.resetCmdNum();
 			}
@@ -136,10 +135,6 @@ public class Shop {
 		return this.shopState;
 	}
 
-	public boolean isExitedShop() {
-		return exitedShop;
-	}
-	
 	public int getSelectedButton() {
 		return selectedButton;
 	}

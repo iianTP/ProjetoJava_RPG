@@ -13,7 +13,7 @@ public class GetItemQuest extends Quest {
 	}
 
 	public void checkGoal(Item item) {
-		if (item.getClass() == this.item.getClass()) {
+		if (item.getClass() == this.item.getClass() && item.getType() == this.item.getType()) {
 			super.questComplete();
 		}
 	}

@@ -11,7 +11,7 @@ import items.Item;
 import items.Potion;
 import main.KeyInput;
 
-public class Battle {
+public class Battle extends State {
 	
 	private final Player player;
 	private final Enemie enemie;
@@ -27,13 +27,9 @@ public class Battle {
 	
 	private String winner;
 	
-	private boolean battleEnded = false;
-	
 	private int selectedButton;
 	
 	private int inventoryPage = 1;
-	
-	private boolean changedBattleState;
 	
 	private Item itemSelected;
 	public Item getItemSelected() {
@@ -136,11 +132,11 @@ public class Battle {
 		
 		this.checkParalyzedBattlers();
 		
-		this.changedBattleState = false;
+		super.setStateChanged(false); 
 		
 		if (this.key.isInteracting()) {
 			
-			this.changedBattleState = true;
+			super.setStateChanged(true);
 			
 			if (this.battleState.equals("enemie-turn")) {
 				enemieTurn();
@@ -221,7 +217,7 @@ public class Battle {
 			}
 			
 			else if (this.battleState.equals("ended")) {
-				this.battleEnded = true;
+				super.setEnded(true);
 				if (this.winner.equals("player")) {
 					this.getLoot();
 					while (this.player.getExperience() >= this.player.getMaxExperience()) {
@@ -263,6 +259,7 @@ public class Battle {
 				this.battleState = "player-effect";
 			}
 			this.player.getStats().overdriveCountdown();
+			this.player.getStats().potionCountdown();
 			
 			break;
 		case 1:
@@ -276,6 +273,7 @@ public class Battle {
 				this.battleState = "player-effect";
 			}
 			this.player.getStats().overdriveCountdown();
+			this.player.getStats().potionCountdown();
 			break;
 		case 2:
 			this.battleState = "choose-spell";
@@ -287,6 +285,7 @@ public class Battle {
 			if (this.player.getStats().getOverdrive() == 100) {
 				
 				this.player.getStats().overdriveCountdown();
+				this.player.getStats().potionCountdown();
 				
 				this.player.special(this.team, this);
 				
@@ -300,7 +299,7 @@ public class Battle {
 			}
 			break;
 		case 5:
-			this.battleEnded = true;
+			super.setEnded(true);
 			this.key.resetCmdNum();
 			break;
 		}
@@ -324,6 +323,7 @@ public class Battle {
 						this.battleState = "player-effect";
 					}
 					this.player.getStats().overdriveCountdown();
+					this.player.getStats().potionCountdown();
 				}
 			} catch (InvalidTargetException e) {
 				e.printStackTrace();
@@ -388,6 +388,7 @@ public class Battle {
 					this.battleState = "player-effect";
 				}
 				this.player.getStats().overdriveCountdown();
+				this.player.getStats().potionCountdown();
 			}
 			
 		} else if (itemSelected.isUsable()) {
@@ -405,6 +406,7 @@ public class Battle {
 					this.battleState = "player-effect";
 				}
 				this.player.getStats().overdriveCountdown();
+				this.player.getStats().potionCountdown();
 				
 			} else if (this.itemSelected instanceof Book) {
 				this.battleState = "choose-spellSlot";
@@ -430,6 +432,7 @@ public class Battle {
 				this.battleState = "player-effect";
 			}
 			this.player.getStats().overdriveCountdown();
+			this.player.getStats().potionCountdown();
 		}
 		
 	}
@@ -467,7 +470,8 @@ public class Battle {
 		} else {
 			this.battleState = "teammate-effect";
 		}
-		this.player.getStats().overdriveCountdown();
+		this.teammates[this.teammateIndex].getStats().overdriveCountdown();
+		this.teammates[this.teammateIndex].getStats().potionCountdown();
 		
 	}
 	
@@ -507,10 +511,6 @@ public class Battle {
 		return message;
 	}
 
-	public boolean isBattleEnded() {
-		return battleEnded;
-	}
-	
 	public int getInventoryPage() {
 		return this.inventoryPage;
 	}
@@ -519,7 +519,4 @@ public class Battle {
 		return winner;
 	}
 
-	public boolean isChangedBattleState() {
-		return changedBattleState;
-	}
 }

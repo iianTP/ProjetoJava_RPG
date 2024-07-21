@@ -34,8 +34,6 @@ public abstract class Player extends Team {
 	
 	private int gameStage = 1;
 	
-	private final Color black100Faded = new Color(0,0,0,100);
-	
 	public Player(KeyInput key, GameScreen gs) {
 		super(gs);
 		this.key = key; // Input do teclado
@@ -130,7 +128,7 @@ public abstract class Player extends Team {
 		//
 		
 		// SOMBRA
-		brush.setColor(this.black100Faded);
+		brush.setColor(new Color(0,0,0,100));
 		brush.fillOval(this.screenX, this.screenY+40, 48, 15);
 		//
 

@@ -8,6 +8,7 @@ import entities.enemies.*;
 import entities.enemies.Boss2;
 import entities.enemies.Boss3;
 import entities.player.Player;
+import exceptions.IndexOutOfRangeException;
 import exceptions.InvalidCoordinateException;
 import exceptions.InvalidGameStateIndex;
 import items.*;
@@ -21,7 +22,6 @@ public class LobbySeller extends Seller {
 	private Quest mainQuest = new KillEnemieQuest(new Boss1(super.getGs()), 1,"main", new Reward(0), this);
 
 	private int state = 0;
-	
 	
 	private String[][] dialogue = {
 			{
@@ -47,7 +47,8 @@ public class LobbySeller extends Seller {
 				"Voces devem ter enfrentado Maglorg, o lider de fogo.",
 				"Ele era um cara muito cabeca dura e ranzinza.",
 				"Foi ele o principal causador da grande guerra anos atras...",
-				"Continuem, seu proximo destino e para aquela porta azul e verde."
+				"Continuem, seu proximo destino e para aquela porta azul e verde.",
+				"Inclusive, renovei o estoque da loja."
 			},
 			{
 				"Muito bem, conseguiram mais um fragmento.",
@@ -56,12 +57,14 @@ public class LobbySeller extends Seller {
 				"Ele transformou quase todo seu corpo um maquina para poder ter mais controle de seus equipamentos.",
 				"Conduzia testes bizarros com os habitantes...",
 				"E estava sempre observando toda a regiao que governava, conferindo se tudo estava em \"Ordem\".",
-				"O ultimo pedaco esta naquele mundo de nuvens, voces vao gostar de la."
+				"O ultimo pedaco esta naquele mundo de nuvens, voces vao gostar de la.",
+				"Inclusive, renovei o estoque da loja novamente."
 			},
 			{
 				"Com esse, ja temos todos os pedacos.",
-				"A lider do mundo das nuvens, ela cuidar bem dos habitantes de la.",
+				"A lider do mundo das nuvens, ela cuidava bem dos habitantes de la, eu acho.",
 				"Porem, era uma pessoa bastante egoista e odiava ser contrariada.",
+				"Sempre achei todos eles muito estranhos...",
 				"...",
 				"Pronto, o artefato esta montado, quando estiverem prontos e so me chamar."
 			},
@@ -88,10 +91,14 @@ public class LobbySeller extends Seller {
 		
 		super.setLocation("lobby");
 		
-		setStockProducts(new Armor(1), 2, 5);
-		setStockProducts(new Sword(1), 2, 5);
-		setStockProducts(new Staff(1), 2, 5);
-		setStockProducts(new Cloak(1), 2, 5);
+		super.addProduct(new Armor(1), 1, 5);
+		super.addProduct(new Armor(2), 1, 10);
+		super.addProduct(new Sword(1), 1, 5);
+		super.addProduct(new Sword(2), 1, 10);
+		super.addProduct(new Staff(1), 1, 5);
+		super.addProduct(new Staff(2), 1, 10);
+		super.addProduct(new Cloak(1), 1, 5);
+		super.addProduct(new Cloak(2), 1, 10);
 		
 	}
 
@@ -109,14 +116,6 @@ public class LobbySeller extends Seller {
 		}
 	}
 
-	private void setStockProducts(Item item, int amount, int price) {
-		super.addProduct(item, amount, price);
-	}
-	
-	private void dialogue() {
-		super.getGs().setDialogueState();
-	}
-	
 	private void requestQuest(Player player) {
 		player.getQuestList().addQuest(this.mainQuest);
 	}
@@ -128,6 +127,39 @@ public class LobbySeller extends Seller {
 	@Override
 	public void action() {
 		super.setSprite(super.getIdleSprites()[1]);
+	}
+	
+	private void addStage2Products() {
+		
+		super.addProduct(new Cloak(3), 1, 50);
+		super.addProduct(new Armor(3), 1, 50);
+		super.addProduct(new Staff(3), 1, 50);
+		super.addProduct(new Sword(4), 1, 100);
+		
+		for (int i = 0; i < 3; i++) {
+			if (super.getStock().getItem(0) != null) {
+				super.getStock().removeItem(0);
+			} else {
+				break;
+			}
+		}
+		
+	}
+	
+	private void addStage3Products() {
+		
+		super.addProduct(new Cloak(4), 1, 100);
+		super.addProduct(new Armor(4), 1, 100);
+		super.addProduct(new Staff(6), 1, 400);
+		
+		for (int i = 0; i < 5; i++) {
+			if (super.getStock().getItem(0) != null) {
+				super.getStock().removeItem(0);
+			} else {
+				break;
+			}
+		}
+		
 	}
 	
 	@Override
@@ -144,12 +176,12 @@ public class LobbySeller extends Seller {
 		switch (this.state) {
 		case 0:
 			super.setDialogue(this.dialogue[0]);
-			this.dialogue();
+			super.getGs().setDialogueState();
 			this.state++;
 			break;
 		case 1:
 			super.setDialogue(this.dialogue[1]);
-			this.dialogue();
+			super.getGs().setDialogueState();
 			requestQuest(player);
 			this.state++;
 			break;
@@ -159,8 +191,9 @@ public class LobbySeller extends Seller {
 				this.mainQuest = new KillEnemieQuest(new Boss2(super.getGs()), 1,"MAIN", new Reward(0), this);
 				this.requestQuest(player);
 				super.setDialogue(this.dialogue[2]);
-				this.dialogue();
+				super.getGs().setDialogueState();
 				this.state++;
+				addStage2Products();
 			} else {
 				this.openShop();
 			}
@@ -171,8 +204,9 @@ public class LobbySeller extends Seller {
 				this.mainQuest = new KillEnemieQuest(new Boss3(super.getGs()), 1,"MAIN", new Reward(0), this);
 				this.requestQuest(player);
 				super.setDialogue(this.dialogue[3]);
-				this.dialogue();
+				super.getGs().setDialogueState();
 				this.state++;
+				addStage3Products();
 			} else {
 				this.openShop();
 			}
@@ -181,13 +215,16 @@ public class LobbySeller extends Seller {
 			if (this.mainQuest.isDone()) {
 				player.getQuestList().removeQuest(this.mainQuest.getId());
 				super.setDialogue(this.dialogue[4]);
-				this.dialogue();
+				super.getGs().setDialogueState();
 				this.state++;
+			} else {
+				this.openShop();
 			}
 			break;
 		case 5:
 			super.setDialogue(this.dialogue[5]);
-			this.dialogue();
+			super.getGs().setDialogueState();
+			player.addGameStage();
 			break;
 		}
 

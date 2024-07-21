@@ -2,12 +2,10 @@ package states;
 
 import main.KeyInput;
 
-public class Dialogue {
+public class Dialogue extends State {
 	
 	private KeyInput key;
 	private int dialogueIndex = 0;
-	private boolean dialogueEnded = false;
-	private boolean dialogueChanged;
 	
 	private String[] dialogue;
 	
@@ -17,27 +15,20 @@ public class Dialogue {
 	}
 	
 	public void dialogue() {
-		this.dialogueChanged = false;
+		
+		super.setStateChanged(false);
 		
 		if (this.key.isInteracting()) {
-			this.dialogueChanged = true;
+			super.setStateChanged(true);
 			this.dialogueIndex++;
 			if (this.dialogueIndex == this.dialogue.length) {
-				this.dialogueEnded = true;
+				super.setEnded(true);
 			}
 		}
 	}
 	
 	public int getDialogueIndex() {
 		return this.dialogueIndex;
-	}
-
-	public boolean isDialogueEnded() {
-		return dialogueEnded;
-	}
-
-	public boolean isDialogueChanged() {
-		return dialogueChanged;
 	}
 
 	public String getDialogue() {

@@ -13,7 +13,7 @@ import states.Battle;
 public abstract class Enemie extends Battler {
 	
 	private BufferedImage sprite;
-	private BattleRng battleRng = new BattleRng();
+	private final BattleRng battleRng = new BattleRng(super.getRng());
 	
 	private int experience;
 	private int gold;
