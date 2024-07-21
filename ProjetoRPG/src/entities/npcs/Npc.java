@@ -28,10 +28,10 @@ public abstract class Npc extends Entity {
 	}
 	
 	public abstract void interaction(Player player);
-	public void action(Player player, Npc[] npcs) {};
+	public void action() {};
 	
 	public void update(Player player, Npc[] npcs) {
-		action(player, npcs);
+		action();
 	}
 	
 	public void draw(Graphics2D brush, Player player) {

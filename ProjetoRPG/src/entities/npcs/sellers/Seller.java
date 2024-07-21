@@ -1,5 +1,6 @@
-package entities.npcs;
+package entities.npcs.sellers;
 
+import entities.npcs.Npc;
 import exceptions.InvalidProductSpecsException;
 import exceptions.ItemAlreadyInStockException;
 import items.*;
@@ -13,7 +14,7 @@ public abstract class Seller extends Npc {
 		super(gs);
 	}
 
-	public void setStock(Item item, int amount, int price) {
+	public void addProduct(Item item, int amount, int price) {
 		try {
 			this.stock.addItem(item, amount, price);
 		} catch (ItemAlreadyInStockException e) {

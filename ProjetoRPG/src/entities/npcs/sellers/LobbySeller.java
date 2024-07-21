@@ -1,4 +1,4 @@
-package entities.npcs;
+package entities.npcs.sellers;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ import quests.Reward;
 
 public class LobbySeller extends Seller {
 	
-	private Quest mainQuest = new KillEnemieQuest(new Boss1(super.getGs()), 1,"main", new Reward(), this);
+	private Quest mainQuest = new KillEnemieQuest(new Boss1(super.getGs()), 1,"main", new Reward(0), this);
 
 	private int state = 0;
 	
@@ -80,7 +80,7 @@ public class LobbySeller extends Seller {
 		super(gs);
 		
 		super.setDirection("down");
-
+		
 		super.setX(x);
 		super.setY(y);
 		
@@ -98,19 +98,19 @@ public class LobbySeller extends Seller {
 	@Override
 	public void setSprites() {
 		try {
-			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/npcs/lobbySeller.png")));			
+			super.setIdleSprites(
+				ImageIO.read(getClass().getResourceAsStream("/npcs/lobbySeller/lobbySeller_up.png")), 
+				ImageIO.read(getClass().getResourceAsStream("/npcs/lobbySeller/lobbySeller_down.png")), 
+				ImageIO.read(getClass().getResourceAsStream("/npcs/lobbySeller/lobbySeller_left.png")), 
+				ImageIO.read(getClass().getResourceAsStream("/npcs/lobbySeller/lobbySeller_right.png"))
+			);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	@Override
-	public void action(Player player, Npc[] npcs) {
-		
-	}
-	
 	private void setStockProducts(Item item, int amount, int price) {
-		super.setStock(item, amount, price);
+		super.addProduct(item, amount, price);
 	}
 	
 	private void dialogue() {
@@ -126,9 +126,20 @@ public class LobbySeller extends Seller {
 	}
 	
 	@Override
+	public void action() {
+		super.setSprite(super.getIdleSprites()[1]);
+	}
+	
+	@Override
 	public void interaction(Player player) {
-		System.out.println("foi");
 		
+		if (player.getDirection().equals("down")) {
+			super.setSprite(super.getIdleSprites()[0]);
+		} else if (player.getDirection().equals("left")) {
+			super.setSprite(super.getIdleSprites()[3]);
+		} else if (player.getDirection().equals("right")) {
+			super.setSprite(super.getIdleSprites()[2]);
+		}
 		
 		switch (this.state) {
 		case 0:
@@ -145,7 +156,7 @@ public class LobbySeller extends Seller {
 		case 2:
 			if (this.mainQuest.isDone()) {
 				player.getQuestList().removeQuest(this.mainQuest.getId());
-				this.mainQuest = new KillEnemieQuest(new Boss2(super.getGs()), 1,"MAIN", new Reward(), this);
+				this.mainQuest = new KillEnemieQuest(new Boss2(super.getGs()), 1,"MAIN", new Reward(0), this);
 				this.requestQuest(player);
 				super.setDialogue(this.dialogue[2]);
 				this.dialogue();
@@ -157,7 +168,7 @@ public class LobbySeller extends Seller {
 		case 3:
 			if (this.mainQuest.isDone()) {
 				player.getQuestList().removeQuest(this.mainQuest.getId());
-				this.mainQuest = new KillEnemieQuest(new Boss3(super.getGs()), 1,"MAIN", new Reward(), this);
+				this.mainQuest = new KillEnemieQuest(new Boss3(super.getGs()), 1,"MAIN", new Reward(0), this);
 				this.requestQuest(player);
 				super.setDialogue(this.dialogue[3]);
 				this.dialogue();

@@ -31,7 +31,7 @@ public class Test extends Npc {
 		
 	}
 	
-	@Override
+/*	@Override
 	public void action(Player player, Npc[] npcs) {
 		
 		super.addFrameCounter();
@@ -75,7 +75,7 @@ public class Test extends Npc {
 			}
 		}
 		
-	}
+	}*/
 	
 	@Override
 	public void interaction(Player player) {
@@ -83,11 +83,7 @@ public class Test extends Npc {
 		super.getGs().setDialogueState();
 		
 		if (!player.getInventory().isFull()) {
-			try {
-				player.getInventory().addItem(new Armor(1));
-			} catch (InventoryIsFullException e) {
-				e.printStackTrace();
-			}
+			player.getInventory().addItem(new Armor(1));
 		} else {
 			System.out.println("inventário está cheio");
 		}

@@ -7,6 +7,16 @@ import entities.npcs.*;
 import entities.npcs.bosses.Boss1Npc;
 import entities.npcs.bosses.Boss2Npc;
 import entities.npcs.bosses.Boss3Npc;
+import entities.npcs.inanimates.Castle;
+import entities.npcs.inanimates.CastleGate;
+import entities.npcs.inanimates.Door;
+import entities.npcs.inanimates.House;
+import entities.npcs.questNpcs.Blob;
+import entities.npcs.questNpcs.FirePerson;
+import entities.npcs.sellers.BookSeller;
+import entities.npcs.sellers.LobbySeller;
+import entities.npcs.sellers.PotionSeller;
+import entities.npcs.sellers.Seller;
 import entities.player.*;
 import entities.teammates.*;
 import exceptions.InvalidCoordinateException;
@@ -26,7 +36,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Random;
 
-public class GameScreen extends JPanel implements Runnable {
+public class GameScreen extends JPanel {
 
 	private final int tileSide = 48; // Texturas 48px x 48px
 	private final int screenSide = 720; // Dimensões da tela 720px x 720px
@@ -34,8 +44,6 @@ public class GameScreen extends JPanel implements Runnable {
 	private long startNanoTime;
 	private final double oneFrameInNano = 1000000000 / 60;
 	
-	private Thread gameThread;
-
 	private final KeyInput key = new KeyInput(this);
 	
 	private TileManager tiles = new TileManager();
@@ -87,20 +95,11 @@ public class GameScreen extends JPanel implements Runnable {
 		
 	}
 
-	//inicialização do game loop
-	public void startThread() {
-		
-		this.gameThread = new Thread(this);
-		this.gameThread.start();
-
-	}
-	//
-	
 	public void startGame(String choosenClass) {
 		this.setPlayerClass(choosenClass);
+		this.player.getCollision().setTiles(this.tiles);
 		this.setNpcs();
-		this.player.setNpcs(npcs);
-		this.player.getCollision().setTiles(tiles);
+		this.player.setNpcs(this.npcs);
 	}
 	
 	// Identificação da classe escolhida pelo Player
@@ -147,7 +146,7 @@ public class GameScreen extends JPanel implements Runnable {
 	
 	private void setNpcs() {
 		
-		this.npcs = new Npc[21];
+		this.npcs = new Npc[37];
 		
 		this.npcs[0] = new LobbySeller(32*48,32*48,this);
 		
@@ -171,20 +170,45 @@ public class GameScreen extends JPanel implements Runnable {
 		
 		this.npcs[15] = new House(this, 41*48, 18*48, "world1");
 		this.npcs[16] = new House(this, 37*48, 19*48, "world1");
+		this.npcs[17] = new House(this, 32*48, 15*48, "world1");
 		
-		this.npcs[17] = new House(this, 22*48, 30*48, "world2");
-		this.npcs[18] = new House(this, 42*48, 30*48, "world2");
+		this.npcs[18] = new House(this, 22*48, 30*48, "world2");
+		this.npcs[19] = new House(this, 42*48, 30*48, "world2");
 		
-		this.npcs[19] = new House(this, 36*48, 27*48, "world3");
-		this.npcs[20] = new House(this, 40*48, 18*48, "world3");
+		this.npcs[20] = new House(this, 36*48, 27*48, "world3");
+		this.npcs[21] = new House(this, 40*48, 18*48, "world3");
+		
+		this.npcs[22] = new CastleGate(this, "castle1", "world1", 22*48+24, 12*48+24);
+		this.npcs[23] = new CastleGate(this, "castle2", "world2", 32*48+24, 13*48+24);
+		this.npcs[24] = new CastleGate(this, "castle3", "world3", 19*48+24, 19*48+24);
+		
+		this.npcs[25] = new SentinelNpc(this, 21*48, 12*48-24);
+		this.npcs[26] = new SentinelNpc(this, 23*48, 12*48-24);
+		
+		this.npcs[27] = new Fly(this);
+		
+		this.npcs[28] = new World4Mage(this, 30*48, 41*48, "right");
+		this.npcs[29] = new World4Mage(this, 31*48, 40*48, "down");
+		this.npcs[30] = new World4Mage(this, 32*48, 41*48, "left");
+		
+		this.npcs[31] = new FirePerson(this);
+		
+		this.npcs[32] = new PotionSeller(this);
+		this.npcs[33] = new BookSeller(this);
+		
+		this.npcs[34] = new Glitch(this, this.player, this.npcs);
+		this.npcs[34].collision().setTiles(this.tiles);
+		
+		this.npcs[35] = new Blob(this);
+		
+		this.npcs[36] = new Block(this);
 		
 	}
 
-	@Override
-	public void run() {
+	public void runGameLoop() {
 
 		// GAME LOOP
-		while (this.gameThread != null) {
+		while (true) {
 
 			this.startNanoTime = System.nanoTime();
 
@@ -199,7 +223,7 @@ public class GameScreen extends JPanel implements Runnable {
 
 	}
 	
-	//atualização das entidades
+	//atualização de estado do jogo
 	private void update() {
 
 		if (this.gameState == this.playing) {
@@ -208,12 +232,12 @@ public class GameScreen extends JPanel implements Runnable {
 				this.enemie = null;
 			}
 			
+			for (int i = 0; i < this.npcs.length; i++) {
+				this.npcs[i].update(this.player, this.npcs);
+			}
+			
 			this.player.update();
 			searchBattle();
-			
-			for (int i = 0; i < this.npcs.length; i++) {
-				//this.allNpcs[i].update(this.player, this.allNpcs);
-			}
 			
 		}
 		
@@ -351,7 +375,6 @@ public class GameScreen extends JPanel implements Runnable {
 					break;
 				}
 			}
-			return;
 		}
 		if (this.enemie instanceof Boss2) {
 			for (int i = 0; i < npcs.length; i++) {
@@ -360,7 +383,6 @@ public class GameScreen extends JPanel implements Runnable {
 					break;
 				}
 			}
-			return;
 		}
 		if (this.enemie instanceof Boss3) {
 			for (int i = 0; i < npcs.length; i++) {
@@ -369,9 +391,8 @@ public class GameScreen extends JPanel implements Runnable {
 					break;
 				}
 			}
-			return;
 		}
-		
+		this.player.addGameStage();
 	}
 
 	

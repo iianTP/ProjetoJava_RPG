@@ -7,6 +7,17 @@ public class Reward {
 	private Item item;
 	private int gold;
 	
+	public Reward(Item item, int gold) {
+		this.item = item;
+		this.gold = gold;
+	}
+	public Reward(int gold) {
+		this.gold = gold;
+	}
+	public Reward(Item item) {
+		this.item = item;
+	}
+	
 	public String getRewardString() {
 		String reward = "";
 		if (this.item != null) {

@@ -1,9 +1,58 @@
 package entities.enemies;
 
-import entities.Stats;
+import java.io.IOException;
 
-public class Thief extends Stats {
-	public Thief() {
-		// STATS
+import javax.imageio.ImageIO;
+
+import combat.spells.BloodSpear;
+import combat.spells.HealthSteal;
+import combat.spells.Poison;
+import entities.Stats;
+import exceptions.InvalidStatsInputException;
+import main.screen.GameScreen;
+
+public class Thief extends Enemie {
+
+	public Thief(GameScreen gs) {
+		super(gs);
+		this.setSprites();
+		this.setStats();
+		super.getSpells().learnSpell(new HealthSteal(), 2);
+		super.getSpells().learnSpell(new BloodSpear(), 3);
+		super.getSpells().learnSpell(new Poison(), 4);
+		super.setName("LADRAO");
+		
+		super.setExperience(10);
+		super.setGold(20);
+		
+	}
+	
+	public void setStats() {
+		
+		try {
+			Stats stats = new Stats();
+			stats.setHealth(100);
+			stats.setMaxHealth(100);
+			stats.setMana(35);
+			stats.setMaxMana(35);
+			
+			stats.setStrenght(10);
+			stats.setDefense(3);
+			stats.setMagic(3);
+			stats.setMagicDefense(2);
+			super.setStats(stats);
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void setSprites() {
+		try {
+			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/enemies/thief.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

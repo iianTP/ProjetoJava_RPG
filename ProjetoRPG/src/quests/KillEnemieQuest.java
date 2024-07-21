@@ -13,7 +13,7 @@ public class KillEnemieQuest extends Quest {
 		super(type, reward, requester);
 		this.enemie = enemie;
 		this.quantity = quantity;
-		super.setDescription("MATE ");
+		super.setDescription("MATE "+quantity+" "+enemie.getName());
 	}
 
 	public void checkGoal(Enemie enemie) {

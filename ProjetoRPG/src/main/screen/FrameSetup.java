@@ -16,7 +16,7 @@ public class FrameSetup extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		
-		screen.startThread();
+		screen.runGameLoop();
 		
 	}
 	

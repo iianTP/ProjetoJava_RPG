@@ -32,6 +32,8 @@ public abstract class Player extends Team {
 	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	
+	private int gameStage = 1;
+	
 	private final Color black100Faded = new Color(0,0,0,100);
 	
 	public Player(KeyInput key, GameScreen gs) {
@@ -289,6 +291,14 @@ public abstract class Player extends Team {
 
 	public QuestList getQuestList() {
 		return questList;
+	}
+
+	public int getGameStage() {
+		return gameStage;
+	}
+
+	public void addGameStage() {
+		this.gameStage++;
 	}
 
 }

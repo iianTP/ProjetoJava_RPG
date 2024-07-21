@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.Lightning;
+import combat.spells.*;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
@@ -15,14 +15,9 @@ public class Ghost extends Enemie {
 		super(gs);
 		this.setSprites();
 		this.setStats();
-	/*	super.getSpells().learnSpell(new FireBall(), 2);
-		super.getSpells().learnSpell(new FireBall(), 3);
-		super.getSpells().learnSpell(new FireBall(), 4);
-		super.getSpells().learnSpell(new FireBall(), 5);*/
-		super.getSpells().learnSpell(new Lightning(), 2);
-		super.getSpells().learnSpell(new Lightning(), 3);
-		super.getSpells().learnSpell(new Lightning(), 4);
-		super.getSpells().learnSpell(new Lightning(), 5);
+		super.getSpells().learnSpell(new Curse(), 2);
+		super.getSpells().learnSpell(new Hypnosis(), 3);
+		super.getSpells().learnSpell(new DarkMagic(), 4);
 		super.setName("FANTASMA");
 		
 		super.setExperience(10);
@@ -34,10 +29,10 @@ public class Ghost extends Enemie {
 		
 		try {
 			Stats stats = new Stats();
-			stats.setHealth(10);
-			stats.setMaxHealth(10);
-			stats.setMana(20);
-			stats.setMaxMana(20);
+			stats.setHealth(100);
+			stats.setMaxHealth(100);
+			stats.setMana(50);
+			stats.setMaxMana(50);
 			
 			stats.setStrenght(10);
 			stats.setDefense(5);
@@ -53,11 +48,10 @@ public class Ghost extends Enemie {
 	@Override
 	public void setSprites() {
 		try {
-			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/assassin/AssassinIdleDown.png")));
+			super.setSprite(ImageIO.read(getClass().getResourceAsStream("/enemies/ghost.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 }

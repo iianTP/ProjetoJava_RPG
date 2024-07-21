@@ -1,4 +1,4 @@
-package entities.npcs;
+package entities.npcs.inanimates;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entities.npcs.Npc;
 import entities.player.Player;
 import exceptions.InvalidCoordinateException;
 import main.screen.GameScreen;

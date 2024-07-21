@@ -1,6 +1,6 @@
 package states;
 
-import entities.npcs.Seller;
+import entities.npcs.sellers.Seller;
 import entities.player.Player;
 import exceptions.IndexOutOfRangeException;
 import exceptions.InventoryIsFullException;
@@ -103,11 +103,7 @@ public class Shop {
 			if (this.player.getGold() >= product.getPrice() &&
 				!this.player.getInventory().isFull()) {
 				
-				try {
-					this.player.getInventory().addItem(product.getItem());
-				} catch (InventoryIsFullException e) {
-					e.printStackTrace();
-				}
+				this.player.getInventory().addItem(product.getItem());
 				
 				this.player.reduceGold(product.getPrice());
 				product.reduceAmount();

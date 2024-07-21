@@ -43,7 +43,7 @@ public abstract class Quest {
 		return this.done;
 	}
 
-	public void redeemReward(Player player) throws InventoryIsFullException {
+	public void redeemReward(Player player) {
 		if (reward.getItem() != null) {
 			Item items = reward.getItem();
 			if (!player.getInventory().isFull()) {

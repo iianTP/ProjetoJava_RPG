@@ -16,19 +16,16 @@ public class Inventory extends DynamicArray<Item>{
 	public boolean isFull() {
 		return (super.getData(9) != null) ? true : false;
 	}
-	public void addItem(Item item) throws InventoryIsFullException {
+	public void addItem(Item item) {
 		if (isFull()) {
-			throw new InventoryIsFullException();
+			try {
+				throw new InventoryIsFullException();
+			} catch (InventoryIsFullException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		super.addData(item);
-		System.out.println("added "+item.getName());
-	/*	try {
-			System.out.println(getItem(0).getName());
-		} catch (IndexOutOfRangeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 	}
 	
 	

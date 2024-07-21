@@ -46,11 +46,7 @@ public abstract class Team extends Battler {
 		if (item instanceof Armor || item instanceof Cloak) {
 
 			if (this.armorEquiped != null) {
-				try {
-					this.playerInventory.addItem(this.armorEquiped);
-				} catch (InventoryIsFullException e) {
-					e.printStackTrace();
-				}
+				this.playerInventory.addItem(this.armorEquiped);
 			}
 			this.armorEquiped = item;
 			try {
@@ -66,11 +62,7 @@ public abstract class Team extends Battler {
 
 		} else if (item instanceof Sword || item instanceof Staff) {
 			if (this.weaponEquiped != null) {
-				try {
-					this.playerInventory.addItem(this.weaponEquiped);
-				} catch (InventoryIsFullException e) {
-					e.printStackTrace();
-				}
+				this.playerInventory.addItem(this.weaponEquiped);
 			}
 			this.weaponEquiped = item;
 			System.out.println(this.weaponEquiped.getShortName());

@@ -21,6 +21,18 @@ public class QuestList extends DynamicArray<Quest>{
 		}
 	}
 	
+	public boolean isFullOfQuests() {
+		
+		int i = 0;
+		
+		while (this.getQuest(i) != null) {
+			i++;
+		}
+		
+		return (i >= 3) ? true : false;
+		
+	}
+	
 	public void checkKillEnemiesQuests(Enemie enemie, String winner) {
 		System.out.println("a");
 		if (winner != null && winner.equals("player")) {

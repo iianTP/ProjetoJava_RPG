@@ -825,7 +825,6 @@ public class UI {
 		
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*5,48*11,10,10);
-		//brush.fillRoundRect(48*9+20,48*2,219,219,10,10);
 		
 		if (this.shopItemsButtons == null) {
 			shopItemsButtons = new int[inventory.getItemQuantity()+1][2];

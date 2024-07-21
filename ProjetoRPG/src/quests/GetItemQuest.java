@@ -1,15 +1,15 @@
 package quests;
 
-import entities.npcs.questNpc.QuestNpc;
 import items.Item;
 
 public class GetItemQuest extends Quest {
 	
 	private Item item;
 	
-	public GetItemQuest(Item item, String type, Reward reward, QuestNpc requester) {
-		super(type, reward, requester);
+	public GetItemQuest(Item item, String type, Reward reward) {
+		super(type, reward, null);
 		this.item = item;
+		super.setDescription("PROVIDENCIE "+item.getName().toUpperCase());
 	}
 
 	public void checkGoal(Item item) {
