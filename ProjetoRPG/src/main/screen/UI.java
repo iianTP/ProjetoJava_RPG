@@ -10,7 +10,6 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.KnownSpells;
 import entities.Stats;
 import entities.enemies.Enemie;
 import entities.player.Player;
@@ -25,13 +24,14 @@ import items.Stock;
 import main.KeyInput;
 import quests.Quest;
 import quests.QuestList;
-import states.Battle;
 import states.Dialogue;
 import states.Ending;
 import states.Intro;
 import states.MainMenu;
 import states.PlayerMenu;
 import states.Shop;
+import states.battle.Battle;
+import states.battle.spells.KnownSpells;
 
 public class UI {
 	

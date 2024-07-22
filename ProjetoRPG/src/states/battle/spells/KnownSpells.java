@@ -1,9 +1,9 @@
-package combat.spells;
+package states.battle.spells;
 
 import entities.Battler;
 import entities.Stats;
 import exceptions.InvalidSpellIdException;
-import states.Battle;
+import states.battle.Battle;
 
 public class KnownSpells {
 	

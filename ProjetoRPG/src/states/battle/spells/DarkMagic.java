@@ -1,8 +1,8 @@
-package combat.spells;
+package states.battle.spells;
 
 import entities.Battler;
 import entities.Stats;
-import states.Battle;
+import states.battle.Battle;
 
 public class DarkMagic  extends Spell {
 	
@@ -17,7 +17,7 @@ public class DarkMagic  extends Spell {
 	@Override
 	public void castSpell(Battler target, Stats stats, Battle battle) {
 		
-		target.takeMagicDamage(this.damage);
+		target.takeDamage(this.damage);
 		this.damage *= 2;
 		stats.alterMana(super.getManaCost());
 		

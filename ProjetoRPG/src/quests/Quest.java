@@ -2,7 +2,6 @@ package quests;
 
 import entities.npcs.Npc;
 import entities.player.Player;
-import exceptions.InventoryIsFullException;
 import items.Item;
 
 public abstract class Quest {

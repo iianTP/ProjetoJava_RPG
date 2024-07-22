@@ -1,19 +1,19 @@
-package combat.spells;
+package states.battle.spells;
 
 import java.util.Random;
 
 import entities.Battler;
 import entities.Stats;
-import states.Battle;
+import states.battle.Battle;
 
-public class WindBlades  extends Spell {
+public class Lightning  extends Spell {
 	
 	private Random random = new Random();
 	
-	public WindBlades() {
-		super.setSpellName("Laminas de Vento");
-		super.setShortSpellName("L.VENT.");
-		super.setManaCost(-7);
+	public Lightning() {
+		super.setSpellName("Relampago");
+		super.setShortSpellName("RELAMP.");
+		super.setManaCost(-5);
 	}
 
 	@Override
@@ -22,8 +22,12 @@ public class WindBlades  extends Spell {
 		int spellDamage = stats.getMagic()+this.random.nextInt(5);
 		int finalDamage = 2*spellDamage/target.getStats().getMagicDefense();
 		
-		target.takeMagicDamage(finalDamage);
+		target.takeDamage(finalDamage);
+		
 		stats.alterMana(super.getManaCost());
+		if (target.getEffects().getCurrentEffect().equals("none")) {
+			target.getEffects().setCurrentEffect("paralyzed");
+		}
 		
 	}
 

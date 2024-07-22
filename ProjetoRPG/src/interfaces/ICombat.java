@@ -2,7 +2,7 @@ package interfaces;
 
 import entities.Battler;
 import exceptions.InvalidTargetException;
-import states.Battle;
+import states.battle.Battle;
 
 public interface ICombat {
 	
@@ -15,8 +15,6 @@ public interface ICombat {
 	public <T> void special(T target, Battle battle);
 	
 	public void takeDamage(int damage);
-	
-	public void takeMagicDamage(int magicDamage);
 	
 	public void setStats();
 	

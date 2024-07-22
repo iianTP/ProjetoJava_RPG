@@ -1,4 +1,4 @@
-package states;
+package states.battle;
 
 import java.io.IOException;
 
@@ -8,7 +8,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import combat.spells.Spell;
 import entities.Battler;
 import entities.enemies.Enemie;
 import entities.player.Player;
@@ -19,6 +18,8 @@ import items.Book;
 import items.Item;
 import items.Potion;
 import main.KeyInput;
+import states.State;
+import states.battle.spells.Spell;
 
 public class Battle extends State {
 	

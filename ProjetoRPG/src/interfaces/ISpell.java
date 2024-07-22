@@ -2,7 +2,7 @@ package interfaces;
 
 import entities.Battler;
 import entities.Stats;
-import states.Battle;
+import states.battle.Battle;
 
 public interface ISpell {
 

@@ -9,7 +9,7 @@ import entities.enemies.Enemie;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
-import states.Battle;
+import states.battle.Battle;
 
 public class Warrior extends Player {
 	

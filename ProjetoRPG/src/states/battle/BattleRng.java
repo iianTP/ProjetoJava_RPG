@@ -1,9 +1,9 @@
-package combat;
+package states.battle;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import combat.spells.KnownSpells;
+import states.battle.spells.KnownSpells;
 
 public class BattleRng {
 	

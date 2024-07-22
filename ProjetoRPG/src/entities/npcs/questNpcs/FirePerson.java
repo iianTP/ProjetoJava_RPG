@@ -5,13 +5,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import entities.player.Player;
-import exceptions.IndexOutOfRangeException;
 import items.Cloak;
-import items.Item;
-import items.Staff;
 import main.screen.GameScreen;
 import quests.GetItemQuest;
-import quests.Quest;
 import quests.Reward;
 
 public class FirePerson extends QuestNpc {

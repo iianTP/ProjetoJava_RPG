@@ -4,10 +4,9 @@ import entities.Battler;
 import entities.enemies.Enemie;
 import exceptions.InvalidStatsInputException;
 import exceptions.InvalidTargetException;
-import exceptions.InventoryIsFullException;
 import items.*;
 import main.screen.GameScreen;
-import states.Battle;
+import states.battle.Battle;
 
 public abstract class Team extends Battler {
 	

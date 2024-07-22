@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.*;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
+import states.battle.spells.Curse;
+import states.battle.spells.DarkMagic;
+import states.battle.spells.Hypnosis;
 
 public class Ghost extends Enemie {
 	

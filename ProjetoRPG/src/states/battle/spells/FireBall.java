@@ -1,8 +1,8 @@
-package combat.spells;
+package states.battle.spells;
 
 import entities.Battler;
 import entities.Stats;
-import states.Battle;
+import states.battle.Battle;
 
 public class FireBall  extends Spell {
 	
@@ -18,7 +18,7 @@ public class FireBall  extends Spell {
 		int spellDamage = stats.getMagic();
 		int finalDamage = 2*spellDamage/target.getStats().getMagicDefense();
 		
-		target.takeMagicDamage(finalDamage);
+		target.takeDamage(finalDamage);
 		stats.alterMana(super.getManaCost());
 		
 		if (target.getEffects().getCurrentEffect().equals("none")) {

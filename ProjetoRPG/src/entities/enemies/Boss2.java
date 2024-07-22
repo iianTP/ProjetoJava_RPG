@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.Lightning;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
+import states.battle.spells.Lightning;
 
 public class Boss2 extends Enemie {
 

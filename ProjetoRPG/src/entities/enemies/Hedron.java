@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.FireBall;
-import combat.spells.Lightning;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
+import states.battle.spells.FireBall;
+import states.battle.spells.Lightning;
 
 public class Hedron extends Enemie {
 	

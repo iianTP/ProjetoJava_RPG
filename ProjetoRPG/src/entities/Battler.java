@@ -2,9 +2,6 @@ package entities;
 
 import java.util.Random;
 
-import combat.Effects;
-import combat.spells.KnownSpells;
-import combat.spells.Spell;
 import entities.enemies.Enemie;
 import entities.teammates.Teammate;
 import exceptions.InvalidSpellIdException;
@@ -12,7 +9,10 @@ import exceptions.InvalidStatsInputException;
 import exceptions.InvalidTargetException;
 import interfaces.ICombat;
 import main.screen.GameScreen;
-import states.Battle;
+import states.battle.Battle;
+import states.battle.Effects;
+import states.battle.spells.KnownSpells;
+import states.battle.spells.Spell;
 
 public abstract class Battler extends Entity implements ICombat {
 
@@ -128,16 +128,6 @@ public abstract class Battler extends Entity implements ICombat {
 		Stats stats = this.getStats();
 		try {
 			stats.damage(damage);
-		} catch (InvalidStatsInputException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void takeMagicDamage(int magicDamage) {
-		Stats stats = this.getStats();
-		try {
-			stats.damage(magicDamage);
 		} catch (InvalidStatsInputException e) {
 			e.printStackTrace();
 		}

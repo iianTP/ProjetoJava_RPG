@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import entities.enemies.Enemie;
 import entities.npcs.Npc;
 import entities.player.Player;
-import exceptions.InvalidCoordinateException;
 import main.screen.GameScreen;
 
 public abstract class BossNpc extends Npc {

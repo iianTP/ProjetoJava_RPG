@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.BloodSpear;
-import combat.spells.FireBall;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
+import states.battle.spells.BloodSpear;
+import states.battle.spells.FireBall;
 
 public class Boss1 extends Enemie {
 

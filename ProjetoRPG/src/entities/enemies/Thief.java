@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.BloodSpear;
-import combat.spells.HealthSteal;
-import combat.spells.Poison;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
+import states.battle.spells.BloodSpear;
+import states.battle.spells.HealthSteal;
+import states.battle.spells.Poison;
 
 public class Thief extends Enemie {
 

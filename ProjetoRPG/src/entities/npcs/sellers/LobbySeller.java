@@ -16,7 +16,7 @@ import quests.Reward;
 
 public class LobbySeller extends Seller {
 	
-	private Quest mainQuest = new KillEnemieQuest(new Boss1(super.getGs()), 1,"main", new Reward(0), this);
+	private Quest mainQuest = new KillEnemieQuest(new Boss1(super.getGs()), 1,"MAIN", new Reward(0), this);
 
 	private int state = 0;
 	

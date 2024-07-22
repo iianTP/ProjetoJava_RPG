@@ -5,26 +5,18 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import main.KeyInput;
-
 public class Ending extends State {
 	
 	private String text = "...ele nos enganou.";
 	
 	private BufferedImage[] panels = new BufferedImage[7];
 	
-	private KeyInput key;
-	
 	private int endingIndex = -1;
 	
 	private int timer = 0;
 	
-	public Ending(KeyInput key) {
-		
+	public Ending() {
 		this.setPanels();
-		
-		this.key = key;
-		
 	}
 	
 	public void ending() {

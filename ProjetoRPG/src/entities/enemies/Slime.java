@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.Poison;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
+import states.battle.spells.Poison;
 
 public class Slime extends Enemie {
 

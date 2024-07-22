@@ -9,7 +9,7 @@ import entities.teammates.Team;
 import exceptions.InvalidStatsInputException;
 import main.KeyInput;
 import main.screen.GameScreen;
-import states.Battle;
+import states.battle.Battle;
 
 public class Healer extends Player{
 	

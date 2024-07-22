@@ -1,4 +1,4 @@
-package combat;
+package states.battle;
 
 import entities.Stats;
 import exceptions.InvalidEffectException;

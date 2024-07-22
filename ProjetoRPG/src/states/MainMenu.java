@@ -1,7 +1,5 @@
 package states;
 
-import javax.sound.sampled.Clip;
-
 import main.KeyInput;
 import main.screen.GameScreen;
 

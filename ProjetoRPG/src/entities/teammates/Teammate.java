@@ -1,12 +1,12 @@
 package entities.teammates;
 
 
-import combat.BattleRng;
 import entities.Battler;
 import exceptions.InvalidTargetException;
 import interfaces.ICombat;
 import main.screen.GameScreen;
-import states.Battle;
+import states.battle.Battle;
+import states.battle.BattleRng;
 
 public abstract class Teammate extends Team implements ICombat {
 	
@@ -30,7 +30,7 @@ public abstract class Teammate extends Team implements ICombat {
 			
 		} else if (move.equals("defense")) {
 			super.defend(battle);
-		} else {
+		} else  if (move.equals("magic")) {
 			
 			int spellId = this.battleRng.getRandomSpellId(super.getSpells(), super.getStats().getMana());
 			if (spellId != -1) {
@@ -39,11 +39,12 @@ public abstract class Teammate extends Team implements ICombat {
 				} catch (InvalidTargetException e) {
 					e.printStackTrace();
 				}
-			} else if (move.equals("magic"))  {
-				battle.setMessage("O "+super.getName()+" TENTOU USAR UM FEITICO, MAS FALHOU");
 			} else {
-				this.special(target, battle);
-			}
+				battle.setMessage("O "+super.getName()+" TENTOU USAR UM FEITICO, MAS FALHOU");
+			} 
+			
+		} else {
+			this.special(target, battle);
 		}
 	}
 	

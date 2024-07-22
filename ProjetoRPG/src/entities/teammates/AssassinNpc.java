@@ -6,10 +6,9 @@ import javax.imageio.ImageIO;
 
 import entities.Stats;
 import entities.enemies.Enemie;
-import exceptions.InvalidCoordinateException;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
-import states.Battle;
+import states.battle.Battle;
 
 public class AssassinNpc extends Teammate {
 	

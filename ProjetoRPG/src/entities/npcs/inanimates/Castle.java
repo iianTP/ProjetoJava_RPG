@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 
 import entities.npcs.Npc;
 import entities.player.Player;
-import exceptions.InvalidCoordinateException;
 import main.screen.GameScreen;
 
 public class Castle extends Npc {

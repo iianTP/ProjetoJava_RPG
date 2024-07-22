@@ -11,9 +11,8 @@ import entities.npcs.questNpcs.*;
 import entities.npcs.sellers.*;
 import entities.player.*;
 import entities.teammates.*;
-import exceptions.InvalidStatsInputException;
 import states.*;
-
+import states.battle.Battle;
 import main.KeyInput;
 import main.Music;
 import tiles.TheVoid;
@@ -23,7 +22,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.File;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -293,7 +291,7 @@ public class GameScreen extends JPanel {
 		else if (this.gameState == this.theEnd) {
 			
 			if (this.ending == null) {
-				this.ending = new Ending(this.key);
+				this.ending = new Ending();
 				this.music.stopMusic();
 				this.music.playMusic("intro");
 			}

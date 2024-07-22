@@ -1,4 +1,4 @@
-package combat.spells;
+package states.battle.spells;
 
 import interfaces.ISpell;
 

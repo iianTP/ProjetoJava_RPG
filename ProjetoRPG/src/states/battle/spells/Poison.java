@@ -1,8 +1,8 @@
-package combat.spells;
+package states.battle.spells;
 
 import entities.Battler;
 import entities.Stats;
-import states.Battle;
+import states.battle.Battle;
 
 public class Poison  extends Spell {
 	

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import combat.spells.*;
+import states.battle.spells.*;
 
 public class Book extends Item {
 	

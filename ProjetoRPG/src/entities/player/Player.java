@@ -8,7 +8,6 @@ import items.*;
 import entities.Collision;
 import entities.npcs.Npc;
 import entities.teammates.Team;
-import exceptions.InvalidCoordinateException;
 import main.KeyInput;
 import main.screen.GameScreen;
 import quests.QuestList;

@@ -3,7 +3,6 @@ package states;
 import entities.npcs.sellers.Seller;
 import entities.player.Player;
 import exceptions.IndexOutOfRangeException;
-import exceptions.InventoryIsFullException;
 import items.Product;
 import main.KeyInput;
 

@@ -1,6 +1,5 @@
 package items;
 
-import exceptions.IndexOutOfRangeException;
 import exceptions.InvalidProductSpecsException;
 import exceptions.ItemAlreadyInStockException;
 import main.DynamicArray;

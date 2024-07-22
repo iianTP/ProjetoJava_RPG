@@ -2,14 +2,14 @@ package entities.enemies;
 
 import java.awt.image.BufferedImage;
 
-import combat.BattleRng;
 import entities.Battler;
 import entities.Stats;
 import entities.teammates.Team;
 import exceptions.InvalidStatsInputException;
 import exceptions.InvalidTargetException;
 import main.screen.GameScreen;
-import states.Battle;
+import states.battle.Battle;
+import states.battle.BattleRng;
 
 public abstract class Enemie extends Battler {
 	
