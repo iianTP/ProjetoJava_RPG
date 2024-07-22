@@ -53,21 +53,6 @@ public class KeyInput implements KeyListener {
 				gs.setPauseState();
 			} else if (key == KeyEvent.VK_Z) {
 				gs.setInventoryState();
-			} else if (key == KeyEvent.VK_B) {
-				gs.setCombatState();
-			}
-			
-			if (key == KeyEvent.VK_1) {
-				gs.changeMap("world1", 32*48, 32*48);
-			}
-			else if (key == KeyEvent.VK_2) {
-				gs.changeMap("world2", 32*48, 32*48);		
-			}
-			else if (key == KeyEvent.VK_3) {
-				gs.changeMap("world3", 32*48, 32*48);
-			}
-			else if (key == KeyEvent.VK_4) {
-				gs.changeMap("world4", 17*48+24, 24+81*48);
 			}
 			
 		} else if (gs.getGameState() == 2) {
@@ -82,28 +67,9 @@ public class KeyInput implements KeyListener {
 				this.interaction = true;
 			}
 			
-		} else if (gs.getGameState() == 4) {
+		} else if (gs.getGameState() == 4 || gs.getGameState() == 5 || gs.getGameState() == 6) {
 			
 			if (key == KeyEvent.VK_E) {
-				this.interaction = true;
-			}
-			
-			this.commandNum(key);
-			
-		} else if (gs.getGameState() == 5) {
-
-			if (key == KeyEvent.VK_E) {
-				this.interaction = true;
-			}
-			
-			this.commandNum(key);
-			
-		} else if (gs.getGameState() == 6) {
-			
-			if (key == KeyEvent.VK_Z) {
-				gs.setPlayingState();
-				this.resetCmdNum();
-			} else if (key == KeyEvent.VK_E) {
 				this.interaction = true;
 			}
 			
@@ -184,9 +150,7 @@ public class KeyInput implements KeyListener {
 			}
 		}
 		
-		if (this.cmdNum < 0) {
-			this.cmdNum = cmdNumBackup;
-		} else if (this.cmdNum > this.maxCmdNum) {
+		if (this.cmdNum < 0 || this.cmdNum > this.maxCmdNum) {
 			this.cmdNum = cmdNumBackup;
 		}
 		

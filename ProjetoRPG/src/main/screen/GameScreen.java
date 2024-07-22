@@ -342,7 +342,6 @@ public class GameScreen extends JPanel {
 				this.enemie = new Ghost(this);
 				this.battle = new Battle(this.player, this.enemie, this.key, this.teammates);
 				this.music.stopMusic();
-				this.music.playMusic("battle");
 				this.key.setButtonCols(2);
 			}
 			
@@ -362,6 +361,7 @@ public class GameScreen extends JPanel {
 				this.vanishBoss();
 				this.enemie = null;
 				this.battle = null;
+				this.music.resume();
 				this.key.resetCmdNum();
 			}
 			

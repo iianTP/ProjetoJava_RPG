@@ -1,5 +1,13 @@
 package states;
 
+import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import combat.spells.Spell;
 import entities.Battler;
 import entities.enemies.Enemie;
@@ -40,6 +48,8 @@ public class Battle extends State {
 
 	private Team selectedCharacter;
 	
+	private Clip clip;
+	
 	public Battle(Player player, Enemie enemie, KeyInput key, Teammate[] teammates) {
 		this.player = player;
 		this.enemie = enemie;
@@ -48,6 +58,18 @@ public class Battle extends State {
 		this.battlers = new Battler[] {enemie, player, teammates[0], teammates[1], teammates[2]};
 		this.key = key;
 		this.key.resetCmdNum();
+		
+		try {
+			AudioInputStream ais = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/battle.wav"));
+			this.clip = AudioSystem.getClip();
+			this.clip.open(ais);
+			this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (UnsupportedAudioFileException | IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void checkDeadBattlers() {
@@ -220,6 +242,7 @@ public class Battle extends State {
 			}
 			
 			else if (this.battleState.equals("ended")) {
+				this.stopBattleMusic();
 				super.setEnded(true);
 				if (this.winner.equals("player")) {
 					this.getLoot();
@@ -323,8 +346,10 @@ public class Battle extends State {
 	}
 	
 	private void flee() {
-		if (this.player.rng(5, 1) == 1) {
-			super.setEnded(true);
+		if (this.player.rng(5, 1) != 1) {
+			this.message = "VOCE FUGIU";
+			this.battleState = "ended";
+			this.winner = "none";
 			this.key.resetCmdNum();
 		} else {
 			this.message = "VOCE NAO CONSEGUIU FUGIR";
@@ -526,11 +551,15 @@ public class Battle extends State {
 		}
 	}
 	
+	public void stopBattleMusic() {
+		this.clip.stop();
+		this.clip.close();
+	}
+	
 	public String getBattleState() {
 		return battleState;
 	}
 
-	
 	public void setMessage(String message) {
 		this.message = message;
 	}

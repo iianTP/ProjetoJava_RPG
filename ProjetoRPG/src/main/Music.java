@@ -26,11 +26,6 @@ public class Music {
 		}
 	}
 	
-	public void playMusicOneTime(String music) {
-		this.setClip(music);
-		this.clip.start();
-	}
-	
 	public void playMusic(String music) {
 		
 		this.setClip(music);
