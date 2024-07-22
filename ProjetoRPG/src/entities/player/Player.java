@@ -28,11 +28,11 @@ public abstract class Player extends Team {
 	private int experience = 0;
 	private int maxExperience = 20;
 	private int level = 1;
-	private int gold = 999;
+	private int gold = 30;
 	
 	private int[][] hitbox = {{12, 30}, {33, 45}};
 	
-	private int gameStage = 1;
+	private int gameStage = 0;
 	
 	public Player(KeyInput key, GameScreen gs) {
 		super(gs);
@@ -44,7 +44,7 @@ public abstract class Player extends Team {
 		super.setX(32*48+24);
 		super.setY(41*48+24);
 		
-		super.setWalkSpeed(10); // Velocidade do player
+		super.setWalkSpeed(3); // Velocidade do player
 		super.setDirection("down"); // Direção do player
 		
 		super.setPlayerInventory(this.inventory);
@@ -203,12 +203,10 @@ public abstract class Player extends Team {
 			
 
 		if (super.isColliding()) {
-			//this.collision.getNpcNearby().interaction();
 			this.collision.getNpcNearby().interaction(this);
 		}
 		
 	}
-	
 	
 	public void levelUp() {
 		

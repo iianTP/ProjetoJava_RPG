@@ -8,8 +8,6 @@ public class Tile {
 	
 	private boolean collision;
 	
-	private String name;
-	
 	// SET
 	public void setTile(BufferedImage tile) {
 		this.tile = tile;
@@ -27,10 +25,5 @@ public class Tile {
 	public boolean checkCollision() {
 		return collision;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+
 }

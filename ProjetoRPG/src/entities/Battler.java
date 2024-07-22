@@ -100,29 +100,23 @@ public abstract class Battler extends Entity implements ICombat {
 		
 		int heal = 0;
 		int mana = 0;
-		
-		if (stats.getHealth() < stats.getMaxHealth()) {
-			try {
+		try {
+			if (stats.getHealth() < stats.getMaxHealth()) {
 				heal = super.rng(stats.getDefense(), 0);
 				stats.heal(heal);
 				if (stats.getHealth() > stats.getMaxHealth()) {
 					stats.setHealth(stats.getMaxHealth());
 				}
-			} catch (InvalidStatsInputException e) {
-				e.printStackTrace();
 			}
-		}
-		
-		if (stats.getMana() < stats.getMaxMana()) {
-			try {
-				mana = super.rng(stats.getMagicDefense(), 0);
+			if (stats.getMana() < stats.getMaxMana()) {
+				mana = super.rng(2*stats.getMagicDefense(), 0);
 				stats.alterMana(mana);
 				if (stats.getMana() > stats.getMaxMana()) {
 					stats.setMana(stats.getMaxMana());
 				}
-			} catch (InvalidStatsInputException e) {
-				e.printStackTrace();
 			}
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
 		}
 		
 		battle.setMessage(this.name+" DESCANCOU (+"+heal+"HP +"+mana+" MANA)");

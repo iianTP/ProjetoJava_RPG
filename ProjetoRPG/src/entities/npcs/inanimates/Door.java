@@ -15,6 +15,7 @@ public class Door extends Npc {
 	
 	private int destinyX;
 	private int destinyY;
+	private int minimumGameStage;
 	private String map;
 	
 	private BufferedImage sprite;
@@ -26,6 +27,7 @@ public class Door extends Npc {
 		this.map = map;
 		
 		super.setLocation(location);
+		this.setMinimumGameStage();
 
 		super.setX(x);
 		super.setY(y);
@@ -33,9 +35,23 @@ public class Door extends Npc {
 		setSprites();
 	}
 	
+	private void setMinimumGameStage() {
+		switch (this.map) {
+		case "world1":
+			this.minimumGameStage = 1;
+			break;
+		case "world2":
+			this.minimumGameStage = 2;
+			break;
+		case "world3":
+			this.minimumGameStage = 3;
+			break;
+		}
+	}
+	
 	@Override
 	public void interaction(Player player) {
-		if (player.getDirection().equals("up")) {
+		if (player.getDirection().equals("up") && player.getGameStage() >= this.minimumGameStage) {
 			super.getGs().changeMap(this.map,this.destinyX,this.destinyY);
 			player.setDirection("down");
 			player.setLocation(this.map);

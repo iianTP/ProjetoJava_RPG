@@ -20,7 +20,7 @@ public class Boss3 extends Enemie{
 		super.getSpells().learnSpell(new HealthSteal(), 2);
 		super.getSpells().learnSpell(new WindBlades(), 3);
 		super.getSpells().learnSpell(new Lightning(), 4);
-		super.setName("Am-Terra");
+		super.setName("AM-TERRA");
 		
 		super.setExperience(10);
 		super.setGold(15);

@@ -19,7 +19,7 @@ public class Boss2 extends Enemie {
 		super.getSpells().learnSpell(new Lightning(), 3);
 		super.getSpells().learnSpell(new Lightning(), 4);
 		super.getSpells().learnSpell(new Lightning(), 5);
-		super.setName("FANTASMA");
+		super.setName("EX-MAK1_N4");
 		
 		super.setExperience(10);
 		super.setGold(15);

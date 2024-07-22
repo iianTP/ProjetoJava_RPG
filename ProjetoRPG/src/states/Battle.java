@@ -1,6 +1,7 @@
 package states;
 
 import combat.spells.Spell;
+import entities.Battler;
 import entities.enemies.Enemie;
 import entities.player.Player;
 import entities.teammates.*;
@@ -17,6 +18,7 @@ public class Battle extends State {
 	private final Enemie enemie;
 	private final Teammate[] teammates;
 	private final Team[] team;
+	private final Battler[] battlers;
 	private final KeyInput key;
 	
 	private String battleState = "choose-move";
@@ -43,6 +45,7 @@ public class Battle extends State {
 		this.enemie = enemie;
 		this.teammates = teammates;
 		this.team = new Team[] {player, teammates[0], teammates[1], teammates[2]};
+		this.battlers = new Battler[] {enemie, player, teammates[0], teammates[1], teammates[2]};
 		this.key = key;
 		this.key.resetCmdNum();
 	}
@@ -246,34 +249,10 @@ public class Battle extends State {
 		
 		switch (this.selectedButton) {
 		case 0:
-			try {
-				this.player.attack(this.enemie, this);
-			} catch (InvalidTargetException e) {
-				e.printStackTrace();
-			}
-			
-			this.player.getEffects().effect();
-			if (this.player.getEffects().getCurrentEffect().equals("none")) {
-				this.battleState = "teammate-turn";
-			} else {
-				this.battleState = "player-effect";
-			}
-			this.player.getStats().overdriveCountdown();
-			this.player.getStats().potionCountdown();
-			
+			this.playerAttack();
 			break;
 		case 1:
-			
-			this.player.defend(this);
-			
-			this.player.getEffects().effect();
-			if (this.player.getEffects().getCurrentEffect().equals("none")) {
-				this.battleState = "teammate-turn";
-			} else {
-				this.battleState = "player-effect";
-			}
-			this.player.getStats().overdriveCountdown();
-			this.player.getStats().potionCountdown();
+			this.playerDefense();
 			break;
 		case 2:
 			this.battleState = "choose-spell";
@@ -282,34 +261,76 @@ public class Battle extends State {
 			this.battleState = "choose-item";
 			break;
 		case 4:
-			if (this.player.getStats().getOverdrive() == 100) {
-				
-				this.player.getStats().overdriveCountdown();
-				this.player.getStats().potionCountdown();
-				
-				this.player.special(this.team, this);
-				
-				this.player.getEffects().effect();
-				if (this.player.getEffects().getCurrentEffect().equals("none")) {
-					this.battleState = "teammate-turn";
-				} else {
-					this.battleState = "player-effect";
-				}
-				
-			}
+			this.playerSpecial();
 			break;
 		case 5:
-			if (this.player.rng(5, 1) == 1) {
-				super.setEnded(true);
-				this.key.resetCmdNum();
-			} else {
-				this.message = "VOCE NAO CONSEGUIU FUGIR";
-				this.battleState = "teammate-turn";
-			}
-			
+			this.flee();
 			break;
 		}
 		
+	}
+	
+	private void playerAttack() {
+		
+		try {
+			this.player.attack(this.enemie, this);
+		} catch (InvalidTargetException e) {
+			e.printStackTrace();
+		}
+		
+		this.player.getEffects().effect();
+		if (this.player.getEffects().getCurrentEffect().equals("none")) {
+			this.battleState = "teammate-turn";
+		} else {
+			this.battleState = "player-effect";
+		}
+		this.player.getStats().overdriveCountdown();
+		this.player.getStats().potionCountdown();
+		
+	}
+
+	private void playerDefense() {
+		this.player.defend(this);
+		
+		this.player.getEffects().effect();
+		if (this.player.getEffects().getCurrentEffect().equals("none")) {
+			this.battleState = "teammate-turn";
+		} else {
+			this.battleState = "player-effect";
+		}
+		this.player.getStats().overdriveCountdown();
+		this.player.getStats().potionCountdown();
+	}
+	
+	private void playerSpecial() {
+		if (this.player.getStats().getOverdrive() == 100) {
+			
+			this.player.getStats().overdriveCountdown();
+			this.player.getStats().potionCountdown();
+			
+			this.player.special(this.team, this);
+			this.player.special(this.battlers, this);
+			this.player.special(this.enemie, this);
+			
+			this.player.getEffects().effect();
+			if (this.player.getEffects().getCurrentEffect().equals("none")) {
+				this.battleState = "teammate-turn";
+			} else {
+				this.battleState = "player-effect";
+			}
+			
+		}
+	}
+	
+	private void flee() {
+		if (this.player.rng(5, 1) == 1) {
+			super.setEnded(true);
+			this.key.resetCmdNum();
+		} else {
+			this.message = "VOCE NAO CONSEGUIU FUGIR";
+			this.winner = "none";
+			this.battleState = "teammate-turn";
+		}
 	}
 	
 	private void chooseSpell() {

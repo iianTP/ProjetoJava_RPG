@@ -1,6 +1,5 @@
 package tiles;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 
 import java.io.BufferedReader;
@@ -49,15 +48,6 @@ public class TileManager {
 				this.tiles[tileId-1] = new Tile();
 				this.tiles[tileId-1].setTile(ImageIO.read(getClass().getResourceAsStream("/"+this.currentMap+"/"+fileList[i].getName())));
 				this.tiles[tileId-1].setCollision((collision.equals("t")) ? true : false);
-	
-				this.tiles[tileId-1].setName(fileList[i].getName());
-				
-				System.out.println(tileId);
-			}
-			
-			for (int i = 0; i < fileList.length; i++) {
-			
-				System.out.println(this.tiles[i].getName());
 				
 			}
 			
@@ -118,10 +108,6 @@ public class TileManager {
 				if (x >= -1*48 && x <= 15*48 && y >= -1*48 && y <= 15*48 && tileNums[i][j] > 0) {
 					
 					brush.drawImage(tile(i*48,j*48).getTile(), x, y, 48, 48, null);
-				/*	brush.setColor(Color.red);
-					brush.drawRect(x, y, 48, 48);
-					brush.drawString("X: "+j, x+10, y+15);
-					brush.drawString("Y: "+i, x+10, y+25);*/
 						
 				}
 				

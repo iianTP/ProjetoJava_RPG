@@ -34,7 +34,7 @@ public class Ghost extends Enemie {
 			stats.setMana(50);
 			stats.setMaxMana(50);
 			
-			stats.setStrenght(10);
+			stats.setStrenght(7);
 			stats.setDefense(5);
 			stats.setMagic(2);
 			stats.setMagicDefense(1);

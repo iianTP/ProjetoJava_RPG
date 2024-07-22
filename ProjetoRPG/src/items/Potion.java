@@ -28,6 +28,8 @@ public class Potion extends Item {
 			e.printStackTrace();
 		}
 		
+		super.setDescription("Pocao magica que pode ajudar em suas batalhas.");
+		
 		switch(type) {
 		case 1:
 			super.setName("Pocao de cura");

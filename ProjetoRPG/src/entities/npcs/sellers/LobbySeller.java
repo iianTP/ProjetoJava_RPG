@@ -180,6 +180,7 @@ public class LobbySeller extends Seller {
 			super.setDialogue(this.dialogue[1]);
 			super.getGs().setDialogueState();
 			requestQuest(player);
+			player.addGameStage();
 			this.state++;
 			break;
 		case 2:

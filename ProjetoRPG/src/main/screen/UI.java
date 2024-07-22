@@ -99,13 +99,12 @@ public class UI {
 		brush.setColor(Color.white);
 		
 		if (intro.isFirstText() && this.ta.getCount() == 25) {
-			System.out.println("a");
 			intro.changeFirstText();
 		}
 		
 		text = intro.getCurrentText();
 		
-		this.ta.displayText(text, 28, 16, 3*48, 4*48, brush);
+		this.ta.displayText(text, 3, 28, 16, 3*48, 4*48, true, brush);
 		
 		
 	}
@@ -113,7 +112,7 @@ public class UI {
 	public void ending(Ending ending) {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
-		this.ta.displayText(ending.getText(), 28, 16, 3*48, 4*48, brush);
+		this.ta.displayText(ending.getText(), 3, 28, 16, 3*48, 4*48, false, brush);
 		
 		if (ending.getEndingIndex() != -1) {
 			brush.drawImage(ending.getCurrentPanel(), 4*48+24, 5*48+24, 6*48, 4*48, null);
@@ -124,7 +123,7 @@ public class UI {
 	public void deadScreen() {
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		brush.setColor(Color.red);
-		this.ta.displayText("voce morreu", 28, 16, 3*48, 4*48, brush);
+		this.ta.displayText("voce morreu", 2, 28, 16, 3*48, 4*48, false, brush);
 	}
 	
 	// PAUSE
@@ -146,7 +145,7 @@ public class UI {
 		brush.setFont(font);
 		brush.setColor(Color.white);
 		
-		this.ta.displayText(dialogue.getDialogue(), 40, 14, 48+24, 48*2, brush);
+		this.ta.displayText(dialogue.getDialogue(), 2, 40, 14, 48+24, 48*2, true, brush);
 		
 	}
 	
@@ -159,7 +158,7 @@ public class UI {
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 16F));
 		this.mainMenuEffect("NOVO JOGO", 48*2+24, 48*11);
-		this.mainMenuEffect("CARREGAR",48*2+24, 48*11+24);
+		this.mainMenuEffect("CONTROLES",48*2+24, 48*11+24);
 		this.mainMenuEffect("SAIR", 48*2+24, 48*12);
 		
 		if (mainMenu.getState().equals("main")) {
@@ -167,6 +166,9 @@ public class UI {
 		}
 		else if (mainMenu.getState().equals("choose-class")) {
 			this.classOptions();
+		}
+		else if (mainMenu.getState().equals("instructions")) {
+			controls();
 		}
 	}
 	
@@ -177,6 +179,13 @@ public class UI {
 		}
 		brush.setColor(Color.white);
 		brush.drawString(text, x, y);
+	}
+	
+	private void controls() {
+		this.mainMenuEffect("WASD / SETAS - ANDAR", 48*8, 48*7);
+		this.mainMenuEffect("E - INTERAGIR", 48*8, 48*7+24);
+		this.mainMenuEffect("Z - MENU", 48*8, 48*8);
+		this.mainMenuEffect("P - PAUSA", 48*8, 48*8+24);
 	}
 	
 	private void classOptions() {
@@ -301,7 +310,7 @@ public class UI {
 		brush.setFont(font.deriveFont(Font.PLAIN, 18F));
 		brush.setColor(Color.white);
 		
-		this.ta.displayText("* "+battle.getMessage(), 25, 14, 16*3, 176*3, brush);
+		this.ta.displayText("* "+battle.getMessage(), 2, 25, 14, 16*3, 176*3, false, brush);
 		
 	}
 	
@@ -702,7 +711,7 @@ public class UI {
 		
 		brush.setColor(Color.white);
 		
-		this.ta.displayText(itemSelected.getDescription(), 12, 14, 48*9+40, 48*2+229+40, brush);
+		this.ta.displayText(itemSelected.getDescription(), 2, 12, 14, 48*9+40, 48*2+229+40, false, brush);
 		
 		if (itemSelected.isUsable()) {
 			brush.drawString("USAR", 48*9+20+48, 48*2+229+48*4+15);

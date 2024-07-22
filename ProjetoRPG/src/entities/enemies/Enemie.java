@@ -6,6 +6,7 @@ import combat.BattleRng;
 import entities.Battler;
 import entities.Stats;
 import entities.teammates.Team;
+import exceptions.InvalidStatsInputException;
 import exceptions.InvalidTargetException;
 import main.screen.GameScreen;
 import states.Battle;
@@ -29,7 +30,7 @@ public abstract class Enemie extends Battler {
 	// MÉTODOS DE COMBATE
 	public void battleMove(Team target, Battle battle) {
 		
-		String move = this.battleRng.chooseMove();
+		String move = this.battleRng.chooseMove(super.getStats().getOverdrive());
 		
 		if (move.equals("attack")) {
 			
@@ -41,7 +42,7 @@ public abstract class Enemie extends Battler {
 			
 		} else if (move.equals("defense")) {
 			super.defend(battle);
-		} else {
+		} else if (move.equals("magic")) {
 			
 			int spellId = this.battleRng.getRandomSpellId(super.getSpells(), super.getStats().getMana());
 			if (spellId != -1) {
@@ -53,6 +54,8 @@ public abstract class Enemie extends Battler {
 			} else {
 				battle.setMessage("O "+super.getName()+" TENTOU USAR UM FEITICO, MAS FALHOU");
 			}
+		} else {
+			this.special(target, battle);
 		}
 	}
 	
@@ -76,7 +79,19 @@ public abstract class Enemie extends Battler {
 	
 	@Override
 	public <T> void special(T target, Battle battle) {
-		
+		try {
+			if (target instanceof Team) {
+				super.getStats().alterMana(-10);
+				super.getStats().heal(5);
+				battle.setMessage(super.getName()+" USOU SEU ESPECIAL (-10MANA +5HP)");
+			} else {
+					throw new InvalidTargetException("alvo não é do tipo Team");
+			}
+		} catch (InvalidTargetException e) {
+			e.printStackTrace();
+		} catch (InvalidStatsInputException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//

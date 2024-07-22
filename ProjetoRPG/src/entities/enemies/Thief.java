@@ -36,7 +36,7 @@ public class Thief extends Enemie {
 			stats.setMana(35);
 			stats.setMaxMana(35);
 			
-			stats.setStrenght(10);
+			stats.setStrenght(6);
 			stats.setDefense(3);
 			stats.setMagic(3);
 			stats.setMagicDefense(2);

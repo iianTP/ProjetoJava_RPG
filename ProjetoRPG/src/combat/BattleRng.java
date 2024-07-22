@@ -10,6 +10,7 @@ public class BattleRng {
 	private int attackChance = 10;
 	private int defenseChance = 5;
 	private int magicChance = 10;
+	private int specialChance = 5;
 	
 	private final Random random;
 	
@@ -21,17 +22,23 @@ public class BattleRng {
 		return this.random.nextInt(range) + minNum;
 	}
 	
-	public String chooseMove() {
+	public String chooseMove(int overdrive) {
 		
-		int move = this.rng(defenseChance+attackChance+magicChance, 1);	
+		int fullChance = defenseChance+attackChance+magicChance;
+		
+		fullChance += (overdrive == 100) ? specialChance : 0;
+		
+		int move = this.rng(fullChance, 1);	
 		
 		if (move <= attackChance) {
 			return "attack";
 		} else if (move <= attackChance+defenseChance) {
 			return "defense";
-		} else {
+		} else if (move <= attackChance+defenseChance+magicChance) {
 			return "magic";
-		} 
+		} else {
+			return "special";
+		}
 	}
 	
 	public int getRandomSpellId(KnownSpells spells, int mana) {

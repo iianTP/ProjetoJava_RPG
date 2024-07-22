@@ -2,7 +2,7 @@ package entities.teammates;
 
 
 import combat.BattleRng;
-import entities.enemies.Enemie;
+import entities.Battler;
 import exceptions.InvalidTargetException;
 import interfaces.ICombat;
 import main.screen.GameScreen;
@@ -16,14 +16,14 @@ public abstract class Teammate extends Team implements ICombat {
 		super(gs);
 	}
 	
-	public void battleMove(Enemie enemie, Battle battle) {
+	public void battleMove(Battler target, Battle battle) {
 		
-		String move = this.battleRng.chooseMove();
+		String move = this.battleRng.chooseMove(super.getStats().getOverdrive());
 		
 		if (move.equals("attack")) {
 			
 			try {
-				this.attack(enemie, battle);
+				this.attack(target, battle);
 			} catch (InvalidTargetException e) {
 				e.printStackTrace();
 			}
@@ -35,12 +35,14 @@ public abstract class Teammate extends Team implements ICombat {
 			int spellId = this.battleRng.getRandomSpellId(super.getSpells(), super.getStats().getMana());
 			if (spellId != -1) {
 				try {
-					this.magic(enemie, spellId-1, battle);
+					this.magic(target, spellId-1, battle);
 				} catch (InvalidTargetException e) {
 					e.printStackTrace();
 				}
-			} else {
+			} else if (move.equals("magic"))  {
 				battle.setMessage("O "+super.getName()+" TENTOU USAR UM FEITICO, MAS FALHOU");
+			} else {
+				this.special(target, battle);
 			}
 		}
 	}

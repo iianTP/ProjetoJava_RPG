@@ -20,9 +20,8 @@ public class Shop extends State {
 		this.key = key;
 		this.player = player;
 		this.seller = seller;
-
 	}
-	
+
 	public void shopCommands() {
 		
 		if (this.shopState.equals("choose-act")) {

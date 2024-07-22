@@ -15,7 +15,7 @@ import exceptions.InvalidStatsInputException;
 import states.*;
 
 import main.KeyInput;
-
+import main.Music;
 import tiles.TheVoid;
 import tiles.TileManager;
 
@@ -42,6 +42,8 @@ public class GameScreen extends JPanel {
 	private UI ui;
 	
 	private TheVoid theVoid = new TheVoid();
+	
+	private Music music = new Music();
 	
 	private Player player;
 	private Npc[] npcs;
@@ -99,6 +101,14 @@ public class GameScreen extends JPanel {
 		this.player.getCollision().setTiles(this.tiles);
 		this.setNpcs();
 		this.player.setNpcs(this.npcs);
+	}
+	
+	private void restartGame() {
+		this.ta.resetTextAnimation();
+		this.player = null;
+		this.npcs = null;
+		this.tiles = null;
+		this.gameState = this.menu;
 	}
 	
 	// Identificação da classe escolhida pelo Player
@@ -254,6 +264,7 @@ public class GameScreen extends JPanel {
 		else if (this.gameState == this.menu) {
 			if (this.mainMenu == null) {
 				this.mainMenu = new MainMenu(this.key,this);
+				this.music.playMusic("MainMenu");
 			}
 			this.mainMenu.mainMenu();
 			this.key.setButtonCols(1);
@@ -263,6 +274,8 @@ public class GameScreen extends JPanel {
 			
 			if (this.intro == null) {
 				this.intro = new Intro(this.key);
+				this.music.stopMusic();
+				this.music.playMusic("intro");
 			}
 			
 			this.ta.checkStateChange(this.intro.isStateChanged(), -1);
@@ -270,6 +283,7 @@ public class GameScreen extends JPanel {
 			
 			if (this.intro.isEnded()) {
 				this.ta.resetTextAnimation();
+				this.music.stopMusic();
 				this.intro = null;
 				this.gameState = playing;
 			}
@@ -280,6 +294,8 @@ public class GameScreen extends JPanel {
 			
 			if (this.ending == null) {
 				this.ending = new Ending(this.key);
+				this.music.stopMusic();
+				this.music.playMusic("intro");
 			}
 			
 			this.ta.checkStateChange(this.ending.isStateChanged(), -1);
@@ -288,9 +304,8 @@ public class GameScreen extends JPanel {
 			if (this.ending.isEnded()) {
 				this.ta.resetTextAnimation();
 				this.ending = null;
-				this.player = null;
-				this.npcs = null;
-				this.gameState = this.menu;
+				this.music.stopMusic();
+				this.restartGame();
 			}
 			
 		}
@@ -299,6 +314,10 @@ public class GameScreen extends JPanel {
 			if (this.npcDialogue == null) {
 				this.npcDialogue = this.player.getCollision().getNpcNearby().getDialogue();
 				this.dialogue = new Dialogue(this.key, this.npcDialogue);
+				
+				if (this.player.getGameStage() == 0) {
+					this.music.playMusic("lobby");
+				}
 			}
 			
 			this.ta.checkStateChange(this.dialogue.isStateChanged(), -1);
@@ -314,7 +333,6 @@ public class GameScreen extends JPanel {
 				} else {
 					this.gameState = this.playing;
 				}
-				
 			}
 		}
 		
@@ -323,6 +341,8 @@ public class GameScreen extends JPanel {
 			if (this.enemie == null) {
 				this.enemie = new Ghost(this);
 				this.battle = new Battle(this.player, this.enemie, this.key, this.teammates);
+				this.music.stopMusic();
+				this.music.playMusic("battle");
 				this.key.setButtonCols(2);
 			}
 			
@@ -348,12 +368,10 @@ public class GameScreen extends JPanel {
 		} else if (this.gameState == this.dead) {
 
 			this.deadTimer++;
+			this.music.stopMusic();
 			if (this.deadTimer == 300) {
 				this.deadTimer = 0;
-				this.ta.resetTextAnimation();
-				this.ending = null;
-				this.player = null;
-				this.npcs = null;
+				this.restartGame();
 				this.gameState = this.menu;
 			}
 			
@@ -598,6 +616,11 @@ public class GameScreen extends JPanel {
 	public void changeMap(String map, int x, int y) {
 		this.tiles.setCurrentMap(map);
 		this.player.setLocation(map);
+		
+		if (!map.split(map.charAt(map.length()-1)+"")[0].equals("castle") && !map.equals("world4")) {
+			this.music.stopMusic();
+			this.music.playMusic(map);
+		}
 		
 		if (map.equals("lobby") && this.random.nextInt(0,10) == 0) {
 			this.npcs[8].setLocation("lobby");

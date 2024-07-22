@@ -49,7 +49,7 @@ public class Effects {
 		
 		if (!this.currentEffect.equals("none")) {
 			this.effectCounter++;
-			if (effectCounter > 4) {
+			if (effectCounter > 3) {
 				this.effectCounter = 0;
 				this.stopEffect();
 			}
