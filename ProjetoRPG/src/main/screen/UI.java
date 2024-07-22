@@ -45,15 +45,15 @@ public class UI {
 	
 	private int battleButtonInitX = 475;
 	private int battleButtonInitY = 550;
-	
-	private int [][] mainMenuButtons = {{48*2+24-15, 48*11},{48*2+24-15, 48*11+24},{48*2+24-15, 48*12}};
+
+	private int [][] mainMenuButtons = {{48*2+9, 48*11},{48*2+9, 48*11+24},{48*2+9, 48*12}};
 	private int [][] chooseClassButtons = {{48*8-20, 48*6+3},{48*8-20, 48*8+8},{48*8-20, 48*10+13},{48*8-20, 48*12+18}};
 	
 	private int[][] pMenuMainButtons = {{48+10, 48*3},{48+10, 48*4},{48+10, 48*5},{48+10, 48*6}};
 	private int[][] pMenuInventoryButtons = new int[11][2];
-	private int[][] pMenuItemButtons = {{48*9+20+48-15, 48*2+229+48*4+15},
-										{48*9+20+48-15, 48*2+229+48*5+15-24},
-										{48*9+20+48-15, 48*2+229+48*5+15}};
+	private int[][] pMenuItemButtons = {{48*10+5, 48*12+4},
+										{48*10+5, 48*12-20},
+										{48*10+5, 48*12+4}};
 	private int[][] chooseCharacterButtons;
 	private int[][] spellSlotButtons;
 	
@@ -88,6 +88,30 @@ public class UI {
 		
 		this.key = key;
 		this.ta = ta;
+		
+	}
+	
+	public void rainbowMotion() {
+		
+		if(rainbowState == 1) {
+			rainbow[0]++;
+			rainbow[2]--;
+			if (rainbow[0] == 255) {
+				this.rainbowState = 2;
+			}
+		} else if (rainbowState == 2){
+			rainbow[1]++;
+			rainbow[0]--;
+			if (rainbow[1] == 255) {
+				this.rainbowState = 3;
+			}
+		} else if (rainbowState == 3) {
+			rainbow[2]++;
+			rainbow[1]--;
+			if (rainbow[2] == 255) {
+				this.rainbowState = 1;
+			}
+		}
 		
 	}
 	
@@ -151,7 +175,7 @@ public class UI {
 	
 	// TELA INICIAL
 	public void mainScreen(MainMenu mainMenu) {
-		this.rainbowStuff();
+		this.rainbowMotion();
 		
 		brush.setFont(font.deriveFont(Font.PLAIN, 140F));
 		this.mainMenuEffect("TITULO", 48*1, 48*4);
@@ -214,9 +238,9 @@ public class UI {
 		
 		brush.setColor(Color.white);
 		this.mainMenuEffect("MAGO", 48*10+24, 48*6);
-		this.mainMenuEffect("GUERREIRO",48*10+24, 48*5+24+charBoxSide+5+24);
-		this.mainMenuEffect("CURANDEIRO",48*10+24, 48*5+24+2*(charBoxSide+5)+24);
-		this.mainMenuEffect("ASSASSINO", 48*10+24, 48*5+24+3*(charBoxSide+5)+24);
+		this.mainMenuEffect("GUERREIRO",48*10+24, 48*6+charBoxSide+5);
+		this.mainMenuEffect("CURANDEIRO",48*10+24, 48*6+2*(charBoxSide+5));
+		this.mainMenuEffect("ASSASSINO", 48*10+24, 48*6+3*(charBoxSide+5));
 		
 		brush.drawImage(mage, 48*8+12, 48*5+12, 48+24, 48+24, null);
 		brush.drawImage(warrior,48*8+12, 48*5+charBoxSide+5+12, 48+24, 48+24, null);
@@ -252,7 +276,7 @@ public class UI {
 		brush.setFont(font.deriveFont(Font.PLAIN, 15F));
 		
 		brush.setColor(Color.white);
-		brush.drawString("VOCE: ", 24, 240-15);
+		brush.drawString("VOCE: ", 24, 225);
 		brush.drawString(teammates[0].getName()+": ", 24, 282);
 		brush.drawString(teammates[1].getName()+": ", 24, 324+15);
 		brush.drawString(teammates[2].getName()+": ", 24, 366+30);
@@ -338,6 +362,7 @@ public class UI {
 	}
 	
 	private void battleChooseMove() {
+		
 		brush.drawString("ATAQUE", battleButtonInitX, battleButtonInitY); // cmdNum = 0
 		brush.drawString("DEFESA", battleButtonInitX+111, battleButtonInitY); // cmdNum = 1
 		brush.drawString("MAGIA", battleButtonInitX, battleButtonInitY+48);  // cmdNum = 2
@@ -436,30 +461,6 @@ public class UI {
 	
 	//
 	
-	public void rainbowStuff() {
-		
-		if(rainbowState == 1) {
-			rainbow[0]++;
-			rainbow[2]--;
-			if (rainbow[0] == 255) {
-				this.rainbowState = 2;
-			}
-		} else if (rainbowState == 2){
-			rainbow[1]++;
-			rainbow[0]--;
-			if (rainbow[1] == 255) {
-				this.rainbowState = 3;
-			}
-		} else if (rainbowState == 3) {
-			rainbow[2]++;
-			rainbow[1]--;
-			if (rainbow[2] == 255) {
-				this.rainbowState = 1;
-			}
-		}
-		
-	}
-	
 	private void displayArrow(int[][] buttons, int maxIndex) {
 		brush.setColor(Color.yellow);
 		brush.drawString(">",buttons[this.key.getCmdNum()][0],
@@ -511,7 +512,7 @@ public class UI {
 	}
 	public void statsMenu(Player player, Teammate[] teammates, String pMenuState) {
 		
-		rainbowStuff();
+		rainbowMotion();
 		brush.setColor(Color.black);
 		brush.fillRoundRect(48*4+10,48*2,48*8,48*11,10,10);
 		
@@ -559,9 +560,9 @@ public class UI {
 				brush.drawString("-",firstCharBoxX+20+82*i, 48*5+12);
 			}
 			if (weaponEquiped != null) {
-				brush.drawString(weaponEquiped.getShortName(),firstCharBoxX+20+82*i, 48*5+24+12);
+				brush.drawString(weaponEquiped.getShortName(),firstCharBoxX+20+82*i, 48*5+36);
 			} else {
-				brush.drawString("-",firstCharBoxX+20+82*i, 48*5+24+12);
+				brush.drawString("-",firstCharBoxX+20+82*i, 48*5+36);
 			}
 			
 			Stats stats = team[i].getStats();
@@ -620,7 +621,7 @@ public class UI {
 			brush.setColor(Color.white);
 			brush.drawString("VOLTAR", 48*4+35, 40*15);
 			brush.setColor(Color.yellow);
-			brush.drawString(">",48*4+35-15, 40*15);
+			brush.drawString(">",48*4+20, 40*15);
 			
 		}
 		
@@ -636,7 +637,7 @@ public class UI {
 		for(int i = 0; i < 10; i++) {
 			
 			if (this.pMenuInventoryButtons[i][0] == 0 && this.pMenuInventoryButtons[i][1] == 0 ) {
-				this.pMenuInventoryButtons[i][0] = 48*4+35-15;
+				this.pMenuInventoryButtons[i][0] = 48*4+20;
 				this.pMenuInventoryButtons[i][1] = 48*3+40*i;
 			}
 
@@ -706,21 +707,21 @@ public class UI {
 		brush.drawString(itemSelected.getProperties(), 48*9+48,48+219);
 						
 		brush.setColor(new Color(255,255,255,100));
-		brush.fillRect(48*9+20+48-5,48*2-5+24,229-48*2,229-48*2);
-		brush.drawImage(itemSelected.getSprite(),48*9+20+48,48*2+24,219-48*2,219-48*2,null);
+		brush.fillRect(48*10+15,48*2+19,229-48*2,229-48*2);
+		brush.drawImage(itemSelected.getSprite(),48*10+20,48*2+24,219-48*2,219-48*2,null);
 		
 		brush.setColor(Color.white);
 		
-		this.ta.displayText(itemSelected.getDescription(), 2, 12, 14, 48*9+40, 48*2+229+40, false, brush);
+		this.ta.displayText(itemSelected.getDescription(), 2, 12, 14, 48*9+40, 48*2+269, false, brush);
 		
 		if (itemSelected.isUsable()) {
-			brush.drawString("USAR", 48*9+20+48, 48*2+229+48*4+15);
+			brush.drawString("USAR", 48*10+20, 48*11+4);
 		} else if (itemSelected.isEquipable()) {
-			brush.drawString("EQUIPAR", 48*9+20+48, 48*2+229+48*4+15);
+			brush.drawString("EQUIPAR", 48*10+20, 48*11+4);
 		}
-		brush.drawString("LARGAR", 48*9+20+48, 48*2+229+48*5+15-24);
+		brush.drawString("LARGAR", 48*10+20, 48*12-20);
 		
-		brush.drawString("VOLTAR", 48*9+20+48, 48*2+229+48*5+15);
+		brush.drawString("VOLTAR", 48*10+20, 48*12+4);
 		
 		displayArrow(this.pMenuItemButtons, 2);
 		
@@ -774,8 +775,8 @@ public class UI {
 			brush.drawString(item.getProperties(), 48*9+48,48+219);
 			
 			brush.setColor(new Color(255,255,255,100));
-			brush.fillRect(48*9+20+48-5,48*2-5+24,229-48*2,229-48*2);
-			brush.drawImage(item.getSprite(),48*9+20+48,48*2+24,219-48*2,219-48*2,null);
+			brush.fillRect(48*10+15,48*2+19,229-48*2,229-48*2);
+			brush.drawImage(item.getSprite(),48*10+20,48*2+24,219-48*2,219-48*2,null);
 			
 		}
 	}
@@ -911,8 +912,6 @@ public class UI {
 	}
 	
 	//
-	
-	
 	
 	// TESTE(COORDENADAS)
 	public void draw(int x, int y) {
