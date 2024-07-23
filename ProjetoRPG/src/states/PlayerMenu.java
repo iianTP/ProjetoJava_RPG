@@ -34,7 +34,11 @@ public class PlayerMenu extends State {
 			this.key.setMaxCmdNum(3);
 			this.key.setButtonCols(1);
 		} else if (this.state.equals("inventory")) {
-			this.key.setMaxCmdNum(10);
+			if (this.itemSelected != null) {
+				this.key.setMaxCmdNum(3);
+			} else {
+				this.key.setMaxCmdNum(10);
+			}
 			this.key.setButtonCols(1);
 		} else if (this.state.equals("choose-character")) {
 			this.key.setMaxCmdNum(3);

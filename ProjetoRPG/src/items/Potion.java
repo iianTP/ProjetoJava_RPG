@@ -33,30 +33,35 @@ public class Potion extends Item {
 		switch(type) {
 		case 1:
 			super.setName("Pocao de cura");
+			super.setShortName("P.CURA");
 			this.health = 5;
 			this.properties = "HP: +5";
 			super.setSellPrice(10);
 			break;
 		case 2:
 			super.setName("Pocao de mana");
+			super.setShortName("P.MANA");
 			this.mana = 2;
 			this.properties = "MANA: +2";
 			super.setSellPrice(10);
 			break;
 		case 3:
 			super.setName("Pocao de forca");
+			super.setShortName("P.FORCA");
 			this.strength = 3;
 			this.properties = "ATQ: +3";
 			super.setSellPrice(10);
 			break;
 		case 4:
 			super.setName("Pocao de agilidade");
+			super.setShortName("P.AGIL.");
 			this.agility = 4;
 			this.properties = "AGL: +4";
 			super.setSellPrice(10);
 			break;
 		case 5:
 			super.setName("Pocao de magia");
+			super.setShortName("P.MAGIA");
 			this.magic = 4;
 			this.properties = "MGC: +4";
 			super.setSellPrice(10);

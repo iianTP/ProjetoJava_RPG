@@ -51,7 +51,7 @@ public class UI {
 	
 	private int[][] pMenuMainButtons = {{48+10, 48*3},{48+10, 48*4},{48+10, 48*5},{48+10, 48*6}};
 	private int[][] pMenuInventoryButtons = new int[11][2];
-	private int[][] pMenuItemButtons = {{48*10+5, 48*12+4},
+	private int[][] pMenuItemButtons = {{48*10+5, 48*12-44},
 										{48*10+5, 48*12-20},
 										{48*10+5, 48*12+4}};
 	

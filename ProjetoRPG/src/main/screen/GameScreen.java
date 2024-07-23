@@ -469,6 +469,7 @@ public class GameScreen extends JPanel {
 					break;
 				}
 			}
+			this.player.addGameStage();
 		}
 		if (this.enemie instanceof Boss2) {
 			for (int i = 0; i < npcs.length; i++) {
@@ -477,6 +478,7 @@ public class GameScreen extends JPanel {
 					break;
 				}
 			}
+			this.player.addGameStage();
 		}
 		if (this.enemie instanceof Boss3) {
 			for (int i = 0; i < npcs.length; i++) {
@@ -485,8 +487,9 @@ public class GameScreen extends JPanel {
 					break;
 				}
 			}
+			this.player.addGameStage();
 		}
-		this.player.addGameStage();
+		
 	}
 
 	

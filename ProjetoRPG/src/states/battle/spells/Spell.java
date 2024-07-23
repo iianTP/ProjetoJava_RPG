@@ -28,7 +28,7 @@ public abstract class Spell implements ISpell {
 		this.manaCost = manaCost;
 	}
 	public String getDescription() {
-		return description;
+		return description + "("+this.manaCost+" MANA)";
 	}
 	public void setDescription(String description) {
 		this.description = description;
