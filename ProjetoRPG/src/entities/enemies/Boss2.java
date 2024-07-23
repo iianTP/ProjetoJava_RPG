@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import entities.Stats;
 import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
+import states.battle.spells.Hypnosis;
 import states.battle.spells.Lightning;
 
 public class Boss2 extends Enemie {
@@ -15,14 +16,12 @@ public class Boss2 extends Enemie {
 		super(gs);
 		this.setSprites();
 		this.setStats();
-		super.getSpells().learnSpell(new Lightning(), 2);
+		super.getSpells().learnSpell(new Hypnosis(), 2);
 		super.getSpells().learnSpell(new Lightning(), 3);
-		super.getSpells().learnSpell(new Lightning(), 4);
-		super.getSpells().learnSpell(new Lightning(), 5);
 		super.setName("EX-MAK1_N4");
 		
-		super.setExperience(10);
-		super.setGold(15);
+		super.setExperience(35);
+		super.setGold(45);
 		
 	}
 	

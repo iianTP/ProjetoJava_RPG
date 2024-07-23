@@ -9,6 +9,7 @@ import exceptions.InvalidStatsInputException;
 import main.screen.GameScreen;
 import states.battle.spells.HealthSteal;
 import states.battle.spells.Lightning;
+import states.battle.spells.Poison;
 import states.battle.spells.WindBlades;
 
 public class Boss3 extends Enemie{
@@ -19,11 +20,11 @@ public class Boss3 extends Enemie{
 		this.setStats();
 		super.getSpells().learnSpell(new HealthSteal(), 2);
 		super.getSpells().learnSpell(new WindBlades(), 3);
-		super.getSpells().learnSpell(new Lightning(), 4);
+		super.getSpells().learnSpell(new Poison(), 4);
 		super.setName("AM-TERRA");
 		
-		super.setExperience(10);
-		super.setGold(15);
+		super.setExperience(40);
+		super.setGold(60);
 		
 	}
 	

@@ -20,8 +20,8 @@ public class Boss1 extends Enemie {
 		super.getSpells().learnSpell(new BloodSpear(), 3);
 		super.setName("MAGLORG");
 		
-		super.setExperience(10);
-		super.setGold(15);
+		super.setExperience(30);
+		super.setGold(30);
 		
 	}
 	
