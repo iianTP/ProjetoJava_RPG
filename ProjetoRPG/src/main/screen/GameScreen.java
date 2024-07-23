@@ -336,13 +336,7 @@ public class GameScreen extends JPanel {
 		
 		else if (gameState == combat) {
 			
-			if (this.enemie == null) {
-				this.enemie = new Ghost(this);
-				this.battle = new Battle(this.player, this.enemie, this.key, this.teammates);
-				this.music.stopMusic();
-				this.key.setButtonCols(2);
-			}
-			
+			this.key.setButtonCols(2);
 			this.ta.checkStateChange(this.battle.isStateChanged(), this.key.getCmdNum());
 			this.battle.combat();
 			
@@ -458,6 +452,7 @@ public class GameScreen extends JPanel {
 		this.enemie = enemie;
 		this.gameState = this.combat;
 		this.battle = new Battle(player, this.enemie, key, teammates);
+		this.music.stopMusic();
 	}
 	
 	private void vanishBoss() {
