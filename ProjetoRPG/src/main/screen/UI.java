@@ -75,7 +75,7 @@ public class UI {
 	private int[] rainbow = {0,0,255};
 	private int rainbowState = 1;
 	
-	TextAnimation ta;
+	private TextAnimation ta;
 	
 	public UI(KeyInput key, TextAnimation ta) {
 		
@@ -915,7 +915,7 @@ public class UI {
 	//
 	
 	// TESTE(COORDENADAS)
-	public void draw(int x, int y) {
+	public void drawCoordinates(int x, int y) {
 		
 		brush.setFont(font);
 		brush.setColor(Color.black);
@@ -924,7 +924,7 @@ public class UI {
 	}
 	//
 
-	public void setBattleUI() {
+	private void setBattleUI() {
 		try {
 			this.battleUI = ImageIO.read(getClass().getResourceAsStream("/battle/battleUI.png"));
 		} catch (IOException e) {

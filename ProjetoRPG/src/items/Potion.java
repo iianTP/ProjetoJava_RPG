@@ -91,22 +91,6 @@ public class Potion extends Item {
 		
 	}
 	
-	public void stopEffect(Stats stats) {
-		
-		switch (super.getType()) {
-		case 3:
-			stats.setPotionStrenght(0);
-			break;
-		case 4:
-			stats.setPotionAgility(0);
-			break;
-		case 5:
-			stats.setPotionMagic(0);
-			break;
-		}
-		
-	}
-	
 	@Override
 	public String getProperties() {
 		return this.properties;

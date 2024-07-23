@@ -71,7 +71,7 @@ public abstract class Npc extends Entity implements INpc {
 	public void resetFrameCounter() {
 		this.frameCounter = 0;
 	}
-	public Collision collision() {
+	public Collision getCollision() {
 		return this.collision;
 	}
 	

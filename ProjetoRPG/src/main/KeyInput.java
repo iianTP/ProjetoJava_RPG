@@ -132,7 +132,7 @@ public class KeyInput implements KeyListener {
 		this.cmdNum = 0;
 	}
 	
-	public void commandNum(int key) {
+	private void commandNum(int key) {
 		
 		int cmdNumBackup = this.cmdNum;
 		

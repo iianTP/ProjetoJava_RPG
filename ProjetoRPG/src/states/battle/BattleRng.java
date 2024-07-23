@@ -55,18 +55,11 @@ public class BattleRng {
 		
 	}
 	
-	public int getAttackChance() {
-		return attackChance;
-	}
 	public void increaseAttackChance() {
 		this.attackChance += 2;
 	}
 	public void increaseDefenseChance() {
 		this.defenseChance += 1;
-	}
-	
-	public int getFullChance() {
-		return attackChance + defenseChance;
 	}
 
 }

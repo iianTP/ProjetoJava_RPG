@@ -27,10 +27,6 @@ public class Dialogue extends State {
 		}
 	}
 	
-	public int getDialogueIndex() {
-		return this.dialogueIndex;
-	}
-
 	public String getDialogue() {
 		return dialogue[this.dialogueIndex];
 	}

@@ -204,7 +204,7 @@ public class GameScreen extends JPanel {
 		this.npcs[33] = new BookSeller(this);
 		
 		this.npcs[34] = new Glitch(this, this.player, this.npcs);
-		this.npcs[34].collision().setTiles(this.tiles);
+		this.npcs[34].getCollision().setTiles(this.tiles);
 		
 		this.npcs[35] = new Blob(this);
 		
@@ -529,7 +529,7 @@ public class GameScreen extends JPanel {
 				
 				this.tiles.draw(g2D, this.player.getX(), this.player.getY());
 				displayEnts(g2D);
-				this.ui.draw(this.player.getX(), this.player.getY());
+				this.ui.drawCoordinates(this.player.getX(), this.player.getY());
 				
 			}
 			

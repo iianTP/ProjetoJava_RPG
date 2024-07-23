@@ -258,7 +258,7 @@ public class Battle extends State {
 			
 	}
 	
-	public void levelUp() {
+	private void levelUp() {
 		
 		this.player.levelUp();
 		
@@ -447,7 +447,7 @@ public class Battle extends State {
 		} else if (itemSelected.isUsable()) {
 			if (this.itemSelected instanceof Potion) {
 				
-				selectedCharacter.usePotion((Potion)this.itemSelected);
+				this.selectedCharacter.usePotion((Potion)this.itemSelected);
 				
 				this.message = this.selectedCharacter.getName()+" USOU "+this.itemSelected.getName();
 				this.itemSelected = null;

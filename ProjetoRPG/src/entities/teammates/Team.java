@@ -10,13 +10,9 @@ import states.battle.Battle;
 
 public abstract class Team extends Battler {
 	
-
 	private Item armorEquiped;
 	private Item weaponEquiped;
 	private Inventory playerInventory;
-	
-	private int potionEffectCounter = 0;
-	private Potion potion;
 	
 	public Team(GameScreen gs) {
 		super(gs);
@@ -82,25 +78,11 @@ public abstract class Team extends Battler {
 	}
 	
 	public void usePotion(Potion potion) {
-		System.out.println("found potion");
-		this.potion = potion;
-		this.potion.consumePotion(super.getStats());
-		
-		if (this.potion.getType() > 2) {
-			this.potionEffectCounter++;
-		}
+		potion.consumePotion(super.getStats());
 	}
 	
 	public void useBook(Book book, int slot) {
 		book.readBook(super.getSpells(), slot);
-	}
-	
-	public void proceedPotionCounter() {
-		this.potionEffectCounter++;
-		if (this.potionEffectCounter == 6) {
-			this.potion.stopEffect(super.getStats());;
-			this.potion = null;
-		}
 	}
 	
 	public Item getArmorEquiped() {

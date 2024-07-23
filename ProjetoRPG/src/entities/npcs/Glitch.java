@@ -59,9 +59,9 @@ public class Glitch extends Npc {
 			}
 			
 			super.setCollision(false);
-			super.collision().checkTile(this);
-			super.collision().checkNpc(this, npcs);
-			super.collision().checkPlayer(this, player);
+			super.getCollision().checkTile(this);
+			super.getCollision().checkNpc(this, npcs);
+			super.getCollision().checkPlayer(this, player);
 			
 			if (!super.isColliding() && super.isWalking()) {
 				if (super.getDirection().equals("up")) {
