@@ -54,6 +54,7 @@ public class UI {
 	private int[][] pMenuItemButtons = {{48*10+5, 48*12+4},
 										{48*10+5, 48*12-20},
 										{48*10+5, 48*12+4}};
+	
 	private int[][] chooseCharacterButtons;
 	private int[][] spellSlotButtons;
 	

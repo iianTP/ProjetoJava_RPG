@@ -27,12 +27,12 @@ public abstract class Entity implements IEntitySetup {
 	// Direção
 	private String direction;
 	
+	private String location;
+	
 	private boolean collision;
-	// private Collision collision = new Collision();
 	
 	private final Random rng = new Random();
 	
-	private String location;
 	
 	public Entity(GameScreen gs) {
 		this.gs = gs;
